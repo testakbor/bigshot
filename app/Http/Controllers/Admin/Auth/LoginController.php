@@ -45,12 +45,8 @@ class LoginController extends Controller
         return view('admin.login');
     }
 
-    //  public function __construct()
-    // {
-    //     $this->middleware('guest')->except('logout');
-    // }
-
     public function login(Request $request){
+        
         $this->validateLogin($request);
         
         if($this->attemptLogin($request)){

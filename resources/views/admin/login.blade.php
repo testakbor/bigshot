@@ -3,13 +3,13 @@
 <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>Login</a>
+        <a href="../../index2.html"><b>Bigshot</b> Admin</a>
       </div>
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
           <p class="login-box-msg">Sign in to start your session</p>
-   @include('admin/includes/messages')
+        @include('admin/includes/messages')
         <form action="{{route('admin.login')}}" method="post">
         {{ csrf_field() }}
             <div class="input-group mb-3">
