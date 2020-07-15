@@ -13,7 +13,11 @@ class HomeController extends Controller
     }
 
     public function index(){
-        return view("admin/home");
+        $extraInfo=array(
+            'title'=>"Home",
+            'page'=>'home'
+        );
+        return view("admin/home")->with($extraInfo);
     }
 }
  
