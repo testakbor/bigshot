@@ -31,7 +31,7 @@ class CategoryController extends Controller
 
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','category')
+        ->where('term_taxonomy.taxonomy','product_cat')
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(3);                
@@ -58,7 +58,7 @@ class CategoryController extends Controller
     {
        $this->validate($request,[
         'categoryName'=>'required|min:3',
-    ]);    
+        ]);    
        $termInfo=array(
            'name'=>$request->categoryName,
            'status'=>$request->status,
@@ -68,7 +68,7 @@ class CategoryController extends Controller
 
        $termTexonomyInfo=array(
            'term_id'=>$term,
-           'taxonomy'=>'category',
+           'taxonomy'=>'product_cat',
            'description'=>'',
        );
        $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);

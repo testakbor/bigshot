@@ -27,4 +27,5 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/home','HomeController@index')->name('admin.home');
 
     Route::resource('admin/category','CategoryController');
+    Route::resource('admin/brand','BrandController');
 });
