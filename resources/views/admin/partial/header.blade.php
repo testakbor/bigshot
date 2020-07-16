@@ -38,7 +38,7 @@
                with font-awesome or any other icon font library -->
 
                <li class="nav-item">
-                <a href="{{route('admin.home')}}" class="nav-link active">
+                <a href="{{route('admin.home')}}"  class="nav-link {{isset($page) && $page=='home'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Dashboard                    
@@ -46,7 +46,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('category.index')}}" class="nav-link">
+                <a href="{{route('category.index')}}" class="nav-link {{isset($page) && $page=='category'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Category                    
@@ -125,6 +125,3 @@
     </div>
     <!-- /.sidebar -->
   </aside>
-
-
-  

@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use DB;
+use Session;
+use Illuminate\Support\Str;
+
 class CategoryController extends Controller
 {
     /**
@@ -12,13 +16,26 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
+    
     public function index()
     {
         $extraInfo=array(
-            'Title'=>"Category List",
+            'title'=>"Category List",
             'page'=>'category'
         );
-        return view('admin.category.list')->with($extraInfo);
+
+        $categories=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','category')
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->paginate(3);                
+        return view('admin.category.list',compact('categories'))->with($extraInfo);
     }
 
     /**
@@ -39,7 +56,24 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $this->validate($request,[
+        'categoryName'=>'required|min:3',
+    ]);    
+       $termInfo=array(
+           'name'=>$request->categoryName,
+           'status'=>$request->status,
+           'slug'=>Str::slug($request->categoryName)
+       );
+       $term=DB::table('terms')->insertGetId($termInfo);
+
+       $termTexonomyInfo=array(
+           'term_id'=>$term,
+           'taxonomy'=>'category',
+           'description'=>'',
+       );
+       $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
+       session()->flash("success","Information saved Successfully");
+       return redirect(route('category.index'));
     }
 
     /**
@@ -61,7 +95,23 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $extraInfo=array(
+            'title'=>"Category Edit",
+            'page'=>'category'
+        );
+
+        $category=DB::table('terms')
+        ->where('term_id',$id)
+        ->first();
+        
+        $categories=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','category')
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->paginate(3);
+                
+        return view('admin.category.list',compact('categories','category'))->with($extraInfo);
     }
 
     /**
@@ -72,8 +122,20 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {       
+        $this->validate($request,[
+            'categoryName'=>'required|min:3',
+        ]);    
+           $termInfo=array(
+               'name'=>$request->categoryName,
+               'status'=>$request->status,
+               'slug'=>Str::slug($request->categoryName)
+           );
+           $term=DB::table('terms')
+           ->where('term_id',$id)
+           ->update($termInfo);
+           session()->flash("success","Information Update Successfully");
+           return redirect(route('category.index'));
     }
 
     /**

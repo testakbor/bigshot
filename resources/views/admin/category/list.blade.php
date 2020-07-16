@@ -10,7 +10,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
               <li class="breadcrumb-item active">Category List</li>
             </ol>
           </div>
@@ -21,117 +21,117 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        @include('admin.includes.messages')
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-5">
             <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">Add Category</h3>
+                  <h3 class="card-title">{{isset($category)?'Edit Category':'Add Category'}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form">
+                @if(isset($category))
+                <form role="form" method="POST" action="{{route('category.update',$category->term_id)}}" >
+                  {{ csrf_field() }}
+                  {{ method_field('PATCH') }}
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="caegororyName">Caegory Name</label>
-                      <input type="text" class="form-control" id="caegororyName" placeholder="Enter email">
-                    </div>
-                   
+                      <label for="categoryName">Caegory Name</label>
+                      <input type="text" name="categoryName" class="form-control" value="{{$category->name}}" id="categoryName" placeholder="Enter Category Name">
+                    </div>                   
                     <div class="form-group">
                       <label for="exampleInputFile">Status</label>
                       <div class="form-group">
                         <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="customRadio1" name="customRadio">
-                          <label for="customRadio1" class="custom-control-label">Custom Radio</label>
+                          <input class="custom-control-input" type="radio" id="active"  value="1" {{$category->status==1?'checked':''}}  name="status">
+                          <label for="active" class="custom-control-label">Active</label>
                         </div>
                         <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="customRadio2" name="customRadio" checked="">
-                          <label for="customRadio2" class="custom-control-label">Custom Radio checked</label>
-                        </div>
-                    
+                          <input class="custom-control-input" type="radio" {{$category->status==0?'checked':''}} value="0" id="inactive" name="status" >
+                          <label for="inactive" class="custom-control-label">Inactive</label>
+                        </div>                    
                       </div>
-                    </div>
-                 
+                    </div>                 
                   </div>
                   <!-- /.card-body -->
   
                   <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>  Update</button>
                   </div>
                 </form>
+                @else
+                <form role="form" method="POST" action="{{route('category.store')}}" >
+                  {{csrf_field()}}
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label for="categoryName">Caegory Name</label>
+                      <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="Enter Category Name">
+                    </div>                   
+                    <div class="form-group">
+                      <label for="exampleInputFile">Status</label>
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="active" value="1" checked name="status">
+                          <label for="active" class="custom-control-label">Active</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" value="0" id="inactive" name="status" >
+                          <label for="inactive" class="custom-control-label">Inactive</label>
+                        </div>                    
+                      </div>
+                    </div>                 
+                  </div>
+                  <!-- /.card-body -->
+  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Add</button>
+                  </div>
+                </form>
+                @endif
               </div>     
         </div>  
-          <div class="col-md-6">
+          <div class="col-md-7">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Categories</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>                  
+                <table class="table table-bordered table-striped">
+                  <thead class="bg-danger">                  
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Task</th>
-                      <th>Progress</th>
-                      <th style="width: 40px">Label</th>
+                      <th>Category Name</th>
+                      <th>Status</th>
+                      <th >Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                    @php 
+                    $i=1;
+                    @endphp
+                   @foreach($categories as $value)
                     <tr>
-                      <td>1.</td>
-                      <td>Update software</td>
+                      <td>{{$i}}</td>
+                      <td>{{$value->name}}</td>
+                      <td>{{$value->status==1?'Active':'Inactive'}}</td>
                       <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                        </div>
+                        <a href="{{route('category.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
                       </td>
-                      <td><span class="badge bg-danger">55%</span></td>
                     </tr>
-                    <tr>
-                      <td>2.</td>
-                      <td>Clean database</td>
-                      <td>
-                        <div class="progress progress-xs">
-                          <div class="progress-bar bg-warning" style="width: 70%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-warning">70%</span></td>
-                    </tr>
-                    <tr>
-                      <td>3.</td>
-                      <td>Cron job running</td>
-                      <td>
-                        <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar bg-primary" style="width: 30%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-primary">30%</span></td>
-                    </tr>
-                    <tr>
-                      <td>4.</td>
-                      <td>Fix and squish bugs</td>
-                      <td>
-                        <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar bg-success" style="width: 90%"></div>
-                        </div>
-                      </td>
-                      <td><span class="badge bg-success">90%</span></td>
-                    </tr>
+                    @php 
+                    $i++;
+                    @endphp
+                   @endforeach
                   </tbody>
                 </table>
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">«</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">»</a></li>
-                </ul>
-              </div>
+              <div class="d-flex justify-content-center">            
+                {{$categories->links()}}                  
+              </div>  
             </div>
             <!-- /.card -->
+           
 
           </div>
         
