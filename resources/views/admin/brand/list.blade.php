@@ -41,7 +41,11 @@
                     </div>                
                     <div class="form-group">
                       <label for="image">Brand Image</label>
-                      <input type="file" name="image" class="form-control" id="image">                    
+                      <input type="file" name="image" class="form-control" id="image">    
+                      @if($brand->meta_value)
+                      <img src="{{asset('assets/admin/brand/'.$brand->meta_value)}}" alt="" style="height: 50px;width:50px">   
+                      <input type="hidden" name="oldImage" value="{{$brand->meta_value}}">             
+                      @endif
                     </div>    
                     <div class="form-group">
                       <label for="exampleInputFile">Status</label>

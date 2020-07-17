@@ -147,8 +147,13 @@ class BrandController extends Controller
         );
 
         $brand=DB::table('terms')
-        ->where('term_id',$id)
+        ->join('term_taxonomy', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+        ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+        ->select('terms.*','postmeta.meta_value')
+        ->where('terms.term_id',$id)
         ->first();
+        
         
         $brands=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -182,6 +187,34 @@ class BrandController extends Controller
            $term=DB::table('terms')
            ->where('term_id',$id)
            ->update($termInfo);
+           // image uplaod code
+
+           if($request->hasFile('image')){
+            // remove old image   
+            if(file_exists('assets/admin/brand/'.$request->oldImage)){        
+                unlink('assets/admin/brand/'.$request->oldImage);
+            }
+            // retrive post id form table ecommerce termmeta
+            $etermmeta=DB::table('ecommerce_termmeta')
+            ->where('ecommerce_term_id',$id)            
+            ->where('meta_key','thumbnail_id')
+            ->first();
+
+            $image_name = time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(('assets/admin/brand/'), $image_name);
+
+           
+            // update postmeta Table
+            $postMetaInfo=array(
+             'meta_value'=>$image_name,
+             );
+             DB::table('postmeta')
+             ->where('post_id',$etermmeta->meta_value)
+             ->where('meta_key','attached_file')             
+             ->update($postMetaInfo);
+
+            }
+
            session()->flash("success","Information Update Successfully");
            return redirect(route('brand.index'));
     }
