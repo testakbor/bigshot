@@ -61,6 +61,14 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('attribute.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Attributes                
+                  </p>
+                </a>
+              </li>
                         
           <li class="nav-item">
             <a href="#" class="nav-link">
