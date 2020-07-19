@@ -148,4 +148,72 @@ class AttributeController extends Controller
             ->paginate(3);       
             return view('admin.attribute.valueList',compact('attribute','attributeValues'))->with($extraInfo);
     }
+
+    public function attributeValueSave(Request $request)
+    {
+        $attribute=attribute_taxonomie::where('attribute_id',$request->attribute_id)->first();
+        $term_info=array(
+            'name'=>$request->name,
+            'slug'=>Str::slug($request->name),
+            'status'=>1,
+            'createdDate'=>date('Y-m-d H:i:s')
+        );
+       $term_id=DB::table('terms')->insertGetId($term_info);
+       $taxonomy=array(
+        'term_id'=>$term_id,
+        'taxonomy'=>'pa_'.$attribute->attribute_label,
+        'description'=>'',
+        'createdDate'=>date('Y-m-d H:i:s')
+       );
+       $texonomy_id=DB::table('term_taxonomy')->insert($taxonomy);
+       session()->flash("success","Information saved Successfully");
+       return redirect(route('attribute.attributeValue',$attribute->attribute_id));       
+    }
+
+    public function attributeValueEdit($id){
+        $extraInfo=array(
+            'title'=>"Attribute value List",
+            'page'=>'attribute'
+        );
+
+        $attriValue=DB::table('terms')
+        ->where('term_id',$id)
+        ->first();
+        
+        $taxonomy=DB::table('term_taxonomy')
+        ->where('term_id',$id)
+        ->first();
+
+        $attributeValues=DB::table('term_taxonomy')
+        ->join('terms','terms.term_id','=','term_taxonomy.term_id')
+        ->where('taxonomy',$taxonomy->taxonomy)
+        ->paginate(3); 
+
+        return view('admin.attribute.valueList',compact('attriValue','attributeValues'))->with($extraInfo);
+    }
+
+    public function attributeValueUpdate(Request $request, $id){
+        $term_info=array(
+            'name'=>$request->name,
+            'slug'=>Str::slug($request->name),
+            'status'=>$request->status            
+        );
+       $term_id=DB::table('terms')
+       ->where('term_id',$id)
+       ->update($term_info);
+
+       // find the texonomy
+       $taxonomy=DB::table('term_taxonomy')
+        ->where('term_id',$id)
+        ->first();
+        
+        $label=Str::after($taxonomy->taxonomy,'pa_');
+        
+        // get attribute id 
+        $attribute=DB::table('attribute_taxonomies')
+        ->where('attribute_label',$label)
+        ->first();
+       session()->flash("success","Information update Successfully");
+       return redirect(route('attribute.attributeValue',$attribute->attribute_id));    
+    }
 }

@@ -6,12 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Attribute List</h1>
+            <h1>Attribute value List</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Attribute List</li>
+              <li class="breadcrumb-item active">Attribute value List</li>
             </ol>
           </div>
         </div>
@@ -26,28 +26,28 @@
           <div class="col-md-5">
             <div class="card card-primary">
                 <div class="card-header">
-                  <h3 class="card-title">{{isset($attribute)?'Edit Attribute':'Add Attribute'}}</h3>
+                  <h3 class="card-title">{{isset($attriValue)?'Edit Attribute value':'Add Attribute value'}}</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                @if(isset($attribute))
-                <form role="form" method="POST" action="{{route('attribute.update',$attribute->attribute_id)}}" >
+                @if(isset($attriValue))
+                <form role="form" method="POST" action="{{route('attributeValue.update',$attriValue->term_id)}}" >
                   {{ csrf_field() }}
                   {{ method_field('PATCH') }}
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="attributeName">Attribute Name</label>
-                      <input type="text" name="attribute_name" class="form-control" value="{{$attribute->attribute_name}}" id="attributeName" placeholder="Enter attribute Name">
+                      <label for="name">Name</label>
+                      <input type="text" name="name" class="form-control" value="{{$attriValue->name}}" id="name" placeholder="Enter attribute Name">
                     </div>                   
                     <div class="form-group">
                       <label for="exampleInputFile">Status</label>
                       <div class="form-group">
                         <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" id="active"  value="1" {{$attribute->status==1?'checked':''}}  name="status">
+                          <input class="custom-control-input" type="radio" id="active"  value="1" {{$attriValue->status==1?'checked':''}}  name="status">
                           <label for="active" class="custom-control-label">Active</label>
                         </div>
                         <div class="custom-control custom-radio">
-                          <input class="custom-control-input" type="radio" {{$attribute->status==0?'checked':''}} value="0" id="inactive" name="status" >
+                          <input class="custom-control-input" type="radio" {{$attriValue->status==0?'checked':''}} value="0" id="inactive" name="status" >
                           <label for="inactive" class="custom-control-label">Inactive</label>
                         </div>                    
                       </div>
@@ -60,13 +60,14 @@
                   </div>
                 </form>
                 @else
-                <form role="form" method="POST" action="{{route('attribute.store')}}" >
+                <form role="form" method="POST" action="{{route('attributeValue.store')}}" >
                   {{csrf_field()}}
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="attribute_name">Attribute Name</label>
-                      <input type="text" name="attribute_name" class="form-control" id="attribute_name" placeholder="Enter Attribute Name">
-                    </div>                   
+                      <label for="name">Attribute Value Name</label>
+                      <input type="text" name="name" class="form-control" id="name" placeholder="Enter Attribute value Name">
+                    </div>               
+                    <input type="hidden" name="attribute_id" value="{{$attribute->attribute_id}}">
                     <div class="form-group">
                       <label for="exampleInputFile">Status</label>
                       <div class="form-group">
@@ -118,7 +119,7 @@
                       <td>{{$value->count}}</td>
                       <td>{{$value->status==1?'Active':'Inactive'}}</td>
                       <td>
-                        <a href="{{route('attribute.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
+                        <a href="{{route('attributeValue.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
                       </td>
                     </tr>
                     @php 
