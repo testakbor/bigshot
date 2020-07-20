@@ -29,6 +29,7 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::resource('admin/category','CategoryController');
     Route::resource('admin/brand','BrandController');
     Route::resource('admin/attribute','AttributeController');
+    Route::resource('admin/product','ProductController');
 
     Route::get('admin/attributeValue/{id}','AttributeController@attributeValue')->name('attribute.attributeValue');
     Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
