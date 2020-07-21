@@ -51,16 +51,62 @@
                      <div class="col-md-9 bg-white">
                         <div class="tab-content " id="v-pills-tabContent">
                             <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                            <p>Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. Veniam sint duis incididunt do esse magna mollit excepteur laborum qui. Id id reprehenderit sit est eu aliqua occaecat quis et velit excepteur laborum mollit dolore eiusmod. Ipsum dolor in occaecat commodo et voluptate minim reprehenderit mollit pariatur. Deserunt non laborum enim et cillum eu deserunt excepteur ea incididunt minim occaecat.</p>
+                            <div class="col-md-12 mt-3">
+                              <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="inputEmail3" placeholder="Email">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Sale Price (৳ )</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" id="inputEmail3" placeholder="Email">
+                                </div>
+                              </div>
+                            </div>
+
                             </div>
                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                            <p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. Eu veniam duis non ut dolor deserunt commodo et minim in quis laboris ipsum velit id veniam. Quis ut consectetur adipisicing officia excepteur non sit. Ut et elit aliquip labore Lorem enim eu. Ullamco mollit occaecat dolore ipsum id officia mollit qui esse anim eiusmod do sint minim consectetur qui.</p>
+                              <div class="col-md-12 mt-3">
+                                <div class="form-group row">
+                                  <label for="inputEmail3" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
+                                  <div class="col-sm-10">
+                                      <select name="" class="form-control" id="">
+                                        <option value="instock">In Stock</option>
+                                        <option value="outstock">Out of Stock</option>
+                                      </select>
+                                  </div>
+                                </div>
+                                </div>
+
                             </div>
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                            <p>Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna. Ad proident laboris ullamco esse anim Lorem Lorem veniam quis Lorem irure occaecat velit nostrud magna nulla. Velit et et proident Lorem do ea tempor officia dolor. Reprehenderit Lorem aliquip labore est magna commodo est ea veniam consectetur.</p>
+                              <div class="form-group row mt-3">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Weight (kg)</label>
+                                <div class="col-sm-10">
+                                   <input type="text" name="" class="form-control" id="">
+                                </div>
+                              </div>
+                              <div class="form-group row">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Dimensions (cm)</label>
+                                <div class="col-sm-10 d-flex flex-row">
+                                  <input type="text" name="" class="form-control" id="" placeholder="Length" style="width: 30%">
+                                  <input type="text" name="" class="form-control" id="" placeholder="Width" style="width: 30%">
+                                  <input type="text" name="" class="form-control" id="" placeholder="Height" style="width: 30%">
+                                </div>
+                              </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                            <p>Eu dolore ea ullamco dolore Lorem id cupidatat excepteur reprehenderit consectetur elit id dolor proident in cupidatat officia. Voluptate excepteur commodo labore nisi cillum duis aliqua do. Aliqua amet qui mollit consectetur nulla mollit velit aliqua veniam nisi id do Lorem deserunt amet. Culpa ullamco sit adipisicing labore officia magna elit nisi in aute tempor commodo eiusmod.</p>
+                              <div class="form-group row mt-3">
+                                <label for="inputEmail3" class="col-sm-2 col-form-label">Attribute</label>
+                                <div class="col-sm-8">
+                                  <select name="" id="" class="form-control">
+                                    <option value="">vlaue</option>
+                                  </select>
+                                </div>
+                                <button type="button" class="btn btn-info">Add </button>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -203,4 +249,24 @@
     </section>
     <!-- /.content -->
   </div>
+@endsection
+@section('js')
+<script src="{{asset('assets/admin/js/tinymce.min.js')}}" referrerpolicy="origin"></script>  
+<script type="text/javascript">
+  tinymce.init({
+  selector: 'textarea',
+  height: 400,
+  menubar: false,
+  plugins: [
+    'advlist autolink lists link image charmap print preview anchor',
+    'searchreplace visualblocks code fullscreen',
+    'insertdatetime media table paste code help wordcount'
+  ],
+  toolbar: 'undo redo | formatselect | ' +
+  'bold italic backcolor | alignleft aligncenter ' +
+  'alignright alignjustify | bullist numlist outdent indent | ' +
+  'removeformat | help',
+  content_css: '//www.tiny.cloud/css/codepen.min.css'
+});
+    </script>    
 @endsection
