@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
-<div class="content-wrapper" style="min-height: 1203.6px;">
+<div class="content-wrapper" style="min-height: 1203.6px;" id="app">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -99,13 +99,31 @@
                             </div>
                             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                               <div class="form-group row mt-3">
-                                <label for="inputEmail3" class="col-sm-2 col-form-label">Attribute</label>
+                                <label for="attributes" class="col-sm-2 col-form-label">Attribute</label>
                                 <div class="col-sm-8">
-                                  <select name="" id="" class="form-control">
-                                    <option value="">vlaue</option>
+                                  <select name="attributes" id="attributes" class="form-control">
+                                  @foreach($attributes as $value)
+                                  <option value="{{$value->attribute_id}}">{{ucfirst($value->attribute_name)}}</option>
+                                  @endforeach
                                   </select>
+
                                 </div>
-                                <button type="button" class="btn btn-info">Add </button>
+
+                                {{-- <button type="button" class="btn btn-info" id="attributeAdd">Add </button> --}}
+                                <input type="button" class="btn btn-info" value="Add" id="attributeAdd">
+                              </div>
+
+                              <div class="form-group row mt-3" id="attribut-value">
+                                 <label for="selectAttributes" class="col-sm-2 col-form-label">Value</label>
+                                  <div class="col-sm-8">
+                                <select name="" id="valueAttribute" class="form-control"></select>
+                              </div>
+                              <input type="button" class="btn btn-success" value="Add" id="valueAttributeBtn">
+                              </div>
+                              <div class="form-group row mt-3" >
+                                <div class="col-md-12" id="finalValue">
+                                  
+                                </div>
                               </div>
                             </div>
                         </div>
@@ -131,8 +149,13 @@
                   <!-- /.card-tools -->
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body" style="display: block;">
-                  The body of the card
+                <div class="card-body d-flex flex-row text-center" style="display: block;">
+                  <input type="text" style="width: 30px" name="day" id="" value="<?php echo date('d')?>" >
+                  <input type="text" style="width: 30px" name="month" id="" value="<?php echo date('m')?>" >
+                  <input type="text" style="width: 50px" name="year" id="" value="<?php echo date('Y')?>" >
+                  <input type="text" style="width: 30px" name="HH" id="" value="<?php echo date('H')?>" >
+                  <input type="text" style="width: 30px" name="min" id="" value="<?php echo date('i')?>" >
+                  
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
@@ -250,7 +273,50 @@
     <!-- /.content -->
   </div>
 @endsection
+
 @section('js')
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script>
+  $(document).ready(function(){
+$("#attributeAdd").on('click',function(){
+    
+   var id = $("#attributes").val();
+    $.ajax({
+      type: "GET",
+      url:"{{url('admin/product/arttibuteValue/')}}"+"/"+id,
+      dataType:"json",
+      success:function(response){
+        console.log(response);
+        $('#attribut-value').show();
+        var schema_one = '';
+        $.each(response, function (i, item) {            
+            schema_one += '<option value="'+item.term_taxonomy_id+'">'+item.name+'</option>';
+        });
+        $('#valueAttribute').html(schema_one);
+      },
+      error:function(xhr, ajaxOptions, thrownError){
+        $("#grade_scale_div").hide();
+        $('#schema_id_one').html('');
+      }
+    })   
+  });
+$('#valueAttributeBtn').on('click',function(){
+ var id = $("#valueAttribute").val();
+ var text = $("#valueAttribute :selected").text();
+ console.log(id);
+ console.log(text);
+ var text='<button id="remove_'+id+'" style="margin-right:10px" type="button" onclick="closeThis('+id+')" name="valueName[]" value="'+id+'" class="btn btn-primary closeButton">'+text+'</button>';
+
+$('#finalValue').append(text);
+});
+
+});
+
+
+function closeThis(info){
+$('#remove_'+info).remove();
+}
+</script>
 <script src="{{asset('assets/admin/js/tinymce.min.js')}}" referrerpolicy="origin"></script>  
 <script type="text/javascript">
   tinymce.init({

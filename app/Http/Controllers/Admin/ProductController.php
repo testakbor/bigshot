@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Model\admin\attribute_taxonomie;
 
 use DB;
 use Session;
 
 class ProductController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth:admin');
@@ -51,7 +52,21 @@ class ProductController extends Controller
         ->where('term_taxonomy.taxonomy','product_cat')
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->get();          
-        return view('admin.product.create',compact('brands','categories'))->with($extraInfo);
+        // attribute 
+
+        $attributes=attribute_taxonomie::where('status',1)->get();
+        return view('admin.product.create',compact('brands','categories','attributes'))->with($extraInfo);
     }
+
+    public function attributeValue($id){        
+       $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
+       $attributeValues=DB::table('term_taxonomy')
+       ->join('terms','terms.term_id','=','term_taxonomy.term_id')
+       ->where('taxonomy','pa_'.$attribute->attribute_label)
+       ->get();  
+
+       echo json_encode($attributeValues);
+
+   }
 
 }

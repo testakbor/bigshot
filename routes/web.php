@@ -35,4 +35,5 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
     Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');
     Route::PATCH('admin/attributeValueUpdate/{id}','AttributeController@attributeValueUpdate')->name('attributeValue.update');
+    Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
 });
