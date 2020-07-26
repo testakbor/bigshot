@@ -54,6 +54,14 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('tag.index')}}" class="nav-link {{isset($page) && $page=='tag'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Tag                    
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('brand.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>

@@ -9,33 +9,34 @@ use DB;
 use Session;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
+
+     public function __construct()
     {
         $this->middleware('auth:admin');
     }
 
-    
     public function index()
     {
-        $extraInfo=array(
-            'title'=>"Category List",
-            'page'=>'category'
+      $extraInfo=array(
+            'title'=>"Tag List",
+            'page'=>'tag'
         );
 
-        $categories=DB::table('term_taxonomy')
+        $tags=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_cat')
+        ->where('term_taxonomy.taxonomy','product_tag')
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->paginate(3);                
-        return view('admin.category.list',compact('categories'))->with($extraInfo);
+        ->paginate(10);                
+        return view('admin.tag.list',compact('tags'))->with($extraInfo);
     }
 
     /**
@@ -57,23 +58,23 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
        $this->validate($request,[
-        'categoryName'=>'required|min:3',
+        'tagName'=>'required|min:3',
         ]);    
        $termInfo=array(
-           'name'=>$request->categoryName,
+           'name'=>$request->tagName,
            'status'=>$request->status,
-           'slug'=>Str::slug($request->categoryName)
+           'slug'=>Str::slug($request->tagName)
        );
        $term=DB::table('terms')->insertGetId($termInfo);
 
        $termTexonomyInfo=array(
            'term_id'=>$term,
-           'taxonomy'=>'product_cat',
+           'taxonomy'=>'product_tag',
            'description'=>'',
        );
        $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
        session()->flash("success","Information saved Successfully");
-       return redirect(route('category.index'));
+       return redirect(route('tag.index'));
     }
 
     /**
@@ -95,23 +96,23 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $extraInfo=array(
-            'title'=>"Category Edit",
-            'page'=>'category'
+         $extraInfo=array(
+            'title'=>"Tag Edit",
+            'page'=>'tag'
         );
 
-        $category=DB::table('terms')
+        $tag=DB::table('terms')
         ->where('term_id',$id)
         ->first();
         
-        $categories=DB::table('term_taxonomy')
+        $tags=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_cat')
+        ->where('term_taxonomy.taxonomy','product_tag')
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->paginate(3);
+        ->paginate(10);
                 
-        return view('admin.category.list',compact('categories','category'))->with($extraInfo);
+        return view('admin.tag.list',compact('tags','tag'))->with($extraInfo);
     }
 
     /**
@@ -122,20 +123,20 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {       
-        $this->validate($request,[
-            'categoryName'=>'required|min:3',
+    {
+         $this->validate($request,[
+            'tagName'=>'required|min:3',
         ]);    
            $termInfo=array(
-               'name'=>$request->categoryName,
+               'name'=>$request->tagName,
                'status'=>$request->status,
-               'slug'=>Str::slug($request->categoryName)
+               'slug'=>Str::slug($request->tagName)
            );
            $term=DB::table('terms')
            ->where('term_id',$id)
            ->update($termInfo);
            session()->flash("success","Information Update Successfully");
-           return redirect(route('category.index'));
+           return redirect(route('tag.index'));
     }
 
     /**

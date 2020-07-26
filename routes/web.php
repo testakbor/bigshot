@@ -27,6 +27,7 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/home','HomeController@index')->name('admin.home');
 
     Route::resource('admin/category','CategoryController');
+    Route::resource('admin/tag','TagController');
     Route::resource('admin/brand','BrandController');
     Route::resource('admin/attribute','AttributeController');
     Route::resource('admin/product','ProductController');
@@ -35,5 +36,7 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
     Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');
     Route::PATCH('admin/attributeValueUpdate/{id}','AttributeController@attributeValueUpdate')->name('attributeValue.update');
+
     Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
+    Route::POST('admin/product/store','ProductController@store')->name('product.store');
 });
