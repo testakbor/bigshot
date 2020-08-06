@@ -50,13 +50,13 @@
                     <div class="form-group row">
                       <label for="regular_price" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="regular_price" placeholder="Regular Price">
+                        <input type="text" name="regular_price" class="form-control" id="regular_price" placeholder="Regular Price">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="sale_price" class="col-sm-2 col-form-label">Sale Price (৳ )</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="sale_price" placeholder="Sale Price">
+                        <input type="text" name="sale_price" class="form-control" id="sale_price" placeholder="Sale Price">
                       </div>
                     </div>
                   </div>
@@ -271,7 +271,7 @@
      var text = $("#valueAttribute :selected").text();
      console.log(id);
      console.log(text);
-     var text='<button id="remove_'+id+'" style="margin-right:10px" type="button" onclick="closeThis('+id+')" name="valueName[]" value="'+id+'" class="btn btn-primary closeButton">'+text+'</button>';
+     var text='<input id="remove_'+id+'"  type="hidden" onclick="closeThis('+id+')" name="valueName[]" value="'+id+'" ><span style="margin-right:10px" class="btn btn-primary closeButton">'+text+'</span>';
 
      $('#finalValue').append(text);
    });

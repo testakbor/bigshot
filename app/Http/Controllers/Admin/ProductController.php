@@ -75,9 +75,10 @@ class ProductController extends Controller
 
         $post_date=date('Y-m-d H:i:00',strtotime($year.'-'.$month.'-'.$day.' '.$H.':'.$min.':00'));
         $post_date_gmt=date('Y-m-d H:i:s',strtotime($post_date.'+6 hour'));
-      
+
         $product=array(
             'post_title'=>$request->post_title,
+            'post_name'=>$request->post_title,
             'post_content'=>$request->post_content,
             'post_excerpt'=>$request->post_excerpt,
             'post_status'=>'publish',
@@ -90,20 +91,118 @@ class ProductController extends Controller
             'post_type'=>'product',
 
         );
-        $post_id=DB::table('posts')->insertGetId($product);
-        dd($post_id);
+        // $post_id=DB::table('posts')->insertGetId($product);
+        //dd($post_id);
+        $post_id=2572;
+// product attributes
+        if(count($request->valueName) > 0 ){
+            $attribute=[];
+            foreach($request->valueName as $value){
 
+                $detailVal= DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_id',$value)
+                ->select('term_taxonomy.*','terms.name')
+                ->first();
+
+                $attribute[]=array(
+                    'taxonomy'=>$detailVal->taxonomy,
+                    'term'=>$detailVal->name
+                );
+
+            }
+            $attribute=json_encode($attribute);
+            $attributeMeta=array(
+                'post_id'=>$post_id,
+                'meta_key'=>'default_attribute',
+                'meta_value'=> $attribute
+            );
+            DB::table('postmeta')->insert($attributeMeta);
+        }
+        dd($attribute);
+        dd($request);
+
+        // product categories
+        if(count($request->category) > 0){
+            foreach ($request->category as  $value) {
+             DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
+         }
+     }
+
+
+     // product tag
+     if(count($request->tag) > 0){
+        foreach ($request->tag as  $value) {
+         DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
+     }
+ }
+
+     // brand
+ if($request->brand){
+    DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
+}
+
+     // sale price and reqgular price
+$productPrice=[
+    'regular_price'=>$request->regular_price,
+    'sale_price'=>$request->sale_price,
+    'weight'=>$request->weight,
+    'length'=>$request->length,
+    'width'=>$request->width,
+    'height'=>$request->height
+];
+DB::table('postmeta')->insert($productPrice);  
+
+    // sale price and reqgular price
+DB::table('postmeta')->insert(['stock_status'=>$request->stock_status]);
+
+    // product image 
+$image_name=null;
+if($request->hasFile('product_image')){
+    $image_name = time().'.'.$request->product_image->getClientOriginalExtension();
+    $request->product_image->move(('backend/products'), $image_name);
+
+    $porductImage=array(
+        'post_id'=>$post_id,
+        'meta_key'=>'attached_file',
+        'meta_value'=>$image_name
+    );
+
+    $postmeta=DB::table('postmeta')->insert($porductImage);
+}
+        // gallery image
+if($request->hasFile('galleryImage'))
+{
+    $galleryImage = [];
+    foreach($request->file('galleryImage') as $image)
+    {
+        $filename = $image->getClientOriginalName();
+        $image->move(('backend/products'), $filename);
+
+        $porductGalleryImage=array(
+            'post_id'=>$post_id,
+            'meta_key'=>'gallery_attached_file',
+            'meta_value'=>$filename
+        );
+        $postmeta=DB::table('postmeta')->insert($porductGalleryImage);       
     }
 
-    public function attributeValue($id){        
-     $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
-     $attributeValues=DB::table('term_taxonomy')
-     ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-     ->where('taxonomy','pa_'.$attribute->attribute_label)
-     ->get();  
+}
 
-     echo json_encode($attributeValues);
+session()->flash("success","Information saved Successfully");
+return redirect(route('product.index'));
 
- }
+}
+
+public function attributeValue($id){        
+   $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
+   $attributeValues=DB::table('term_taxonomy')
+   ->join('terms','terms.term_id','=','term_taxonomy.term_id')
+   ->where('taxonomy','pa_'.$attribute->attribute_label)
+   ->get();  
+
+   echo json_encode($attributeValues);
+
+}
 
 }
