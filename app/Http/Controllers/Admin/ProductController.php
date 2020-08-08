@@ -91,9 +91,8 @@ class ProductController extends Controller
             'post_type'=>'product',
 
         );
-        // $post_id=DB::table('posts')->insertGetId($product);
-        //dd($post_id);
-        $post_id=2572;
+        $post_id=DB::table('posts')->insertGetId($product);
+        
 // product attributes
         if(count($request->valueName) > 0 ){
             $attribute=[];
@@ -118,9 +117,7 @@ class ProductController extends Controller
                 'meta_value'=> $attribute
             );
             DB::table('postmeta')->insert($attributeMeta);
-        }
-        dd($attribute);
-        dd($request);
+        }       
 
         // product categories
         if(count($request->category) > 0){
