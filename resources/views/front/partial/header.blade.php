@@ -1,122 +1,58 @@
+<body>
+        <div class="col-md-12 header-menu">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container-fluid">
+            <h1><a href="index.html" class="logo">B.shot</a></h1>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <div class="form-group has-search">
+                  <span class="fa fa-search form-control-feedback"></span>
+                  <form class="searchform cf">
+                    
+                    <input type="text" placeholder="What do you want to find?">
+                    <button type="submit">Search</button>
+                  </form>
+                </div>
+                </li>
+                <li class="nav-item active">
+                    <div class="dropdown">
+                     
+                        <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
+                      
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a>
+                        <a class="dropdown-item" href="#"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
+                        <a class="dropdown-item" href="#">FAQ</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="#">Logout</a>
+                      </div>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                  <div class="icons">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                  </div>
+                </li>
+                <li class="nav-item active">
+                  <div class="icons">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  </div>
+                </li>
+                <li class="nav-item active">
+                  <div class="icons">
+                    <i class="fa fa-heart" aria-hidden="true"></i>
+                  </div>
+                </li>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-  
-  </nav>
-  <!-- /.navbar -->
-
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="Bigshot Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">BigShot</span>
-    </a>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        
-        <div class="image">
-          <img src="{{asset('assets/admin/default/admin-icon.png')}}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Admin</a>
-        </div>
-        
-      </div>
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
-               <li class="nav-item">
-                <a href="{{route('admin.home')}}"  class="nav-link {{isset($page) && $page=='home'?'active':''}}">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>
-                    Dashboard                    
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('category.index')}}" class="nav-link {{isset($page) && $page=='category'?'active':''}}">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>
-                    Category                    
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('tag.index')}}" class="nav-link {{isset($page) && $page=='tag'?'active':''}}">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>
-                    Tag                    
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('brand.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>
-                    Brand                
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('attribute.index')}}" class="nav-link {{isset($page) && $page=='attribute'?'active':''}}">
-                  <i class="nav-icon fas fa-th"></i>
-                  <p>
-                    Attributes                
-                  </p>
-                </a>
-              </li>
-                        
-          
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-               Product
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('product.index')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Products</p>
-                </a>
-              </li>
-              
-              <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>New Product</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="{{route('logout')}}"   onclick="event.preventDefault();
-            document.getElementById('logout-form').submit();" class="nav-link">
-              <i class="fas fa-check nav-icon"></i>
-              <p>Logout</p>
-            </a>
-          </li>
-          
-        </ul>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          @csrf
-      </form>
-      </nav>
-      <!-- /.sidebar-menu -->
+              </ul>
+            </div>
+          </div>
+        </nav>
     </div>
-    <!-- /.sidebar -->
-  </aside>

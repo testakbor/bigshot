@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Bigshot | Admin | @yield('title',isset($title) ? $title : 'Dashoard')</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-  @yield('css')
-</head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Bigshot | @yield('title',isset($title) ? $title : 'Home')</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">   
+   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"> 
+  <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
+  </head>

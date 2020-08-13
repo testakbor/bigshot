@@ -1,60 +1,101 @@
+<section class="footer">
+  
 
-    
-  </div>
-<!-- /.content-wrapper -->
-<footer class="main-footer">
-    <strong>Copyright &copy; 2014-{{date('Y')}} <a href="http://itebd.com">Innovative</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.0.5
-    </div>
-  </footer>
+<!-- footer -->
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+<label for="show-foot" class="toggle" ><a href="#" style="font-size: 15px;">Contact, Terms, Policies & More</a></label>
+<div id="target">
+  <ul class="footNavUL">
+            <li><a href="#">Customer Support</a></li>
+            <li><a href="#">Help/FAQ</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Accessibility Statement</a></li>
+            <li><a href="#">Tax Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Sell on Wish</a></li>
+            <li><a href="#">Intellectual Property</a></li>
+            <li><a href="#">Categories</a></li>
+          </ul>
 </div>
 
-<script src="{{ asset('js/app.js') }}" defer></script>
-@yield('js')
-<!-- ./wrapper -->
-{{-- 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="plugins/moment/moment.min.js"></script>
-<script src="plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script> --}}
+<!-- end footer -->
+</section>
 
-</body>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script type="text/javascript">
+    (function($) {
+  $(".wrapper .more").click(function(show) {
+    var showMe = $(this)
+      .closest(".product")
+      .find(".container-prod");
+    $(this)
+      .closest(".wrapper")
+      .find(".container-prod")
+      .not(showMe)
+      .removeClass("information");
+    $(".container-prod").removeClass("social-sharing");
+    showMe
+      .stop(false, true)
+      .toggleClass("information")
+      .removeClass("social-sharing");
+    show.preventDefault();
+  });
+
+  $(".wrapper .share").click(function(share) {
+    var showMe = $(this)
+      .closest(".product")
+      .find(".container-prod");
+    $(this)
+      .closest(".wrapper")
+      .find(".container-prod")
+      .not(showMe)
+      .removeClass("social-sharing");
+    $(".container-prod").removeClass("information");
+    showMe
+      .stop(false, true)
+      .toggleClass("social-sharing")
+      .removeClass("information");
+    share.preventDefault();
+  });
+
+  $(".wrapper .add").click(function(share) {
+    var showMe = $(this)
+      .closest(".product")
+      .find(".cart");
+    showMe.stop(false, true).addClass("added");
+    var showMe = $(this)
+      .closest(".product")
+      .find(".container-prod");
+    showMe
+      .stop(false, true)
+      .removeClass("social-sharing")
+      .removeClass("information");
+    share.preventDefault();
+  });
+})(jQuery);
+
+
+    $('.Show').click(function() {
+    $('#target').show(10000);
+    $('.Show').hide(0);
+    $('.Hide').show(0);
+});
+$('.Hide').click(function() {
+    $('#target').hide(10000);
+    $('.Show').show(0);
+    $('.Hide').hide(0);
+});
+$('.toggle').click(function() {
+    $('#target').toggle('slow');
+});
+    </script>
+  </body>
 </html>
