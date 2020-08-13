@@ -2,7 +2,9 @@
         <div class="col-md-12 header-menu">
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
-            <h1><a href="index.html" class="logo">B.shot</a></h1>
+            <h1><a href="{{route('home')}}" class="logo">
+              <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 50px;width: 70px">
+            </a></h1>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="nav navbar-nav ml-auto">
                 <li class="nav-item active">
