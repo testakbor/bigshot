@@ -1644,7 +1644,7 @@ pre {
 
 .table-hover tbody tr:hover {
   color: #212529;
-  background-color: rgba(0, 0, 0, 0.075); }
+  background-color: rgba(0, 0, 0, 0.075);  }
 
 .table-primary,
 .table-primary > th,
@@ -8923,7 +8923,7 @@ h1, h2, h3, h4, h5,
       /*color: black; */
     }
     #sidebar ul li  :hover {
-      background: rgb(159, 172, 188);
+      background: rgb(212, 227, 235);
       color: black; 
     }
   @media (max-width: 991.98px) {
@@ -9031,9 +9031,9 @@ a[data-toggle="collapse"] {
     visibility: hidden;
     position: absolute;
     list-style: none;
-    top: -418px;
+    top: -419px;
     left: 80px;
-    width: 200px;
+    width: 250px;
     min-height: 100%;
     text-align: left;
     margin-top:30px;
@@ -9097,8 +9097,10 @@ a[data-toggle="collapse"] {
     -o-transition: all 0.2s ease-in-outs;
 }
 .tb-text{
-  padding-top: 38px;
+  padding-top: 20px;
   padding-left: 50px;
   padding-bottom: 20px;
+  font-size: 13px;
+  font-weight: 300;
 }
 /*category end*/
