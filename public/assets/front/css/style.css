@@ -9103,4 +9103,18 @@ a[data-toggle="collapse"] {
   font-size: 13px;
   font-weight: 300;
 }
+.add{
+  color: rgb(126, 154, 166);
+}
+.title-text{
+  background: rgb(212, 227, 235);
+  height: 39px;
+  width: 104.1%;
+  margin-left: -15px;
+}
+.Title{
+  background: rgb(212, 227, 235);
+  height: 39px; 
+}
+
 /*category end*/

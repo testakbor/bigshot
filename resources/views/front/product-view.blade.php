@@ -205,183 +205,127 @@
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">
     <div class="row">
-      <div class="col-md-10 ">
-       <div class="container-fluid">
+        <div class="col-md-12 ">
+      		<div class="container-fluid">
 
-          <section style="margin-left: 120px" class="mt-5">
-
-              <img src="{{asset('assets/front/images/add.png')}}" width="980">
-
-              <ul class="wrapper cf mt-3">
-                  <li class="product fl-l">
-                    <a href="/product-page">
-                      <div class="container-prod">
-                        <div class="image" style="background-image:url({{asset('assets/front/images/1.jpg')}});"></div>
-                        <div class="container-information">
-                          <div class="title">
-                              Splatter hoodie
-                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
-                          </div>
-                      </div>
-
-                      <div class="buttons cf">
-                        <span style="margin-left: 3px;font-size: 12px;">
-                          <span class="add ml-2">20,000+ bought this</span>
-
-                      </span>
-
-                  </div>
-              </div>
-                    </a>
-
-          </li>
-          <li class="product fl-l">
-          <a href="#">
-            <div class="container-prod">
-              <div class="image" style="background-image:url({{asset('assets/front/images/3.jpg')}});"></div>
-              <div class="container-information">
-                  <div class="title">Indian hoodie</div>
-              </div>
-
-              <div class="buttons cf">
-                <span style="margin-left: 3px;font-size: 12px;">
-                    <span class="add ml-2">20,000+ bought this</span>            
-                </span>
-
-              </div>
-            </div>
-          </a>
-
-          </li>
-        <li class="product fl-l">
-          <a href="#">
-            <div class="container-prod">
-              <div class="image" style="background-image:url({{asset('assets/front/images/4.jpg')}});"></div>
-              <div class="container-information">
-                  <div class="title">Face hoodie</div>
-              </div>
-
-              <div class="buttons cf">
-                <span style="margin-left: 3px;font-size: 12px;">
-                    <span class="add ml-2">20,000+ bought this</span>            
-                </span>
-
-              </div>
-            </div>
-          </a>
-        </li>
-    <li class="product fl-l">
-      <a href="#">
-        <div class="container-prod">
-          <div class="image" style="background-image:url({{asset('assets/front/images/5.jpg')}});"></div>
-          <div class="container-information">
-              <div class="title">Face hoodie</div>
-              <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-          </div>
-          
-          <div class="buttons cf">
-              <span style="margin-left: 3px;font-size: 12px;">
-                <span class="add ml-2">20,000+ bought this</span>            
-            </span>
-
+<div class="codepen-container">
+  <div class="content-container">
+    <div class="left-container">
+      <div class="triangle-topleft">
+        <div class="back-arrow" id="buy-toaster"></div>
+      </div>
+      <div class="product-image--container">
+        <img class="product-image--featured" id="featured" src="{{asset('assets/front/images/1.jpg')}}" alt="toaster"/>
+        <ul class="product-image--list">
+          <li class="item-selected"><img src="{{asset('assets/front/images/1.jpg')}}" class="product-image--item"/></li>
+          <li><img src="{{asset('assets/front/images/2.jpg')}}" class="product-image--item"/></li>
+          <li><img src="{{asset('assets/front/images/3.jpg')}}" class="product-image--item"/></li>
+          <li><img src="{{asset('assets/front/images/4.jpg')}}" class="product-image--item"/></li>
+          <li><img src="{{asset('assets/front/images/5.jpg')}}" class="product-image--item"/></li>
+        </ul>
+      </div>
+    </div>
+    <div class="right-container">
+      <div>
+        <h1 class="title">Black & Decker</h1>
+        <h2 class="subtitle subtitle-container">TR1278B 2-Slice Toaster</h2>
+        <div>
+          <span class="rating">
+            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
+            <label for="rating-input-1-5" class="rating-star"></label>
+            <input type="radio" class="rating-input"
+                    id="rating-input-1-4" name="rating-input-1"/>
+            <label for="rating-input-1-4" class="rating-star"></label>
+            <input type="radio" class="rating-input"
+                    id="rating-input-1-3" name="rating-input-1"/>
+            <label for="rating-input-1-3" class="rating-star"></label>
+            <input type="radio" class="rating-input"
+                    id="rating-input-1-2" name="rating-input-1"/>
+            <label for="rating-input-1-2" class="rating-star"></label>
+            <input type="radio" class="rating-input"
+                    id="rating-input-1-1" name="rating-input-1"/>
+            <label for="rating-input-1-1" class="rating-star"></label>
+          </span>
+          <span>|</span>
+          <span>
+            <a href="#" class="reviews">
+              232 customer reviews
+            </a>
+          </span>
         </div>
-    </div>
-      </a>
-    </li>
-</ul>
-<ul class="wrapper cf mt-3">
-  <li class="product fl-l">
-    <a href="#">
-        <div class="container-prod">
-        <div class="image" style="background-image:url({{asset('assets/front/images/6.jpg')}});"></div>
-        <div class="container-information">
-          <div class="title">
-              Splatter hoodie
-              <a href="javascript:void(0)" class="more close"><i class="fa fa-times"></i></a>                
-          </div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: white on gray<br>Size available: L, XL</div>
       </div>
-
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-
-    </div>
-</div>
-    </a>
-  </li>
-<li class="product fl-l">
-  <a href="#">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/7.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Indian hoodie</div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: white on black<br>Size available: L, XL, XXL</div>
+      <span>
+        <p>Price: 
+          <span class="emphasize">$19.99</span>
+        </p>
+        <div class="tm-size-color-single">
+        <label for="quantity">Quantity:</label>
+        <select name="quantity" class="select-dropdown">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        </div>
+      </span>
+      <div>
+        <h2 class="title">Product Description</h2>
+        <div class="tm-size-color-single">
+            <label>Size</label>
+				<select name="product-size">
+                    <option value="1">XXL</option>
+                    <option value="2">XL</option>
+                    <option value="3">L</option>
+                    <option value="4">M</option>
+                    <option value="5">S</option>
+                </select>
+        </div>
+        <div class="tm-size-color-single">
+             <label>Color</label>
+                <select name="product-color">
+                    <option value="1">White</option>
+                    <option value="2">BLack</option>
+                    <option value="3">Green</option>
+                    <option value="4">Yellow</option>
+                    <option value="5">Blue</option>
+                    <option value="6">Gray</option>
+                </select>
+        </div>
+        <p>
+          This Black & Decker toaster allows selection 
+of the perfect toast shade and centers bread for even 
+toasting results. It has easy crumb removal with the 
+drop down crumb tray.
+        </p>
       </div>
-      <div class="buttons cf">
-         <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-
-  </a>
-</li>
-<li class="product fl-l">
-  <a href="#">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/8.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Face hoodie</div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
+      <div>
+        <button class="my-btn flex-btn">
+          <!-- <span>
+            <img src="https://cdn1.iconfinder.com/data/icons/material-core/20/shopping-cart-128.png" class="cart-icon"/>
+          </span>
+ -->          <span class="btn-text">Buy
+          </span>
+        </button>
       </div>
-
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
     </div>
-</div>
-  </a>
-</li>
-<li class="product fl-l">
-  <a href="#">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/12.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Face hoodie
-
-          </div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-      </div>            
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-  </a>
-</li>
-</ul>
-</section>
-
-</div>
-</div>
-<div class="col-md-2 col-sm-12" style="background-color: #fff;position: fixed;
-right: 10px;top:96px;">
-<div class="img-box mt-3">
-    <img src="{{asset('assets/front/images/offer.png')}}" height="200" width="210">
-</div>          
-<p class="text-justify mt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-<form>
-  <div class="form-group">
-      <div class="input-group"> <input type="text" class="form-control coupon" name="" value="xyz3gd"> <span class="input-group-append"> <button class="btn btn-light btn-apply coupon">Copy</button> </span> </div>
   </div>
-</form>
-
 </div>
+<script type="text/javascript">
+	$('.product-image--list li').hover(function() {
+  var url = $(this).children('img').attr('src');
+  $('.item-selected').removeClass('item-selected');
+  $(this).addClass('item-selected');
+  $('#featured').attr('src', url);
+});
+
+$('#buy-toaster').click(function() {
+  alert("BUY ME PLS!");
+});
+</script>
+
+
+			</div>
+		</div>
+
 </div>
 </div>
 </div>

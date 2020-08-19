@@ -46,3 +46,6 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
     Route::POST('admin/product/store','ProductController@store')->name('product.store');
 });
+Route::get('/product-page','Front\PageController@productView')->name('product-page');
+Route::get('/cart','Front\PageController@cart')->name('cart');
+Route::get('/order-history','Front\PageController@OrderHistory')->name('order.history');
