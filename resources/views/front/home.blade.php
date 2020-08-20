@@ -29,161 +29,20 @@
                 <div class="megadrop">
 
                     <div class="col">
-                      <!-- <h3>Title</h3> -->
+                      
                       <ul>
-                        <li><a href="#">
+                        @foreach($categories as $category)
+                        <li>
+                          <a href="#">
                           <table>
                             <tr>
                               <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/fashion_m.png" class="ml-1" height="30" width="50"></th>
-                              <th class="tb-text">Fashion</th>
+                              <th class="tb-text">{{$category->name}}</th>
                           </tr>
                       </table>
                   </a>
               </li>
-              <li><a href="#">
-                  <table>
-                    <tr>
-                      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/gadgets_m.png" class="ml-1" height="30" width="50"></th>
-                      <th class="tb-text">Gadgets</th>
-                  </tr>
-              </table>
-            </a>
-          </li>
-          <li><a href="#">
-              <table>
-                <tr>
-                  <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/accessories_m.png" class="ml-1" height="30" width="50"></th>
-                  <th class="tb-text">Accessories</th>
-              </tr>
-          </table>
-        </a>
-      </li>
-      <li><a href="#">
-          <table>
-            <tr>
-              <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/hobbies_m.png" class="ml-1" height="30" width="50"></th>
-              <th class="tb-text">Hobbies</th>
-          </tr>
-      </table>
-    </a>
-  </li>
-  <li><a href="#">
-      <table>
-        <tr>
-          <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/cpg_m.png" class="ml-1" height="30" width="50"></th>
-          <th class="tb-text">Household Supplies</th>
-      </tr>
-  </table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/home_decor_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Home Decor</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/shoes_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Shoes</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/wallets_and_bags_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Wallets & Bags</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/phone_upgrades.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Phone Upgrades</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/watches.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Watches</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/tools.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Tools</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/tops_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Tops</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/pet_accessories.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Pet Accessories</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/stationery_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Stationery</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/underwear_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Underwear</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/kitchen_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Kitchen</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="#">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/bottoms_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Bottoms</th>
-  </tr>
-</table>
-</a>
-</li>
+             @endforeach
 </ul>
 </div>
 
@@ -207,11 +66,8 @@
     <div class="row">
       <div class="col-md-10 ">
        <div class="container-fluid">
-
           <section style="margin-left: 120px" class="mt-5">
-
               <img src="{{asset('assets/front/images/add.png')}}" width="980">
-
               <ul class="wrapper cf mt-3">
                   <li class="product fl-l">
                     <a href="/product-page">
@@ -223,7 +79,6 @@
                               <a href="#" class="more close"><i class="fa fa-times"></i></a>                
                           </div>
                       </div>
-
                       <div class="buttons cf">
                         <span style="margin-left: 3px;font-size: 12px;">
                           <span class="add ml-2">20,000+ bought this</span>
@@ -234,136 +89,9 @@
               </div>
                     </a>
 
-          </li>
-          <li class="product fl-l">
-          <a href="#">
-            <div class="container-prod">
-              <div class="image" style="background-image:url({{asset('assets/front/images/3.jpg')}});"></div>
-              <div class="container-information">
-                  <div class="title">Indian hoodie</div>
-              </div>
-
-              <div class="buttons cf">
-                <span style="margin-left: 3px;font-size: 12px;">
-                    <span class="add ml-2">20,000+ bought this</span>            
-                </span>
-
-              </div>
-            </div>
-          </a>
-
-          </li>
-        <li class="product fl-l">
-          <a href="#">
-            <div class="container-prod">
-              <div class="image" style="background-image:url({{asset('assets/front/images/4.jpg')}});"></div>
-              <div class="container-information">
-                  <div class="title">Face hoodie</div>
-              </div>
-
-              <div class="buttons cf">
-                <span style="margin-left: 3px;font-size: 12px;">
-                    <span class="add ml-2">20,000+ bought this</span>            
-                </span>
-
-              </div>
-            </div>
-          </a>
-        </li>
-    <li class="product fl-l">
-      <a href="#">
-        <div class="container-prod">
-          <div class="image" style="background-image:url({{asset('assets/front/images/5.jpg')}});"></div>
-          <div class="container-information">
-              <div class="title">Face hoodie</div>
-              <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-          </div>
-          
-          <div class="buttons cf">
-              <span style="margin-left: 3px;font-size: 12px;">
-                <span class="add ml-2">20,000+ bought this</span>            
-            </span>
-
-        </div>
-    </div>
-      </a>
-    </li>
+          </li>        
 </ul>
-<ul class="wrapper cf mt-3">
-  <li class="product fl-l">
-    <a href="#">
-        <div class="container-prod">
-        <div class="image" style="background-image:url({{asset('assets/front/images/6.jpg')}});"></div>
-        <div class="container-information">
-          <div class="title">
-              Splatter hoodie
-              <a href="javascript:void(0)" class="more close"><i class="fa fa-times"></i></a>                
-          </div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: white on gray<br>Size available: L, XL</div>
-      </div>
 
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-
-    </div>
-</div>
-    </a>
-  </li>
-<li class="product fl-l">
-  <a href="#">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/7.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Indian hoodie</div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: white on black<br>Size available: L, XL, XXL</div>
-      </div>
-      <div class="buttons cf">
-         <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-
-  </a>
-</li>
-<li class="product fl-l">
-  <a href="#">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/8.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Face hoodie</div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-      </div>
-
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-  </a>
-</li>
-<li class="product fl-l">
-  <a href="#">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/12.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Face hoodie
-
-          </div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-      </div>            
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-  </a>
-</li>
-</ul>
 </section>
 
 </div>

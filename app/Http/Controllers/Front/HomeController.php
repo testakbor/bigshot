@@ -18,6 +18,10 @@ class HomeController extends Controller
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->get();
+        // product 
+        $products=DB::table('posts')
+        ->where('posts.post_type','product')
+        ->get();
         return view('front.home',compact('categories'));
     }
 }
