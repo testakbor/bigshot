@@ -27,9 +27,9 @@
                         <a class="dropdown-item" href="wishlist"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
                         <a class="dropdown-item" href="/cart"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
                         <a class="dropdown-item" href="/order-history"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
-                        <a class="dropdown-item" href="#"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a>
-                        <a class="dropdown-item" href="#"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a>
-                        <a class="dropdown-item" href="#"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a>
+                        <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a>
+                        <a class="dropdown-item" href="cash"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a>
+                        <a class="dropdown-item" href="/rewards"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a>
                         <a class="dropdown-item" href="#"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
                         <a class="dropdown-item" href="#">FAQ</a>
                         <a class="dropdown-item" href="#">Settings</a>

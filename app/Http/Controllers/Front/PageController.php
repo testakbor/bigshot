@@ -23,8 +23,21 @@ class PageController extends Controller
 	public function Categories()
 	{
 	    return view('front.Categories');
-	}public function wishlist()
+	}
+	public function wishlist()
 	{
 	    return view('front.wishlist');
+	}
+	public function DailyLoginBonus()
+	{
+	    return view('front.daily-login-bonus');
+	}
+	public function rewards()
+	{
+	    return view('front.rewards');
+	}
+	public function cash()
+	{
+	    return view('front.cash');
 	}
 }

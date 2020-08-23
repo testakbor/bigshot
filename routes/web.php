@@ -51,3 +51,6 @@ Route::get('/Categories','Front\PageController@Categories')->name('Categories');
 Route::get('/cart','Front\PageController@cart')->name('cart');
 Route::get('/wishlist','Front\PageController@wishlist')->name('wishlist');
 Route::get('/order-history','Front\PageController@OrderHistory')->name('order.history');
+Route::get('/daily-login-bonus','Front\PageController@DailyLoginBonus')->name('daily.bonus');
+Route::get('/rewards','Front\PageController@rewards')->name('rewards');
+Route::get('/cash','Front\PageController@cash')->name('cash');
