@@ -298,13 +298,9 @@ drop down crumb tray.
         </p>
       </div>
       <div>
-        <button class="my-btn flex-btn">
-          <!-- <span>
-            <img src="https://cdn1.iconfinder.com/data/icons/material-core/20/shopping-cart-128.png" class="cart-icon"/>
-          </span>
- -->          <span class="btn-text">Buy
-          </span>
-        </button>
+        <a href="/cart" class="my-btn flex-btn">
+			 <span class="btn-text" >Buy</span>
+        </a>
       </div>
     </div>
   </div>

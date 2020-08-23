@@ -17,7 +17,14 @@ class PageController extends Controller
     	return view('front.cart');
 	}
 	public function OrderHistory()
-	    {
-	    	return view('front.order-history');
-		}
+	{
+	    return view('front.order-history');
+	}
+	public function Categories()
+	{
+	    return view('front.Categories');
+	}public function wishlist()
+	{
+	    return view('front.wishlist');
+	}
 }

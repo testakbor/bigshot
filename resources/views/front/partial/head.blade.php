@@ -8,5 +8,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"> 
   <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('assets/front/css/product.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/front/css/cart.css')}}">
+  <!-- <link rel="stylesheet" href="{{asset('assets/front/css/login.css')}}"> -->
   <link rel="stylesheet" href="{{asset('assets/front/css/order-history.css')}}">
   </head>

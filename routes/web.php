@@ -13,15 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/product-page','PageController@productView')->name('product-page');
-        Route::get('/cart','PageController@cart')->name('cart');
-        Route::get('/order-history','PageController@OrderHistory')->name('order.history');
     }
 );
 
@@ -45,4 +46,8 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
     Route::POST('admin/product/store','ProductController@store')->name('product.store');
 });
-
+Route::get('/product-page','Front\PageController@productView')->name('product-page');
+Route::get('/Categories','Front\PageController@Categories')->name('Categories');
+Route::get('/cart','Front\PageController@cart')->name('cart');
+Route::get('/wishlist','Front\PageController@wishlist')->name('wishlist');
+Route::get('/order-history','Front\PageController@OrderHistory')->name('order.history');
