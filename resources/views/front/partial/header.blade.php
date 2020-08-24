@@ -23,8 +23,18 @@
                         <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
                       
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">
+                          <div class="hov" style="width: 100%;height: 100px;">
+                          <div style="float: left; width: 30%;">
+                            <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 50px;">
+                          </div>
+                          <div class="mt-1" style="float: right; width: 70%;">   
+                            
+                        Name <br>View Profile</div>
+                        </div>
+                        </a>
                         <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a>
-                        <a class="dropdown-item" href="wishlist"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
+                        <a class="dropdown-item" href="/wishlist"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
                         <a class="dropdown-item" href="/cart"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
                         <a class="dropdown-item" href="/order-history"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
                         <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a>

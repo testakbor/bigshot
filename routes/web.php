@@ -47,10 +47,15 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::POST('admin/product/store','ProductController@store')->name('product.store');
 });
 Route::get('/product-page','Front\PageController@productView')->name('product-page');
+Route::get('/pickup-tab','Front\PageController@pickupTab')->name('pickup.tab');
+Route::get('/recent','Front\PageController@recent')->name('recent');
+Route::get('/brands','Front\PageController@brands')->name('brands');
 Route::get('/Categories','Front\PageController@Categories')->name('Categories');
 Route::get('/cart','Front\PageController@cart')->name('cart');
 Route::get('/wishlist','Front\PageController@wishlist')->name('wishlist');
 Route::get('/order-history','Front\PageController@OrderHistory')->name('order.history');
+Route::get('/order-success','Front\PageController@OrderSuccess')->name('order.success');
 Route::get('/daily-login-bonus','Front\PageController@DailyLoginBonus')->name('daily.bonus');
 Route::get('/rewards','Front\PageController@rewards')->name('rewards');
 Route::get('/cash','Front\PageController@cash')->name('cash');
+Route::get('/faq','Front\PageController@faq')->name('faq');

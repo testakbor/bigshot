@@ -20,6 +20,10 @@ class PageController extends Controller
 	{
 	    return view('front.order-history');
 	}
+	public function OrderSuccess()
+	{
+	    return view('front.order-success');
+	}
 	public function Categories()
 	{
 	    return view('front.Categories');
@@ -39,5 +43,21 @@ class PageController extends Controller
 	public function cash()
 	{
 	    return view('front.cash');
+	}
+	public function pickupTab()
+	{
+	    return view('front.picku-tab');
+	}
+	public function recent()
+	{
+	    return view('front.recent');
+	}
+	public function brands()
+	{
+	    return view('front.brands');
+	}
+	public function faq()
+	{
+	    return view('front.faq');
 	}
 }
