@@ -7,6 +7,9 @@ use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Model\front\Post;
+use App\Model\front\Postmeta;
+
 class HomeController extends Controller
 {
     public function index(){
@@ -19,9 +22,10 @@ class HomeController extends Controller
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->get();
         // product 
-        $products=DB::table('posts')
-        ->where('posts.post_type','product')
+        $products=Post::where('post_type','product')
+        ->where('post_status','publish')
         ->get();
-        return view('front.home',compact('categories'));
+       
+        return view('front.home',compact('categories','products'));
     }
 }
