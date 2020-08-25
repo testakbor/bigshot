@@ -29,159 +29,17 @@
                     <div class="col">
                       <!-- <h3>Title</h3> -->
                       <ul>
+                        @foreach($categories as $value)
                         <li><a href="/Categories">
                           <table>
                             <tr>
                               <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/fashion_m.png" class="ml-1" height="30" width="50"></th>
-                              <th class="tb-text">Fashion</th>
+                              <th class="tb-text">{{$value->name}}</th>
                           </tr>
                       </table>
                   </a>
               </li>
-              <li><a href="/Categories">
-                  <table>
-                    <tr>
-                      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/gadgets_m.png" class="ml-1" height="30" width="50"></th>
-                      <th class="tb-text">Gadgets</th>
-                  </tr>
-              </table>
-            </a>
-          </li>
-          <li><a href="/Categories">
-              <table>
-                <tr>
-                  <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/accessories_m.png" class="ml-1" height="30" width="50"></th>
-                  <th class="tb-text">Accessories</th>
-              </tr>
-          </table>
-        </a>
-      </li>
-      <li><a href="/Categories">
-          <table>
-            <tr>
-              <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/hobbies_m.png" class="ml-1" height="30" width="50"></th>
-              <th class="tb-text">Hobbies</th>
-          </tr>
-      </table>
-    </a>
-  </li>
-  <li><a href="/Categories">
-      <table>
-        <tr>
-          <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/cpg_m.png" class="ml-1" height="30" width="50"></th>
-          <th class="tb-text">Household Supplies</th>
-      </tr>
-  </table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/home_decor_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Home Decor</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/shoes_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Shoes</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/wallets_and_bags_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Wallets & Bags</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/phone_upgrades.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Phone Upgrades</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/watches.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Watches</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/tools.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Tools</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/tops_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Tops</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/pet_accessories.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Pet Accessories</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/stationery_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Stationery</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/underwear_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Underwear</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/kitchen_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Kitchen</th>
-  </tr>
-</table>
-</a>
-</li>
-<li><a href="/Categories">
-  <table>
-    <tr>
-      <th align="left"><img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/bottoms_m.png" class="ml-1" height="30" width="50"></th>
-      <th class="tb-text">Bottoms</th>
-  </tr>
-</table>
-</a>
-</li>
+              @endforeach
 </ul>
 </div>
 
@@ -211,14 +69,31 @@
               <img src="{{asset('assets/front/images/add.png')}}" width="980">
 
               <ul class="wrapper cf mt-3">
+                @php
+                $rprice=0;
+                $sprice=0;
+                @endphp
                 @foreach($products as $item)
+                   @foreach ($item->productMeta as $meta)
+                      @if($meta['meta_key']=='_regular_price')
+                        @php                            
+                        $rprice=$meta['meta_value'];
+                        @endphp
+                      @endif
+                      @if($meta['meta_key']=='_sale_price')
+                      @php                            
+                      $sprice=$meta['meta_value'];
+                      @endphp
+                    @endif
+                  @endforeach
+              
                   <li class="product fl-l">
                     <a href="/product-page">
                       <div class="container-prod">
                         <div class="image" style="background-image:url({{asset('assets/front/images/1.jpg')}});"></div>
                         <div class="container-information">
                           <div class="title">
-                             {{$item->post_title}}
+                             {{$item->post_title}}. R-{{$rprice}}. S-{{$sprice}}
                               <a href="#" class="more close"><i class="fa fa-times"></i></a>                
                           </div>
                       </div>
