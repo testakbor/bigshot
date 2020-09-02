@@ -226,7 +226,10 @@
       </div>
     </div>
     <div class="right-container">
+      <form action="{{route('addCart')}}" method="POST" id="addCartForm">
+        @csrf
       <div>
+        
         <h1 class="title">Black & Decker</h1>
         <h2 class="subtitle subtitle-container">TR1278B 2-Slice Toaster</h2>
         <div>
@@ -257,6 +260,7 @@
       <span>
         <p>Price: 
           <span class="emphasize">$19.99</span>
+          <input type="hidden" name="price" value="12.21">
         </p>
         <div class="tm-size-color-single">
         <label for="quantity">Quantity:</label>
@@ -297,12 +301,20 @@ toasting results. It has easy crumb removal with the
 drop down crumb tray.
         </p>
       </div>
+    
       <div>
-        <a href="/cart" class="my-btn flex-btn">
+      
+         
+          <input type="hidden" name="id" value="1">
+
+        
+        <button type="submit" class="my-btn flex-btn">
 			 <span class="btn-text" >Buy</span>
-        </a>
+        </button>
+
       </div>
     </div>
+  </form>
   </div>
 </div>
 <script type="text/javascript">

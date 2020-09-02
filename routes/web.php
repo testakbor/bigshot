@@ -23,8 +23,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
-    }
-);
+        Route::get('/product-page','PageController@productView')->name('product-page');
+        Route::get('/pickup-tab','PageController@pickupTab')->name('pickup.tab');
+        Route::get('/recent','PageController@recent')->name('recent');
+        Route::get('/brands','PageController@brands')->name('brands');
+        Route::get('/Categories','PageController@Categories')->name('Categories');
+        Route::get('/cart','CartController@cart')->name('cart');
+        Route::get('/wishlist','PageController@wishlist')->name('wishlist');
+        Route::get('/order-history','PageController@OrderHistory')->name('order.history');
+        Route::get('/order-success','PageController@OrderSuccess')->name('order.success');
+        Route::get('/daily-login-bonus','PageController@DailyLoginBonus')->name('daily.bonus');
+        Route::get('/rewards','PageController@rewards')->name('rewards');
+        Route::get('/cash','PageController@cash')->name('cash');
+        Route::get('/faq','PageController@faq')->name('faq');
+
+        Route::post('/addCart','CartController@addCart')->name('addCart');
+    });
 
 
 Route::group(['namespace'=>'Admin'],function(){
@@ -46,16 +60,4 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
     Route::POST('admin/product/store','ProductController@store')->name('product.store');
 });
-Route::get('/product-page','Front\PageController@productView')->name('product-page');
-Route::get('/pickup-tab','Front\PageController@pickupTab')->name('pickup.tab');
-Route::get('/recent','Front\PageController@recent')->name('recent');
-Route::get('/brands','Front\PageController@brands')->name('brands');
-Route::get('/Categories','Front\PageController@Categories')->name('Categories');
-Route::get('/cart','Front\PageController@cart')->name('cart');
-Route::get('/wishlist','Front\PageController@wishlist')->name('wishlist');
-Route::get('/order-history','Front\PageController@OrderHistory')->name('order.history');
-Route::get('/order-success','Front\PageController@OrderSuccess')->name('order.success');
-Route::get('/daily-login-bonus','Front\PageController@DailyLoginBonus')->name('daily.bonus');
-Route::get('/rewards','Front\PageController@rewards')->name('rewards');
-Route::get('/cash','Front\PageController@cash')->name('cash');
-Route::get('/faq','Front\PageController@faq')->name('faq');
+
