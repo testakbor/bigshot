@@ -46,16 +46,24 @@
                     $i=1;
                     @endphp
                    @foreach($orders as $value)
-                    <tr>
-                     <a href="{{route('order.edit',$value->ID)}}">
+                   @foreach ($value->productMeta as $meta)
+                   @if($meta['meta_key']=='_order_total')
+                   @php                            
+                   $total=$meta['meta_value'];
+                   @endphp
+                 @endif
+                   
+                   @endforeach
+                    <tr >
+                     {{-- <a href="{{route('order.edit',$value->ID)}}"> --}}
                       <td>{{$i}}</td>
                       <td>{{$value->post_name}}</td>
                       <td>{{$value->post_date}}</td>
                       <td>{{$value->post_status}}</td>
                       <td>
-                      Total
+                      {{$total}}
                       </td>
-                    </a>
+                    {{-- </a> --}}
                     </tr>
                     @php 
                     $i++;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use DB;
+use App\Model\Front\Post;
 
 class OrderController extends Controller
 {
@@ -20,8 +20,7 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'brand'
         );
-         $orders=DB::table('posts')
-        ->where('posts.post_type','shop_order')
+         $orders=Post::where('posts.post_type','shop_order')
         ->paginate(10);       
          return view('admin.order.list',compact('orders'))->with($extraInfo);
     }
