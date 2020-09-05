@@ -69,4 +69,8 @@ class PageController extends Controller
 	{
 	    return view('front.faq');
 	}
+	public function profile()
+	{
+	    return view('front.user-profile');
+	}
 }
