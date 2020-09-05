@@ -1,6 +1,23 @@
 @extends('front.layouts.master')
 
 @section('content')
+
+@php
+$rprice=0;
+$sprice=0;
+
+   foreach ($product->productMeta as $meta):
+      if($meta['meta_key']=='_regular_price'):
+        $rprice=$meta['meta_value'];        
+endif;
+      if($meta['meta_key']=='_sale_price'):
+      $sprice=$meta['meta_value'];      
+endif;
+      if($meta['meta_key']=='default_attribute'):
+        $metavalue=json_decode($meta['meta_value']);
+endif;  
+    endforeach;
+@endphp
 <div class="wrapper d-flex align-items-stretch">
     <nav id="sidebar" class="active">
 
@@ -231,7 +248,8 @@
       <div>
         
         <h1 class="title">Black & Decker</h1>
-        <h2 class="subtitle subtitle-container">TR1278B 2-Slice Toaster</h2>
+        <h2 class="subtitle subtitle-container">{{$product->post_title}}</h2>
+        <input type="hidden" name="name" value="{{$product->post_title}}">
         <div>
           <span class="rating">
             <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
@@ -259,8 +277,8 @@
       </div>
       <span>
         <p>Price: 
-          <span class="emphasize">$19.99</span>
-          <input type="hidden" name="price" value="12.21">
+          <span class="emphasize">{{$sprice}}</span>
+          <input type="hidden" name="price" value="{{$sprice}}">
         </p>
         <div class="tm-size-color-single">
         <label for="quantity">Quantity:</label>
@@ -273,41 +291,30 @@
       </span>
       <div>
         <h2 class="title">Product Description</h2>
+        @if(isset($metavalue))
+        @foreach($metavalue as $metaInfo)
         <div class="tm-size-color-single">
-            <label>Size</label>
-				<select name="product-size">
-                    <option value="1">XXL</option>
-                    <option value="2">XL</option>
-                    <option value="3">L</option>
-                    <option value="4">M</option>
-                    <option value="5">S</option>
-                </select>
+            <label>
+              @php 
+              $result=explode('_',$metaInfo->taxonomy);
+              @endphp
+              {{ucfirst(end($result))}}
+            </label>
+            <div>
+              @php 
+            $termsInfo=DB::table('terms')->where('term_id',$metaInfo->term)->first();
+              @endphp          
+              {{$termsInfo->name}}</div>
         </div>
-        <div class="tm-size-color-single">
-             <label>Color</label>
-                <select name="product-color">
-                    <option value="1">White</option>
-                    <option value="2">BLack</option>
-                    <option value="3">Green</option>
-                    <option value="4">Yellow</option>
-                    <option value="5">Blue</option>
-                    <option value="6">Gray</option>
-                </select>
-        </div>
+        @endforeach
+        @endif
         <p>
-          This Black & Decker toaster allows selection 
-of the perfect toast shade and centers bread for even 
-toasting results. It has easy crumb removal with the 
-drop down crumb tray.
+          {!! $product->post_content !!}
         </p>
       </div>
     
-      <div>
-      
-         
-          <input type="hidden" name="id" value="1">
-
-        
+      <div>               
+          <input type="hidden" name="id" value="{{$product->ID}}">        
         <button type="submit" class="my-btn flex-btn">
 			 <span class="btn-text" >Buy</span>
         </button>

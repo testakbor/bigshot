@@ -18,28 +18,23 @@ class CartController extends Controller
     public function cart()
     {
         $info= Cart::getContent();
+        
     	return view('front.cart',compact('info'));
     }
 
-    public function addCart(Request $request){
-        $product=array(
-            'id' => $request->id,
-            'price' =>$request->price,
-            'quantity' => $request->quantity,
-            'name' => 'Sample Item 1',
-            'options' => array()
-        );
+    public function addCart(Request $request){    
+        
         Cart::add(array(
             array(
                 'id' => $request->id,
                 'price' =>$request->price,
                 'quantity' => $request->quantity,
-                'name' => 'Sample Item 1',
+                'name' => $request->name,
                 'options' => array()
             )
                 )
             );
-      return redirect(route('product-page'));
+      return redirect(route('product-page',$request->id));
     }
     
     public function index()
@@ -47,14 +42,18 @@ class CartController extends Controller
         //
     }
 
+    public function checkout(Request $request){
+        dd($request);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        
     }
 
     /**

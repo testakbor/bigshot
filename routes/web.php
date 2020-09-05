@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
-        Route::get('/product-page','PageController@productView')->name('product-page');
+        Route::get('/product-page/{id}','PageController@productView')->name('product-page');
         Route::get('/pickup-tab','PageController@pickupTab')->name('pickup.tab');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');
@@ -38,6 +38,7 @@ Route::group(['namespace'=>'Front'],function(){
         Route::get('/faq','PageController@faq')->name('faq');
 
         Route::post('/addCart','CartController@addCart')->name('addCart');
+        Route::post('/checkout','CartController@checkout')->name('checkout');
     });
 
 

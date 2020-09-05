@@ -5,11 +5,20 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
+use App\Model\front\Post;
+use App\Model\front\Postmeta;
+
+
 class PageController extends Controller
 {
-    public function productView()
+    public function productView($id)
     {
-    	return view('front.product-view');
+		$product=Post::where('post_type','product')
+        ->where('ID',$id)
+		->first();
+		
+    	return view('front.product-view',compact('product'));
 	}
 
     public function cart()

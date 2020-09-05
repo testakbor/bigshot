@@ -88,7 +88,7 @@
                   @endforeach
               
                   <li class="product fl-l">
-                    <a href="/product-page">
+                    <a href="{{route('product-page',$item->ID)}}">
                       <div class="container-prod">
                         <div class="image" style="background-image:url({{asset('assets/front/images/1.jpg')}});"></div>
                         <div class="container-information">
