@@ -7,7 +7,7 @@
         <ul class="list-unstyled components mb-5">
           <li class="active">
             <!-- <a href="#"><span class="fa fa-home"></span> Home</a> -->
-            <a isemphasized="1" isinsidemenubarshowv2="0" class="SideTabBar__SideTabItem-sc-18isgdb-0-Component jtgkGA" href="/feed/tabbed_feed_latest"><svg viewBox="0 0 17 17" style="width: 100%; height: 25px; margin-top: 12px;"><path d="M11.044 5.588c6.307.633 6.326.672 1.577 5.064 1.375 6.405 1.283 6.482-4.126 3.126-5.408 3.356-5.482 3.28-4.107-3.126-4.767-4.392-4.73-4.43 1.559-5.064 2.548-6.117 2.567-6.117 5.097 0z" stroke="#C0952B" fill="#FFD560" fill-rule="evenodd"></path></svg><div class="SideTabBar__SideTabTitle-sc-18isgdb-1 jyOheE">Popular</div></a>
+            <a isemphasized="1" isinsidemenubarshowv2="0" class="SideTabBar__SideTabItem-sc-18isgdb-0-Component jtgkGA" href="/Categories"><svg viewBox="0 0 17 17" style="width: 100%; height: 25px; margin-top: 12px;"><path d="M11.044 5.588c6.307.633 6.326.672 1.577 5.064 1.375 6.405 1.283 6.482-4.126 3.126-5.408 3.356-5.482 3.28-4.107-3.126-4.767-4.392-4.73-4.43 1.559-5.064 2.548-6.117 2.567-6.117 5.097 0z" stroke="#C0952B" fill="#FFD560" fill-rule="evenodd"></path></svg><div class="SideTabBar__SideTabTitle-sc-18isgdb-1 jyOheE">Popular</div></a>
           </li>
           <li>
               <!-- <a href="#"><span class="fa fa-user"></span> About</a> -->

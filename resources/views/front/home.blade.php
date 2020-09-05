@@ -66,7 +66,7 @@
 
           <section style="margin-left: 120px" class="mt-5">
 
-              <img src="{{asset('assets/front/images/add.png')}}" width="980">
+              <img src="{{asset('assets/front/images/add.png')}}" width="1267" class="img-fluid" alt="Responsive image">
 
               <ul class="wrapper cf mt-3">
                 @php

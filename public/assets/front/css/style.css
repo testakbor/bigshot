@@ -181,6 +181,7 @@ a{
   margin-right:15px;
   background-color:#FFFFFF;
   position:relative;
+  margin: 13px;
 }
 
 .product:last-of-type{
@@ -661,7 +662,10 @@ mark,
 
 .img-fluid {
   max-width: 100%;
-  height: auto; }
+  height: auto; 
+  margin-left: 13px;
+
+}
 
 .img-thumbnail {
   padding: 0.25rem;
