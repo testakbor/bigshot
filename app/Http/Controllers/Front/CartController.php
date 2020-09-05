@@ -44,6 +44,24 @@ class CartController extends Controller
 
     public function checkout(Request $request){
         dd($request);
+        $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
+         $product=array(
+            // 'post_name'=>$request->post_title,
+            // 'post_content'=>$request->post_content,
+            'post_excerpt'=>$request->post_excerpt,
+            'post_status'=>'publish',
+            // 'post_author'=>Auth::user()->id,
+            'post_date'=>$post_date,
+            'post_date_gmt'=>$post_date_gmt,
+            'to_ping'=>'',
+            'pinged'=>'',
+            'post_content_filtered'=>'',
+            'post_type'=>'shop_order',
+
+        );
+        $post_id=DB::table('posts')->insertGetId($product);
+
+
     }
 
     /**

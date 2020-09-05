@@ -26,6 +26,15 @@
 
                     <div class="col">
                       <!-- <h3>Title</h3> -->
+                      @php
+                       $categories=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','product_cat')
+        ->where('terms.status',1)
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->get();
+                      @endphp
                       <ul>
                         @foreach($categories as $value)
                         <li><a href="/Categories">
