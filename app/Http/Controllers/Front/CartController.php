@@ -56,7 +56,17 @@ class CartController extends Controller
 
         );
         $order_id=DB::table('posts')->insertGetId($order);
-        dd($order_id);
+        // dd($order_id);
+        
+
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'_billing_postcode',
+            'meta_value'=>'khilkhat',
+        );
+        DB::table('postmeta')->insert($order_post); 
+
+        dd($order_post);
 
     }
 
