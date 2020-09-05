@@ -66,7 +66,8 @@ class CartController extends Controller
         );
         DB::table('postmeta')->insert($order_post); 
 
-        dd($order_post);
+        return redirect(route('order.success'));
+        // dd($order_post);
 
     }
 
