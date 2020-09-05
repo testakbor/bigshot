@@ -103,6 +103,15 @@
               </li>
             </ul>
           </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Order
+                  </p>
+                </a>
+              </li>
+              
           <li class="nav-item">
             <a href="{{route('logout')}}"   onclick="event.preventDefault();
             document.getElementById('logout-form').submit();" class="nav-link">
