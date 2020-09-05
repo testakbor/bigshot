@@ -29,6 +29,7 @@ Route::group(['namespace'=>'Front'],function(){
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/Categories','PageController@Categories')->name('Categories');
         Route::get('/cart','CartController@cart')->name('cart');
+        Route::get('/profile','PageController@profile')->name('profile');
         Route::get('/wishlist','PageController@wishlist')->name('wishlist');
         Route::get('/order-history','PageController@OrderHistory')->name('order.history');
         Route::get('/order-success','PageController@OrderSuccess')->name('order.success');

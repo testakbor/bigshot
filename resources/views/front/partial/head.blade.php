@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('assets/front/css/product.css')}}">
   <link rel="stylesheet" href="{{asset('assets/front/css/cart.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/front/css/profile.css')}}">
   <!-- <link rel="stylesheet" href="{{asset('assets/front/css/login.css')}}"> -->
   <link rel="stylesheet" href="{{asset('assets/front/css/order-history.css')}}">
   </head>
