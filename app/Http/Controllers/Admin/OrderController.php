@@ -65,7 +65,12 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+       $order=Post::find($id);
+        $extraInfo=array(
+            'title'=>"Order Edit",
+            'page'=>'order'
+        );
+         return view('admin.order.edit',compact('order'))->with($extraInfo);     
     }
 
     /**
