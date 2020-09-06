@@ -21,11 +21,15 @@
                     <div class="dropdown">
                      @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">
+                                  <img src="{{asset('assets/front/images/icons/login-icon.png')}}" width="40" height="40">
+                                </a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">
+                                      <img src="{{asset('assets/front/images/icons/register-icon.png')}}" width="40" height="45">
+                                    </a>
                                 </li>
                             @endif
                             @else

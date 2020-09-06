@@ -34,6 +34,7 @@
         /*padding: 60px;*/
         padding-top: 120px; 
         padding-left: 60px; 
+        padding-right: 60px; 
         border-radius: 4px;
         box-shadow: 0 2px 3px #C8D0D8;
         display: inline-block;
