@@ -28,6 +28,7 @@ class PageController extends Controller
 	{
 	    return view('front.order-history');
 	}
+
 	public function OrderSuccess()
 	{
 	    return view('front.order-success');

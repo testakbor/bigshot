@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Model\Front\Post;
+use App\Model\Front\Postmeta;
 
+use Auth;
 class OrderController extends Controller
 {
     /**
@@ -14,6 +16,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $extraInfo=array(
@@ -95,4 +98,6 @@ class OrderController extends Controller
     {
         //
     }
+
+
 }
