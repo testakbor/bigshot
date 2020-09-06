@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
+
 
 
 class PageController extends Controller

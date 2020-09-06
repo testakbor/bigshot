@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Cart;
-
+use Auth;
 class CartController extends Controller
 {
     /**
@@ -43,6 +43,8 @@ class CartController extends Controller
     }
 
     public function checkout(Request $request){
+         if (Auth::check()) {
+            
         $post_date=date('Y-m-d H:i:s');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
         $order=array(
@@ -260,9 +262,13 @@ class CartController extends Controller
         }
        
 
-        // return redirect(route('order.success'));
+        return redirect(route('order.success'));
        // dd($order_post);
-       dd($order_item_details);
+       // dd($order_item_details);
+        }
+        else {
+            return redirect(route('login'));
+        }
 
    }
 
