@@ -32,9 +32,6 @@ Route::group(['namespace'=>'Front'],function(){
         Route::get('/profile','PageController@profile')->name('profile');
         Route::get('/wishlist','PageController@wishlist')->name('wishlist');
         Route::get('/order-history','PageController@OrderHistory')->name('order.history');
-
-
-
         Route::get('/order-success','PageController@OrderSuccess')->name('order.success');
         Route::get('/daily-login-bonus','PageController@DailyLoginBonus')->name('daily.bonus');
         Route::get('/rewards','PageController@rewards')->name('rewards');
@@ -44,7 +41,11 @@ Route::group(['namespace'=>'Front'],function(){
         Route::post('/addCart','CartController@addCart')->name('addCart');
         Route::post('/checkout','CartController@checkout')->name('checkout');
     });
-        Route::get('/order-list','user\OrderController@OrderList')->name('order.list');
+
+    Route::group(['namespace'=>'User'],function(){
+        Route::get('/order-list','OrderController@OrderList')->name('order.list');
+
+    });
 
 Route::group(['namespace'=>'Admin'],function(){
     Route::GET('admin-login','Auth\LoginController@showLoginForm')->name('admin.login');
@@ -56,11 +57,7 @@ Route::group(['namespace'=>'Admin'],function(){
     Route::resource('admin/brand','BrandController');
     Route::resource('admin/attribute','AttributeController');
     Route::resource('admin/product','ProductController');
-
     Route::resource('admin/order','OrderController');
-    
-
-
 
     Route::get('admin/attributeValue/{id}','AttributeController@attributeValue')->name('attribute.attributeValue');
     Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
