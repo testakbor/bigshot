@@ -33,144 +33,144 @@
               <h3 class="card-title">Payment via Cash on delivery. Customer IP: 103.150.57.30</h3>
               
             </div>
-            <div class="card-body d-flex justify-content-between flex-row text-center" style="display: block;">
+            <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
               <div class="genarel">
-                <div class="font-weight-bold">Genarel</div>
-                <div>
+                <div class="font-weight-bold text-center">Genarel</div>
+                <div class="mt-3">
                   <form>
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                      <label for="dateCreated">Date created:</label>
+                      <input type="text" class="form-control" id="dateCreated" value="{{date('Y-m-d')}}">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword1">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                      <label for="sattus">Status</label>
+                      <select name="status" id="status" class="form-control">
+                        <option value="1">Processing</option>
+                        <option value="1">On Hold</option>
+                        <option value="1">Completed</option>
+                        <option value="1">Cancelled</option>
+                        <option value="1">Refunded</option>
+                        <option value="1">Failed</option>
+                      </select>
                     </div>
-                    <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    <div class="form-group">
+                      <label for="customer">Customer</label>
+                      <select name="customer" id="customer" class="form-control">
+                        <option value="1">Guest</option>
+                      </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    
                   </form>
                 </div>            
               </div>
               <div>
                 <div class="font-weight-bold">Billing</div>
+                <div class="mt-3">
+                  akbor,Hossain <br>
+                  Khilkhat,Dhaka <br>
+                  Bangladesh
+                </div>
+                <div class="font-weight-bold">Email Address</div>
+                <div>user@gmail.com</div>
+
+                <div class="font-weight-bold mt-2">Phone</div>
+                <div>user@gmail.com</div>
               </div>
               <div>              
                <div class="font-weight-bold">Shipping</div>
+               <div class="mt-3">
+               Address<br>
+                No Shipping Address <br>
+                
+              </div>
              </div>
 
            </div>
-           <div class="card-footer">
-            <button type="submit" value="draft" name="dreft" class="btn btn-warning">Draft</button>
-            <button type="submit" value="submit" name="submit" class="btn btn-primary">Publish</button>
+           </div>
+
+           <div class="card card-default">
+            <div class="card-header">
+              <h3 class="card-title" style="width: 100%">Item Info</h3>                                         
+            </div>
+            <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
+              
+              <table class="table table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Cost</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>@fat</td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+
+           </div>
+           <div class="card-footer ">
+             <div class="d-flex flex-column justify-content-end">
+              <div class="d-flex flex-row justify-content-end">
+                 <div> item Sub total:</div>
+                 <div> $ 42</div>
+              </div>
+              <div class="d-flex flex-row justify-content-end">
+                <div> Order Total: </div>
+                 <div> $ 42</div>
+              </div>
+             </div>
           </div>
+          
         </div>
       </div>
 
       <div class="col-md-3">
         <div class="card card-default">
           <div class="card-header">
-            <h3 class="card-title">Publish</h3>
+            <h3 class="card-title">Order Action</h3>
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
               </button>
             </div>
           </div>
           <div class="card-body d-flex flex-row text-center" style="display: block;">
-            <input type="text" style="width: 30px" name="day" id="" value="<?php echo date('d')?>" >
-            <input type="text" style="width: 30px" name="month" id="" value="<?php echo date('m')?>" >
-            <input type="text" style="width: 50px" name="year" id="" value="<?php echo date('Y')?>" >
-            <input type="text" style="width: 30px" name="HH" id="" value="<?php echo date('H')?>" >
-            <input type="text" style="width: 30px" name="min" id="" value="<?php echo date('i')?>" >
+           <select name="" class="form-control" id="">
+             <option value="">Choose an action</option>
+             <option value="">Email</option>
+             <option value="">Resend</option>
+             <option value="">Regenarate</option>
+           </select>
 
           </div>
           <div class="card-footer">
-            <button type="submit" value="draft" name="dreft" class="btn btn-warning">Draft</button>
+            <button type="submit" value="draft" name="dreft" class="btn text-danger" >Move to trash</button>
             <button type="submit" value="submit" name="submit" class="btn btn-primary">Publish</button>
           </div>
         </div>
-        <div class="card card-default">
-          <div class="card-header">
-            <h3 class="card-title">Product Category</h3>
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
-           @for($i=1;$i <= 10 ; $i++)
-           <div class="custom-control custom-checkbox">
-            <input class="custom-control-input" name="category[]" type="checkbox" id="4" value="4">
-            <label for="4" class="custom-control-label">category {{$i}}</label>
-          </div>
-          @endfor
-        </div>
+        
       </div>
-      <div class="card card-default">
-        <div class="card-header">
-          <h3 class="card-title">Product Tags</h3>
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
-         @for($i=1;$i <= 10 ; $i++)
-         <div class="custom-control custom-checkbox">
-          <input class="custom-control-input" name="tag[]" type="checkbox" id="{{$i}}" value="{{$i}}">
-          <label for="{{$i}}" class="custom-control-label"> tag {{$i}}</label>
-        </div>
-        @endfor
-      </div>
+     
       <!-- /.card-body -->
     </div>
-    {{-- brand --}}
-    <div class="card card-default">
-      <div class="card-header">
-        <h3 class="card-title">Product Brand</h3>
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-          </button>
-        </div>
-      </div>
-      <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
-        @for($i=1;$i <= 10 ; $i++)
-        <div class="custom-control custom-radio">
-          <input class="custom-control-input" type="radio" id="{{$i}}" value="{{$i}}" name="product_brand">
-          <label for="{{$i}}" class="custom-control-label"> {{$i}}</label>
-        </div>
-        @endfor
-      </div>
-    </div>
-    {{-- product image --}}
-    <div class="card card-default">
-      <div class="card-header">
-        <h3 class="card-title">Product Image</h3>
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-          </button>
-        </div>
-      </div>
-      <div class="card-body" style="display: block;">
-       <input type="file" name="product_image" id="" class="form-control">
-     </div>
-   </div>
-   {{-- product Gallary --}}
-   <div class="card card-default">
-    <div class="card-header">
-      <h3 class="card-title">Product Gallery</h3>
-      <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-        </button>
-      </div>
-    </div>
-    <div class="card-body" style="display: block;">
-      <input type="file" name="galleryImage[]" id="" class="form-control" multiple>
-    </div>
-  </div>
+    
+   
+   
 </div>
 
 </div>
