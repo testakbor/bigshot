@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Model\Front\Post;
 use App\Model\Front\Postmeta;
+use App\Model\front\Order_item;
 
 use Auth;
 class OrderController extends Controller
@@ -69,11 +70,12 @@ class OrderController extends Controller
     public function edit($id)
     {
        $order=Post::find($id);
+       $products=Order_item::where('order_id',$id)->get();
         $extraInfo=array(
             'title'=>"Order Edit",
             'page'=>'order'
         );
-         return view('admin.order.edit',compact('order'))->with($extraInfo);     
+         return view('admin.order.edit',compact('order','products'))->with($extraInfo);     
     }
 
     /**
