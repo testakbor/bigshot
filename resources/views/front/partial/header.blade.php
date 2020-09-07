@@ -20,18 +20,20 @@
                 <li class="nav-item active">
                     <div class="dropdown">
                      @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">
-                                  <img src="{{asset('assets/front/images/icons/login-icon.png')}}" width="40" height="40">
+                            <li class="nav-item active">
+                                   <div class="icons">
+                                <a href="{{ route('login') }}">
+                                  <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
                                 </a>
+                                  </div>
                             </li>
-                            @if (Route::has('register'))
+                            <!-- @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">
                                       <img src="{{asset('assets/front/images/icons/register-icon.png')}}" width="40" height="45">
                                     </a>
                                 </li>
-                            @endif
+                            @endif -->
                             @else
                         <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
                       
