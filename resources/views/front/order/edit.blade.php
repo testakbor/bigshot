@@ -40,7 +40,7 @@
                 <div class="font-weight-bold text-center">Genarel</div>
                 <div class="mt-3">
                   <form>
-                    @foreach($order as $value)
+                 
                     <div class="form-group">
                       <label for="dateCreated">Date : </label>
                       <input type="text" class="form-control" id="dateCreated" value="{{$order->order_item_name}}">
@@ -62,11 +62,12 @@
                         <option value="1">Guest</option>
                       </select>
                     </div> -->
-                    @endforeach
+              
                   </form>
                 </div>            
               </div>
               <div>
+
                 <div class="font-weight-bold">Billing</div>
                 <div class="mt-3">
                   akbor,Hossain <br>
@@ -98,7 +99,9 @@
             <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
               
               <table class="table table-striped">
+                 
                 <thead class="thead-light">
+
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Item</th>
@@ -108,9 +111,10 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach($products as $value)
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
+                    <th scope="row">{{$products->order_item_name}}</th>
+                    <td>$products->post_title</td>
                     <td>Otto</td>
                     <td>Otto</td>
                     <td>@mdo</td>
@@ -122,7 +126,7 @@
                     <td>@fat</td>
                     <td>@fat</td>
                   </tr>
-                  
+                  @endforeach
                 </tbody>
               </table>
 
