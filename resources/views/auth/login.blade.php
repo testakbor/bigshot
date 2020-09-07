@@ -80,8 +80,8 @@
                   </div>
                   <button type="submit" class="btn btn-block login-btn mb-4">{{ __('Login') }}</button>
                   <hr>
-                  <button class="loginBtn loginBtn--facebook">{{ __('Facebook') }}</button>
-                  <button class="loginBtn loginBtn--google">{{ __('Google') }}</button>
+                  <button class="loginBtn loginBtn-facebook">{{ __('Facebook') }}</button>
+                  <button class="loginBtn loginBtn-google mt-2">{{ __('Google') }}</button>
 
                 </form>
 
