@@ -107,17 +107,31 @@
                 <tbody>
                 @php 
                 $i=1;
+                 $grandTotal=0;
                 @endphp
                 @foreach($products as $item)
+               
+                  @foreach($item->orderMeta as $value)
+                  @php                  
+                  if($value->meta_key=='_line_subtotal'){
+                    $subtotal=$value->meta_value;
+                  }
+                  if($value->meta_key=='_qty'){
+                    $qty=$value->meta_value;
+                  }
+
+                  @endphp
+                  @endforeach
                   <tr>
                     <th scope="row">{{$i}}</th>
                     <td>{{$item->order_item_name}}</td>
-                    <td>Cost</td>
-                    <td>Qty</td>
-                    <td>Total</td>
+                    <td>{{$subtotal}}</td>
+                    <td>{{$qty}}</td>
+                    <td>{{$sub = $subtotal*$qty}}</td>
                   </tr>   
                    @php 
                 $i++;
+                $grandTotal += $sub;
                 @endphp   
                   @endforeach          
                 </tbody>
@@ -129,11 +143,11 @@
              <div class="d-flex flex-column justify-content-end">
               <div class="d-flex flex-row justify-content-end">
                  <div> item Sub total:</div>
-                 <div> $ 42</div>
+                 <div> $ {{$grandTotal}}</div>
               </div>
               <div class="d-flex flex-row justify-content-end">
                 <div> Order Total: </div>
-                 <div> $ 42</div>
+                 <div> $ {{$grandTotal}}</div>
               </div>
              </div>
           </div>
