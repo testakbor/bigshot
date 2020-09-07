@@ -104,13 +104,153 @@
             </ul>
           </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order'?'active':''}}">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
-                    Order
+                    Quick Report
                   </p>
                 </a>
               </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Pending Order
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                    Order History
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                   Send Parcel
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                  Reject
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                  Stock
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                  Lower Stock
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                  Old Stock List
+                  </p>
+                </a>
+              </li>
+           <li class="nav-item">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                  <i class="nav-icon fas fa-th"></i>
+                  <p>
+                 Customer List
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+               Report
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('product.index')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Man Stock</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Women Stock</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sales Report</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Delivery Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reject Item</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Best selling items</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Cancellation Items</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sold out stock</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Best Customer</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('product.create')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gross Profit</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+
               
           <li class="nav-item">
             <a href="{{route('logout')}}"   onclick="event.preventDefault();
