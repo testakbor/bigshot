@@ -82,7 +82,7 @@ marquee{
       color: #919aa3; }
   .login-card .login-btn {
     padding: 13px 20px 12px;
-    background-color: #000;
+    background-color: rgb(47, 183, 236);
     border-radius: 4px;
     font-size: 17px;
     font-weight: bold;
@@ -90,9 +90,8 @@ marquee{
     color: #fff;
     margin-bottom: 24px; }
     .login-card .login-btn:hover {
-      border: 1px solid #000;
-      background-color: transparent;
-      color: #000; }
+      background-color: rgb(84, 222, 368);
+      }
   .login-card .forgot-password-link {
     font-size: 14px;
     color: #919aa3;
@@ -116,6 +115,7 @@ marquee{
     font-weight: 700;
     border: none !important;
     border-radius: 4px;
+    padding-top: 8px;
 }
 .loginBtn-google{
   width: 100%;
@@ -126,4 +126,5 @@ marquee{
     font-weight: 700;
     border: none !important;
     border-radius: 4px;
+    padding-top: 8px;
 }

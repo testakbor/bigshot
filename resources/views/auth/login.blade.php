@@ -80,8 +80,8 @@
                   </div>
                   <button type="submit" class="btn btn-block login-btn mb-4">{{ __('Login') }}</button>
                   <hr>
-                  <button class="loginBtn loginBtn-facebook">{{ __('Facebook') }}</button>
-                  <button class="loginBtn loginBtn-google mt-2">{{ __('Google') }}</button>
+                  <button class="loginBtn loginBtn-facebook"><img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" width="40" height="40" style="float: left">{{ __('Facebook') }}</button>
+                  <button class="loginBtn loginBtn-google mt-2"><img src="https://img.icons8.com/color/48/000000/google-logo.png" width="40" height="40" style="float: left">{{ __('Google') }}</button>
 
                 </form>
 
@@ -91,7 +91,7 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-                <p class="login-card-footer-text">Don't have an account? <a href="#!" class="text-reset">Register here</a></p>
+                <p class="login-card-footer-text">Don't have an account? <a href="/register" class="text-reset">Register here</a></p>
                 <!-- <nav class="login-card-footer-nav">
                   <a href="#!">Terms of use.</a>
                   <a href="#!">Privacy policy</a>
