@@ -2,209 +2,111 @@
 
 @section('content')
 
-<div class="content-wrapper" style="min-height: 1203.6px;" id="app">
-  <!-- Content Header (Page header) -->
-  <section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Edit Order</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Edit Order</li>
-          </ol>
-        </div>
-      </div>
-    </div><!-- /.container-fluid -->
-  </section>
-
-  <!-- Main content -->
-  <section class="content">
-    <div class="container-fluid">
-      @include('front.includes.messages')
-      <form action="{{route('product.store')}}" method="POST" enctype="multipart/form-data">
-        {{ csrf_field() }}
-        <div class="row">      
-          <div class="col-md-9">
-           <div class="card card-default">
-            <div class="card-header">
-              <h3 class="card-title" style="width: 100%">Order #2005 details </h3>
-              
-              <h3 class="card-title">Payment via Cash on delivery. Customer IP: 103.150.57.30</h3>
-              
-            </div>
-            <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
-              <div class="genarel">
-                <div class="font-weight-bold text-center">Genarel</div>
-                <div class="mt-3">
-                  <form>
-                 
-                    <div class="form-group">
-                      <label for="dateCreated">Date : </label>
-                      <input type="text" class="form-control" id="dateCreated" value="{{$order->order_item_name}}">
-                    </div>
-                   <!--  <div class="form-group">
-                      <label for="sattus">Status</label>
-                      <select name="status" id="status" class="form-control">
-                        <option value="1">Processing</option>
-                        <option value="1">On Hold</option>
-                        <option value="1">Completed</option>
-                        <option value="1">Cancelled</option>
-                        <option value="1">Refunded</option>
-                        <option value="1">Failed</option>
-                      </select>
-                    </div> -->
-                  <!--   <div class="form-group">
-                      <label for="customer">Customer</label>
-                      <select name="customer" id="customer" class="form-control">
-                        <option value="1">Guest</option>
-                      </select>
-                    </div> -->
-              
-                  </form>
-                </div>            
-              </div>
-              <div>
-
-                <div class="font-weight-bold">Billing</div>
-                <div class="mt-3">
-                  akbor,Hossain <br>
-                  Khilkhat,Dhaka <br>
-                  Bangladesh
+<div class="container-fluid my-5 d-flex justify-content-center">
+    <div class="card card-1">
+        <div class="card-header bg-white">
+            <div class="media flex-sm-row flex-column-reverse justify-content-between ">
+                <div class="col my-auto">
+                    <h4 class="mb-0">Thanks for your Order <span class="text-dark">{{Auth::user()->name}}</span></h4>
                 </div>
-                <div class="font-weight-bold">Email Address</div>
-                <div>user@gmail.com</div>
-
-                <div class="font-weight-bold mt-2">Phone</div>
-                <div>user@gmail.com</div>
-              </div>
-              <div>              
-               <div class="font-weight-bold">Shipping</div>
-               <div class="mt-3">
-               Address<br>
-                No Shipping Address <br>
-                
-              </div>
-             </div>
-
-           </div>
-           </div>
-
-           <div class="card card-default">
-            <div class="card-header">
-              <h3 class="card-title" style="width: 100%">Item Info</h3>                                         
             </div>
-            <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
-              
-              <table class="table table-striped">
-                 
-                <thead class="thead-light">
-
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Item</th>
-                    <th scope="col">Cost</th>
-                    <th scope="col">Qty</th>
-                    <th scope="col">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach($products as $value)
-                  <tr>
-                    <th >{{$value->order_item_name}}</th>
-                    <td>{{$value->order_item_name}}</td>
-                    <td>Otto</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>                  
-                  @endforeach
-                </tbody>
-              </table>
-
-           </div>
-           <div class="card-footer ">
-             <div class="d-flex flex-column justify-content-end">
-              <div class="d-flex flex-row justify-content-end">
-                 <div> item Sub total:</div>
-                 <div> $ 42</div>
-              </div>
-              <div class="d-flex flex-row justify-content-end">
-                <div> Order Total: </div>
-                 <div> $ 42</div>
-              </div>
-             </div>
-          </div>
-          
         </div>
-      </div>
-
-      <div class="col-md-3">
-        <div class="card card-default">
-          <div class="card-header">
-            <h3 class="card-title">Order Action</h3>
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
+        <div class="card-body">
+            <div class="row justify-content-between mb-3">
+                <div class="col-auto">
+                    <h6 class="color-1 mb-0 change-color">Receipt</h6>
+                </div>
+                <div class="col-auto "> <small>Receipt Voucher : 1KAU9-84UIL</small> </div>
             </div>
-          </div>
-          <div class="card-body d-flex flex-row text-center" style="display: block;">
-           <select name="" class="form-control" id="">
-             <option value="">Choose an action</option>
-             <option value="">Email</option>
-             <option value="">Resend</option>
-             <option value="">Regenarate</option>
-           </select>
+            <div class="row">
+                <div class="col">
+                    <div class="card card-2">
+                        <div class="card-body">
+                            <div class="media">
+                                <div class="sq align-self-center "> <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{asset('assets/front/images/RJOW4BL.jpg')}}" width="135" height="135" /> </div>
+                                <div class="media-body my-auto text-right">
 
-          </div>
-          <div class="card-footer">
-            <button type="submit" value="draft" name="dreft" class="btn text-danger" >Move to trash</button>
-            <button type="submit" value="submit" name="submit" class="btn btn-primary">Publish</button>
-          </div>
+                                    <div class="row my-auto flex-column flex-md-row">
+                                        <div class="col my-auto">
+                                            <h6 class="mb-0"> Jack Jacs</h6>
+                                        </div>
+                                        <div class="col-auto my-auto"> <small>Golden Rim </small></div>
+                                        <div class="col my-auto"> <small>Size : M</small></div>
+                                        <div class="col my-auto"> <small>Qty : 1</small></div>
+                                        <div class="col my-auto">
+                                            <h6 class="mb-0">Tk&#8377;3,600.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-3 ">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <p class="mb-1 text-dark"><b>Order Details</b></p>
+                        </div>
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Total</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">&#8377;4,835</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"> <b>Discount</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">&#8377;150</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>GST 18%</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">843</p>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Delivery Charges</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">Free</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row invoice ">
+                <div class="col">
+                    <p class="mb-1"> Invoice Number : 788152</p>
+                    <p class="mb-1">Invoice Date : 22 Dec,2019</p>
+                    <p class="mb-1">Recepits Voucher:18KU-62IIK</p>
+                </div>
+            </div>
         </div>
-        
-      </div>
-     
-      <!-- /.card-body -->
+        <div class="card-footer">
+            <div class="jumbotron-fluid">
+                <div class="row justify-content-between ">
+                    <div class="col-auto my-auto ">
+                        <h2 class="mb-0 font-weight-bold">TOTAL PAID</h2>
+                    </div>
+                    <div class="col-auto my-auto ml-auto">
+                        <h1 class="display-3 ">Tk 5,528</h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    
-   
-   
 </div>
 
-</div>
-</form>
-<!-- /.col -->
-</div>
-
-
-<!-- /.row -->
-</div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
-</div>
-@endsection
-
-@section('js')
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
-
-<script src="{{asset('assets/admin/js/tinymce.min.js')}}" referrerpolicy="origin"></script>  
-<script type="text/javascript">
-  tinymce.init({
-    selector: 'textarea',
-    height: 400,
-    menubar: false,
-    plugins: [
-    'advlist autolink lists link image charmap print preview anchor',
-    'searchreplace visualblocks code fullscreen',
-    'insertdatetime media table paste code help wordcount'
-    ],
-    toolbar: 'undo redo | formatselect | ' +
-    'bold italic backcolor | alignleft aligncenter ' +
-    'alignright alignjustify | bullist numlist outdent indent | ' +
-    'removeformat | help',
-    content_css: '//www.tiny.cloud/css/codepen.min.css'
-  });
-</script>
 @endsection
