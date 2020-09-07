@@ -105,22 +105,23 @@
                   </tr>
                 </thead>
                 <tbody>
+                @php 
+                $i=1;
+                @endphp
+                @foreach($products as $item)
                   <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                  </tr>
-                  
+                    <th scope="row">{{$i}}</th>
+                    <td>{{$item->order_item_name}}</td>
+                    <td>Cost</td>
+                    <td>Qty</td>
+                    <td>Total</td>
+                  </tr>   
+                   @php 
+                $i++;
+                @endphp   
+                  @endforeach          
                 </tbody>
+
               </table>
 
            </div>
