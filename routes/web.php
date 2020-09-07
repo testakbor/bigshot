@@ -37,9 +37,15 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/rewards','PageController@rewards')->name('rewards');
         Route::get('/cash','PageController@cash')->name('cash');
         Route::get('/faq','PageController@faq')->name('faq');
+        Route::get('/privacy','PageController@privacy')->name('privacy');
+        Route::get('/terms&conditions','PageController@termsconditions')->name('terms.conditions');
+        Route::get('/about','PageController@about')->name('about');
+        Route::get('/return-policy','PageController@returnPolicy')->name('return.policy');
+
 
         Route::post('/addCart','CartController@addCart')->name('addCart');
         Route::post('/checkout','CartController@checkout')->name('checkout');
+        
     });
 
     Route::group(['namespace'=>'User'],function(){

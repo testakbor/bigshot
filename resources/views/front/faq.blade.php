@@ -42,128 +42,37 @@
       </form>
     </section>
     <section class="categories blocks">
-      <ul class="blocks-list">
-               
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <img src="//theme.zdassets.com/theme_assets/599460/2b6ed9c21dcba30f0f3acc9da83b93465dbf6376.png">
-            <h4 class="blocks-item-title">Account</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>
-
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <img src="//theme.zdassets.com/theme_assets/599460/5072dc5d8ee0e6afc8e8903350f7b3e8d90dfb44.png">
-            <h4 class="blocks-item-title">Shopping</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>
-
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <img src="//theme.zdassets.com/theme_assets/599460/54a16c234a8f82fb1939a0a351e26f3c913f5468.png">
-            <h4 class="blocks-item-title">Shipping</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>
-
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <img src="//theme.zdassets.com/theme_assets/599460/bbf24bd966a87c3ce2a91bd2da1b6b074e11f203.png"> 
-            <h4 class="blocks-item-title">Orders</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>
-
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <img src="//theme.zdassets.com/theme_assets/599460/452f50978f8956b560cb60ed82d197736d3217f4.png"> 
-            <h4 class="blocks-item-title">Payments &amp; Promotions</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>
-
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <img src="//theme.zdassets.com/theme_assets/599460/5d835043eb987cbb3b8f6ccb40e91ebda5ca7d8f.png"> 
-            <h4 class="blocks-item-title">Returns &amp; Refunds</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>
-
-        <li class="blocks-item">
-          <a href="#" class="blocks-item-link">
-            <h4 class="blocks-item-title">About Wish</h4>
-            <p class="blocks-item-description"></p>
-          </a>
-        </li>  
+     <div class="container">
+        <h1>FREQUENTLY ASKED QUESTIONS</h1>
+      <h3># SHIPPING AND DELIVERY?</h3>
+      <p>It’s important to us that you receive your purchase as quickly as possible. All online orders will be processed within 12 hours and dispatched on the next business day.</p>
+      <ul>
+        <li><b class="">• Dhaka Metro</b> – Flat Rate 60tk (1-2 days delivery)</li>
+        <li><b class="">• Dhaka Suburb Area</b> – Flat Rate 100tk (1-3 days delivery)</li>
+        <li><b class="">• Bangladesh wide</b> – Flat Rate 120tk (2-5 days delivery)</li>
+        
       </ul>
-      
+      <p><span style="color: red"> Note:</span>  Orders will arrive within 1-5 business days from time of posting depending on your location.</p>
+      <br>
+      <h3># HOW DO I TRACK MY DELIVERY?</h3>
+      <p>You are able to track your delivery - once your order is shipped you will receive an email confirmation of your shipping details, which will include a tracking number.</p>
+      <h3># WHERE DOES MY ORDER SHIP FROM?</h3>
+      <p>Your order will ship from <b>Dhaka, Bangladesh.</b></p>
+      <h3># HOW SECURE IS MY PERSONAL INFORMATION?</h3>
+      <p>All information submitted to our website is secure.
+        Please refer to our <a href="https://www.colettehayman.com.au/">privacy policy</a> for more details.
+      </p>
+      <h3># CAN I CHANGE OR CANCEL MY ORDER?</h3>
+      <p>You can change or cancel your order simply fill out <a href="https://www.colettehayman.com.au/"> request cancellation</a> form and send it to us within 6 hours from the time of purchase. Unfortunately, we are unable to modify your order once it has been shipped. If you have ordered the wrong item, color or style you are welcome to exchange or return the item within 7 days since you received the order. More details are available on our <a href="return policy"> return policy </a> page.If you need assistance with an order please <a href="https://www.colettehayman.com.au/">contact us.</a> </p>
+      <h3># IF THERE IS A FAULTY, MISSING OR INCORRECT ITEM IN MY ORDER?</h3>
+      <p>If you are returning or exchanging a faulty, damaged or incorrect item purchased online we will pay for the packaging and postage costs. Please <a href="https://www.colettehayman.com.au/">contact us</a> so that we may assist you. More details are available on our <a href="https://www.colettehayman.com.au/">return policy</a> page.</p>
+      <h3># IF I CANCEL MY ORDER. HOW WILL I RECEIVE MY REFUND?</h3>
+      <p>Please allow 5-7 working days from the receipt of your return, you will be advised by email when your refund has been processed. Refunds will be processed in the same manner as payments so if, for example, you paid by Visacard or Bkash you will receive a refund on your Visacard or Bkash</p>
+      <h3># DO YOU DELIVER INTERNATIONALLY?</h3>
+      <p>We currently deliver to Bangladesh Wide only.</p>
+     </div>
     </section>
-    <!-- <p>Recent activity</p> -->
-    <section class="section activity">
-    <div data-app="" data-url="">
-      <div class="">
-        <h2 style="text-align: center;">Recent activity</h2>
-        <div class="container">
-          <ul class="recent-activity-list" style="">
 
-          <li class="recent-activity-item" data-recent-activity-action="article_created">
-            <a class="recent-activity-item-parent" href="#">
-              Current Promotions</a>
-            <a class="recent-activity-item-link" href="#">
-              Why haven't my earnings increased from the Referral Program?
-            </a>
-            <div class="recent-activity-item-meta">
-              <div class="recent-activity-item-time">Article created 5 days ago</div>
-              <div class="recent-activity-item-comment"><span>0</span></div>
-            </div>
-          </li>
-
-          <li class="recent-activity-item" data-recent-activity-action="article_created">
-            <a class="recent-activity-item-parent" href="#">Current Promotions</a>
-            <a class="recent-activity-item-link" href="#">How long does it take for my earnings from the Referral Program to cash out to my PayPal account?</a>
-            <div class="recent-activity-item-meta">
-              <div class="recent-activity-item-time">Article created 5 days ago</div>
-              <div class="recent-activity-item-comment"><span>0</span></div>
-            </div>
-          </li>
-
-          <li class="recent-activity-item" data-recent-activity-action="article_created">
-            <a class="recent-activity-item-parent" href="#">Current Promotions</a>
-            <a class="recent-activity-item-link" href="#">Why can't I use the new Referral Program?</a>
-            <div class="recent-activity-item-meta">
-              <div class="recent-activity-item-time">Article created 5 days ago</div>
-              <div class="recent-activity-item-comment"><span>0</span></div>
-            </div>
-          </li>
-
-          <li class="recent-activity-item" data-recent-activity-action="article_created">
-            <a class="recent-activity-item-parent" href="#">
-            Account Settings</a>
-            <a class="recent-activity-item-link" href="#">How do I change my language settings?</a>
-            <div class="recent-activity-item-meta">
-              <div class="recent-activity-item-time">Article created 19 days ago</div>
-              <div class="recent-activity-item-comment"><span>0</span></div>
-            </div>
-          </li>
-
-          <li class="recent-activity-item" data-recent-activity-action="article_created">
-            <a class="recent-activity-item-parent" href="/hc/en-us/sections/360004496552-Pay-Later">Pay Later</a>
-            <a class="recent-activity-item-link" href="/hc/en-us/articles/360051919554-Can-I-use-a-different-Pay-Later-payment-method-">Can I use a different Pay Later payment method? </a>
-            <div class="recent-activity-item-meta">
-              <div class="recent-activity-item-time">Article created 19 days ago</div>
-              <div class="recent-activity-item-comment"><span>0</span></div>
-            </div>
-          </li>
-        </ul>
-        </div>
-
-      </div>
-</div>
-
-  </section>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.js"></script>

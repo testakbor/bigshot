@@ -73,4 +73,20 @@ class PageController extends Controller
 	{
 	    return view('front.user-profile');
 	}
+	public function privacy()
+	{
+	    return view('front.privacy');
+	}
+	public function termsconditions()
+	{
+	    return view('front.terms&conditions');
+	}
+	public function about()
+	{
+	    return view('front.about');
+	}
+	public function returnPolicy()
+	{
+	    return view('front.return-policy');
+	}
 }
