@@ -113,19 +113,12 @@
                 <tbody>
                   @foreach($products as $value)
                   <tr>
-                    <th scope="row">{{$products->order_item_name}}</th>
-                    <td>$products->post_title</td>
+                    <th >{{$value->order_item_name}}</th>
+                    <td>{{$value->order_item_name}}</td>
                     <td>Otto</td>
                     <td>Otto</td>
                     <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                  </tr>
+                  </tr>                  
                   @endforeach
                 </tbody>
               </table>

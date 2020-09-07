@@ -4,10 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\Front\Post;
-use App\Model\Front\Postmeta;
-use App\Model\Front\Order_itemmeta;
-use App\Model\Front\Order_item;
+
+use App\Model\front\Post;
+use App\Model\front\Postmeta;
+
+
+use App\Model\front\Order_item;
 
 use Auth;
 use DB;
@@ -69,13 +71,12 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order=Post::find($id);
-        $products=Order_item::find($id);
- 
+        $products=Order_item::where('order_id',$id)->get();
         $extraInfo=array(
             'title'=>"Order Edit",
             'page'=>'order'
         );
-         return view('front.order.edit',compact('order'),compact('products'))->with($extraInfo);
+         return view('front.order.edit',compact('order','products'))->with($extraInfo);
     }
 
     /**
