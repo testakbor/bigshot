@@ -43,7 +43,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     });
 
     Route::group(['namespace'=>'User'],function(){
-        Route::get('/order-list','OrderController@OrderList')->name('order.list');
+        Route::resource('/order-list','OrderController');
     });
 
     Route::group(['namespace'=>'Admin'],function(){

@@ -12,4 +12,5 @@
   <link rel="stylesheet" href="{{asset('assets/front/css/profile.css')}}">
   <!-- <link rel="stylesheet" href="{{asset('assets/front/css/login.css')}}"> -->
   <link rel="stylesheet" href="{{asset('assets/front/css/order-history.css')}}">
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   </head>

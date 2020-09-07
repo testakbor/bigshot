@@ -36,7 +36,7 @@
                         </figure>
                     </div> -->
                     <div class="col">
-                        <a href="{{route('order.edit',$value->ID)}}" class="btn btn-success text-white" data-abc="true">View</a>
+                        <a href="{{route('order-list.edit',$value->ID)}}" class="btn btn-success text-white" data-abc="true">View</a>
                     </div>
 
                    
