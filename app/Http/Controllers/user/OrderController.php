@@ -14,10 +14,9 @@ class OrderController extends Controller
     {
         $invoice = Postmeta::where('meta_key','_customer_user')
         ->where('meta_value', Auth::user()->id)
-        ->get();
+        ->first();
         // dd($invoice);
-        $orders=Post::where('posts.post_type','shop_order')
-        ->paginate(500); 
+        $orders=Post::where('ID',$invoice->post_id)->get();    
         return view('front.order-list',compact('invoice'),compact('orders'));
     }
 }
