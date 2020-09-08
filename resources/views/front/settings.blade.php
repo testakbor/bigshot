@@ -227,11 +227,11 @@
                           </select>
                         </div>     
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button class="btn btn-primary" ng-click="updateMe()">Update</button>
+                                <button class="btn btn-primary float-right" ng-click="updateMe()">Update</button>
                             </div>
-                        </div> -->
+                        </div>
                     </form>
                 </div>  <!-- end form-horizontal -->
       </div> <!-- end panel-body -->
@@ -269,6 +269,7 @@
             </div>
             <div class="tab-pane fade" id="business" role="tabpanel">
               <div class="col-sm-12">
+                <form method="" action="">
                 <h3>Manage Addresses</h3>
                 <div class="row">
                   <div class="col-sm-6">
@@ -381,10 +382,12 @@
                         </div>
                   </div>
                   </div>
-        
+                  <div class="col-sm-offset-2 col-sm-10">
+                      <button class="btn btn-primary float-right" ng-click="">Update</button>
+                  </div>
                 </div>
 
-
+                </form>
               </div>
             </div>
           </div>
