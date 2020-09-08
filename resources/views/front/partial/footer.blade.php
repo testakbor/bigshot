@@ -26,9 +26,8 @@
 <!-- end footer -->
 </section>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{asset('assets/front/js/jquery.min.js')}}"></script>
+    <script src="{{asset('assets/front/js/popper.js')}}"></script>
     <script src="{{asset('assets/front/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('assets/front/js/main.js')}}"></script>
     <script src="{{asset('assets/front/js/jquery.steps.js')}}"></script>

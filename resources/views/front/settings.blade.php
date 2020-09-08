@@ -1,7 +1,9 @@
 @extends('front.layouts.master')
 
 @section('content')
-
+<style type="text/css">
+  
+</style>
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">
     <div class="row">
@@ -10,554 +12,386 @@
         <article class="card ml-5">
        		
           <div class="container">
-          <div class="page-content">
-            <style type="text/css">
-                body {
-  margin:  0;
-}
-.page-content {
-  width: 100%;
-  margin:  0 auto;
-  display: flex;
-  display: -webkit-flex;
-  justify-content: center;
-  -o-justify-content: center;
-  -ms-justify-content: center;
-  -moz-justify-content: center;
-  -webkit-justify-content: center;
-  align-items: center;
-  -o-align-items: center;
-  -ms-align-items: center;
-  -moz-align-items: center;
-  -webkit-align-items: center;
-    flex-direction: column;
-    -o-flex-direction: column;
-    -ms-flex-direction: column;
-    -moz-flex-direction: column;
-    -webkit-flex-direction: column;
-    background-image: -moz-linear-gradient( 136deg, rgb(65,88,208) 0%, rgb(200,80,192) 50%, rgb(255,204,112) 100%);
-    background-image: -webkit-linear-gradient( 136deg, rgb(65,88,208) 0%, rgb(200,80,192) 50%, rgb(255,204,112) 100%);
-    background-image: -ms-linear-gradient( 136deg, rgb(65,88,208) 0%, rgb(200,80,192) 50%, rgb(255,204,112) 100%);
-}
-.page-content .wizard-heading {
-    color: rgba(255, 255, 255, 0.6);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 55px;
-    padding-top: 160px;
-    margin-left: -26.8%;
-}
-.wizard-v7-content   {
-  background: #fff;
-  width: 790px;
-  border-radius: 10px;
-  -o-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  margin: -13px 0 185px;
-  font-family: 'Open Sans', sans-serif;
-  position: relative;
-  display: flex;
-  display: -webkit-flex;
-}
-.wizard-v7-content .wizard-form {
-  width: 100%;
-}
-.form-register .vertical {
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 10px;
-    -o-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-}
-.form-register .steps {
-    float: left;
-    width: 260px;
-}
-.form-register .steps ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-.form-register .steps li {
-    background: #b2b2b2;
-}
-.form-register .steps li:first-child,
-.form-register .steps li.current:first-child {
-    margin-top: 35px;
-}
-.form-register .steps li,
-.form-register .steps li.current {
-  outline: none;
-  -o-outline: none;
-    -ms-outline: none;
-    -moz-outline: none;
-    -webkit-outline: none;
-    position: relative;
-    margin: 0 50px 15px 40px;
-}
-.form-register .steps li.current,
-.form-register .steps li.done {
-    background: #33a7d7;
-}
-.form-register .steps li .current-info {
-  display: none;
-}
-.form-register .steps li a {
-  text-decoration: none;
-  outline: none;
-  -o-outline: none;
-    -ms-outline: none;
-    -moz-outline: none;
-    -webkit-outline: none;
-}
-.form-register .steps li a .title {
-  display: flex;
-    justify-content: space-between;
-    -o-justify-content: space-between;
-    -ms-justify-content: space-between;
-    -moz-justify-content: space-between;
-    -webkit-justify-content: space-between;
-    position: relative;
-}
-.form-register .steps li a .title::after {
-    content: "";
-    position: absolute;
-    left: 100%;
-    top: 0;
-    border-top: 30px solid transparent;
-    border-bottom: 30px solid transparent;
-    border-left: 45px solid #b2b2b2;
-}
-.form-register .steps li.current .title::after,
-.form-register .steps li.done .title::after {
-    border-left: 45px solid #33a7d7;
-}
-.form-register .steps li a .title .step-icon {
-    outline: none;
-    -o-outline: none;
-    -ms-outline: none;
-    -moz-outline: none;
-    -webkit-outline: none;
-    color: #fff;
-    font-size: 25px;
-    margin: 0;
-    padding: 13px 17px;
-    position: relative;
-}
-.form-register .steps li a .title .step-icon::before {
-    position: absolute;
-    height: 60px;
-    width: 1px;
-    left: 100%;
-    top: 0;
-    content: "";
-    background: rgba(255, 255, 255, 0.3);
-}
-.form-register .steps li a .step-text {
-    margin-top: 10px;
-}
-.form-register .steps li a .step-text span {
-    display: block;
-}
-.form-register .steps li a .step-text .step-inner-1 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-}
-.form-register .steps li a .step-text .step-inner-2 {
-    font-size: 14px;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.7);
-}
-.form-register .content {
-    float: right;
-    width: 530px;
-    background: #fff;
-}
-.form-register .content h2 {
-  display: none;
-}
-.form-register .content .inner {
-    margin: 35px 40px 25px;
-    box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
-    -o-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
-    -ms-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    -o-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    padding: 0 30px 25px;
-}
-.form-register .content .wizard-header {
-  padding: 9px 30px 11px;
-    background: #33a7d7;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    margin: 0 -30px 24px;
-}
-.form-register .content .wizard-header h3 {
-    font-size: 22px;
-    color: #fff;
-    font-weight: 700;
-    margin: 0;
-}
-.inner .form-row {
-    display: flex;
-    margin: 0 -10px;
-    position: relative;
-}
-.inner .form-row .form-holder {
-    width: 50%;
-    padding: 0 10px;
-    margin-bottom: 19px;
-    position: relative;
-}
-.inner .form-row .form-holder.form-holder-1 {
-    width: 65.3%;
-}
-.inner .form-row .form-holder.form-holder-2 {
-  width: 100%;
-  position: relative;
-}
-.inner .form-row .form-holder label {
-    color: #666;
-    font-size: 16px;
-    font-weight: 400;
-    display: block;
-    padding-bottom: 8px;
-}
-.inner .form-row .form-holder input,
-.inner .form-row .form-holder select {
-    width: 100%;
-    padding: 12px 20px;
-    border: 1px solid #e5e5e5;
-    appearance: unset;
-    -moz-appearance: unset;
-    -webkit-appearance: unset;
-    -o-appearance: unset;
-    -ms-appearance: unset;
-    outline: none;
-    -moz-outline: none;
-    -webkit-outline: none;
-    -o-outline: none;
-    -ms-outline: none;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -o-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    border-radius: 3px;
-  -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -o-border-radius: 3px;
-    -ms-border-radius: 3px;
-}
-.inner .form-row .form-holder select {
-  font-size: 14px;
-    color: #666;
-    font-weight: 600;
-    background: #fff url('../images/wizard-v7-icon.png') no-repeat scroll;
-    background-position: right 6px center;
-    z-index: 1;
-    cursor: pointer;
-    position: relative;
-    border:  2px solid #e5e5e5;
-    padding: 10.4px 13px;
-}
-input::placeholder {
-    color: #999;
-    font-size: 15px;
-    font-weight: 400;
-}
+            
+  <div class="row">
+      <div class="col-sm-12">
+        
+        <div class="tab-container">
+          <ul class="nav nav-tabs nav-tabs-left nav-centered" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#web-dev" data-toggle="tab" role="tab">
+                Notifications
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#graphic" data-toggle="tab" role="tab">
+                Account Settings
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#marketing" data-toggle="tab" role="tab">
+                Payment Settings
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#business" data-toggle="tab" role="tab">
+                Manage Addresses
+              </a>
+            </li>
+            
+          </ul>
+          <div id="my_side_tabs" class="tab-content side-tabs side-tabs-left">
+            <div class="tab-pane fade in active" id="web-dev" role="tabpanel">
+              <div class="col-sm-12">
+                <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col" colspan="4">TYPE OF NOTIFICATION</th>
+            <th scope="col">Email</th>
+            <th scope="col">App</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" colspan="4">
 
-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: #999;
-   font-size: 15px;
-   font-weight: 400;
-}
+              <h4>Your Orders</h4>
+              <br>
+              <p>Notify me of the status of my orders</p>
 
-input::-ms-input-placeholder { /* Microsoft Edge */
-   color: #999;
-   font-size: 15px;
-   font-weight: 400;
-}
-.inner .form-row .form-holder .content-inner {
-    font-weight: 400;
-    color: #666;
-    font-size: 14px;
-}
-.inner .form-row .form-holder .content-inner p {
-    margin: 0;
-}
-.inner .form-row .form-holder .form-checkbox {
-    position: relative;
-    padding-top: 55px;
-}
-.inner .form-row .form-holder .form-checkbox p {
-    margin-left: 27px;
-    color: #333;
-    font-size: 14px;
-    font-weight: 600;
-}
-.inner .form-row .form-holder .form-checkbox input {
-    position: absolute;
-    opacity: 0;
-}
-.inner .form-row .form-holder .form-checkbox .checkmark {
-    position: absolute;
-    bottom: 8%;
-    left: 0;
-    height: 18px;
-    width: 18px;
-    border: 1px solid #e5e5e5;
-    border-radius: 5px;
-    -o-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    cursor: pointer;
-}
-.inner .form-row .form-holder .form-checkbox .checkmark::after {
-    content: "";
-    position: absolute;
-    left: 6px;
-    top: 2px;
-    width: 3px;
-    height: 8px;
-    border: 1px solid #33a7d7;
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    transform: rotate(45deg);
-    display: none;
-}
-.inner .form-row .form-holder .form-checkbox input:checked ~ .checkmark::after {
-    display: block;
-}
-.actions {
-  float: right;
-    width: 530px;
-    background: #fff;
-}
-.actions ul {
-    list-style: none;
-    padding: 0 40px;
-    margin-bottom: 40px;
-    display: flex;
-    display: -webkit-flex;
-    justify-content: space-between;
-    -o-justify-content: space-between;
-    -ms-justify-content: space-between;
-    -moz-justify-content: space-between;
-    -webkit-justify-content: space-between;
-}
-.actions ul li.disabled,
-.actions ul li:first-child {
-  opacity: 0;
-}
-.actions ul li {
-  padding: 0;
-    border: none;
-    display: inline-flex;
-    height: 42px;
-    width: 120px;
-    border-radius: 3px;
-    -o-border-radius: 3px;
-    -ms-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    justify-content: center;
-    -o-justify-content: center;
-    -ms-justify-content: center;
-    -moz-justify-content: center;
-    -webkit-justify-content: center;
-    align-items: center;
-    -o-align-items: center;
-    -ms-align-items: center;
-    -moz-align-items: center;
-    -webkit-align-items: center;
-    background: #364cd2;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 400;
-}
-.actions ul li:hover {
-  background: #28379e;
-}
-.actions ul li a {
-  color: #fff;
-  text-decoration: none;
-    padding: 13px 19px;
-}
+            </th>
+            <td>  
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+               
+              </div> 
+            </td>
+            <td>
+                <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+               
+              </div> 
+            </td>
 
-/* Responsive */
-@media screen and (max-width: 991px) {
-    .page-content .wizard-heading {
-        margin-left: 0;
-        width: 90%;
-    }
-    .wizard-v7-content {
-        width: 90%;
-    }
-    .form-register .steps {
-        width: 95%;
-        float: none;
-    }
-    .form-register .content,
-    .actions {
-        float: none;
-        width: 100%;
-    }
-} 
-@media screen and (max-width: 575px) {
-  .inner .form-row {
-    flex-direction: column;
-    -o-flex-direction: column;
-    -ms-flex-direction: column;
-    -moz-flex-direction: column;
-    -webkit-flex-direction: column;
-    margin: 0;
-  }
-  .inner .form-row .form-holder {
-    width: 100%;
-  }
-  .inner .form-row .form-holder {
-    padding: 0;
-  }
-    .form-register .steps {
-        width: 90%;
-        float: none;
-    }
-}
+          </tr>
 
+         <tr>
+            <th scope="row" colspan="4">
 
-            </style>
-    <div class="wizard-heading">FORM WIZARD</div>
-    <div class="wizard-v7-content">
-      <div class="wizard-form">
-            <form class="form-register" action="#" method="post">
-              <div id="form-total">
-                <!-- SECTION 1 -->
-                  <h2>
-                    <p class="step-icon"><span>1</span></p>
-                    <div class="step-text">
-                      <span class="step-inner-1">Account Setup</span>
-                      <span class="step-inner-2">Account Details</span>
-                    </div>
-                  </h2>
-                  <section>
-                      <div class="inner">
-                        <div class="wizard-header">
-                  <h3 class="heading">Account Setup</h3>
+              <h4>Deals and Promotions</h4>
+              <br>
+              <p>Daily deals, promotions, and flash sales</p>
+
+            </th>
+            <td>  
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+               
+              </div> 
+            </td>
+            <td>  
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+               
+              </div> 
+            </td>
+
+          </tr>
+           <tr>
+            <th scope="row" colspan="4">
+
+              <h4>Rewards</h4>
+              <br>
+              <p>Gifts, rewards, and coupons</p>
+
+            </th>
+            <td>   
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+               
+              </div> 
+            </td>
+            <td>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          
                 </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="your_email">Email Address</label>
-                    <input type="email" name="your_email" id="your_email" class="form-control" pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}" placeholder="Your Email" required>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="confirm_password">Confirm Password</label>
-                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Password" required>
-                  </div>
-                </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
               </div>
-                  </section>
-            <!-- SECTION 2 -->
-                  <h2>
-                    <p class="step-icon"><span>2</span></p>
-                    <div class="step-text">
-                      <span class="step-inner-1">Billing Setup</span>
-                      <span class="step-inner-2">Billing Details</span>
-                    </div>
-                  </h2>
-                  <section>
-                      <div class="inner">
-                        <div class="wizard-header">
-                  <h3 class="heading">Billing Setup</h3>
-                </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="card_name">Card Holder Name</label>
-                    <input type="text" name="card_name" id="card_name" placeholder="Taylor Fuller" class="form-control" required>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="card_number">Card Number</label>
-                    <input type="text" name="card_number" id="card_number" placeholder="4224-3228-6160-5079" class="form-control" required>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="cvc">CVC</label>
-                    <input type="password" name="cvc" id="cvc" class="form-control" required>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-holder form-holder-2">
-                    <label for="expiration">Expiration(MM/YYYY)</label>
-                    <input type="text" name="expiration" id="expiration" placeholder="MM/YYYY" class="form-control" required>
-                  </div>
-                </div>
+           
+              <div class="col-sm-6">
+                
               </div>
-                  </section>
-                  <!-- SECTION 3 -->
-                  <h2>
-                    <p class="step-icon"><span>3</span></p>
-                    <div class="step-text">
-                      <span class="step-inner-1">Agreement</span>
-                      <span class="step-inner-2">Our site policy</span>
-                    </div>
-                  </h2>
-                  <section>
-                      <div class="inner">
-                        <div class="wizard-header">
-                  <h3 class="heading">Agreement</h3>
-                </div>
-                <div class="form-row">
-                          <div class="form-holder form-holder-2">
-                            <div class="content-inner">
-                              <p>Massa placerat duis ultricies lacus sed turpis tin Elementum sagittis vitae et leo duis ut diam quam nulla. Viverra mauris in aliquam sem fringilla ut. Id leo in vitae turpis massa sed elementum tempus. Aliquet enim tortor at auctor urna nunc id cursus. Nulla aliquet enim tortor at auctor .Consquat nisl vel pretium lectus quam id leo.</p>
-                              <div class="form-checkbox">
-                        <label class="container">
-                          <p>I read agreement and i have not any objection.</p>
-                            <input type="checkbox" name="checkbox">
-                            <span class="checkmark"></span>
-                        </label>
-                      </div>
+            </div>
+            <div class="tab-pane fade" id="graphic" role="tabpanel">
+              
+                 <div class=".col-xs-4 .col-md-offset-2">
+    <div class="panel panel-default panel-info Profile">
+      <div class="panel-heading"><h2> Account Settings</h2> </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+                    <form method="" action="">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First Name</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="firstName"
+                                    placeholder="First Name" ng-model="me.firstName">
                             </div>
-                          </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last Name</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="lastName"
+                                    placeholder="Last Name" ng-model="me.lastName">
+                            </div>
+                        </div>
+                         <div class="form-group ">
+
+                                <label class="col-sm-2 control-label">Birthday</label>
+                                <div class="col-sm-8">
+                                <input type="date" class="form-control" name="date"  id="birthday">
+                            </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="email"
+                                    placeholder="Email" ng-model="me.email">
+                                    <button type="button" class="btn btn-primary float-right mt-1">Update Email</button>
+                            </div>
+                        </div>
+
+                     <div class="form-group">
+                      <br>
+                            <label for="password" class="col-sm-2 control-label">Password</label>
+
+                            <div class="col-sm-8">
+                                <input id="password" type="password" class="form-control" name="oldpassword" placeholder="Old Password" required autocomplete="old-password"><br>
+                                <input id="password" type="password" class="form-control" name="newpassword" placeholder="New Password" required autocomplete="new-password"><br>
+                                <input id="password" type="password" class="form-control" name="confirmpassword" placeholder="Confirm Password" required autocomplete="confirm-password">
+                                <button type="button" class="btn btn-primary float-right mt-1">Update Password</button>
+
+                            </div>
+                        </div>
+                                
+
+                            </div>
+
+
+                        <div class="form-group">
+                          <br>
+                            <label class="col-sm-3 control-label">Phone Number</label>
+                            <div class="col-sm-8">
+                              <label>Get Reset key to change your phone number:</label>
+                                <input class="form-control" type="text" name="phone"
+                                    placeholder="xxx-xxx-xxxx" ng-model="me.email">
+                                    <button type="button" class="btn btn-primary float-right mt-1">Get Reset Key</button>
+                                    <br>
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                          <br>
+                           <label class="col-sm-3 control-label">Country</label>
+                         <select id="favcity" name="select" style="height: 40px;width: 30%;">
+                            <option value="0">Bangladesh</option>
+                            <option value="1">Pakistan</option>
+                            <option value="2">Chaina</option>
+                            <option value="3">India</option>
+                            <option value="4">Hong Kong</option>
+                            <option value="5">UK</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <br>
+                           <label class="col-sm-3 control-label">Language</label>
+                         <select id="favcity" name="select" style="height: 40px;width: 30%;">
+                            <option value="0">Bangladesh</option>
+                            <option value="1">Hindi</option>
+                            <option value="2">Chaines</option>
+                            <option value="4">Urdu</option>
+                            <option value="5">English</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <br>
+                           <label class="col-sm-3 control-label">Currency</label>
+                         <select id="favcity" name="select" style="height: 40px;width: 30%;">
+                            <option value="0">TK BDT</option>
+                            <option value="1">$ USD</option>
+                            <option value="2">$ EUR</option>
+
+                          </select>
+                        </div>     
+
+                        <!-- <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button class="btn btn-primary" ng-click="updateMe()">Update</button>
+                            </div>
+                        </div> -->
+                    </form>
+                </div>  <!-- end form-horizontal -->
+      </div> <!-- end panel-body -->
+
+    </div> <!-- end panel -->
+    
+
+  </div>
+                          
+            </div>
+            <div class="tab-pane fade" id="marketing" role="tabpanel">
+          <div class="col-sm-12">
+                <h3>Payment Settings</h3>
+                 <div class="form-group">
+                    <br>
+                      <label class="col-sm-3 control-label">Shipping Details</label>
+                        <div class="col-sm-8">
+                          <input class="form-control" type="text" name="" 
+                          ng-model="me.email" placeholder="Add Shipping Details at Checkout" readonly>
+
+                        </div>
+                  </div> 
+                  <div class="form-group">
+                      <label class="col-sm-4 control-label">Billing Details</label>
+                        <div class="col-sm-8">
+                          <input class="form-control" type="text" name="" 
+                          ng-model="me.email" placeholder="Add Billing Details at Checkout" readonly>
+                            
+                            <br>
+                        </div>
+                  </div>  
+                
               </div>
-                  </section>
+    
+            </div>
+            <div class="tab-pane fade" id="business" role="tabpanel">
+              <div class="col-sm-12">
+                <h3>Manage Addresses</h3>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                            <label class="col-sm-4 control-label">First Name</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="firstName"
+                                    placeholder="First Name" ng-model="me.firstName">
+                            </div>
+                        </div>
+                     
+                  </div>
+                  <div class="col-sm-6">
+                       <div class="form-group">
+                            <label class="col-sm-4 control-label">Last Name</label>
+                            <div class="col-sm-8">
+                                <input class="form-control" type="text" name="lastName"
+                                    placeholder="Last Name" ng-model="me.lastName">
+                            </div>
+                        </div>
+                  </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-sm-4 control-label">Address 1</label>
+                      <div class="col-sm-10">
+                        <input class="form-control" type="text" name="address1" placeholder="Address 1" ng-model="me.lastName">
+                        </div>
+                  </div>
+                 <div class="form-group">
+                    <label class="col-sm-4 control-label">Address 2</label>
+                      <div class="col-sm-10">
+                        <input class="form-control" type="text" name="address2" placeholder="Address 2" ng-model="me.lastName">
+                        </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Phone</label>
+                      <div class="col-sm-10">
+                        <input class="form-control" type="text" name="phone" placeholder="Phone Number" ng-model="me.lastName">
+                        </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                            <label class="col-sm-4 control-label">Country</label>
+                            <div class="col-sm-8">
+                                <select id="favcity" name="select" style="height: 40px;width: 90%;">
+                                  <option value="0">Bangladesh</option>
+                                  <option value="1">India</option>
+                                  <option value="2">Pakistan</option>
+                                </select>
+                            </div>
+                        </div>
+                     
+                  </div>
+                  <div class="col-sm-6">
+                       <div class="form-group">
+                            <label class="col-sm-4 control-label">State</label>
+                            <div class="col-sm-8">
+                              <select id="favcity" name="select" style="height: 40px;width: 97%;">
+                                <option value="0">Dhaka</option>
+                                <option value="1">Mumbai</option>
+                                <option value="2">Korachi</option>
+                              </select>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+               <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                            <label class="col-sm-4 control-label">Country</label>
+                            <div class="col-sm-8">
+                                <select id="favcity" name="select" style="height: 40px;width: 90%;">
+                                  <option value="0">Bangladesh</option>
+                                  <option value="1">India</option>
+                                  <option value="2">Pakistan</option>
+                                </select>
+                            </div>
+                        </div>
+                     
+                  </div>
+                  <div class="col-sm-6">
+                       <div class="form-group">
+                            <label class="col-sm-4 control-label">State</label>
+                            <div class="col-sm-8">
+                              <select id="favcity" name="select" style="height: 40px;width: 97%;">
+                                <option value="0">Dhaka</option>
+                                <option value="1">Mumbai</option>
+                                <option value="2">Korachi</option>
+                              </select>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                     <div class="form-group">
+                    <label class="col-sm-4 control-label">City</label>
+                      <div class="col-sm-8">
+                        <input class="form-control" type="text" name="city" placeholder="City" ng-model="me.lastName">
+                        </div>
+                  </div>
+                     
+                  </div>
+                  <div class="col-sm-6">
+                       <div class="form-group">
+                    <label class="col-sm-6 control-label">Zip/Postal Code</label>
+                      <div class="col-sm-8">
+                        <input class="form-control" type="text" name="zip" placeholder="Zip" ng-model="me.lastName">
+                        </div>
+                  </div>
+                  </div>
+        
+                </div>
+
+
               </div>
-            </form>
-      </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
-          </div>
+          
         
         </article>
 </div>
