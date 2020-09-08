@@ -104,7 +104,7 @@
             </ul>
           </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                <a href="{{route('quickReport')}}" class="nav-link {{isset($page) && $page=='quickReport'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Quick Report
@@ -112,7 +112,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                <a href="{{route('order.pendingOrder')}}" class="nav-link {{isset($page) && $page=='pendingOrder'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Pending Order
@@ -120,7 +120,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Order History
