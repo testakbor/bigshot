@@ -168,7 +168,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                <a href="{{route('customer.index')}}" class="nav-link {{isset($page) && $page=='customer'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                  Customer List

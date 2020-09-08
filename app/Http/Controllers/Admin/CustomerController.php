@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use DB;
+
 class CustomerController extends Controller
 {
     /**
@@ -12,9 +14,22 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
-        //
+        $extraInfo=array(
+            'title'=>"Category List",
+            'page'=>'category'
+        );
+
+        $customers=DB::table('users')       
+        ->paginate(3);                
+        return view('admin.customer.list',compact('customers'))->with($extraInfo);
     }
 
     /**

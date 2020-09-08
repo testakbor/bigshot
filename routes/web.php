@@ -64,7 +64,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('admin/attribute','AttributeController');
         Route::resource('admin/product','ProductController');
         Route::resource('admin/order','OrderController');
+        Route::get('admin/pendingOrder','OrderController@pendingOrder')->name('order.pendingOrder');
 
+        Route::resource('admin/customer','CustomerController');
+        
         Route::get('admin/attributeValue/{id}','AttributeController@attributeValue')->name('attribute.attributeValue');
         Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
         Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');
@@ -72,5 +75,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
         Route::POST('admin/product/store','ProductController@store')->name('product.store');
+
+        Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
+
     });
 

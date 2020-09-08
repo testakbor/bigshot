@@ -43,35 +43,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @php 
-                    $i=1;
-                    @endphp
-                   @foreach($orders as $value)
-                   @foreach ($value->productMeta as $meta)
-                   @if($meta['meta_key']=='_order_total')
-                   @php                            
-                   $total=$meta['meta_value'];
-                   @endphp
-                 @endif
                    
-                   @endforeach
-                    <tr >                     
-                      <td>{{$i}}</td>
-                      <td>{{$value->post_name}}</td>
-                      <td>{{$value->post_date}}</td>
-                      <td>{{$value->post_status}}</td>
-                      <td>{{$total}}</td>
-                      <td><a class="btn btn-success" href="{{route('order.edit',$value->ID)}}">Change Status</a></td>
-                    </tr>
-                    @php 
-                    $i++;
-                    @endphp
-                   @endforeach
                   </tbody>
                 </table>
               </div>
               <div class="d-flex justify-content-center">            
-                {{$orders->links()}}                  
+                <!-- {{$orders->links()}}                   -->
               </div>  
             </div>
             <!-- /.card -->
