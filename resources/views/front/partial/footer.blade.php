@@ -29,7 +29,9 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{asset('assets/front/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/front/js/main.js')}}"></script>
+    <script src="{{asset('assets/front/js/jquery.steps.js')}}"></script>
     <script type="text/javascript">
     (function($) {
   $(".wrapper .more").click(function(show) {
@@ -96,6 +98,9 @@ $('.Hide').click(function() {
 $('.toggle').click(function() {
     $('#target').toggle('slow');
 });
+
+
+
     </script>
   </body>
 </html>

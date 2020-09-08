@@ -89,4 +89,8 @@ class PageController extends Controller
 	{
 	    return view('front.return-policy');
 	}
+	public function settings()
+	{
+	    return view('front.settings');
+	}
 }

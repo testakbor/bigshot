@@ -41,6 +41,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/terms&conditions','PageController@termsconditions')->name('terms.conditions');
         Route::get('/about','PageController@about')->name('about');
         Route::get('/return-policy','PageController@returnPolicy')->name('return.policy');
+        Route::get('/settings','PageController@settings')->name('settings');
 
 
         Route::post('/addCart','CartController@addCart')->name('addCart');
