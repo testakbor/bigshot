@@ -5,39 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Model\Front\Post;
-use App\Model\Front\Postmeta;
-use App\Model\front\Order_item;
-
-use Auth;
-class OrderController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        $extraInfo=array(
-            'title'=>"Order List",
-            'page'=>'order'
-        );
-         $orders=Post::where('posts.post_type','shop_order')
-        ->paginate(10);       
-         return view('admin.order.list',compact('orders'))->with($extraInfo);
-    }
-
-    public function pendingOrder()
-    {
-        $extraInfo=array(
-            'title'=>"Brand List",
-            'page'=>'pendingOrder'
-        );
-         $orders=Post::where('posts.post_type','shop_order')
-        ->paginate(10);       
-         return view('admin.order.pendingOrder',compact('orders'))->with($extraInfo);
+        //
     }
 
     /**
@@ -58,7 +35,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
@@ -80,13 +57,7 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-       $order=Post::find($id);
-       $products=Order_item::where('order_id',$id)->get();
-        $extraInfo=array(
-            'title'=>"Order Edit",
-            'page'=>'order'
-        );
-         return view('admin.order.edit',compact('order','products'))->with($extraInfo);     
+        //
     }
 
     /**
@@ -111,6 +82,4 @@ class OrderController extends Controller
     {
         //
     }
-
-
 }
