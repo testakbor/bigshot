@@ -93,4 +93,8 @@ class PageController extends Controller
 	{
 	    return view('front.settings');
 	}
+	public function customerSupport()
+	{
+	    return view('front.customerSupport');
+	}
 }

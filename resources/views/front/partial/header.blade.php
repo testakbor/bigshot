@@ -56,7 +56,7 @@
                         <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a>
                         <a class="dropdown-item" href="cash"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a>
                         <a class="dropdown-item" href="/rewards"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a>
-                        <a class="dropdown-item" href="#"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
+                        <a class="dropdown-item" href="/customer-support"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
                         <a class="dropdown-item" href="/faq">FAQ</a>
                         <a class="dropdown-item" href="/settings">Settings</a>
                         <div class="dropdown-item" aria-labelledby="navbarDropdown">
