@@ -120,7 +120,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order'?'active':''}}">
+              <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Order History
@@ -128,7 +128,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+              <a href="{{route('order.sendParcel')}}" class="nav-link {{isset($page) && $page=='sendParcel'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                    Send Parcel
@@ -136,7 +136,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='order2'?'active':''}}">
+                <a href="{{route('order.reject')}}" class="nav-link {{isset($page) && $page=='reject'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                   Reject
@@ -144,7 +144,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                <a href="{{route('order.stock')}}" class="nav-link {{isset($page) && $page=='stock'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                   Stock

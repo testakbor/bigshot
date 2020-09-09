@@ -39,6 +39,46 @@ class OrderController extends Controller
         ->paginate(10);       
          return view('admin.order.pendingOrder',compact('orders'))->with($extraInfo);
     }
+    public function sendParcel()
+    {   
+     $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'sendParcel'
+        ); 
+        return view('admin.order.sendParcel')->with($extraInfo);
+    }
+     public function deliveryInvoice()
+    {    
+        $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'sendParcel'
+        ); 
+        return view('admin.order.deliveryInvoice')->with($extraInfo);
+    }
+    public function reject()
+    {    
+        $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'reject'
+        ); 
+        return view('admin.order.reject')->with($extraInfo);
+    }
+    public function stock()
+    {    
+        $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'stock'
+        ); 
+        return view('admin.order.stock')->with($extraInfo);
+    }
+    public function grossProfit()
+    {    
+        $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'grossProfit'
+        ); 
+        return view('admin.order.grossProfit')->with($extraInfo);
+    }
 
     /**
      * Show the form for creating a new resource.

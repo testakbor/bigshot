@@ -18,17 +18,23 @@
 </div>
 
 <script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('js/main.js') }}" ></script>
 @yield('js')
 <!-- ./wrapper -->
 {{-- 
 <!-- jQuery -->
+ <script src="{{asset('js/extention/choices.js')}}"></script>
+<!--   <script src="{{asset('js/extention/flatpickr.js')}}"></script>
+  <script src="{{asset('js/extention/flatpickr.js')}}"></script> -->
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->

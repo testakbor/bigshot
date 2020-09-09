@@ -60,7 +60,7 @@
                       <td>{{$value->post_name}}</td>
                       <td>{{$value->post_date}}</td>
                       <td>{{$value->post_status}}</td>
-                      <td>{{$total}}</td>
+                      <td>{{$value->total}}</td>
                       <td><a class="btn btn-success" href="{{route('order.edit',$value->ID)}}">Change Status</a></td>
                     </tr>
                     @php 
