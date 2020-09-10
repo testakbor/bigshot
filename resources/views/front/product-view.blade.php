@@ -5,7 +5,7 @@
 @php
 $rprice=0;
 $sprice=0;
-
+$image='no-image.png';
    foreach ($product->productMeta as $meta):
       if($meta['meta_key']=='_regular_price'):
         $rprice=$meta['meta_value'];        
@@ -16,6 +16,11 @@ endif;
       if($meta['meta_key']=='default_attribute'):
         $metavalue=json_decode($meta['meta_value']);
 endif;  
+
+  if($meta['meta_key']=='attached_file'):
+    $image=$meta['meta_value'];
+  endif;
+  
     endforeach;
 @endphp
 
@@ -33,8 +38,9 @@ endif;
         <div class="back-arrow" id="buy-toaster"></div>
       </div>
       <div class="product-image--container">
-        <img class="product-image--featured" id="featured" src="{{asset('assets/front/images/1.jpg')}}" alt="toaster"/>
+        <img class="product-image--featured" id="featured" src="{{asset('assets/backend/products/'.$image)}}" alt="toaster"/>
         <ul class="product-image--list">
+        
           <li class="item-selected"><img src="{{asset('assets/front/images/1.jpg')}}" class="product-image--item"/></li>
           <li><img src="{{asset('assets/front/images/2.jpg')}}" class="product-image--item"/></li>
           <li><img src="{{asset('assets/front/images/3.jpg')}}" class="product-image--item"/></li>
