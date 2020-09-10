@@ -152,7 +152,7 @@
               <div class="d-block my-3">
                 <div class="custom-control custom-radio">
                   <input id="credit" name="paymentMethod" type="radio" value="cradit" class="custom-control-input" checked required>
-                  <label class="custom-control-label" for="credit">Credit card</label>
+                  <label class="custom-control-label" for="credit" >Credit card</label>
                 </div>
                 <div class="custom-control custom-radio">
                   <input id="debit" name="paymentMethod" value="debit" type="radio" class="custom-control-input" required>
@@ -164,10 +164,10 @@
                 </div>
                 <div class="custom-control custom-radio">
                   <input id="cash" name="paymentMethod" type="radio" value="cash" class="custom-control-input" required>
-                  <label class="custom-control-label" for="cash">Cash on delivery</label>
+                  <label class="custom-control-label" id="cash" for="cash">Cash on delivery</label>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" id="hnf">
                 <div class="col-md-6 mb-3">
                   <label for="cc-name">Name on card</label>
                   <input type="text" class="form-control" id="cc-name" name="cardName" placeholder="Name of card" >
@@ -184,7 +184,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" id="hnf1">
                 <div class="col-md-3 mb-3">
                   <label for="cc-expiration">Expiration</label>
                   <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"  placeholder="Expiration" required>
@@ -208,10 +208,19 @@
               </div>
               @foreach ($info as $item)
 
-
+              @php
+              $image='no-image.png';
+                  $images=DB::table('postmeta')
+                  ->where('post_id',$item->id)
+                  ->where('meta_key','attachment')
+                  ->first();
+                  if($images>0):
+                  $image= $images->meta_value;
+                  endif;
+              @endphp
               <div class="d-flex flex-row mb-3">
                 <div class="col-md-2 p-0 ">
-                  <img src="{{asset('assets/front/images/products/1.jpg')}}" alt="" class="img-fluid">
+                  <img src="{{asset('assets/backend/products/'.$image)}}" alt="" class="img-fluid">
                 </div>
                 <div class="col-md-8">
                   <div class="d-flex flex-column">
@@ -254,3 +263,4 @@
 </div>
 
 @endsection
+

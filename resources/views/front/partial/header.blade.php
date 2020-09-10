@@ -79,7 +79,13 @@
                 </li>
                 <li class="nav-item active">
                   <div class="icons">
-                    <a href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <a href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true">
+             
+                      <span class="badge-view">
+                        {{ \Cart::getTotalQuantity()}}
+                      </span>
+                    
+                    </i></a>
                   </div>
                 </li>
                 <li class="nav-item active">

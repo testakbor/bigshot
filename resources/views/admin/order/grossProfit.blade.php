@@ -6,21 +6,19 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Pending Order</h1>
+            <h1>Gross Profit</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Pending Order</li>
+              <li class="breadcrumb-item active">Gross Profit</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
       <form>
-        <fieldset>
-          <legend>Search Pending Order</legend>
-        </fieldset>
+      
         <div class="inner-form ml-5">
           
           <div class="input-field second-wrap">

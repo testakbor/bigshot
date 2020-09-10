@@ -108,5 +108,53 @@ $(document).ready(function(){
 
 
     </script>
+    <script type="text/javascript">
+  $(function () {
+        $("#cash").click(function () {
+            if ($(this).is(":checked")) {
+                // $("#dvPassport").show();
+                $("#hnf").hide();
+                $("#hnf1").hide();
+            } else {
+                // $("#dvPassport").hide();
+                $("#hnf").show("slow");
+                $("#hnf1").show("slow");
+            }
+        });
+    });
+      $(function () {
+        $("#credit").click(function () {
+            if ($(this).is(":checked")) {
+                // $("#dvPassport").show();
+                $("#hnf").show("slow");
+                $("#hnf1").show("slow");
+            } else {
+               
+            }
+        });
+    });
+     $(function () {
+        $("#debit").click(function () {
+            if ($(this).is(":checked")) {
+                // $("#dvPassport").show();
+                $("#hnf").show("slow");
+                $("#hnf1").show("slow");
+            } else {
+               
+            }
+        });
+    });
+     $(function () {
+        $("#paypal").click(function () {
+            if ($(this).is(":checked")) {
+                // $("#dvPassport").show();
+                $("#hnf").show("slow");
+                $("#hnf1").show("slow");
+            } else {
+               
+            }
+        });
+    });
+</script>
   </body>
 </html>
