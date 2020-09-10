@@ -67,7 +67,11 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('admin/order','OrderController');
 
         Route::get('admin/pendingOrder','OrderController@pendingOrder')->name('order.pendingOrder');
+        Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
+        Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
+        Route::get('admin/pendingOrder/cancelled','OrderController@cancelled')->name('order.cancelled');
         Route::get('admin/sendparcel','OrderController@sendParcel')->name('order.sendParcel');
+        Route::get('admin/allStatus','OrderController@allStatus')->name('order.allStatus');
         Route::get('admin/deliveryInvoice','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
@@ -83,7 +87,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
         Route::POST('admin/product/store','ProductController@store')->name('product.store');
 
-        Route::get('admin/dispat','PageController@dispat')->name('dispat');
+        // Route::get('admin/dispat','PageController@dispat')->name('dispat');
 
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
 

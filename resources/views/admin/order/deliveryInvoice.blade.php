@@ -23,10 +23,13 @@
     <section class="content">
       <div class="container">
         <div class="card">
-
+          <h1 class="text-center">Delivery Invoice</h1>
+          <p class="text-center">House15/1, Road 4, BlockA, Section 10, Mirpur,Dhaka.<br><span>Mobile: 0000000000000</span> </p>
           <div class="card-header">Invoice
             <strong>01/01/01/2018</strong> 
             <span class="float-right"> <strong>Status:</strong> Pending</span>
+          </div>
+           <div class="card-header">Delivery Company Name  
           </div>
 
           <div class="card-body">
@@ -62,65 +65,40 @@
                   <th class="center">Oder Id</th>
                   <th>Name</th>
                   <th>Address</th>
+                  <th>Mobile</th>
 
                   <th class="right">Items</th>
                   <th class="center">Qty</th>
                   <th class="right">Amount</th>
-                  <th class="right">Status</th>
-                  <th class="right">Action</th>
+               
                   </tr>
                 </thead>
 
                 <tbody>
                   <tr>
                   <td class="center">1</td>
-                  <td class="left strong">Origin License</td>
-                  <td class="left">Extended License</td>
+                  <td class="left strong">Saiful</td>
+                  <td class="left">Uttara</td>
 
-                  <td class="right">Phone</td>
+                  <td class="right">1234567890</td>
+                  <td class="center">Laptop</td>
                   <td class="center">1</td>
                   <td class="right">$999,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
+                  
             
                   </tr>
-
                   <tr>
-                  <td class="center">2</td>
-                  <td class="left">Custom Services</td>
-                  <td class="left">Instalation and Customization (cost per hour)</td>
-
-                  <td class="right">Phone</td>
-                  <td class="center">20</td>
-                  <td class="right">$3.000,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
-                 
-                  </tr>
-
-                  <tr>
-                  <td class="center">3</td>
-                  <td class="left">Hosting</td>
-                  <td class="left">1 year subcription</td>
-
-                  <td class="right">Phone</td>
                   <td class="center">1</td>
-                  <td class="right">$499,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
-                
-                  </tr>
+                  <td class="left strong">Saiful</td>
+                  <td class="left">Uttara</td>
 
-                  <tr>
-                  <td class="center">4</td>
-                  <td class="left">Platinum Support</td>
-                  <td class="left">1 year subcription 24/7</td>
-
-                  <td class="right">Phone </td>
+                  <td class="right">1234567890</td>
+                  <td class="center">Laptop</td>
                   <td class="center">1</td>
-                  <td class="right">$3.999,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
+                  <td class="right">$999,00</td>
+                  
+            
+                  </tr>
                   
                   </tr>
                 </tbody>
@@ -135,6 +113,12 @@
             <div class="col-lg-4 col-sm-5 ml-auto">
               <table class="table table-clear">
                 <tbody>
+                  <tr>
+                  <td class="left">
+                  <strong>Total Qty</strong>
+                  </td>
+                  <td class="right">8</td>
+                  </tr>
                   <tr>
                   <td class="left">
                   <strong>Subtotal</strong>
@@ -170,7 +154,7 @@
             </div>
 
             </div>
-
+            <h1>Receiver Signature:<br>Name:</h1>
           </div>
         </div>
       </div>

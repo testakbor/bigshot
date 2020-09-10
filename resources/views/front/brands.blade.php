@@ -11,35 +11,34 @@
 
           <section style="margin-left: 120px" class="mt-5">
 
-              <h1>Latest Products</h1>
+              <img src="{{asset('assets/front/images/add.png')}}" width="1267" class="img-fluid" alt="Responsive image">
 
               <ul class="wrapper cf mt-3">
-                  
-          <li class="product fl-l">
-          <a href="/product-page">
-            <div class="container-prod">
-              <div class="image" style="background-image:url({{asset('assets/front/images/3.jpg')}});"></div>
-              <div class="container-information">
-                  <div class="title">Indian hoodie</div>
-              </div>
-
-              <div class="buttons cf">
-                <span style="margin-left: 3px;font-size: 12px;">
-                    <span class="add ml-2">20,000+ bought this</span>            
-                </span>
-
-              </div>
-            </div>
-          </a>
-
-          </li>
-          <li class="product fl-l">
-                    <a href="/product-page">
+                @php
+                $rprice=0;
+                $sprice=0;
+                @endphp
+                @foreach($products as $item)
+                   @foreach ($item->productMeta as $meta)
+                      @if($meta['meta_key']=='_regular_price')
+                        @php                            
+                        $rprice=$meta['meta_value'];
+                        @endphp
+                      @endif
+                      @if($meta['meta_key']=='_sale_price')
+                      @php                            
+                      $sprice=$meta['meta_value'];
+                      @endphp
+                    @endif
+                  @endforeach
+              
+                  <li class="product fl-l">
+                    <a href="{{route('product-page',$item->ID)}}">
                       <div class="container-prod">
                         <div class="image" style="background-image:url({{asset('assets/front/images/1.jpg')}});"></div>
                         <div class="container-information">
                           <div class="title">
-                              Splatter hoodie
+                             {{$item->post_title}}. R-{{$rprice}}. S-{{$sprice}}
                               <a href="#" class="more close"><i class="fa fa-times"></i></a>                
                           </div>
                       </div>
@@ -53,121 +52,11 @@
                   </div>
               </div>
                     </a>
-
           </li>
-        
-    <li class="product fl-l">
-      <a href="/product-page">
-        <div class="container-prod">
-          <div class="image" style="background-image:url({{asset('assets/front/images/5.jpg')}});"></div>
-          <div class="container-information">
-              <div class="title">Face hoodie</div>
-              <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-          </div>
-          
-          <div class="buttons cf">
-              <span style="margin-left: 3px;font-size: 12px;">
-                <span class="add ml-2">20,000+ bought this</span>            
-            </span>
-
-        </div>
-    </div>
-      </a>
-    </li>
-      <li class="product fl-l">
-    <a href="/product-page">
-        <div class="container-prod">
-        <div class="image" style="background-image:url({{asset('assets/front/images/6.jpg')}});"></div>
-        <div class="container-information">
-          <div class="title">
-              Splatter hoodie
-              <a href="javascript:void(0)" class="more close"><i class="fa fa-times"></i></a>                
-          </div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: white on gray<br>Size available: L, XL</div>
-      </div>
-
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-
-    </div>
-</div>
-    </a>
-  </li>
+@endforeach
+         
 </ul>
-<ul class="wrapper cf mt-3">
-  <li class="product fl-l">
-          <a href="/product-page">
-            <div class="container-prod">
-              <div class="image" style="background-image:url({{asset('assets/front/images/4.jpg')}});"></div>
-              <div class="container-information">
-                  <div class="title">Face hoodie</div>
-              </div>
 
-              <div class="buttons cf">
-                <span style="margin-left: 3px;font-size: 12px;">
-                    <span class="add ml-2">20,000+ bought this</span>            
-                </span>
-
-              </div>
-            </div>
-          </a>
-        </li>
-
-<li class="product fl-l">
-  <a href="/product-page">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/7.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Indian hoodie</div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: white on black<br>Size available: L, XL, XXL</div>
-      </div>
-      <div class="buttons cf">
-         <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-
-  </a>
-</li>
-<li class="product fl-l">
-  <a href="/product-page">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/8.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Face hoodie</div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-      </div>
-
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-  </a>
-</li>
-<li class="product fl-l">
-  <a href="/product-page">
-    <div class="container-prod">
-      <div class="image" style="background-image:url({{asset('assets/front/images/12.jpg')}});"></div>
-      <div class="container-information">
-          <div class="title">Face hoodie
-
-          </div>
-          <div class="description">Siebdruck print<br>100% cotton<br>Color available: black on gray<br>Size available: XL, XXL</div>
-      </div>            
-      <div class="buttons cf">
-          <span style="margin-left: 3px;font-size: 12px;">
-            <span class="add ml-2">20,000+ bought this</span>            
-        </span>
-    </div>
-</div>
-  </a>
-</li>
-</ul>
 </section>
 
 </div>

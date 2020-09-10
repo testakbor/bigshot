@@ -6,21 +6,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            
+            <h1>Cancelled Order</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Stock</li>
+              <li class="breadcrumb-item active">Cancelled Order</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
       <form>
-        <fieldset>
-          <legend>Stock</legend>
-        </fieldset>
         <div class="inner-form ml-5">
           
           <div class="input-field second-wrap">
@@ -56,40 +53,46 @@
       <div class="container">
         <div class="card">
 
+          <div class="card-header">Invoice
+            <strong>01/01/01/2018</strong> 
+            <span class="float-right"> <strong>Status:</strong> Pending</span>
+          </div>
+
           <div class="card-body">
+           
 
             <div class="table-responsive-sm">
               <table class="table table-striped">
                 <thead>
                   <tr>
-                  <th>SKU</th>
-                  <th>Items</th>
-                  <th class="right">Categories</th>
-                  <th class="center">Quantity</th>
-                  <th class="right">Cost</th>
-                  <th class="right">Sale Price</th>
-                  <th class="right">Status</th>
+                  <th class="center">Oder Id</th>
+                  <th>Name</th>
+                  
+                  <th class="right">Mobile</th>
+                  <th class="right">Quantity</th>
+                  <th class="right">Amount</th>
+                  <th class="right">Cancelled Date</th>
+                 
+                  <th class="right">Comments</th>
                   <th class="right">Action</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   <tr>
-                  <td class="center">Picture <br>21324534</td>
-                  <td class="left strong">Extended License</td>
-                  <td class="left">Women</td>
-
-                  <td class="right">2</td>
-                  <td class="right"> Tk 4500</td>
-                  <td class="right">Tk 10000</td>
-                  <td class="right">Best selling<br>Create date</td>
+                  <td class="center">Barcode</td>
+                  <td>Saiful</td>
+                  <td class="right">01680000000</td>
+                  <td class="right">1</td>
+                  <td class="right">$999,00</td>
+                  <td class="right">10-9-2020</td>
+                  <td class="right">hello</td>
                   <td class="right">
                     <i class="fas fa-print"><a href="#">Print</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
+                    <i class="fas fa-edit"><a href="#">Edit</a></i>
                   </td>
                   </tr>
-
+                  
                 </tbody>
               </table>
             </div>
@@ -98,6 +101,7 @@
                 <div class="col-lg-4 col-sm-5">
 
                 </div>
+
             </div>
 
           </div>
@@ -109,29 +113,29 @@
                 <div class="box bg-primary">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
-                  <h3 class="text-center">50</h3>
+                  <h3 class="text-center">0</h3>
                  
-                  <p class="lead text-center font-weight-bold">Total Stock </p>
+                  <p class="lead text-center font-weight-bold">Total Cancelled</p>
                 </div>
               </div>
-              <div class="col-md-4">
+                 <div class="col-md-4">
                 <div class="box bg-success">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
+                  <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
+                  <h3 class="text-center">0</h3>
                  
-                  <h3 class="text-center">123</h3>
-                 
-                  <p class="lead text-center font-weight-bold">Total Cost</p>
+                  <p class="lead text-center font-weight-bold">Total Quantity</p>
                 </div>
               </div>
-              <div class="col-md-4">
+            
+              <div class="col-md-4 ">
                 <div class="box bg-info">
                   <!-- <i class="fa fa-handshake ml-1"></i> -->
                   
                  
-                  <h3 class="text-center">1</h3>
+                  <h3 class="text-center">0</h3>
                   
-                  <p class="lead text-center font-weight-bold">Total Sell Price</p>
+                  <p class="lead text-center font-weight-bold">Total Amount</p>
                 </div>
               </div>
         </div>       

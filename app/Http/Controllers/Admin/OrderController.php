@@ -39,6 +39,39 @@ class OrderController extends Controller
         ->paginate(10);       
          return view('admin.order.pendingOrder',compact('orders'))->with($extraInfo);
     }
+    public function processing()
+    {   
+     $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'processing'
+        ); 
+        return view('admin.order.processing')->with($extraInfo);
+    } 
+    public function dispat()
+    {   
+     $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'dispat'
+        ); 
+        return view('admin.order.dispat')->with($extraInfo);
+    }
+    public function cancelled()
+    {   
+     $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'cancelled'
+        ); 
+        return view('admin.order.cancelled')->with($extraInfo);
+    }
+
+    public function allStatus()
+    {   
+     $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'allStatus'
+        ); 
+        return view('admin.order.allStatus')->with($extraInfo);
+    }
     public function sendParcel()
     {   
      $extraInfo=array(
