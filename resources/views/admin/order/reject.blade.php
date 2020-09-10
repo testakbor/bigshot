@@ -21,7 +21,7 @@
         <fieldset>
           <!-- <legend>Search Pending Order</legend> -->
         </fieldset>
-        <div class="inner-form ml-5">
+        <div class="inner-form ml-5" style="width: 32.5%;">
           
           <div class="input-field second-wrap">
             <p>Choose Image for Scan</p>
@@ -46,35 +46,8 @@
       <div class="container">
         <div class="card">
 
-          <div class="card-header">Invoice
-            <strong>01/01/01/2018</strong> 
-            <span class="float-right"> <strong>Status:</strong> Pending</span>
-          </div>
-
           <div class="card-body">
             <div class="row mb-4">
-              <div class="col-sm-6">
-                <h6 class="mb-3">From:</h6>
-                <div><strong>Webz Poland</strong></div>
-                <div>Madalinskiego 8</div>
-                <div>71-101 Szczecin, Poland</div>
-                <div>Email: info@webz.com.pl</div>
-                <div>Phone: +48 444 666 3333</div>
-              </div>
-
-              <div class="col-sm-6">
-                <h6 class="mb-3">To:</h6>
-                <div>
-                <strong>Bob Mart</strong>
-                </div>
-                <div>Attn: Daniel Marek</div>
-                <div>43-190 Mikolow, Poland</div>
-                <div>Email: marek@daniel.com</div>
-                <div>Phone: +48 123 456 789</div>
-              </div>
-
-
-
             </div>
 
             <div class="table-responsive-sm">
