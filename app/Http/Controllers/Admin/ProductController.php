@@ -165,7 +165,7 @@ if($request->hasFile('product_image')){
         'meta_value'=>$image_name
     );
 
-    $postmeta=DB::table('postmeta')->insert($porductImage);
+    $postmeta=DB::table('posts')->insert($porductImage);
 }
         // gallery image
 if($request->hasFile('galleryImage'))
@@ -177,9 +177,9 @@ if($request->hasFile('galleryImage'))
         $image->move(('backend/products'), $filename);
 
         $porductGalleryImage=array(
-            'post_id'=>$post_id,
-            'meta_key'=>'gallery_attached_file',
-            'meta_value'=>$filename
+          'post_parent'=>$post_id,
+        'post_type'=>'attachment',
+            'guid'=>$filename
         );
         $postmeta=DB::table('postmeta')->insert($porductGalleryImage);       
     }

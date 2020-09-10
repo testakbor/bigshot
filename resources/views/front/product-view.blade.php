@@ -22,6 +22,11 @@ endif;
   endif;
   
     endforeach;
+
+    $images=DB::table('posts')
+    ->where('post_parent',$product->ID)
+    ->where('post_type','attachment')
+    ->get();
 @endphp
 
 
@@ -40,12 +45,9 @@ endif;
       <div class="product-image--container">
         <img class="product-image--featured" id="featured" src="{{asset('assets/backend/products/'.$image)}}" alt="toaster"/>
         <ul class="product-image--list">
-        
-          <li class="item-selected"><img src="{{asset('assets/front/images/1.jpg')}}" class="product-image--item"/></li>
-          <li><img src="{{asset('assets/front/images/2.jpg')}}" class="product-image--item"/></li>
-          <li><img src="{{asset('assets/front/images/3.jpg')}}" class="product-image--item"/></li>
-          <li><img src="{{asset('assets/front/images/4.jpg')}}" class="product-image--item"/></li>
-          <li><img src="{{asset('assets/front/images/5.jpg')}}" class="product-image--item"/></li>
+@foreach($images as $item) 
+          <li class="item-selected"><img src="{{asset('assets/backend/products/'.$item->guid)}}" class="product-image--item"/></li>          
+@endforeach          
         </ul>
       </div>
     </div>
@@ -83,8 +85,8 @@ endif;
         </div>
       </div>
       <span>
-        <p>Price: 
-          <span class="emphasize">{{$sprice}}</span>
+        <p> <span class="text-dark"> Price: </span>
+          <span class="emphasize"> tk. {{$sprice}}</span>
           <input type="hidden" name="price" value="{{$sprice}}">
         </p>
         <div class="tm-size-color-single">
@@ -123,7 +125,7 @@ endif;
       <div>               
           <input type="hidden" name="id" value="{{$product->ID}}">        
         <button type="submit" class="my-btn flex-btn">
-			 <span class="btn-text" >Buy</span>
+			 <span class="btn-text text-dark" >Buy</span>
         </button>
 
       </div>
