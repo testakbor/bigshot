@@ -64,9 +64,33 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                   <div class="col-md-12 mt-3">
+
                     <div class="form-group row">
-                      <label for="stock" class="col-sm-2 col-form-label">Stock</label>
-                      <div class="col-sm-10">
+                      <label class="col-sm-4 col-form-label">Manage Stock</label>
+                      <div class="col-sm-8">                       
+                      <div class="custom-control custom-checkbox">
+                        <input name="manageStock" type="checkbox" id="manageStock" class="custom-control-input"> 
+                        <label for="manageStock" class="custom-control-label"> Enable stock management at product level</label>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="form-group row" id="stockQualityDiv" style="display:none">
+                      <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
+                      <div class="col-sm-8">
+                        <input type="number" class="form-control" value="0" name="stockQuality" id="stockQuality">
+                      </div>
+                    </div>
+                    <div class="form-group row" id="lowStockThresholdDiv" style="display:none">
+                      <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
+                      </label>
+                      <div class="col-sm-8">
+                        <input type="number" class="form-control" value="0" name="lowStockThreshold" id="lowStockThreshold">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="stock" class="col-sm-4 col-form-label">Stock</label>
+                      <div class="col-sm-8">
                         <select name="stock_status" class="form-control" id="stock">
                           <option value="instock">In Stock</option>
                           <option value="outstock">Out of Stock</option>
@@ -276,12 +300,25 @@
      $('#finalValue').append(text);
    });
 
+   $('#manageStock').change(function(){ 
+      if($(this).is(":checked")){
+        $('#stockQualityDiv').show('slow');
+   $('#lowStockThresholdDiv').show('slow');
+  }
+  else{
+   $('#stockQualityDiv').hide();
+   $('#lowStockThresholdDiv').hide();
+  }
+
   });
 
 
   function closeThis(info){
     $('#remove_'+info).remove();
   }
+
+    
+});
 </script>
 <script src="{{asset('assets/admin/js/tinymce.min.js')}}" referrerpolicy="origin"></script>  
 <script type="text/javascript">
