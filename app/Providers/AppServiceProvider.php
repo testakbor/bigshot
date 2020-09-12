@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +26,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        //category for front end
+        $categories=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','product_cat')
+        ->where('terms.status',1)
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->get();
+        view()->share('categories',$categories);
+
     }
 }

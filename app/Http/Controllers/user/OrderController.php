@@ -26,7 +26,7 @@ class OrderController extends Controller
         ->where('meta_value', Auth::user()->id)
         ->first();
         // dd($invoice);
-        $orders=Post::where('ID',$invoice->post_id)->get();    
+        $orders=Post::where('ID',$invoice->post_id)->get();   
         return view('front.order.list',compact('invoice'),compact('orders'));
     }
 

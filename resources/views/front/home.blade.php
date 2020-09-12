@@ -33,12 +33,12 @@
                         @endphp
                       @endif
 
-                      @if($meta['meta_key']=='attached_file')
+                       @if($meta['meta_key']=='attached_file')
                         @php                            
                         $image=$meta['meta_value'];
                         @endphp
-                      @endif
-                  @endforeach
+                       @endif
+                      @endforeach
               
                   <li class="product fl-l">
                     <a href="{{route('product-page',$item->ID)}}">

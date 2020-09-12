@@ -2,7 +2,7 @@
         <div class="col-md-12 header-menu">
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
-            <h1><a href="/" class="logo">
+            <h1><a href="{{url('/')}}" class="logo">
               <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 50px;width: 70px">
             </a></h1>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -79,11 +79,13 @@
                 </li>
                 <li class="nav-item active">
                   <div class="icons">
-                    <a href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true">
-             
+                    <a href="{{url('/cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true">
+                     @if(\Cart::getTotalQuantity()==0)
+                       @else 
                       <span class="badge-view">
                         {{ \Cart::getTotalQuantity()}}
                       </span>
+                      @endif
                     
                     </i></a>
                   </div>
