@@ -188,11 +188,12 @@ class BrandController extends Controller
            ->where('term_id',$id)
            ->update($termInfo);
            // image uplaod code
-
            if($request->hasFile('image')){
             // remove old image   
-            if(file_exists('assets/admin/brand/'.$request->oldImage)){        
+            if(file_exists('assets/admin/brand/'.$request->oldImage)){  
+                if($request->oldImage!=null):      
                 unlink('assets/admin/brand/'.$request->oldImage);
+                endif;
             }
             // retrive post id form table ecommerce termmeta
             $etermmeta=DB::table('ecommerce_termmeta')
@@ -203,8 +204,8 @@ class BrandController extends Controller
             $image_name = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(('assets/admin/brand/'), $image_name);
 
-           
             // update postmeta Table
+           if($request->oldImage!=null){
             $postMetaInfo=array(
              'meta_value'=>$image_name,
              );
@@ -212,8 +213,18 @@ class BrandController extends Controller
              ->where('post_id',$etermmeta->meta_value)
              ->where('meta_key','attached_file')             
              ->update($postMetaInfo);
-
+           }
+           else{
+                $postMetaInfo=array(
+             'meta_value'=>$image_name,
+             'post_id'=>$id,
+             'meta_key'=>'attached_file'
+             );
+               DB::table('postmeta')->insert($postMetaInfo);
+           }
+            
             }
+
 
            session()->flash("success","Information Update Successfully");
            return redirect(route('brand.index'));
