@@ -14,10 +14,10 @@
             <div class="col-md-4 order-md-2 mb-4" >
               <h4 class="d-flex justify-content-between align-items-center Title mb-3">
                 <span class="text-muted">Order Summary</span>
-                @if(\Cart::getTotalQuantity()==0)
+                @if(\Cart::getTotalquantity()==0)
                 @else
                 <span class="badge badge-secondary badge-pill">
-                    {{ \Cart::getTotalQuantity()}}
+                    {{ \Cart::getTotalquantity()}}
                 @endif
                 </span>
               </h4>
@@ -27,7 +27,7 @@
 
                     <small class="text-muted">Item Total</small>
                   </div>
-                  <span class="text-muted">  {{Cart::getTotal()}}</span>
+                  <span class="text-muted">    {{ \Cart::getTotalquantity()}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
@@ -39,7 +39,7 @@
                   <div>
                     <small class="text-muted">Order Total</small>
                   </div>
-                  <span class="text-muted">$5</span>
+                  <span class="text-muted">{{Cart::getTotal()}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between bg-light">
                   <div class="text-success">
@@ -243,12 +243,12 @@
                     <div class="d-flex flex-row">
 
                       <div>
-                        <form method="POST" action="{{route('cart.update')}}" name="UpdateQty">
+                        <form method="POST" action="{{route('cart.update')}}" name="Updatequantity">
                           @csrf
                          <input type="hidden" name="product_id" value="{{$item->id}}"> 
                             <div class="quantity buttons_added" style="padding: 0;">
                              <!--  <input type="button" value="-" class="minus"> -->
-                              <input type="number" id="" class="input-text qty_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="Qty" size="4" inputmode="numeric">
+                              <input type="number" id="" class="input-text quantity_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="quantity" size="4" inputmode="numeric">
                               <!-- <input type="button" value="+" class="plus"> -->
                               <!-- <input type="submit" value="" class="plus"> -->
                               <button type="submit">Update</button>

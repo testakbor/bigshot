@@ -38,7 +38,7 @@
                         <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
                       
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/profile">
+                        <a class="dropdown-item" href="{{url('profile')}}">
                           <div class="hov ">
                           <div class="ml-5">
                             <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 50px;">
