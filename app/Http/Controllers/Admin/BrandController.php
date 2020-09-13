@@ -200,10 +200,8 @@ class BrandController extends Controller
             ->where('ecommerce_term_id',$id)            
             ->where('meta_key','thumbnail_id')
             ->first();
-
             $image_name = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(('assets/admin/brand/'), $image_name);
-
             // update postmeta Table
            if($request->oldImage!=null){
             $postMetaInfo=array(
@@ -216,18 +214,15 @@ class BrandController extends Controller
            }
            else{
                 $postMetaInfo=array(
-             'meta_value'=>$image_name,
-             'post_id'=>$id,
-             'meta_key'=>'attached_file'
+                'meta_value'=>$image_name,
+                'post_id'=>$id,
+                'meta_key'=>'attached_file'
              );
                DB::table('postmeta')->insert($postMetaInfo);
-           }
-            
-            }
-
-
-           session()->flash("success","Information Update Successfully");
-           return redirect(route('brand.index'));
+           }    
+        }
+        session()->flash("success","Information Update Successfully");
+        return redirect(route('brand.index'));
     }
 
     /**

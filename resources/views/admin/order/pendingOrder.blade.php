@@ -1,3 +1,6 @@
+<?php 
+use App\Model\front\Order_item;
+?>
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;">
@@ -17,7 +20,8 @@
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
-      <form>
+      <form method="post" action="{{route('s_pending_order')}}">
+       @csrf() 
         <fieldset>
           <legend>Search Pending Order</legend>
         </fieldset>
@@ -29,7 +33,7 @@
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
               </svg>
             </div>
-            <input class="datepicker" id="depart" type="date" placeholder="29 Aug 2018" />
+            <input class="datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
 
           </div>
           <div class="input-field third-wrap">
@@ -38,11 +42,11 @@
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
               </svg>
             </div>
-            <input class="datepicker" id="return" type="date" placeholder="30 Aug 2018" />
+            <input class="datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
           </div>
         
           <div class="input-field fifth-wrap">
-            <button class="btn-search" type="button">SEARCH</button>
+            <button type="submit" class="btn-search" type="button">SEARCH</button>
           </div>
         </div>
       </form>
@@ -57,7 +61,7 @@
         <div class="card">
 
           <div class="card-header">Invoice
-            <strong>01/01/01/2018</strong> 
+            <strong>{{date('d/m/Y')}}</strong> 
             <span class="float-right"> <strong>Status:</strong> Pending</span>
           </div>
 
@@ -79,121 +83,107 @@
                   <th class="right">Mobile</th>
                   <th class="right">Amount</th>
                   <th class="right">Action</th>
-                  <th class="right">Comments</th>
+                  <!-- <th class="right">Comments</th> -->
                   </tr>
                 </thead>
 
                 <tbody>
+                @php $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+                @foreach($orders as $items)
+                 @php 
+                   $products=Order_item::where('order_id',$items->ID)->get();
+                   $order_info=DB::table('postmeta')
+                   ->where('post_id',$items->ID)
+                   ->get();
+                 @endphp
+                 @foreach($products as $item)
+                    @foreach($item->orderMeta as $value)
+                    @php              
+                    if($value->meta_key=='_line_subtotal'){
+                      $subtotal=$value->meta_value;
+                    }
+                    if($value->meta_key=='_qty'){
+                      $qty=$value->meta_value;
+                    }
+                    @endphp
+                    @endforeach 
+                  @endforeach 
+                  @foreach($order_info as $info)
+                    @if($info->meta_key=='_billing_phone')
+                     @php $mobile_no=$info->meta_value; @endphp
+                    @endif 
+                    @if($info->meta_key=='_billing_address_1')
+                     @php $address=$info->meta_value; @endphp
+                    @endif 
+
+                    @if($info->meta_key=='_sku')
+                     @php $sku=$info->meta_value; @endphp
+                    @endif 
+
+                    @if($info->meta_key=='_customer_user') 
+                      @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->get(); @endphp 
+                      @foreach($user as $users) @php $cust=$users->name; @endphp @endforeach
+                    @endif
+                  
+               
+                  
+                  @endforeach 
                   <tr>
-                  <td class="center">Barcode</td>
-                  <td class="left strong">Origin License</td>
+                  <td class="center">{{$items->ID}}</td>
+                  <td class="left strong">{{$cust}}</td>
                   <td class="left">
                     <table>
                       <tr>
-                        <td>Product pic <br>404040</td>
+                        <td>{{$sku}} </td>
                       </tr>
-                      <tr>
-                        <td>Product pic<br>404040 </td>
-                      </tr>
+               
                     </table>
                   </td>
 
                   <td class="right">
                     <table>
+
                       <tr>
                         <td>Red</td>
                       </tr>
-                      <tr>
-                        <td>Blue</td>
-                      </tr>
+                 
                     </table>
                   </td>
                   <td class="center">
                     <table>
+
                       <tr>
-                        <td>2</td>
+                        <td>{{$qty}}</td>
                       </tr>
-                      <tr>
-                        <td>1</td>
-                      </tr>
+                      
                     </table>
                   </td>
                   <td class="right"><table>
+
                       <tr>
-                        <td>Laptop</td>
+                        <td>{{$items->order_item_name}}</td>
                       </tr>
-                      <tr>
-                        <td>Mobile</td>
-                      </tr>
+
                     </table></td>
-                  <td class="right">Uttara</td>
-                  <td class="right">01680000000</td>
-                  <td class="right">$999,00</td>
+                  <td class="right">{{$address}}</td>
+                  <td class="right">{{$mobile_no}}</td>
+                  <td class="right">{{$sub = $subtotal*$qty}}</td>
                   <td class="right">
                     <i class="fas fa-print"><a href="#">Print</a></i><br>
                     <i class="fas fa-spinner"><a href="#">Processing</a></i><br>
                     <i class="fas fa-edit"><a href="#">Edit</a></i><br>
                     <i class="fas fa-window-close"><a href="#">Cancel</a></i>
                   </td>
-                  <td class="right">hello</td>
+                  <!-- <td class="right">hello</td> -->
                   </tr>
-                  <tr>
-                  <td class="center">Barcode </td>
-                  <td class="left strong">Origin License</td>
-                  <td class="left">
-                    <table>
-                      <tr>
-                        <td>Product pic <br>
-                  404040 </td>
-                      </tr>
-                      <tr>
-                        <td>Product pic <br>
-                  404040 </td>
-                      </tr>
-                    </table>
-                  </td>
+                  @php 
+                $grandTotal += $sub;
+                @endphp   
 
-                  <td class="right">
-                    <table>
-                      <tr>
-                        <td>Red</td>
-                      </tr>
-                      <tr>
-                        <td>Blue</td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td class="center">
-                    <table>
-                      <tr>
-                        <td>2</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td class="right"><table>
-                      <tr>
-                        <td>Laptop</td>
-                      </tr>
-                      <tr>
-                        <td>Mobile</td>
-                      </tr>
-                    </table></td>
-                  <td class="right">Uttara</td>
-                  <td class="right">01680000000</td>
-                  <td class="right">$999,00</td>
-                  <td class="right">
-                    <i class="fas fa-print"><a href="#">Print</a></i><br>
-                    <i class="fas fa-spinner"><a href="#">Processing</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a href="#">Cancel</a></i>
-                  </td>
-                  <td class="right">hello</td>
-                  </tr>
-
+                 @endforeach 
+              
                 </tbody>
+                {{$orders->links()}}
               </table>
             </div>
 
@@ -213,7 +203,7 @@
                 <div class="box bg-primary">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
-                  <h3 class="text-center">50</h3>
+                  <h3 class="text-center">{{$total_orders}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Total Order</p>
                 </div>
@@ -223,7 +213,7 @@
                   <!-- <i class="fa fa-user ml-1"></i> -->
                  
                  
-                  <h3 class="text-center">123</h3>
+                  <h3 class="text-center">{{$total_orders}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Total Item</p>
                 </div>
@@ -233,7 +223,7 @@
                   <!-- <i class="fa fa-handshake ml-1"></i> -->
                   
                  
-                  <h3 class="text-center">1</h3>
+                  <h3 class="text-center"> {{$grandTotal}}</h3>
                   
                   <p class="lead text-center font-weight-bold">Total Amount</p>
                 </div>

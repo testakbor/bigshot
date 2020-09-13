@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;" id="app">
