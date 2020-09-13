@@ -39,23 +39,24 @@
                       
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/profile">
-                          <div class="hov" style="width: 100%;height: 100px;">
-                          <div style="float: left; width: 30%;">
+                          <div class="hov ">
+                          <div class="ml-5">
                             <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 50px;">
                           </div>
-                          <div class="mt-1" style="float: right; width: 70%;">   
-                            
-                        {{ Auth::user()->name }}  <br>View Profile</div>
+                          <p class="ml-4">   
+                              {{ Auth::user()->name }}  <br><span class="ml-2" style="color: black;">View Profile</span>
+                            </p>
+                          
                         </div>
                         </a>
-                        <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a>
+                        <!-- <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a> -->
                         <a class="dropdown-item" href="/wishlist"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
                         <a class="dropdown-item" href="/cart"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
                         <a class="dropdown-item" href="/order-history"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
                         <a class="dropdown-item" href="/order-list"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order List</a>
-                        <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a>
-                        <a class="dropdown-item" href="cash"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a>
-                        <a class="dropdown-item" href="/rewards"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a>
+                        <!-- <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a> -->
+                        <!-- <a class="dropdown-item" href="cash"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a> -->
+                        <!-- <a class="dropdown-item" href="/rewards"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a> -->
                         <a class="dropdown-item" href="/customer-support"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
                         <a class="dropdown-item" href="/faq">FAQ</a>
                         <a class="dropdown-item" href="/settings">Settings</a>
@@ -72,11 +73,11 @@
 
                 </li>
                 @endguest
-                <li class="nav-item active">
+               <!--  <li class="nav-item active">
                   <div class="icons">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                   </div>
-                </li>
+                </li> -->
                 <li class="nav-item active">
                   <div class="icons">
                     <a href="{{url('/cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true">
@@ -92,7 +93,9 @@
                 </li>
                 <li class="nav-item active">
                   <div class="icons">
-                    <i class="fa fa-heart" aria-hidden="true"></i>
+                    <a href="{{('wishlist')}}">
+                      <i class="fa fa-heart" aria-hidden="true"></i>
+                    </a>
                   </div>
                 </li>
 

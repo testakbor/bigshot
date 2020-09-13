@@ -1,29 +1,20 @@
 <section class="footer">
-  
 
-<!-- footer -->
+    <div id="target" class="d-flex justify-content-center">
+      <ul class="footNavUL">
+                <li><a href="#">Customer Support</a></li>
+                <li><a href="#">Help/FAQ</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Accessibility Statement</a></li>
+                <li><a href="#">Tax Policy</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Return Policy</a></li>
+                <li><a href="#">Categories</a></li>
+              </ul>
+    </div>
 
-<label for="show-foot" class="toggle" ><a href="#" style="font-size: 15px;">Contact, Terms, Policies & More</a></label>
-<div id="target">
-  <ul class="footNavUL">
-            <li><a href="#">Customer Support</a></li>
-            <li><a href="#">Help/FAQ</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Accessibility Statement</a></li>
-            <li><a href="#">Tax Policy</a></li>
-            <li><a href="#">Terms of Use</a></li>
-            <li><a href="#">Return Policy</a></li>
-            <li><a href="#">Sell on Wish</a></li>
-            <li><a href="#">Intellectual Property</a></li>
-            <li><a href="#">Categories</a></li>
-          </ul>
-</div>
-
-<!-- end footer -->
 </section>
 
     <script src="{{asset('assets/front/js/jquery.min.js')}}"></script>
@@ -84,19 +75,6 @@
 })(jQuery);
 
 
-    $('.Show').click(function() {
-    $('#target').show(10000);
-    $('.Show').hide(0);
-    $('.Hide').show(0);
-});
-$('.Hide').click(function() {
-    $('#target').hide(10000);
-    $('.Show').show(0);
-    $('.Hide').hide(0);
-});
-$('.toggle').click(function() {
-    $('#target').toggle('slow');
-});
 $(document).ready(function(){
     $('input[type="radio"]').click(function(){
         var inputValue = $(this).attr("value");
@@ -155,6 +133,11 @@ $(document).ready(function(){
             }
         });
     });
+       $('#quantity').change(function(){
+        $('#quantity').onchange();
+  })
+
+
 </script>
   </body>
 </html>

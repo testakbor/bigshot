@@ -5480,9 +5480,9 @@ a,a:visited {
   /*height:300px;*/
   height:34px;
   /*padding:5px;*/
-  display:none;
-  position: relative;
-  margin-top: -15px;
+  /*display:none;*/
+  /*position: relative;*/
+  /*margin-top: -15px;*/
 }
 
 .Hide
@@ -8957,10 +8957,10 @@ a[data-toggle="collapse"] {
 
 .footer {
   padding: 0 30px;
-  position: fixed;
-    bottom: 0px;
-    left: 10px;
-    z-index: 999;
+  /*position: fixed;*/
+    /*bottom: 0px;*/
+    /*left: 10px;*/
+    /*z-index: 999;*/
     color: rgb(126, 154, 166);
     background-color: rgb(255, 255, 255);
   /*position: fixed;*/

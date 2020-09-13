@@ -14,7 +14,12 @@
             <div class="col-md-4 order-md-2 mb-4" >
               <h4 class="d-flex justify-content-between align-items-center Title mb-3">
                 <span class="text-muted">Order Summary</span>
-                <span class="badge badge-secondary badge-pill">3</span>
+                @if(\Cart::getTotalQuantity()==0)
+                @else
+                <span class="badge badge-secondary badge-pill">
+                    {{ \Cart::getTotalQuantity()}}
+                @endif
+                </span>
               </h4>
               <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -22,7 +27,7 @@
 
                     <small class="text-muted">Item Total</small>
                   </div>
-                  <span class="text-muted">  {{ $total=Cart::getTotal() }}</span>
+                  <span class="text-muted">  {{Cart::getTotal()}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
@@ -40,18 +45,18 @@
                   <div class="text-success">
                     <small>*Approx</small>
                   </div>
-                  <span class="text-muted">৳ {{$total+8+5}} BDT</span>
+                  <span class="text-muted">৳ {{Cart::getTotal() +8+5}} BDT</span>
                 </li>                          
               </ul>
 
               {{-- <form class="card p-2" action="/order-success"> --}}
                 <div class="input-group">
-                  <input type="text" name="promo_code" class="form-control" placeholder="Promo code">
+                  <input type="text" name="promo_code" class="form-control" placeholder="Promo code" style="width: 50px;">
                   <div class="input-group-append">
                     <button type="submit" name="reedeem" class="btn btn-secondary">Redeem</button>
                   </div>
-                  <div class="input-group-append">
-                    <button class="btn btn-primary btn-lg btn-block mt-3 ml-4" type="submit">Continue to checkout</button>
+                  <div class="input-group">
+                    <button class="btn btn-primary btn-lg btn-block mt-3" type="submit">Continue to checkout</button>
                   </div>
                 </div>
               {{-- </form> --}}
@@ -61,14 +66,14 @@
               
               <div class="row">
                 <div class="col-md-6 mb-3">
-                  <label for="firstName">First name</label>
+                  <label for="firstName">First name<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
                   <div class="invalid-feedback">
                     Valid first name is required.
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                  <label for="lastName">Last name</label>
+                  <label for="lastName">Last name<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
                   <div class="invalid-feedback">
                     Valid last name is required.
@@ -76,7 +81,7 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="address">Address Line 1</label>
+                <label for="address">Address Line 1<span class="requiredField">*</span></label>
                 <input type="text" class="form-control" id="address" name="address1" placeholder="Address Line" required>
                 <div class="invalid-feedback">
                   Please enter your shipping address.
@@ -88,13 +93,13 @@
                 <input type="text" class="form-control" id="address2" name="address2" placeholder="Optional">
               </div>
               <div class="mb-3">
-                <label for="phone">Phone<span class="text-muted"></span></label>
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone">
+                <label for="phone">Phone<span class="requiredField">*</span></label>
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone" required>
               </div>
 
               <div class="row">
                 <div class="col-md-6 mb-">
-                  <label for="country">Country / Region</label>
+                  <label for="country">Country / Region<span class="requiredField">*</span></label>
                   <select class="custom-select d-block w-100" id="country" required>
                     <option value="">Choose...</option>
                     <option> Bangladesh</option>
@@ -104,7 +109,7 @@
                   </div>
                 </div>                            
                 <div class="col-md-6 mb-3">
-                  <label for="state">State/Province/Regoin</label>
+                  <label for="state">State/Province/Regoin <span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
                   <div class="invalid-feedback">
                     Zip code required.
@@ -115,7 +120,7 @@
               <div class="row">
 
                 <div class="col-md-6 mb-3">
-                  <label for="city">City</label>
+                  <label for="city">City<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
                   <div class="invalid-feedback">
                     .
@@ -123,7 +128,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="zip">Zip</label>
-                  <input type="text" class="form-control" name="zip" id="zip" placeholder="Zip" required>
+                  <input type="text" class="form-control" name="zip" id="zip" placeholder="Zip">
                   <div class="invalid-feedback">
                     Zip code required.
                   </div>
@@ -147,7 +152,7 @@
 
               <hr class="mb-4">
 
-              <h4 class="mb-3">Payment</h4>
+              <h4 class="mb-3">Payment<span class="requiredField">*</span></h4>
 
               <div class="d-block my-3">
                 <div class="custom-control custom-radio">
@@ -169,7 +174,7 @@
               </div>
               <div class="row" id="hnf">
                 <div class="col-md-6 mb-3">
-                  <label for="cc-name">Name on card</label>
+                  <label for="cc-name">Name on card<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="cc-name" name="cardName" placeholder="Name of card" >
                   <small class="text-muted">Full name as displayed on card</small>
                   <div class="invalid-feedback">
@@ -177,7 +182,7 @@
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                  <label for="cc-number">Credit card number</label>
+                  <label for="cc-number">Credit card number<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="cc-number" placeholder="Creadit Card Number" name="cc-number" required>
                   <div class="invalid-feedback">
                     Credit card number is required
@@ -186,14 +191,14 @@
               </div>
               <div class="row" id="hnf1">
                 <div class="col-md-3 mb-3">
-                  <label for="cc-expiration">Expiration</label>
+                  <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"  placeholder="Expiration" required>
                   <div class="invalid-feedback">
                     Expiration date required
                   </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                  <label for="cc-cvv">CVV</label>
+                  <label for="cc-cvv">CVV<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="Security code" required>
                   <div class="invalid-feedback">
                     Security code required
@@ -206,6 +211,7 @@
               <div class="btn btn-success btn-lg btn-block">
                 Items In Cart
               </div>
+              </form>
               @foreach ($info as $item)
 
               @php
@@ -225,7 +231,8 @@
                 <div class="col-md-8">
                   <div class="d-flex flex-column">
                     <div>
-                      {{$item->name}}  
+                      {{$item->name}} <br> 
+                      {{$item->id}}  
                       {{$item->quantity}}
                     </div>
                     <div>
@@ -234,26 +241,37 @@
                       (Sep 7 - Nov 1)
                     </div>
                     <div class="d-flex flex-row">
+
                       <div>
-                        <select name="quantity" class="form-control" id="quantity" >
-                          @for ($i = 1; $i < 10; $i++)
-                          <option {{($item->quantity==$i)?'selected':''}} value="{{$i}}">{{$i}}</option>    
-                          @endfor
-                        </select>
+                        <form method="POST" action="{{route('cart.update')}}" name="UpdateQty">
+                          @csrf
+                         <input type="hidden" name="product_id" value="{{$item->id}}"> 
+                            <div class="quantity buttons_added" style="padding: 0;">
+                             <!--  <input type="button" value="-" class="minus"> -->
+                              <input type="number" id="" class="input-text qty_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="Qty" size="4" inputmode="numeric">
+                              <!-- <input type="button" value="+" class="plus"> -->
+                              <!-- <input type="submit" value="" class="plus"> -->
+                              <button type="submit">Update</button>
+                            </div>
+
+                        </form>
                       </div>
                       <div class="ml-3">
-                        <a href="">Remove</a></div>
+                        <a href="{{url('/remove/'.$item->id)}}">
+                          <i class="fas fa-trash-alt t-remove"></i>
+                        </a>
+                      </div>
                       </div>
 
                     </div>
                   </div>
-                  <div class="col-md-2"> ${{$item->price}}</div>
+                  <div class="col-md-2"> ${{$total=$item->price*$item->quantity}}</div>
                 </div>
                 @endforeach
               </div>
 
             </div>
-          </form>
+          
 
         </div>
       </div>

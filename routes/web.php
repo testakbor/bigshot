@@ -28,9 +28,12 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/Categories','PageController@Categories')->name('Categories');
+        Route::get('/Categories/product/{id}','PageController@categoryProduct');
         Route::get('/cart','CartController@cart')->name('cart');
         Route::get('/profile','PageController@profile')->name('profile');
-        Route::get('/wishlist','PageController@wishlist')->name('wishlist');
+
+        Route::get('/wishlist','PageController@wishlist')->middleware('auth');
+
         Route::get('/order-history','PageController@OrderHistory')->name('order.history');
         Route::get('/order-success','PageController@OrderSuccess')->name('order.success');
         Route::get('/daily-login-bonus','PageController@DailyLoginBonus')->name('daily.bonus');
@@ -47,6 +50,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::post('/addCart','CartController@addCart')->name('addCart');
         Route::post('/checkout','CartController@checkout')->name('checkout');
+        Route::post('/cart_update','CartController@update')->name('cart.update');
+        Route::get('/remove/{id}','CartController@remove')->name('remove');
         
     });
 

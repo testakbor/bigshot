@@ -258,7 +258,8 @@ class CartController extends Controller
            DB::table('order_itemmeta')->insert($order_item_details);
 
         }
-       
+        Cart::clear();
+
 
         return redirect(route('order.success'));
        // dd($order_post);
@@ -316,9 +317,18 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+       
+
+        $qty=$request->quantity;
+        $product_id=$request->product_id;
+        Cart::remove($request->product_id);
+         Cart::update($product_id, array(
+            'quantity' => $qty,
+
+        ));
+
     }
 
     /**
@@ -330,5 +340,11 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function remove($id)
+    {
+        // dd('id');
+        Cart::remove($id);
+        return redirect(route('cart'));
     }
 }

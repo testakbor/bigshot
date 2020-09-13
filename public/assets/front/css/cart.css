@@ -29,7 +29,19 @@
   border-top: 1px solid #E1E8EE;
   border-bottom: 1px solid #E1E8EE;
 }
-
+.t-remove{
+  background: red;
+    height: 25px;
+    width: 30px;
+    text-align: center;
+    vertical-align: middle;
+    /* margin-top: -2px; */
+    display: table-cell !important;
+    border-radius: 3px;
+}
+.requiredField{
+  color: red;
+}
 .buttons{
   position: relative;
   /*padding-top: 1.75em;*/
@@ -100,7 +112,7 @@
   -webkit-appearance: none;
   border: none;
   text-align: center;
-  width: 32px;
+  width: 46px;
   font-size: 1em;
   color: #43484D;
   font-weight: 300;

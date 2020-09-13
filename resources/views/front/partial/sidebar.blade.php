@@ -73,18 +73,17 @@
 								<!-- <h3>Title</h3> -->
 								<ul>
                         @foreach($categories as $value)
-                                  
 									<li>
-										<a href="{{url('/Categories')}}">
+										<a href="{{url('Categories/product/'.$value->term_taxonomy_id)}}">
 											<table>
 												<tr>
 													<th align="left">
 														<img src="https://main.cdn.wish.com/web/13b0da884ee5/img/categories/fashion_m.png" class="ml-1" height="30" width="50">
-														</th>
-														<th class="tb-text">{{$value->name}}</th>
-													</tr>
-												</table>
-											</a>
+													</th>
+													<th class="tb-text">{{$value->name}}</th>
+												</tr>
+											</table>
+										</a>
 										</li>
                          @endforeach
 

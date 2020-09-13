@@ -56,33 +56,10 @@ endif;
         @csrf
       <div>
         
-        <h1 class="title">Black & Decker</h1>
+        <h1 class="title" style="padding: 0 !important;">Black & Decker</h1>
         <h2 class="subtitle subtitle-container">{{$product->post_title}}</h2>
         <input type="hidden" name="name" value="{{$product->post_title}}">
-        <div>
-          <span class="rating">
-            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1"/>
-            <label for="rating-input-1-5" class="rating-star"></label>
-            <input type="radio" class="rating-input"
-                    id="rating-input-1-4" name="rating-input-1"/>
-            <label for="rating-input-1-4" class="rating-star"></label>
-            <input type="radio" class="rating-input"
-                    id="rating-input-1-3" name="rating-input-1"/>
-            <label for="rating-input-1-3" class="rating-star"></label>
-            <input type="radio" class="rating-input"
-                    id="rating-input-1-2" name="rating-input-1"/>
-            <label for="rating-input-1-2" class="rating-star"></label>
-            <input type="radio" class="rating-input"
-                    id="rating-input-1-1" name="rating-input-1"/>
-            <label for="rating-input-1-1" class="rating-star"></label>
-          </span>
-          <span>|</span>
-          <span>
-            <a href="#" class="reviews">
-              232 customer reviews
-            </a>
-          </span>
-        </div>
+        
       </div>
       <span>
         <p> <span class="text-dark"> Price: </span>
@@ -91,15 +68,27 @@ endif;
         </p>
         <div class="tm-size-color-single">
         <label for="quantity">Quantity:</label>
-        <select name="quantity" class="select-dropdown">
+        <!-- <select name="quantity" class="select-dropdown">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-        </select>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select> -->
+        <div class="quantity buttons_added">
+          <input type="button" value="-" class="minus">
+          <input type="number" id="" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
+          <input type="button" value="+" class="plus">
+        </div>
         </div>
       </span>
       <div>
-        <h2 class="title">Product Description</h2>
+        <h2 class="title" style="padding: 0 !important;">Product Description</h2>
         @if(isset($metavalue))
         @foreach($metavalue as $metaInfo)
         <div class="tm-size-color-single">
@@ -124,9 +113,23 @@ endif;
     
       <div>               
           <input type="hidden" name="id" value="{{$product->ID}}">        
-        <button type="submit" class="my-btn flex-btn">
-			 <span class="btn-text text-dark" >Buy</span>
-        </button>
+        <table>
+          <tr>
+            <th>
+              <button type="submit" class="my-btn flex-btn">
+               <span class="btn-text text-dark" style="width: 195px">Buy</span>
+          
+                </button>
+            </th>
+            <th>
+              <span class="text-dark" >
+                <a href="#">
+                  <i class="far fa-heart ml-2 h4"></i>
+                </a>
+              </span>
+            </th>
+          </tr>
+        </table>
 
       </div>
     </div>
