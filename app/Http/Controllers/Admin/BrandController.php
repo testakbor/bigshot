@@ -36,7 +36,7 @@ class BrandController extends Controller
         ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
         ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
         ->where('term_taxonomy.taxonomy','product_brand')
-        ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
+        ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(5);    
         return view('admin.brand.list',compact('brands'))->with($extraInfo);
@@ -160,7 +160,7 @@ class BrandController extends Controller
         ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
         ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
         ->where('term_taxonomy.taxonomy','product_brand')
-        ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
+        ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(5); 
                 
@@ -203,22 +203,21 @@ class BrandController extends Controller
             $image_name = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(('assets/admin/brand/'), $image_name);
             // update postmeta Table
-           if($request->oldImage!=null){
-            $postMetaInfo=array(
-             'meta_value'=>$image_name,
-             );
-             DB::table('postmeta')
-             ->where('post_id',$etermmeta->meta_value)
-             ->where('meta_key','attached_file')             
-             ->update($postMetaInfo);
+             
+           if($request->oldImage!=null && $etermmeta !=null){            
+
+             $result=DB::table('ecommerce_termmeta')
+             ->where('ecommerce_term_id',$id)                     
+             ->update(['meta_value'=>$image_name]);            
            }
            else{
                 $postMetaInfo=array(
                 'meta_value'=>$image_name,
-                'post_id'=>$id,
+                'ecommerce_term_id'=>$id,
                 'meta_key'=>'attached_file'
-             );
-               DB::table('postmeta')->insert($postMetaInfo);
+             );               
+            $result= DB::table('ecommerce_termmeta')->insert($postMetaInfo);
+          
            }    
         }
         session()->flash("success","Information Update Successfully");
