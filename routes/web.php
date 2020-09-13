@@ -55,6 +55,9 @@ Route::get('/home', 'HomeController@index')->name('home');
     });
 
     Route::group(['namespace'=>'Admin'],function(){
+       
+        Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');
+
         Route::GET('admin-login','Auth\LoginController@showLoginForm')->name('admin.login');
         Route::POST('admin-login','Auth\LoginController@login');
         Route::get('admin/home','HomeController@index')->name('admin.home');

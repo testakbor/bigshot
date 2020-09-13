@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Model\Front\Post;
 use App\Model\Front\Postmeta;
 use App\Model\front\Order_item;
+use Carbon\Carbon;
 
 use Auth;
 class OrderController extends Controller
@@ -29,16 +30,32 @@ class OrderController extends Controller
          return view('admin.order.list',compact('orders'))->with($extraInfo);
     }
 
-    public function pendingOrder()
-    {
+    public function pendingOrder(){
         $extraInfo=array(
             'title'=>"Brand List",
             'page'=>'pendingOrder'
         );
          $orders=Post::where('posts.post_type','shop_order')
-        ->paginate(10);       
-         return view('admin.order.pendingOrder',compact('orders'))->with($extraInfo);
+         ->where('post_status','on-hold')
+        ->paginate(10); 
+        $total_orders=Post::where('posts.post_type','shop_order')
+            ->where('post_status','on-hold')
+        ->count();  
+         return view('admin.order.pendingOrder',compact('orders','total_orders'))->with($extraInfo);
     }
+    
+    public function search_pending_order(Request $request){
+        $start=Carbon::parse($request->start)
+                 ->toDateString();
+        $end=Carbon::parse($request->end)
+                 ->toDateString();
+        $orders=Post::where('posts.post_type','shop_order')
+        ->whereBetween('post_date',array([$start,$end]))
+       ->get();
+       dd($orders);
+       dd($orders); 
+    }
+
     public function processing()
     {   
      $extraInfo=array(
