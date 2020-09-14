@@ -100,8 +100,15 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'sendParcel'
         ); 
-        return view('admin.order.sendParcel')->with($extraInfo);
+        $orders=Post::where('posts.post_type','shop_order')
+        ->where('post_status','on-hold')
+       ->paginate(10); 
+       $total_orders=Post::where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->count();  
+        return view('admin.order.sendParcel',compact('orders','total_orders'))->with($extraInfo);
     }
+
      public function deliveryInvoice()
     {    
         $extraInfo=array(

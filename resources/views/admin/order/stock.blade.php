@@ -104,6 +104,7 @@
                         @endphp
                         @endif
                       @endforeach
+                      
                       <tr>
                         <td class="center">{{$sku}}</td>
                         <td class="left strong">{{$item->post_title}}</td>
