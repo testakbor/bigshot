@@ -46,7 +46,7 @@
                         <td style="width: 10px">#</td>
                         <td>{{$customer->name}}</td>
                         <td>Active</td>
-                        <!-- <td><a href="#"><button class="btn btn-danger btn-sm">Delete</button></a></td> -->
+                        <td><a href="#"><button class="btn btn-danger btn-sm">edit</button></a></td>
                       </tr>
                       @endforeach 
                   </tbody>

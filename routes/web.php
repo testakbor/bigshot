@@ -54,7 +54,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('/checkout','CartController@checkout')->name('checkout');
         Route::post('/cart_update','CartController@update')->name('cart.update');
         Route::get('/remove/{id}','CartController@remove')->name('remove');
-        
+         
     });
 
     Route::group(['namespace'=>'User'],function(){
