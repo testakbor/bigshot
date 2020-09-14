@@ -140,19 +140,35 @@ class ProductController extends Controller
 }
 
      // sale price and reqgular price
-$productPrice=[
-    'regular_price'=>$request->regular_price,
-    'sale_price'=>$request->sale_price,
-    'weight'=>$request->weight,
-    'length'=>$request->length,
-    'width'=>$request->width,
-    'height'=>$request->height
-];
-DB::table('postmeta')->insert($productPrice);  
+// $productPrice=[
+//     'regular_price'=>$request->regular_price,
+//     'sale_price'=>$request->sale_price,
+//     'weight'=>$request->weight,
+//     'length'=>$request->length,
+//     'width'=>$request->width,
+//     'height'=>$request->height
+// ];
+// DB::table('postmeta')->insert($productPrice);  
 
     // sale price and reqgular price
-DB::table('postmeta')->insert(['stock_status'=>$request->stock_status]);
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'stock_status','meta_value'=>$request->stock_status]);
 
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'regular_price','meta_value'=>$request->regular_price]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'sale_price','meta_value'=>$request->sale_price]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'weight','meta_value'=>$request->weight]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'length','meta_value'=>$request->length]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'width','meta_value'=>$request->width]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'height','meta_value'=>$request->height]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'qty','meta_value'=>$request->stockQuality]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
+    
     // product image 
 $image_name=null;
 if($request->hasFile('product_image')){
