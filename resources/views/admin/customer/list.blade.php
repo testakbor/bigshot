@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Category List</h1>
+            <h1>Customer List</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -27,7 +27,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Categories</h3>
+                <h3 class="card-title">Customer List</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -35,13 +35,20 @@
                   <thead class="bg-danger">                  
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Category Name</th>
+                      <th>Customer Name</th>
                       <th>Status</th>
-                      <th >Action</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                   
+                    @foreach($customers as $customer)
+                      <tr>
+                        <td style="width: 10px">#</td>
+                        <td>{{$customer->name}}</td>
+                        <td>Active</td>
+                        <td><a href="#"><button class="btn btn-danger btn-sm">Delete</button></a></td>
+                      </tr>
+                      @endforeach 
                   </tbody>
                 </table>
               </div>

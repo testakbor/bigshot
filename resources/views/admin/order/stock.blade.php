@@ -64,7 +64,7 @@
                   <tr>
                   <th>SKU</th>
                   <th>Items</th>
-                  <th class="right">Categories</th>
+                  <!-- <th class="right">Categories</th> -->
                   <th class="center">Quantity</th>
                   <th class="right">Cost</th>
                   <th class="right">Sale Price</th>
@@ -74,24 +74,54 @@
                 </thead>
 
                 <tbody>
-                  <tr>
-                  <td class="center">Picture <br>21324534</td>
-                  <td class="left strong">Extended License</td>
-                  <td class="left">Women</td>
-
-                  <td class="right">2</td>
-                  <td class="right"> Tk 4500</td>
-                  <td class="right">Tk 10000</td>
-                  <td class="right">Best selling<br>Create date</td>
-                  <td class="right">
-                    <i class="fas fa-print"><a href="#">Print</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
-                  </td>
-                  </tr>
-
+                @php $price=0; $sprice=0; $sku=''; $qty=0; $total_sell_price=0; $total_cost=0; @endphp
+                @foreach($products as $item)
+                   @foreach ($item->productMeta as $meta)
+                        @if($meta['meta_key']=='_regular_price')
+                          @php                            
+                          $rprice=$meta['meta_value'];
+                          @endphp
+                        @endif
+                        @if($meta['meta_key']=='_sale_price')
+                          @php                            
+                          $sprice=is_numeric($meta['meta_value']);
+                          $total_sell_price+=$sprice;
+                          @endphp
+                        @endif
+                        @if($meta['meta_key']=='_sku')
+                          @php                            
+                          $sku=$meta['meta_value'];
+                          @endphp
+                        @endif 
+                        @if($meta['meta_key']=='_stock')
+                          @php 
+                           $qty=is_numeric($meta['meta_value']);
+                        @endphp
+                        @endif 
+                        @if($meta['meta_key']=='_price')
+                          @php 
+                           $price=is_numeric($meta['meta_value']);
+                        @endphp
+                        @endif
+                      @endforeach
+                      <tr>
+                        <td class="center">{{$sku}}</td>
+                        <td class="left strong">{{$item->post_title}}</td>
+                        <!-- <td class="left">Women</td> -->
+                        <td class="right">{{$qty}}</td>
+                        <td class="right"> Tk {{$tot=$price*$qty}}</td>
+                        <td class="right">Tk {{$sprice}}</td>
+                        <td class="right">Active</td>
+                        <td class="right">
+                          <i class="fas fa-print"><a href="#">Print</a></i><br>
+                          <i class="fas fa-edit"><a href="#">Edit</a></i><br>
+                          <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
+                        </td>
+                    </tr>
+                  @endforeach
                 </tbody>
               </table>
+              {{$products->links()}}
             </div>
 
             <div class="row">
@@ -119,7 +149,7 @@
                   <!-- <i class="fa fa-user ml-1"></i> -->
                  
                  
-                  <h3 class="text-center">123</h3>
+                  <h3 class="text-center">{{$total_cost+=$tot}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Total Cost</p>
                 </div>
@@ -129,7 +159,7 @@
                   <!-- <i class="fa fa-handshake ml-1"></i> -->
                   
                  
-                  <h3 class="text-center">1</h3>
+                  <h3 class="text-center">{{$total_sell_price}}</h3>
                   
                   <p class="lead text-center font-weight-bold">Total Sell Price</p>
                 </div>
