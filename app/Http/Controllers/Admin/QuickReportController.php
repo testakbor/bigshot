@@ -22,7 +22,6 @@ class QuickReportController extends Controller
             'title'=>"Quick Report",
             'page'=>'quickReport'
         );
-
         $products=DB::table('posts')
         ->where('posts.post_type','product')
         ->paginate(10);                

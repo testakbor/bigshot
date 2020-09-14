@@ -9,6 +9,7 @@ use App\Model\Front\Post;
 use App\Model\Front\Postmeta;
 use App\Model\front\Order_item;
 use Carbon\Carbon;
+use DB;
 
 use Auth;
 class OrderController extends Controller
@@ -50,10 +51,14 @@ class OrderController extends Controller
         $end=Carbon::parse($request->end)
                  ->toDateString();
         $orders=Post::where('posts.post_type','shop_order')
+        ->where('post_status','on-hold')
         ->whereBetween('post_date',array([$start,$end]))
        ->get();
-       dd($orders);
-       dd($orders); 
+       $total_orders=Post::where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->whereBetween('post_date',array([$start,$end])) 
+       ->count();  
+       return view('admin.order.searchOrder',compact('orders','total_orders'));
     }
 
     public function processing()
@@ -119,7 +124,10 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'stock'
         ); 
-        return view('admin.order.stock')->with($extraInfo);
+        $products=Post::where('post_type','product')
+        // ->where('post_status','publish')
+        ->paginate(5); 
+        return view('admin.order.stock',compact('products'))->with($extraInfo);
     }
     public function grossProfit()
     {    

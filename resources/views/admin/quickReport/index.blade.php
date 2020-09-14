@@ -46,7 +46,7 @@
                       <td>name</td>
                       <td>status</td>
                       <td>
-                        <a href="{{route('product.edit',$value->ID)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Action</a>
+                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Action</a>
                       </td>
                     </tr>
                   </tbody>
