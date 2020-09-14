@@ -152,7 +152,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                <a href="{{route('order.stock.lower')}}" class="nav-link {{isset($page) && $page=='lowerstock'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                   Lower Stock
@@ -160,7 +160,7 @@
                 </a>
               </li>
            <li class="nav-item">
-                <a href="{{route('order.index')}}" class="nav-link {{isset($page) && $page=='2order'?'active':''}}">
+                <a href="{{route('order.stock.old')}}" class="nav-link {{isset($page) && $page=='oldstock'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                   Old Stock List

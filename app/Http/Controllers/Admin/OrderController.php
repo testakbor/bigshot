@@ -116,7 +116,11 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'reject'
         ); 
-        return view('admin.order.reject')->with($extraInfo);
+        $reject_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','reject')
+        ->get();
+        return view('admin.order.reject',compact('reject_order'))->with($extraInfo);
     }
     public function stock()
     {    
@@ -128,6 +132,26 @@ class OrderController extends Controller
         // ->where('post_status','publish')
         ->paginate(5); 
         return view('admin.order.stock',compact('products'))->with($extraInfo);
+    }
+    public function lowerStock(){
+        $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'lowerstock'
+        ); 
+        $products=Post::where('post_type','product')
+        // ->where('post_status','publish')
+        ->paginate(5); 
+        return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
+    }
+    public function oldStock(){
+        $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'oldstock'
+        ); 
+        $products=Post::where('post_type','product')
+        // ->where('post_status','publish')
+        ->paginate(5); 
+        return view('admin.order.stock_old',compact('products'))->with($extraInfo);
     }
     public function grossProfit()
     {    
