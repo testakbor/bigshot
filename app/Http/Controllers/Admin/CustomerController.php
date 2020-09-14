@@ -26,7 +26,6 @@ class CustomerController extends Controller
             'title'=>"Category List",
             'page'=>'category'
         );
-
         $customers=DB::table('users')       
         ->paginate(3);                
         return view('admin.customer.list',compact('customers'))->with($extraInfo);

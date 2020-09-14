@@ -50,16 +50,16 @@
                         </div>
                         </a>
                         <!-- <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a> -->
-                        <a class="dropdown-item" href="/wishlist"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
-                        <a class="dropdown-item" href="/cart"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
-                        <a class="dropdown-item" href="/order-history"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
-                        <a class="dropdown-item" href="/order-list"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order List</a>
+                        <a class="dropdown-item" href="{{url('wishlist')}}"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
+                        <a class="dropdown-item" href="{{url('cart')}}"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
+                        <a class="dropdown-item" href="{{url('order-history')}}"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
+                        <a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order List</a>
                         <!-- <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a> -->
                         <!-- <a class="dropdown-item" href="cash"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a> -->
                         <!-- <a class="dropdown-item" href="/rewards"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a> -->
-                        <a class="dropdown-item" href="/customer-support"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
-                        <a class="dropdown-item" href="/faq">FAQ</a>
-                        <a class="dropdown-item" href="/settings">Settings</a>
+                        <a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
+                        <a class="dropdown-item" href="{{url('faq')}}">FAQ</a>
+                        <a class="dropdown-item" href="{{url('settings')}}">Settings</a>
                         <div class="dropdown-item" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
