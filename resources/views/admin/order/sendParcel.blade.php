@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Send Parcel</h1>
+           
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -19,7 +19,7 @@
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Search Pending Order</legend>
+          <legend>Search Send Parcel</legend>
         </fieldset>
         <div class="inner-form ml-5" style="width: 32.5%;">
           

@@ -32,7 +32,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered table-striped">
-                  <thead class="bg-danger">                  
+                  <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Customer Name</th>
