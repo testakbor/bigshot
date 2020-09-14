@@ -1,3 +1,6 @@
+<?php 
+use App\Model\front\Order_item;
+?>
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;">
@@ -60,62 +63,59 @@
                   <th class="center">Qty</th>
                   <th class="right">Amount</th>
                   <th class="right">Status</th>
-                  <th class="right">Action</th>
+                  <!-- <th class="right">Action</th> -->
                   </tr>
                 </thead>
 
                 <tbody>
+                @php $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+                @foreach($orders as $items)
+                 @php 
+                   $products=Order_item::where('order_id',$items->ID)->get();
+                   $order_info=DB::table('postmeta')
+                   ->where('post_id',$items->ID)
+                   ->get();
+                 @endphp
+                 @foreach($products as $item)
+                    @foreach($item->orderMeta as $value)
+                    @php              
+                    if($value->meta_key=='_line_subtotal'){
+                      $subtotal=$value->meta_value;
+                    }
+                    if($value->meta_key=='_qty'){
+                      $qty=$value->meta_value;
+                    }
+                    @endphp
+                    @endforeach 
+                  @endforeach 
+                  @foreach($order_info as $info)
+                    @if($info->meta_key=='_billing_phone')
+                     @php $mobile_no=$info->meta_value; @endphp
+                    @endif 
+                    @if($info->meta_key=='_billing_address_1')
+                     @php $address=$info->meta_value; @endphp
+                    @endif 
+
+                    @if($info->meta_key=='_sku')
+                     @php $sku=$info->meta_value; @endphp
+                    @endif 
+
+                    @if($info->meta_key=='_customer_user') 
+                      @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->get(); @endphp 
+                      @foreach($user as $users) @php $cust=$users->name; @endphp @endforeach
+                    @endif
+                  @endforeach 
                   <tr>
-                  <td class="center">1</td>
-                  <td class="left strong">Origin License</td>
-                  <td class="left">Extended License</td>
-
-                  <td class="right">Phone</td>
-                  <td class="center">1</td>
-                  <td class="right">$999,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
-            
+                      <td class="center">{{$items->ID}}</td>
+                      <td class="left strong">{{$cust}}</td>
+                      <td class="left">{{$address}}</td>
+                      <td class="right">{{$mobile_no}}</td>
+                      <td class="center">{{$qty}}</td>
+                      <td class="right">{{$sub = $subtotal*$qty}}</td>
+                      <td class="right">{{$items->post_status}}</td>
+                      <!-- <td class="right"></td> -->
                   </tr>
-
-                  <tr>
-                  <td class="center">2</td>
-                  <td class="left">Custom Services</td>
-                  <td class="left">Instalation and Customization (cost per hour)</td>
-
-                  <td class="right">Phone</td>
-                  <td class="center">20</td>
-                  <td class="right">$3.000,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
-                 
-                  </tr>
-
-                  <tr>
-                  <td class="center">3</td>
-                  <td class="left">Hosting</td>
-                  <td class="left">1 year subcription</td>
-
-                  <td class="right">Phone</td>
-                  <td class="center">1</td>
-                  <td class="right">$499,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
-                
-                  </tr>
-
-                  <tr>
-                  <td class="center">4</td>
-                  <td class="left">Platinum Support</td>
-                  <td class="left">1 year subcription 24/7</td>
-
-                  <td class="right">Phone </td>
-                  <td class="center">1</td>
-                  <td class="right">$3.999,00</td>
-                  <td class="right">Complete</td>
-                  <td class="right"></td>
-                  
-                  </tr>
+                  @endforeach 
                 </tbody>
               </table>
             </div>
@@ -136,7 +136,7 @@
                 <div class="box bg-danger">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
-                  <h3 class="text-center">50</h3>
+                  <h3 class="text-center">{{$total_orders}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Processing</p>
                 </div>
