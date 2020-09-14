@@ -94,7 +94,7 @@ class ProductController extends Controller
         $post_id=DB::table('posts')->insertGetId($product);
         
 // product attributes
-        if(count($request->valueName) > 0 ){
+        if($request->valueName  !=null ){
             $attribute=[];
             foreach($request->valueName as $value){
 
@@ -120,7 +120,7 @@ class ProductController extends Controller
         }       
 
         // product categories
-        if(count($request->category) > 0){
+        if($request->category !=null){
             foreach ($request->category as  $value) {
              DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
          }
@@ -181,7 +181,7 @@ if($request->hasFile('product_image')){
         'meta_value'=>$image_name
     );
 
-    $postmeta=DB::table('posts')->insert($porductImage);
+    $postmeta=DB::table('postmeta')->insert($porductImage);
 }
         // gallery image
 if($request->hasFile('galleryImage'))
@@ -192,12 +192,14 @@ if($request->hasFile('galleryImage'))
         $filename = $image->getClientOriginalName();
         $image->move(('backend/products'), $filename);
 
+      
         $porductGalleryImage=array(
-          'post_parent'=>$post_id,
-        'post_type'=>'attachment',
-            'guid'=>$filename
+            'post_id'=>$post_id,
+            'meta_key'=>'gallery_file',
+            'meta_value'=>$filename
         );
-        $postmeta=DB::table('postmeta')->insert($porductGalleryImage);       
+    
+        $postmeta=DB::table('postmeta')->insert($porductGalleryImage);
     }
 
 }
