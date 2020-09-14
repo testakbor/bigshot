@@ -68,7 +68,13 @@ class PageController extends Controller
 	}
 	public function wishlist()
 	{
-	    return view('front.wishlist');
+		$wishProduct=DB::table('wishlist')
+		->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
+		->where('user_id',auth()->user()->id)
+		->groupBy('wishlist.product_id')
+		->orderBy('wishlist.id','DESC')
+		->paginate(3);
+	    return view('front.wishlist',compact('wishProduct'));
 	}
 	public function wishlistProduct(Request $request)
 	{
@@ -111,6 +117,11 @@ class PageController extends Controller
 	}
 	public function brands()
 	{
+		  $extraInfo=array(
+            'title'=>"Brand List",
+            'page'=>'brand'
+        );
+
 		$categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')
@@ -122,7 +133,7 @@ class PageController extends Controller
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
         ->get();
-	    return view('front.brands',compact('categories','products'));
+	    return view('front.brands',compact('categories','products'))->with($extraInfo);
 	}
 	public function faq()
 	{

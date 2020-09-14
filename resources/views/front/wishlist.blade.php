@@ -9,88 +9,73 @@
     <div class="col-md-12">
       <div class="container-fluid">
         <div class="shopping-cart">
-          <!-- Title -->
-          <div class="title">
-                Shopping Bag
-              </div>
           <!-- Product #1 -->
-          <div class="item">
-            <div class="buttons">
-              <span class="delete-btn"></span>
-              <span class="like-btn"></span>
-            </div>
-            <div class="image">
-              <img src="https://designmodo.com/demo/shopping-cart/item-1.png" alt="" />
-            </div>
-            <div class="description">
-              <span>Common Projects</span>
-              <span>Bball High</span>
-              <span>White</span>
-            </div>
-            <div class="quantity">
-              <button class="plus-btn" type="button" name="button">
-                <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt="" />
-              </button>
-              <input type="text" name="name" value="1">
-                <button class="minus-btn" type="button" name="button">
-                  <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
-                </button>
-              </div>
-              <div class="total-price">$549</div>
-            </div>
-            <!-- Product #2 -->
-            <div class="item">
-              <div class="buttons">
-                <span class="delete-btn"></span>
-                <span class="like-btn"></span>
-              </div>
-              <div class="image">
-                <img src="https://designmodo.com/demo/shopping-cart/item-2.png" alt=""/>
-              </div>
-              <div class="description">
-                <span>Maison Margiela</span>
-                <span>Future Sneakers</span>
-                <span>White</span>
-              </div>
-              <div class="quantity">
-                <button class="plus-btn" type="button" name="button">
-                  <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt="" />
-                </button>
-                <input type="text" name="name" value="1">
-                  <button class="minus-btn" type="button" name="button">
-                    <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
-                  </button>
-                </div>
-                <div class="total-price">$870</div>
-              </div>
-              <!-- Product #3 -->
-              <div class="item">
-                <div class="buttons">
-                  <span class="delete-btn"></span>
-                  <span class="like-btn"></span>
-                </div>
-                <div class="image">
-                  <img src="https://designmodo.com/demo/shopping-cart/item-3.png" alt="" />
-                </div>
-                <div class="description">
-                  <span>Our Legacy</span>
-                  <span>Brushed Scarf</span>
-                  <span>Brown</span>
-                </div>
-                <div class="quantity">
-                  <button class="plus-btn" type="button" name="button">
-                    <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt="" />
-                  </button>
-                  <input type="text" name="name" value="1">
-                    <button class="minus-btn" type="button" name="button">
-                      <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
-                    </button>
+                @if (session('status'))
+                        <div class="alert alert-success" role="alert" id="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                  <!-- Title -->
+                  <div class="title">
+                    WishList
                   </div>
-                  <div class="total-price">$349</div>
-                </div>
-                <button type="button" class="btn btn-light ml-5 mt-5 mb-3" style="width: 118px;border: 1px solid skyblue;color: skyblue;background-color: white;font-weight: 600;">
-                  <a href="/cart">Add to Cart</a>
-                </button>
+                  <!-- Product #1 -->
+                  @php $name=''; $image='no-image.png'; @endphp
+                 @foreach($wishProduct as $item)
+                 @php
+                  $product=DB::table('posts')
+                  ->where('post_type','product')
+                  ->where('ID',$item->product_id)
+                  ->get();
+                  $product_meta=DB::table('postmeta')
+                  ->where('post_id',$item->product_id)
+                  ->get();
+                 @endphp
+                  @foreach($product as $products) 
+                    @php $name=$products->post_title @endphp 
+                  @endforeach
+                  @foreach($product_meta as $meta)
+                     @if($meta->meta_key=='_price')
+                        @php 
+                           $price=$meta->meta_value;
+                        @endphp
+                    @endif 
+                    @if($meta->meta_key=='attached_file')
+                        @php                            
+                        $image=$meta->meta_value;
+                        @endphp
+                    @endif
+                  @endforeach
+                  <div class="item">
+                  <a href="{{route('wishlist_delete',base64_encode($item->product_id))}}">
+                    <div class="buttons">
+                      <span class="delete-btn"></span>
+                    </div>
+                    </a>
+                    <div class="image">
+                      <img width="90" height="80" src="{{asset('assets/backend/products/'.$image)}}" alt="" />
+                    </div>
+                    <div class="description">
+                      <span>{{$name}}</span>
+                    </div>
+                    <div class="total-price">Taka: {{ $price}}</div>
+                    <div class="quantity">
+                    <form action="{{route('addCart')}}" method="POST" id="addCartForm">
+                    @csrf
+                    <input type="hidden" name="id" value="{{$item->product_id}}">   
+                    <input type="hidden" name="price" value="{{ $price}}">    
+                    <input type="hidden"  class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
+                    <input type="hidden" name="name" value="{{$name}}">  
+                   
+                      <button type="submit" class="my-btn flex-btn ml-2" style="width: 115px;height: 42px;font-weight: 100;font-size: 12px;">
+                        <span class="btn-text text-dark" style="width: 195px">Buy</span>
+                      </button>
+                  </form>
+                    </div>
+                  </div>
+                  @endforeach
+                  {{$wishProduct->links()}}
+           
               </div>
             </div>
           </div>

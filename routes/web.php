@@ -29,7 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/Categories','PageController@Categories')->name('Categories');
         Route::get('/Categories/product/{id}','PageController@categoryProduct');
-        Route::get('/cart','CartController@cart')->name('cart')->middleware('auth');
+        Route::get('/cart','CartController@cart')->name('cart');
         Route::get('/profile','PageController@profile')->name('profile');
 
         Route::get('/wishlist','PageController@wishlist')->middleware('auth');
