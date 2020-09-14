@@ -28,7 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/Categories','PageController@Categories')->name('Categories');
-        Route::get('/Categories/product/{id}','PageController@categoryProduct');
+        Route::get('/Categories/{id}','PageController@categoryProduct');
         Route::get('/cart','CartController@cart')->name('cart');
         Route::get('/profile','PageController@profile')->name('profile');
 
