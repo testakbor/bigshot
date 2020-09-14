@@ -10,9 +10,9 @@
                 <li class="nav-item active">
                   <div class="form-group has-search">
                   <span class="fa fa-search form-control-feedback"></span>
-                  <form class="searchform cf">
+                  <form class="searchform cf" method="POST" action="{{url('/search')}}" role="search">
                     
-                    <input type="text" placeholder="What do you want to find?">
+                    <input type="text" name="q" placeholder="What do you want to find?">
                     <button type="submit">Search</button>
                   </form>
                 </div>
