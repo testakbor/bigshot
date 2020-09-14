@@ -251,14 +251,16 @@
                               <input type="number" id="" class="input-text quantity_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="quantity" size="4" inputmode="numeric">
                               <!-- <input type="button" value="+" class="plus"> -->
                               <!-- <input type="submit" value="" class="plus"> -->
-                              <button type="submit">Update</button>
+                              <button type="submit" class="btn btn-primary">Update</button>
                             </div>
 
                         </form>
                       </div>
                       <div class="ml-3">
                         <a href="{{url('/remove/'.$item->id)}}">
-                          <i class="fas fa-trash-alt t-remove"></i>
+                           <div class="buttons">
+                      <span class="delete-btn"></span>
+                    </div>
                         </a>
                       </div>
                       </div>

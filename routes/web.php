@@ -29,7 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/Categories','PageController@Categories')->name('Categories');
         Route::get('/Categories/product/{id}','PageController@categoryProduct');
-        Route::get('/cart','CartController@cart')->name('cart');
+        Route::get('/cart','CartController@cart')->name('cart')->middleware('auth');
         Route::get('/profile','PageController@profile')->name('profile');
 
         Route::get('/wishlist','PageController@wishlist')->middleware('auth');
@@ -59,6 +59,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['namespace'=>'User'],function(){
         Route::resource('/order-list','OrderController');
+    }); 
+       
+    Route::group(['namespace'=>'Search'],function(){
+        Route::post('/search','SearchController@nSearch')->name('search');
     });
 
     Route::group(['namespace'=>'Admin'],function(){

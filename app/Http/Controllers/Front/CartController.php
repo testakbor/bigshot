@@ -322,11 +322,13 @@ class CartController extends Controller
 
         $qty=$request->quantity;
         $product_id=$request->product_id;
-        Cart::remove($request->product_id);
-         Cart::update($product_id, array(
-            'quantity' => $qty,
-
-        ));
+        
+         Cart::update($product_id, 
+            ['quantity' => 
+            ['relative' => false,
+             'value' => $qty ]
+            ]);
+         return back();
 
     }
 
