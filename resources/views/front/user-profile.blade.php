@@ -48,17 +48,18 @@
                     WishList
                   </div>
                   <!-- Product #1 -->
-        
+                  @php $name=''; @endphp
                  @foreach($wishProduct as $item)
-                 @foreach ($item->productMeta as $meta)
-                         @if($meta['meta_key']=='_price')
-                          @php                            
-                          $price=$meta['meta_value'];
-                          @endphp
-                        @endif
-                @endforeach
+                 @php
+                  $product=DB::table('posts')
+                  ->where('post_type','product')
+                  ->where('ID',$item->product_id)
+                  ->get();
+                 @endphp
+                  @foreach($product as $products) 
+                   @php $name=$products->post_title @endphp
+                  @endforeach
                   <div class="item">
-
                     <div class="buttons">
                       <span class="delete-btn"></span>
                     </div>
@@ -66,11 +67,9 @@
                       <img src="{{asset('assets/backend/products/')}}" alt="" />
                     </div>
                     <div class="description">
-                      <span>demo</span>
-                    
+                      <span>{{$name}}</span>
                     </div>
-                    
-                    <div class="total-price">{{$price}}</div>
+                    <div class="total-price">465</div>
                     <div class="quantity">
                       <button type="submit" class="my-btn flex-btn ml-2" style="width: 115px;height: 42px;font-weight: 100;font-size: 12px;">
                         <span class="btn-text text-dark" style="width: 195px">Buy</span>

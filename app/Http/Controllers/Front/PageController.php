@@ -131,7 +131,6 @@ class PageController extends Controller
 		->where('user_id',auth()->user()->id)
 		->groupBy('wishlist.product_id')
 		->get();
-		dd($wishProduct);
 	    return view('front.user-profile',compact('wishProduct'));
 	}
 	public function privacy()

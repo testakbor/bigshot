@@ -23,8 +23,8 @@ class CustomerController extends Controller
     public function index()
     {
         $extraInfo=array(
-            'title'=>"Category List",
-            'page'=>'category'
+            'title'=>"Customer List",
+            'page'=>'customer'
         );
         $customers=DB::table('users')       
         ->paginate(3);                

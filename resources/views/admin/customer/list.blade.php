@@ -37,7 +37,7 @@
                       <th style="width: 10px">#</th>
                       <th>Customer Name</th>
                       <th>Status</th>
-                      <th>Action</th>
+                      <!-- <th>Action</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -46,7 +46,7 @@
                         <td style="width: 10px">#</td>
                         <td>{{$customer->name}}</td>
                         <td>Active</td>
-                        <td><a href="#"><button class="btn btn-danger btn-sm">Delete</button></a></td>
+                        <!-- <td><a href="#"><button class="btn btn-danger btn-sm">Delete</button></a></td> -->
                       </tr>
                       @endforeach 
                   </tbody>

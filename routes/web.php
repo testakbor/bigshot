@@ -84,6 +84,8 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/deliveryInvoice','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
+        Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');
+        Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
 
         Route::resource('admin/customer','CustomerController');
