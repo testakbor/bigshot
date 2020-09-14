@@ -52,6 +52,11 @@ endif;
       </div>
     </div>
     <div class="right-container">
+       @if (session('status'))
+                        <div class="alert alert-success" role="alert" id="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
       <form action="{{route('addCart')}}" method="POST" id="addCartForm">
         @csrf
       <div>
@@ -68,18 +73,7 @@ endif;
         </p>
         <div class="tm-size-color-single">
         <label for="quantity">Quantity:</label>
-        <!-- <select name="quantity" class="select-dropdown">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select> -->
+        
         <div class="quantity buttons_added">
           <input type="button" value="-" class="minus">
           <input type="number" id="" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
@@ -123,10 +117,11 @@ endif;
             </th>
             <th>
               <span class="text-dark" >
-                <a href="#">
+                <a href="{{url('/wishlist/product/'.$product->ID)}}">
                   <i class="far fa-heart ml-2 h4"></i>
                 </a>
               </span>
+               
             </th>
           </tr>
         </table>

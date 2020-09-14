@@ -136,8 +136,11 @@ $(document).ready(function(){
        $('#quantity').change(function(){
         $('#quantity').onchange();
   })
-
-
+$(function(){
+    setTimeout(function(){
+        $("#alert").hide();
+        }, 2000);
+      });
 </script>
   </body>
 </html>

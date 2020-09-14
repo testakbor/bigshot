@@ -14,9 +14,7 @@
           <div class="row">
             <div class="col-md-4 order">
               <!--our content goes here-->
-              <div class="container">
-                <div class="row profile">
-                  <div class="col-md-3">
+                  
                     <div class="profile-sidebar position-fixed">
                       <!-- SIDEBAR USERPIC -->
                       <div class="profile-userpic">
@@ -26,8 +24,9 @@
                         <!-- SIDEBAR USER TITLE -->
                         <div class="profile-usertitle">
                           <div class="profile-usertitle-name">
-                              {{ Auth::user()->name }}
-                            </div>
+                              {{ Auth::user()->name }} <br>
+                              Email : {{ Auth::user()->email }}
+                          </div>
                           <!--   <div class="profile-usertitle-job">
                               Developer
                             </div> -->
@@ -40,9 +39,8 @@
                           <!-- SIDEBAR MENU -->
                           <!-- END MENU -->
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                    
+                
                 </div>
                 <div class="col-md-7" style="border: 2px solid rgb(212, 227, 235);background: #fff;height: 600px;">
                   <!-- Title -->
@@ -50,26 +48,36 @@
                     WishList
                   </div>
                   <!-- Product #1 -->
+        
+                 @foreach($wishProduct as $item)
+                 @foreach ($item->productMeta as $meta)
+                         @if($meta['meta_key']=='_price')
+                          @php                            
+                          $price=$meta['meta_value'];
+                          @endphp
+                        @endif
+                @endforeach
                   <div class="item">
+
                     <div class="buttons">
                       <span class="delete-btn"></span>
                     </div>
                     <div class="image">
-                      <img src="https://designmodo.com/demo/shopping-cart/item-1.png" alt="" />
+                      <img src="{{asset('assets/backend/products/')}}" alt="" />
                     </div>
                     <div class="description">
-                      <span>Common Projects</span>
+                      <span>demo</span>
                     
                     </div>
                     
-                    <div class="total-price">$549</div>
+                    <div class="total-price">{{$price}}</div>
                     <div class="quantity">
                       <button type="submit" class="my-btn flex-btn ml-2" style="width: 115px;height: 42px;font-weight: 100;font-size: 12px;">
                         <span class="btn-text text-dark" style="width: 195px">Buy</span>
                       </button>
                     </div>
-
                   </div>
+                  @endforeach
                 </div>
               </div>
             </div>

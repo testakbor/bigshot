@@ -33,6 +33,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/profile','PageController@profile')->name('profile');
 
         Route::get('/wishlist','PageController@wishlist')->middleware('auth');
+        Route::get('/wishlist/product/{id}','PageController@wishlistProduct')->middleware('auth');
 
         Route::get('/order-history','PageController@OrderHistory')->name('order.history');
         Route::get('/order-success','PageController@OrderSuccess')->name('order.success');

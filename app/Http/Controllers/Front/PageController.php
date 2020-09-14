@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
 use DB;
+use Auth;
 
 
 
@@ -17,7 +18,6 @@ class PageController extends Controller
 		$product=Post::where('post_type','product')
         ->where('ID',$id)
 		->first();
-		
     	return view('front.product-view',compact('product'));
 	}
 
@@ -70,6 +70,21 @@ class PageController extends Controller
 	{
 	    return view('front.wishlist');
 	}
+	public function wishlistProduct(Request $request)
+	{
+		DB::table('wishlist')
+		->where('product_id',$request->id)
+		->where('user_id',Auth::user()->id)
+		->delete();
+	    $wishlist = array(
+	    	'product_id' => $request->id,
+	    	'user_id' => Auth::user()->id,
+	    );
+	    DB::table('wishlist')->insertGetId($wishlist);
+
+
+	    return back()->with('status','Product added in wishlist');
+	}
 	public function DailyLoginBonus()
 	{
 	    return view('front.daily-login-bonus');
@@ -111,7 +126,13 @@ class PageController extends Controller
 	}
 	public function profile()
 	{
-	    return view('front.user-profile');
+		$wishProduct=DB::table('wishlist')
+		->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
+		->where('user_id',auth()->user()->id)
+		->groupBy('wishlist.product_id')
+		->get();
+		dd($wishProduct);
+	    return view('front.user-profile',compact('wishProduct'));
 	}
 	public function privacy()
 	{
