@@ -1,4 +1,3 @@
-
 @extends('front.layouts.master')
 
 @section('content')
@@ -8,10 +7,65 @@
 <div id="content" class="p-4 p-md-5">
     <div class="row">
       <div class="col-md-10 ">
-       <div class="container-fluid ml-5 mt-5" style="background-color: lightgray;padding: 15px;">
-        <section style="margin-left: 120px" class="mt-5">
-          <p class="text-center">No Product Found</p>
-        </section>
+       <div class="container-fluid">
+
+          <section style="margin-left: 120px" class="">
+
+           
+
+              <ul class="wrapper cf mt-3">
+                @php
+                $rprice=0;
+                $sprice=0;
+                $image='no-image.png';
+                @endphp
+                @foreach($products as $item)
+                   @foreach($item->productMeta as $meta)
+                      @if($meta['meta_key']=='_regular_price')
+                        @php                            
+                        $rprice=$meta['meta_value'];
+                        @endphp
+                      @endif
+
+                      @if($meta['meta_key']=='_sale_price')
+                        @php                            
+                        $sprice=$meta['meta_value'];
+                        @endphp
+                      @endif
+
+                       @if($meta['meta_key']=='attached_file')
+                        @php                            
+                        $image=$meta['meta_value'];
+                        @endphp
+                       @endif
+                      @endforeach
+              
+                  <li class="product fl-l">
+                    <a href="{{route('product-page',$item->ID)}}">
+                      <div class="container-prod">
+                        <div class="image" style="background-image:url({{asset('assets/backend/products/'.$image)}});"></div>
+                        <div class="container-information">
+                          <div class="title">
+                             <!-- {{$item->post_title}}. R-{{$rprice}}. S-{{$sprice}} -->
+                            ৳{{$sprice}}
+                              <!-- <a href="#" class="more close"><i class="fa fa-times"></i></a>                 -->
+                          </div>
+                      </div>
+
+                      <div class="buttons cf">
+                        <span style="margin-left: 3px;font-size: 12px;">
+                          <span class="add ml-2">20,000+ bought this</span>
+                      </span>
+
+                  </div>
+              </div>
+                    </a>
+          </li>
+@endforeach
+         
+</ul>
+
+</section>
 
 </div>
 </div>
@@ -34,4 +88,3 @@ right: 10px;top:96px;">
 </div>
 
 @endsection
-

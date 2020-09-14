@@ -109,7 +109,11 @@ class PageController extends Controller
 	}
 	public function recent()
 	{
-	    return view('front.recent');
+		$products=Post::where('post_type','product')
+		->where('post_status','publish')
+		->orderBy('ID','DESC')
+		->limit(20)->get();
+	    return view('front.recent',compact('products'));
 	}
 	public function brands()
 	{
