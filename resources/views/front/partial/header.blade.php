@@ -59,7 +59,7 @@
                         <!-- <a class="dropdown-item" href="/rewards"><i class="demo fa fa-trophy" aria-hidden="true"></i>Rewards</a> -->
                         <a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i>Customer Support</a>
                         <a class="dropdown-item" href="{{url('faq')}}">FAQ</a>
-                        <a class="dropdown-item" href="{{url('settings')}}">Settings</a>
+                        <!-- <a class="dropdown-item" href="{{url('settings')}}">Settings</a> -->
                         <div class="dropdown-item" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
