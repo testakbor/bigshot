@@ -130,7 +130,8 @@ class PageController extends Controller
 		->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
 		->where('user_id',auth()->user()->id)
 		->groupBy('wishlist.product_id')
-		->get();
+		->orderBy('wishlist.id','DESC')
+		->paginate(3);
 	    return view('front.user-profile',compact('wishProduct'));
 	}
 	public function privacy()
@@ -156,5 +157,15 @@ class PageController extends Controller
 	public function customerSupport()
 	{
 	    return view('front.customerSupport');
+	}
+
+	//delete wishlist
+	public function wishlistDelete($id){
+	  $id=base64_decode($id);
+	  $data=DB::table('wishlist')
+	  ->where('product_id',$id)
+	  ->where('user_id',auth()->user()->id)
+	  ->delete();
+	  return back()->with('status','Product delete from wishlist');
 	}
 }

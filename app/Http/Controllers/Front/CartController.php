@@ -23,7 +23,6 @@ class CartController extends Controller
     }
 
     public function addCart(Request $request){    
-
         Cart::add(array(
             array(
                 'id' => $request->id,
