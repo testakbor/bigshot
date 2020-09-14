@@ -1,12 +1,12 @@
 <div class="wrapper d-flex align-items-stretch">
 	<nav id="sidebar" class="active">
 		<ul class="list-unstyled components mb-5">
-			<li class="active">
-				<a isemphasized="1" isinsidemenubarshowv2="0" class="SideTabBar__SideTabItem-sc-18isgdb-0-Component jtgkGA" href="{{url('/Categories')}}">
+			<li class="{{'Categories' == request()->path()? 'active' : ''}}">
+				<a isemphasized="1" isinsidemenubarshowv2="0" class="" href="{{url('/Categories')}}">
 					<svg viewBox="0 0 17 17" style="width: 100%; height: 25px; margin-top: 12px;">
 						<path d="M11.044 5.588c6.307.633 6.326.672 1.577 5.064 1.375 6.405 1.283 6.482-4.126 3.126-5.408 3.356-5.482 3.28-4.107-3.126-4.767-4.392-4.73-4.43 1.559-5.064 2.548-6.117 2.567-6.117 5.097 0z" stroke="#C0952B" fill="#FFD560" fill-rule="evenodd"></path>
 					</svg>
-					<div class="SideTabBar__SideTabTitle-sc-18isgdb-1 jyOheE">Popular</div>
+					<div class="">Popular</div>
 				</a>
 			</li>
 			<!-- <li>
@@ -18,8 +18,8 @@
 					<div class="SideTabBar__SideTabTitle-sc-18isgdb-1 jyOheE">Local</div>
 				</a>
 			</li> -->
-			<li>
-				<a isemphasized="0" isinsidemenubarshowv2="0" class="SideTabBar__SideTabItem-sc-18isgdb-0-Component gaHUxX" href="{{url('/recent')}}">
+			<li class="{{'recent' == request()->path()? 'active' : ''}}">
+				<a isemphasized="0" isinsidemenubarshowv2="0" class="" href="{{url('/recent')}}">
 					<svg viewBox="0 0 22 22" style="width: 100%; height: 25px; margin-top: 12px;">
 						<g fill="none" fill-rule="evenodd">
 							<circle fill="#0098D3" fill-rule="nonzero" cx="11" cy="11" r="11"></circle>
@@ -31,8 +31,8 @@
 					<div class="SideTabBar__SideTabTitle-sc-18isgdb-1 jyOheE">Recent</div>
 				</a>
 			</li>
-			<li>
-				<a isemphasized="0" isinsidemenubarshowv2="0" class="SideTabBar__SideTabItem-sc-18isgdb-0-Component gaHUxX" href="{{url('/brands')}}">
+			<li class="{{'brands' == request()->path()? 'active' : ''}}">
+				<a isemphasized="0" isinsidemenubarshowv2="0" class="{{'brands' == request()->path()? 'active' : ''}}" href="{{url('/brands')}}">
 					<svg viewBox="0 0 24 24" style="width: 100%; height: 28px; margin-top: 12px;">
 						<g id="Icons/18/ic_brand_shield_18" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 							<g>

@@ -114,8 +114,8 @@ class PageController extends Controller
 	public function brands()
 	{
 		  $extraInfo=array(
-            'title'=>"Brand List",
-            'page'=>'brand'
+            'title'=>"Brands",
+            'page'=>'brands'
         );
 
 		$categories=DB::table('term_taxonomy')
@@ -125,7 +125,6 @@ class PageController extends Controller
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->get();
-        // product 
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
         ->get();
