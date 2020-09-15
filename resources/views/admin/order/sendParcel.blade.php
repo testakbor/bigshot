@@ -22,7 +22,7 @@ use App\Model\front\Order_item;
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Search Send Parcel</legend>
+          <legend>Send Parcel</legend>
         </fieldset>
         <div class="inner-form ml-5" style="width: 32.5%;">
           

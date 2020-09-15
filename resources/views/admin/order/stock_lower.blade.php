@@ -19,7 +19,7 @@
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Stock Lower</legend>
+          <legend>Lower Stock</legend>
         </fieldset>
         <div class="inner-form ml-5">
           
