@@ -106,6 +106,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         // Route::get('admin/dispat','PageController@dispat')->name('dispat');
 
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
+        Route::post('admin/order/status/update','OrderController@update')->name('update.order.status');
 
     });
 

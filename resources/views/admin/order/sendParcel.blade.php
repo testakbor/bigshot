@@ -115,6 +115,7 @@ use App\Model\front\Order_item;
                       <td class="right">{{$items->post_status}}</td>
                       <!-- <td class="right"></td> -->
                   </tr>
+                  @php $grandTotal+=$sub; @endphp
                   @endforeach 
                 </tbody>
               </table>
@@ -143,7 +144,7 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box bg-success">              
-                  <h3 class="text-center">123</h3>
+                  <h3 class="text-center">{{$grandTotal}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Total Percel</p>
                 </div>

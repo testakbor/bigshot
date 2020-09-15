@@ -23,15 +23,49 @@
   <section class="content">
     <div class="container-fluid">
       @include('admin.includes.messages')
-      <form action="{{route('product.store')}}" method="POST" enctype="multipart/form-data">
+      <form action="{{route('update.order.status')}}" method="POST">
         {{ csrf_field() }}
-        <div class="row">      
+
+        <div class="row">    
+        <input type="hidden" name="id" value="{{$id}}">  
           <div class="col-md-9">
            <div class="card card-default">
             <div class="card-header">
-              <h3 class="card-title" style="width: 100%">Order #2005 details </h3>
+            @php $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city='';  @endphp
+            @foreach($order_info as $info)
+                    @if($info->meta_key=='_billing_phone')
+                     @php $mobile_no=$info->meta_value; @endphp
+                    @endif 
+                    @if($info->meta_key=='_billing_address_1')
+                     @php $address=$info->meta_value; @endphp
+                    @endif 
+
+                    @if($info->meta_key=='_sku')
+                     @php $sku=$info->meta_value; @endphp
+                    @endif 
+                    @if($info->meta_key=='_created_via')
+                     @php $check_out=$info->meta_value; @endphp
+                    @endif
+                    @if($info->meta_key=='_customer_ip_address')
+                     @php $customer_ip=$info->meta_value; @endphp
+                    @endif
+
+                    @if($info->meta_key=='_shipping_address_2')
+                     @php $shipping_address=$info->meta_value; @endphp
+                    @endif
+
+                    @if($info->meta_key=='_shipping_city')
+                     @php $shipping_city=$info->meta_value; @endphp
+                    @endif
+
+                  
+                    @if($info->meta_key=='_customer_user') 
+                      @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->first(); @endphp 
+                    @endif
+                  @endforeach 
+              <h3 class="card-title" style="width: 100%">Order #{{$id}} details </h3>
               
-              <h3 class="card-title">Payment via Cash on delivery. Customer IP: 103.150.57.30</h3>
+              <h3 class="card-title">Payment via {{$check_out}}. Customer IP: {{$customer_ip}}</h3>
               
             </div>
             <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
@@ -41,23 +75,53 @@
                   <form>
                     <div class="form-group">
                       <label for="dateCreated">Date created:</label>
-                      <input type="text" class="form-control" id="dateCreated" value="{{date('Y-m-d')}}">
+                      <input type="text" class="form-control" id="dateCreated" value="{{date('Y-m-d',strtotime($order->post_date))}}">
                     </div>
                     <div class="form-group">
                       <label for="sattus">Status</label>
                       <select name="status" id="status" class="form-control">
-                        <option value="1">Processing</option>
-                        <option value="1">On Hold</option>
-                        <option value="1">Completed</option>
-                        <option value="1">Cancelled</option>
-                        <option value="1">Refunded</option>
-                        <option value="1">Failed</option>
+                       @if($order->post_status=='on-hold') 
+                       <option value="Processing">Processing</option>
+                        <option value="on-hold" selected>On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Refunded">Refunded</option>
+                        <option value="Failed">Failed</option>
+                        @elseif($order->post_status=='Completed')
+                        <option value="Processing">Processing</option>
+                        <option value="on-hold">On Hold</option>
+                        <option value="Completed"selected>Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Refunded">Refunded</option>
+                        <option value="Failed">Failed</option>
+                        @elseif($order->post_status=='Cancelled')
+                        <option value="Processing">Processing</option>
+                        <option value="on-hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled"selected>Cancelled</option>
+                        <option value="Refunded">Refunded</option>
+                        <option value="Failed">Failed</option>
+                        @elseif($order->post_status=='Refunded')
+                        <option value="Processing">Processing</option>
+                        <option value="on-hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Refunded"selected>Refunded</option>
+                        <option value="Failed">Failed</option>
+                        @else 
+                        <option value="Processing">Processing</option>
+                        <option value="on-hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Refunded">Refunded</option>
+                        <option value="Failed"selected>Failed</option>
+                       @endif
                       </select>
                     </div>
                     <div class="form-group">
                       <label for="customer">Customer</label>
                       <select name="customer" id="customer" class="form-control">
-                        <option value="1">Guest</option>
+                        <option value="1">@if(isset($user->name)){{$user->name}} @endif</option>
                       </select>
                     </div>
                     
@@ -67,21 +131,21 @@
               <div>
                 <div class="font-weight-bold">Billing</div>
                 <div class="mt-3">
-                  akbor,Hossain <br>
-                  Khilkhat,Dhaka <br>
-                  Bangladesh
+                  @if(isset($user->name)){{$user->name}} @endif <br>
+                 {{$address}}
                 </div>
                 <div class="font-weight-bold">Email Address</div>
-                <div>user@gmail.com</div>
+                <div> @if(isset($user->email)){{$user->email}} @endif</div>
 
                 <div class="font-weight-bold mt-2">Phone</div>
-                <div>user@gmail.com</div>
+                <div>{{$mobile_no}}</div>
               </div>
               <div>              
                <div class="font-weight-bold">Shipping</div>
                <div class="mt-3">
-               Address<br>
-                No Shipping Address <br>
+               Address:{{$shipping_address}}<br>
+            
+                City:{{$shipping_city}} <br>
                 
               </div>
              </div>
@@ -109,6 +173,8 @@
                 @php 
                 $i=1;
                  $grandTotal=0;
+                 $subtotal=0;
+                 $qty=0;
                 @endphp
                 @foreach($products as $item)
                

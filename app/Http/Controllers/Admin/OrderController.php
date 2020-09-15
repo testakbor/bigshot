@@ -10,6 +10,7 @@ use App\Model\Front\Postmeta;
 use App\Model\front\Order_item;
 use Carbon\Carbon;
 use DB;
+use Session;
 
 use Auth;
 class OrderController extends Controller
@@ -209,13 +210,16 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-       $order=Post::find($id);
-       $products=Order_item::where('order_id',$id)->get();
         $extraInfo=array(
             'title'=>"Order Edit",
             'page'=>'order'
         );
-         return view('admin.order.edit',compact('order','products'))->with($extraInfo);     
+       $order=Post::find($id);
+       $products=Order_item::where('order_id',$id)->get();
+       $order_info=DB::table('postmeta')
+       ->where('post_id',$id)
+       ->get();
+       return view('admin.order.edit',compact('order','products','id','order_info'))->with($extraInfo);     
     }
 
     /**
@@ -225,9 +229,17 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id=$request->id;
+        $status=$request->status;
+        $data=DB::table('posts')->where('post_type','shop_order')
+        ->where('ID',$id)
+        ->update([
+            'post_status'=>$status
+        ]);
+        session()->flash("success","Status has been update");
+        return redirect()->back();
     }
 
     /**

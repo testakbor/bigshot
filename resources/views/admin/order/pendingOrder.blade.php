@@ -124,9 +124,6 @@ use App\Model\front\Order_item;
                       @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->get(); @endphp 
                       @foreach($user as $users) @php $cust=$users->name; @endphp @endforeach
                     @endif
-                  
-               
-                  
                   @endforeach 
                   <tr>
                   <td class="center">{{$items->ID}}</td>
