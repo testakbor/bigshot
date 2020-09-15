@@ -14,8 +14,7 @@
           color: #88B04B;
           font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
           font-weight: 900;
-          font-size: 40px;
-          margin-bottom: 10px;
+ 
         }
         p {
           color: #404F5E;
@@ -23,7 +22,7 @@
           font-size:20px;
           margin: 0;
         }
-      i {
+      .checkmark {
         color: #9ABC66;
         font-size: 100px;
         line-height: 200px;

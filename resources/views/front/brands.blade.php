@@ -68,11 +68,11 @@ right: 10px;top:96px;">
 </div>          
 <p class="text-justify mt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
-<!-- <form>
+<form>
   <div class="form-group">
       <div class="input-group"> <input type="text" class="form-control coupon" name="" value="xyz3gd"> <span class="input-group-append"> <button class="btn btn-light btn-apply coupon">Copy</button> </span> </div>
   </div>
-</form> -->
+</form>
 
 </div>
 </div>

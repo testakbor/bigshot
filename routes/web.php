@@ -27,7 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/pickup-tab','PageController@pickupTab')->name('pickup.tab');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');
-        Route::get('/Categories','PageController@Categories')->name('Categories');
+        Route::get('/popular','PageController@popular')->name('popular');
         Route::get('/Categories/{id}','PageController@categoryProduct');
         Route::get('/cart','CartController@cart')->name('cart');
         Route::get('/profile','PageController@profile')->name('profile');

@@ -34,7 +34,7 @@ class PageController extends Controller
 	{
 	    return view('front.order-success');
 	}
-	public function Categories()
+	public function popular()
 	{
 		$categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -47,7 +47,7 @@ class PageController extends Controller
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
         ->get();
-	    return view('front.Categories',compact('categories','products'));
+	    return view('front.popular',compact('categories','products'));
 	}
 	public function categoryProduct($id)
 	{
