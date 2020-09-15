@@ -74,7 +74,7 @@
                 </thead>
 
                 <tbody>
-                @php $price=0; $sprice=0; $sku=''; $qty=0; $total_sell_price=0; $total_cost=0; @endphp
+                @php $price=0; $sprice=0; $sku=''; $tot=0; $qty=0; $total_sell_price=0; $total_cost=0; @endphp
                 @foreach($products as $item)
                    @foreach ($item->productMeta as $meta)
                         @if($meta['meta_key']=='_regular_price')
@@ -104,8 +104,10 @@
                         @endphp
                         @endif
                       @endforeach
-                      
-                      <tr>
+                      @if($qty<=0)
+                    
+                    @else 
+                    <tr>
                         <td class="center">{{$sku}}</td>
                         <td class="left strong">{{$item->post_title}}</td>
                         <!-- <td class="left">Women</td> -->
@@ -119,10 +121,15 @@
                           <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
                         </td>
                     </tr>
+                    @endif 
                   @endforeach
                 </tbody>
               </table>
+              @if($qty<=0)
+          
+              @else 
               {{$products->links()}}
+              @endif
             </div>
 
             <div class="row">

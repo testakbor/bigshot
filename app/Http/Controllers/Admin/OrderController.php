@@ -39,7 +39,7 @@ class OrderController extends Controller
         );
          $orders=Post::where('posts.post_type','shop_order')
          ->where('post_status','on-hold')
-        ->paginate(10); 
+         ->paginate(10); 
         $total_orders=Post::where('posts.post_type','shop_order')
             ->where('post_status','on-hold')
         ->count();  

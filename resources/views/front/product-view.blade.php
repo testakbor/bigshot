@@ -96,7 +96,7 @@ endif;
               @php 
             $termsInfo=DB::table('terms')->where('term_id',$metaInfo->term)->first();
               @endphp          
-              {{$termsInfo->name}}</div>
+              @if(isset($termsInfo->name)) {{$termsInfo->name}} @endif</div>
         </div>
         @endforeach
         @endif
