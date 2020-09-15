@@ -80,7 +80,7 @@
                         
           
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link {{isset($page) && $page=='product'?'active':''}}">
               <i class="nav-icon fas fa-circle"></i>
               <p>
                Product
@@ -96,7 +96,7 @@
               </li>
               
               <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
+                <a href="{{route('product.create')}}" class="nav-link {{isset($page) && $page=='products'?'active':''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>New Product</p>
                 </a>

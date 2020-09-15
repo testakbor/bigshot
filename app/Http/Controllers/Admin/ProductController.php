@@ -37,7 +37,7 @@ class ProductController extends Controller
     {        
         $extraInfo=array(
             'title'=>"New Product",
-            'page'=>'product'
+            'page'=>'products'
         );
         // for bands
         $brands=DB::table('term_taxonomy')
