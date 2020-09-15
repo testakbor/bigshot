@@ -31,7 +31,7 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered table-striped">
+                <!-- <table class="table table-bordered table-striped">
                   <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
@@ -50,7 +50,7 @@
                       </td>
                     </tr>
                   </tbody>
-                </table>
+                </table> -->
               </div>
               <div class="d-flex justify-content-center">            
               </div>  
