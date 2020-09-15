@@ -104,9 +104,7 @@
                         @endphp
                         @endif
                       @endforeach
-                      @if($qty<=0)
-                    
-                    @else 
+                      @if($qty>0)
                     <tr>
                         <td class="center">{{$sku}}</td>
                         <td class="left strong">{{$item->post_title}}</td>

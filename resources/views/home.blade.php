@@ -20,12 +20,12 @@
                 @endphp
                 @foreach($products as $item)
                    @foreach ($item->productMeta as $meta)
-                      @if($meta['meta_key']=='_regular_price')
+                      @if($meta['meta_key']=='regular_price')
                         @php                            
                         $rprice=$meta['meta_value'];
                         @endphp
                       @endif
-                      @if($meta['meta_key']=='_sale_price')
+                      @if($meta['meta_key']=='sale_price')
                       @php                            
                       $sprice=$meta['meta_value'];
                       @endphp
