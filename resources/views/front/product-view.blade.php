@@ -43,10 +43,10 @@ endif;
         <div class="back-arrow" id="buy-toaster"></div>
       </div>
       <div class="product-image--container">
-        <img class="product-image--featured" id="featured" src="{{asset('assets/backend/products/'.$image)}}" alt="toaster"/>
+        <img class="product-image--featured" id="featured" src="{{asset('backend/products/'.$image)}}" alt="toaster"/>
         <ul class="product-image--list">
 @foreach($images as $item) 
-          <li class="item-selected"><img src="{{asset('assets/backend/products/'.$item->guid)}}" class="product-image--item"/></li>          
+          <li class="item-selected"><img src="{{asset('backend/products/'.$item->guid)}}" class="product-image--item"/></li>          
 @endforeach          
         </ul>
       </div>
