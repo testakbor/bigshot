@@ -74,9 +74,24 @@
                 </thead>
 
                 <tbody>
-                @php $price=0; $sprice=0; $sku=''; $tot=0; $qty=0; $total_sell_price=0; $total_cost=0; @endphp
+                @php $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
                 @foreach($products as $item)
-                   @foreach ($item->productMeta as $meta)
+                  @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get(); @endphp
+                  @foreach($product_info as $info)
+                     @if($info->meta_key=='qty')
+                      @php $qty=$info->meta_value; @endphp 
+                     @endif
+                     @if($info->meta_key=='sale_price')
+                      @php $price=$info->meta_value; @endphp 
+                     @endif
+                     @if($info->meta_key=='stock_status')
+                      @php $status=$info->meta_value; @endphp 
+                     @endif
+                     @if($info->meta_key=='sku')
+                      @php $sku=$info->meta_value; @endphp 
+                     @endif
+                   @endforeach 
+                   <!-- @foreach ($item->productMeta as $meta)
                         @if($meta['meta_key']=='_regular_price')
                           @php                            
                           $rprice=$meta['meta_value'];
@@ -103,31 +118,31 @@
                            $price=is_numeric($meta['meta_value']);
                         @endphp
                         @endif
-                      @endforeach
+                      @endforeach -->
+               
                       @if($qty>0)
-                    <tr>
+                      @php $i++ @endphp
+                      <tr>
                         <td class="center">{{$sku}}</td>
                         <td class="left strong">{{$item->post_title}}</td>
                         <!-- <td class="left">Women</td> -->
                         <td class="right">{{$qty}}</td>
-                        <td class="right"> Tk {{$tot=$price*$qty}}</td>
-                        <td class="right">Tk {{$sprice}}</td>
-                        <td class="right">Active</td>
+                        <td class="right"> Tk {{$tot=$qty*$price}}</td>
+                        <td class="right">Tk {{$price}}</td>
+                        <td class="right">{{$status}}</td>
                         <td class="right">
                           <i class="fas fa-print"><a href="#">Print</a></i><br>
                           <i class="fas fa-edit"><a href="#">Edit</a></i><br>
                           <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
                         </td>
                     </tr>
-                    @endif 
-                  @endforeach
+                     @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
+                   @endif 
+        
+                    @endforeach   
                 </tbody>
               </table>
-              @if($qty<=0)
-          
-              @else 
               {{$products->links()}}
-              @endif
             </div>
 
             <div class="row">
@@ -145,7 +160,7 @@
                 <div class="box bg-primary">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
-                  <h3 class="text-center">0</h3>
+                  <h3 class="text-center">{{$i}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Total Stock </p>
                 </div>
@@ -155,7 +170,7 @@
                   <!-- <i class="fa fa-user ml-1"></i> -->
                  
                  
-                  <h3 class="text-center">{{$total_cost+=$tot}}</h3>
+                  <h3 class="text-center">{{$total_cost}}</h3>
                  
                   <p class="lead text-center font-weight-bold">Total Cost</p>
                 </div>

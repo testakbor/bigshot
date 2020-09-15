@@ -46,9 +46,9 @@
                         <div class="image" style="background-image:url({{asset('assets/backend/products/'.$image)}});"></div>
                         <div class="container-information">
                           <div class="title">
-                             {{$item->post_title}}
-                            ৳{{$sprice}}
-                              <!-- <a href="#" class="more close"><i class="fa fa-times"></i></a>                 -->
+                            <p> {{$item->post_title}}
+                            <span class="text-dark ml-5">৳{{$sprice}}</span></p>
+                                              
                           </div>
                       </div>
 

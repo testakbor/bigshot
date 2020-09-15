@@ -10,7 +10,7 @@ $image='no-image.png';
       if($meta['meta_key']=='_regular_price'):
         $rprice=$meta['meta_value'];        
 endif;
-      if($meta['meta_key']=='_sale_price'):
+      if($meta['meta_key']=='sale_price'):
       $sprice=$meta['meta_value'];      
 endif;
       if($meta['meta_key']=='default_attribute'):
