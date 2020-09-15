@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Category List</li>
+              <li class="breadcrumb-item active">Customer List</li>
             </ol>
           </div>
         </div>
@@ -37,7 +37,7 @@
                       <th style="width: 10px">#</th>
                       <th>Customer Name</th>
                       <th>Status</th>
-                      <!-- <th>Action</th> -->
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -46,7 +46,7 @@
                         <td style="width: 10px">#</td>
                         <td>{{$customer->name}}</td>
                         <td>Active</td>
-                        <td><a href="#"><button class="btn btn-danger btn-sm">edit</button></a></td>
+                        <td><i class="fas fa-edit"><a href="#">Edit</a></i></td>
                       </tr>
                       @endforeach 
                   </tbody>

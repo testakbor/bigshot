@@ -106,6 +106,13 @@ Route::get('/home', 'HomeController@index')->name('home');
         // Route::get('admin/dispat','PageController@dispat')->name('dispat');
 
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
+        Route::get('admin/quickReport/man_stock','QuickReportController@manStock')->name('man.stock');
+        Route::get('admin/quickReport/women_stock','QuickReportController@womenStock')->name('women.stock');
+        Route::get('admin/quickReport/sales_report','QuickReportController@salesReport')
+        ->name('sales.report');
+
+        Route::get('admin/quickReport/delivery_report','QuickReportController@deliveryReport')->name('delivery.report');
+        Route::get('admin/quickReport/reject_item','QuickReportController@rejectItem')->name('reject.item');
 
     });
 

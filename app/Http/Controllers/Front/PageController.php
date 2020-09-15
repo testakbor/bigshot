@@ -55,6 +55,7 @@ class PageController extends Controller
 		where term_taxonomy_id=$id and object_id in(select ID from `posts` 
 		where `post_type`='product' 
 		and post_status='publish' and ID=term_relationships.object_id)");
+		
 	    return view('front.Categories',compact('data'));
 	}
 	public function wishlist()

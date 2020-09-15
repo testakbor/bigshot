@@ -5481,7 +5481,7 @@ a,a:visited {
   height:34px;
   /*padding:5px;*/
   /*display:none;*/
-  /*position: relative;*/
+  position: relative;
   /*margin-top: -15px;*/
 }
 
@@ -6018,6 +6018,7 @@ button.bg-danger:focus {
 .bg-light {
   background-color: #f8f9fa !important; 
   height: 50px;
+  
   }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -8956,13 +8957,12 @@ a[data-toggle="collapse"] {
     display: none; } }
 
 .footer {
-  padding: 0 30px;
-  /*position: fixed;*/
-    /*bottom: 0px;*/
-    /*left: 10px;*/
-    /*z-index: 999;*/
-    color: rgb(126, 154, 166);
-    background-color: rgb(255, 255, 255);
+  padding: 0 104px;
+  position: fixed;
+  bottom: 0px;
+  left: 196px;
+  color: rgb(126, 154, 166);
+  background-color: rgb(255, 255, 255);
   /*position: fixed;*/
 }
   @media (max-width: 991.98px) {

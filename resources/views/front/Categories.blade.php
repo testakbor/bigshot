@@ -10,34 +10,52 @@
        <div class="container-fluid">
 
           <section style="margin-left: 120px" class="mt-5">
-              <img src="{{asset('assets/front/images/add.png')}}" width="1267" class="img-fluid" alt="Responsive image">
-              <ul class="wrapper cf mt-3">
 
-              @foreach($data as $item)
+              <img src="{{asset('assets/front/images/add.png')}}" width="1267" class="img-fluid" alt="Responsive image">
+
+              <ul class="wrapper cf mt-3">
+                @php
+                $rprice=0;
+                $sprice=0;
+                @endphp
+                @foreach($data as $item)
+                   @foreach ($item->postmeta as $meta)
+                      @if($meta['meta_key']=='_regular_price')
+                        @php                            
+                        $rprice=$meta['meta_value'];
+                        @endphp
+                      @endif
+                      @if($meta['meta_key']=='_sale_price')
+                      @php                            
+                      $sprice=$meta['meta_value'];
+                      @endphp
+                    @endif
+                  @endforeach
+              
                   <li class="product fl-l">
-                    <a href="">
+                    <a href="{{route('product-page',$item->ID)}}">
                       <div class="container-prod">
                         <div class="image" style="background-image:url({{asset('assets/front/images/1.jpg')}});"></div>
                         <div class="container-information">
                           <div class="title">
+                             {{$item->post_title}}. R-{{$rprice}}. S-{{$sprice}}
                               <a href="#" class="more close"><i class="fa fa-times"></i></a>                
                           </div>
                       </div>
+
                       <div class="buttons cf">
                         <span style="margin-left: 3px;font-size: 12px;">
                           <span class="add ml-2">20,000+ bought this</span>
+
                       </span>
-                    </div>
-                 </div>
-                </a>
-             </li>
-          @endforeach 
 
-
-          
-
+                  </div>
+              </div>
+                    </a>
+          </li>
+@endforeach
          
-       </ul>
+</ul>
 
 </section>
 

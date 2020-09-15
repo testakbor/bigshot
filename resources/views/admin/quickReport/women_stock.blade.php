@@ -6,12 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Product List</h1>
+            <h1>Women Stock List</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Product List</li>
+              <li class="breadcrumb-item active">Women Stock List</li>
             </ol>
           </div>
         </div>
@@ -27,12 +27,12 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Product</h3>
+                <h3 class="card-title">Women Stock</h3>
               </div>
-              <!-- /.card-header -->
+
               <div class="card-body">
                 <table class="table table-bordered table-striped">
-                  <thead class="bg-danger">                  
+                  <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Product Name</th>
@@ -41,43 +41,33 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @php 
-                    $i=1;
-                    @endphp
-                   @foreach($products as $value)
+                   
                     <tr>
-                      <td>{{$i}}</td>
-                      <td>{{$value->post_title}}</td>
-                      <td>{{$value->post_status}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
                       <td>
-                        <a href="{{route('product.edit',$value->ID)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
+                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
                       </td>
                     </tr>
-                    @php 
-                    $i++;
-                    @endphp
-                   @endforeach
+                   
                   </tbody>
                 </table>
               </div>
               <div class="d-flex justify-content-center">            
-                {{$products->links()}}                  
+                                  
               </div>  
             </div>
-            <!-- /.card -->
-           
-
+          
           </div>
         
 
           </div>
-          <!-- /.col -->
+
         </div>
       
-      
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-    <!-- /.content -->
+
   </div>
 @endsection

@@ -1,6 +1,7 @@
 <body>
         <div class="col-md-12 header-menu">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;
+    width: 100%;">
           <div class="container-fluid">
             <h1><a href="{{url('/')}}" class="logo">
               <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 50px;width: 70px">
