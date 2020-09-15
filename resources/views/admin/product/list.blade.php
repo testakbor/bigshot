@@ -32,7 +32,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <table class="table table-bordered table-striped">
-                  <thead class="bg-danger">                  
+                  <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Product Name</th>
@@ -50,7 +50,7 @@
                       <td>{{$value->post_title}}</td>
                       <td>{{$value->post_status}}</td>
                       <td>
-                        <a href="{{route('product.edit',$value->ID)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
+                        <a href="#" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
                       </td>
                     </tr>
                     @php 
