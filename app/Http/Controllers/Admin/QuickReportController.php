@@ -47,4 +47,24 @@ class QuickReportController extends Controller
     {
        return view('admin.quickReport.reject_item');
     }
+    public function bestSelling()
+    {
+       return view('admin.quickReport.best_selling');
+    }
+    public function cancellationItems()
+    {
+       return view('admin.quickReport.cancellation_items');
+    }
+    public function soldoutStock()
+    {
+       return view('admin.quickReport.soldout_stock');
+    }
+    public function bestCustomer()
+    {
+       return view('admin.quickReport.best_customer');
+    }
+    public function grossProfit()
+    {
+       return view('admin.quickReport.gross_profit');
+    }
 }

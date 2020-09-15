@@ -113,6 +113,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::get('admin/quickReport/delivery_report','QuickReportController@deliveryReport')->name('delivery.report');
         Route::get('admin/quickReport/reject_item','QuickReportController@rejectItem')->name('reject.item');
+        Route::get('admin/quickReport/best_selling_items','QuickReportController@bestSelling')->name('best.selling');
+        Route::get('admin/quickReport/cancellation_items','QuickReportController@cancellationItems')->name('cancellation.items');
+        Route::get('admin/quickReport/soldout_stock','QuickReportController@soldoutStock')->name('sold.stock');
+        Route::get('admin/quickReport/best_customer','QuickReportController@bestCustomer')->name('best.customer');
+        Route::get('admin/quickReport/gross_profit','QuickReportController@grossProfit')->name('gross.profit');
 
     });
 

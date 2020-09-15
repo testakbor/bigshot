@@ -218,31 +218,31 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
+                <a href="{{route('best.selling')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Best selling items</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
+                <a href="{{route('cancellation.items')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cancellation Items</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
+                <a href="{{route('sold.stock')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Sold out stock</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
+                <a href="{{route('best.customer')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Best Customer</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('product.create')}}" class="nav-link">
+                <a href="{{route('gross.profit')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Gross Profit</p>
                 </a>
