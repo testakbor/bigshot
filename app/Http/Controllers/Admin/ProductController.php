@@ -100,7 +100,7 @@ class ProductController extends Controller
 
                 $detailVal= DB::table('term_taxonomy')
                 ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-                ->where('term_id',$value)
+                ->where('term_taxonomy.term_id',$value)
                 ->select('term_taxonomy.*','terms.name')
                 ->first();
 
