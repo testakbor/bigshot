@@ -241,7 +241,7 @@
           </div>
           <div class="card-footer">
             <button type="submit" value="draft" name="dreft" class="btn text-danger" >Move to trash</button>
-            <button type="submit" value="submit" name="submit" class="btn btn-primary">Publish</button>
+            <button type="submit" value="submit" name="submit" class="btn btn-primary">Update</button>
           </div>
         </div>
         

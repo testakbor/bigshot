@@ -58,7 +58,6 @@ use App\Model\front\Order_item;
                   <th class="center">Oder Id</th>
                   <th>Name</th>
                   <th>Address</th>
-
                   <th class="right">Items</th>
                   <th class="center">Qty</th>
                   <th class="right">Amount</th>
@@ -109,7 +108,7 @@ use App\Model\front\Order_item;
                       <td class="center">{{$items->ID}}</td>
                       <td class="left strong">{{$cust}}</td>
                       <td class="left">{{$address}}</td>
-                      <td class="right">{{$mobile_no}}</td>
+                      <td class="right"></td>
                       <td class="center">{{$qty}}</td>
                       <td class="right">{{$sub = $subtotal*$qty}}</td>
                       <td class="right">{{$items->post_status}}</td>
