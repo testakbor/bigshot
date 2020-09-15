@@ -9,5 +9,6 @@
   <!-- <link rel = "icon" href ="" type = "image/x-icon">  -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
   @yield('css')
 </head>

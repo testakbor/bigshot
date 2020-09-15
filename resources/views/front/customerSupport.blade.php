@@ -60,7 +60,7 @@
                       <label class="col-sm-4 control-label">Subject</label>
                         <div class="col-sm-8">
                           <input class="form-control" type="text" name="subject" 
-                          ng-model="me.email" placeholder="Email" >
+                          ng-model="me.email" placeholder="Subject" >
                             
                             
                         </div>
@@ -91,7 +91,7 @@
             <div class="tab-pane fade" id="return" role="tabpanel">
               <div class="col-sm-12">
                 <form method="" action="">
-                <h3>Manage Addresses</h3>
+                <h3>Request cancel/return Form</h3>
                   <div class="form-group">
                       <label class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-8">

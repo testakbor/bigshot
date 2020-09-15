@@ -9,7 +9,7 @@ use App\Model\front\Order_item;
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Pending Order</h1>
+            <!-- <h1>Pending Order</h1> -->
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -60,10 +60,7 @@ use App\Model\front\Order_item;
       <div class="container">
         <div class="card">
 
-          <div class="card-header">Invoice
-            <strong>{{date('d/m/Y')}}</strong> 
-            <span class="float-right"> <strong>Status:</strong> Pending</span>
-          </div>
+          
 
           <div class="card-body">
            

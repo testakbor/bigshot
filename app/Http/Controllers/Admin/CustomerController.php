@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use DB;
+use Session;
 
 class CustomerController extends Controller
 {
@@ -26,8 +26,7 @@ class CustomerController extends Controller
             'title'=>"Customer List",
             'page'=>'customer'
         );
-        $customers=DB::table('users')       
-        ->paginate(3);                
+        $customers=DB::table('users')->orderBy('id','DESC')->get();                
         return view('admin.customer.list',compact('customers'))->with($extraInfo);
     }
 
@@ -71,7 +70,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user=DB::table('users')->where('id',$id)->first();
+        return view('admin.customer.edit',compact('user'));
     }
 
     /**
@@ -81,9 +81,13 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $data=DB::table('users')
+        ->where('id',$request->id)
+        ->update(['status'=>$request->status]);
+        session()->flash("success","Status has been update");
+        return redirect()->route('customer.index');
     }
 
     /**

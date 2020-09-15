@@ -102,10 +102,10 @@ class OrderController extends Controller
             'page'=>'sendParcel'
         ); 
         $orders=Post::where('posts.post_type','shop_order')
-        ->where('post_status','on-hold')
+        ->where('post_status','Processing')
        ->paginate(10); 
        $total_orders=Post::where('posts.post_type','shop_order')
-       ->where('post_status','on-hold')
+       ->where('post_status','Processing')
        ->count();  
         return view('admin.order.sendParcel',compact('orders','total_orders'))->with($extraInfo);
     }

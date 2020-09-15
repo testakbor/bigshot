@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Category List</li>
+              <li class="breadcrumb-item active">Customer List</li>
             </ol>
           </div>
         </div>
@@ -31,22 +31,24 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered table-striped">
+                <table id="myTable" class="table table-bordered table-striped">
                   <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Customer Name</th>
                       <th>Status</th>
-                      <!-- <th>Action</th> -->
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                  @php $order=0; @endphp
                     @foreach($customers as $customer)
+                    @php $order++; @endphp
                       <tr>
-                        <td style="width: 10px">#</td>
+                        <td style="width: 10px">{{$order}}</td>
                         <td>{{$customer->name}}</td>
-                        <td>Active</td>
-                        <td><a href="#"><button class="btn btn-danger btn-sm">edit</button></a></td>
+                        <td>@if($customer->status==1) Active @else Inactive @endif</td>
+                        <td><i class="fas fa-edit"><a href="{{url('user/'.$customer->id)}}">Edit</a></i></td>
                       </tr>
                       @endforeach 
                   </tbody>
@@ -72,4 +74,9 @@
     </section>
     <!-- /.content -->
   </div>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  <script>
+    $('#myTable').DataTable();
+  </script>
 @endsection

@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Stock Lower</li>
+              <li class="breadcrumb-item active">Old Stock List</li>
             </ol>
           </div>
         </div>
@@ -19,7 +19,7 @@
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Stock Lower</legend>
+          <legend>Old Stock List</legend>
         </fieldset>
         <div class="inner-form ml-5">
           

@@ -27,4 +27,24 @@ class QuickReportController extends Controller
         ->paginate(10);                
         return view('admin.quickReport.index',compact('products'))->with($extraInfo);
     }
+    public function manStock()
+    {
+       return view('admin.quickReport.man_stock');
+    }
+    public function womenStock()
+    {
+       return view('admin.quickReport.women_stock');
+    }
+    public function salesReport()
+    {
+       return view('admin.quickReport.sales_report');
+    }
+    public function deliveryReport()
+    {
+       return view('admin.quickReport.delivery_report');
+    }
+    public function rejectItem()
+    {
+       return view('admin.quickReport.reject_item');
+    }
 }

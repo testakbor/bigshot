@@ -17,7 +17,7 @@
                     @endif
                   <!-- Title -->
                   <div class="title">
-                    WishList
+                    <h3>WishList</h3>
                   </div>
                   <!-- Product #1 -->
                   @php $name=''; $image='no-image.png'; @endphp
@@ -55,7 +55,7 @@
                     <div class="image">
                       <img width="90" height="80" src="{{asset('assets/backend/products/'.$image)}}" alt="" />
                     </div>
-                    <div class="description">
+                    <div class="description ml-3">
                       <span>{{$name}}</span>
                     </div>
                     <div class="total-price">Taka: {{ $price}}</div>
@@ -67,7 +67,7 @@
                     <input type="hidden"  class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
                     <input type="hidden" name="name" value="{{$name}}">  
                    
-                      <button type="submit" class="my-btn flex-btn ml-2" style="width: 115px;height: 42px;font-weight: 100;font-size: 12px;">
+                      <button type="submit" class="my-btn flex-btn ml-4" style="width: 115px;height: 42px;font-weight: 100;font-size: 12px;">
                         <span class="btn-text text-dark" style="width: 195px">Buy</span>
                       </button>
                   </form>
