@@ -19,7 +19,7 @@
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Stock</legend>
+          <legend>Stock Old</legend>
         </fieldset>
         <div class="inner-form ml-5">
           
