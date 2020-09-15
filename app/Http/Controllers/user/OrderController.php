@@ -76,7 +76,10 @@ class OrderController extends Controller
             'title'=>"Order Edit",
             'page'=>'order'
         );
-         return view('front.order.edit',compact('order','products'))->with($extraInfo);
+        $order_info=DB::table('postmeta')
+        ->where('post_id',$id)
+        ->get();
+         return view('front.order.edit',compact('order','products','order_info'))->with($extraInfo);
     }
 
     /**

@@ -36,7 +36,8 @@
           
             <div class="tab-pane fade" id="general" role="tabpanel">
               <div class="col-sm-12">
-                <form method="" action="">
+                <form  action=" {{route('genarelQuiry')}} " method="POST">
+                  @csrf
                 <h3>General Enquiries Form</h3>
                  <div class="form-group">
                     <br>
@@ -51,33 +52,26 @@
                       <label class="col-sm-4 control-label">Email</label>
                         <div class="col-sm-8">
                           <input class="form-control" type="text" name="email" 
-                          ng-model="me.email" placeholder="Email" >
-                            
-                          
+                          placeholder="Email" >                                                    
                         </div>
                   </div> 
                   <div class="form-group">
                       <label class="col-sm-4 control-label">Subject</label>
                         <div class="col-sm-8">
                           <input class="form-control" type="text" name="subject" 
-                          ng-model="me.email" placeholder="Subject" >
-                            
-                            
+                          placeholder="Subject" >                                                        
                         </div>
                   </div>
                   <div class="form-group">
                       <label class="col-sm-4 control-label">Your Message</label>
-                        <div class="col-sm-8">
-                  
-                          <textarea class="form-control" type="text" name="" 
-                          ng-model="me.email" placeholder="Email">
-                            
-                          </textarea>                       
+                        <div class="col-sm-8">                  
+                          <textarea class="form-control" type="text" name="message" 
+                          placeholder="Your Message"></textarea>                       
                         </div>
                   </div>  
                   <div class="form-group">
                             <div class=" col-sm-10">
-                                <button class="btn btn-primary float-right" ng-click="">Submit</button>
+                                <button type="submit" class="btn btn-primary float-right" >Submit</button>
                             </div>
                         </div>
                 </form>
@@ -90,20 +84,21 @@
 
             <div class="tab-pane fade" id="return" role="tabpanel">
               <div class="col-sm-12">
-                <form method="" action="">
+                <form method="POST" action="{{route('genarelQuiry')}}">
+                  @csrf
                 <h3>Request cancel/return Form</h3>
                   <div class="form-group">
                       <label class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-8">
                           <input class="form-control" type="text" name="name" 
-                          ng-model="me.email" placeholder="Name" >
+                          placeholder="Name" >
                         </div>
                   </div> 
                   <div class="form-group">
                       <label class="col-sm-4 control-label">Email</label>
                         <div class="col-sm-8">
                           <input class="form-control" type="text" name="email" 
-                          ng-model="me.email" placeholder="Email" >  
+                          placeholder="Email" >  
                         </div>
                   </div> 
                   <div class="form-group ml-3">
@@ -120,7 +115,7 @@
                    <div class="form-group">
                         <div class="col-sm-8">
                           <input class="form-control" type="text" name="" 
-                          ng-model="me.email" placeholder="Oder id or invoice number" readonly>
+                         placeholder="Oder id or invoice number" readonly>
                         </div>
                   </div>
                   <div class="form-group">
@@ -179,7 +174,7 @@
 
                   <div class="form-group">
                             <div class="col-sm-10">
-                                <button class="btn btn-primary float-right" ng-click="">Submit</button>
+                                <button type="button" class="btn btn-primary float-right" >Submit</button>
                             </div>
                         </div>
                   </form>
