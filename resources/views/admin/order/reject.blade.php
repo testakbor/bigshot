@@ -89,7 +89,7 @@
             
               <div class="col-md-4">
                 <div class="box">
-                  <button class="btn-primary" type="Submite"  style="height: 56px;width: 80%;border-radius: 6px;">Submite</button>
+                  <button class="btn-primary" type="Submite"  style="height: 56px;width: 80%;border-radius: 6px;">Submit</button>
                 </div>
               </div>
         </div>       

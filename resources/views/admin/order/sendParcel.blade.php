@@ -150,7 +150,7 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box">
-                  <button class="btn-primary" type="Submite"  style="height: 56px;width: 80%;border-radius: 6px;">Submite & Print</button>
+                  <button class="btn-primary" type="Submit"  style="height: 56px;width: 80%;border-radius: 6px;">Submit & Print</button>
                 </div>
               </div>
         </div>       
