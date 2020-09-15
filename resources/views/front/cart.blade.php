@@ -189,7 +189,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="cc-number">Credit card number<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-number" placeholder="Creadit Card Number" name="cc-number" required>
+                  <input type="text" class="form-control" id="cc-number" placeholder="Creadit Card Number" name="cc-number" >
                   <div class="invalid-feedback">
                     Credit card number is required
                   </div>
@@ -198,14 +198,14 @@
               <div class="row" id="hnf1">
                 <div class="col-md-3 mb-3">
                   <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"  placeholder="Expiration" required>
+                  <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"  placeholder="Expiration">
                   <div class="invalid-feedback">
                     Expiration date required
                   </div>
                 </div>
                 <div class="col-md-3 mb-3">
                   <label for="cc-cvv">CVV<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="Security code" required>
+                  <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="Security code" >
                   <div class="invalid-feedback">
                     Security code required
                   </div>
