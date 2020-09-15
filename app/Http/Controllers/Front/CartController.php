@@ -33,7 +33,7 @@ class CartController extends Controller
             )
         )
     );
-        return redirect(route('product-page',$request->id));
+        return redirect(route('product-page',$request->id))->with('status','Product added in Cart');
     }
     
     public function index()
@@ -346,6 +346,6 @@ class CartController extends Controller
     {
         // dd('id');
         Cart::remove($id);
-        return redirect(route('cart'));
+        return redirect(route('cart'))->with('status','Product delete from cart');
     }
 }
