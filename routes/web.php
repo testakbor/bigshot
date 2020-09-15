@@ -59,10 +59,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['namespace'=>'User'],function(){
         Route::resource('/order-list','OrderController');
+        Route::resource('user/profile','UserController');
     }); 
        
     Route::group(['namespace'=>'Search'],function(){
         Route::post('/search','SearchController@nSearch')->name('search');
+       
     });
 
     Route::group(['namespace'=>'Admin'],function(){
