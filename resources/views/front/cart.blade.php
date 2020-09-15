@@ -3,11 +3,17 @@
 @section('content')
 
 <!-- Page Content  -->
+
 <div id="content" class="p-4 p-md-5">
   <div class="row">
     <div class="col-md-12 ">
       <div class="container-fluid mt-2">
        <div class="container">  
+         @if (session('status'))
+                        <div class="alert alert-success" role="alert" id="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
          <form  role="form" action="{{route('checkout')}}" method="POST">
           @csrf                  
           <div class="row">
