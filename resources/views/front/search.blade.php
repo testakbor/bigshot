@@ -43,7 +43,7 @@
                   <li class="product fl-l">
                     <a href="{{route('product-page',$item->ID)}}">
                       <div class="container-prod">
-                        <div class="image" style="background-image:url({{asset('assets/backend/products/'.$image)}});"></div>
+                        <div class="image" style="background-image:url({{asset('backend/products/'.$image)}});"></div>
                         <div class="container-information">
                           <div class="title">
                             {{$item->post_title}}. R-{{$rprice}}. S-{{$sprice}}

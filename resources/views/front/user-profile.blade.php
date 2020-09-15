@@ -63,7 +63,7 @@
                     @php $name=$products->post_title @endphp 
                   @endforeach
                   @foreach($product_meta as $meta)
-                     @if($meta->meta_key=='_price')
+                     @if($meta->meta_key=='sale_price')
                         @php 
                            $price=$meta->meta_value;
                         @endphp
@@ -81,7 +81,7 @@
                     </div>
                     </a>
                     <div class="image">
-                      <img width="90" height="80" src="{{asset('assets/backend/products/'.$image)}}" alt="" />
+                      <img width="90" height="80" src="{{asset('backend/products/'.$image)}}" alt="" />
                     </div>
                     <div class="description">
                       <span>{{$name}}</span>
