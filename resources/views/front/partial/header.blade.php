@@ -52,7 +52,7 @@
                         <!-- <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a> -->
                         <a class="dropdown-item" href="{{url('wishlist')}}"><i class="demo fa fa-heart" aria-hidden="true"></i>Wishlist</a>
                         <a class="dropdown-item" href="{{url('cart')}}"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</a>
-                        <a class="dropdown-item" href="{{url('order-history')}}"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a>
+                        <!-- <a class="dropdown-item" href="{{url('order-history')}}"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order History</a> -->
                         <a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note" aria-hidden="true"></i>Order List</a>
                         <!-- <a class="dropdown-item" href="/daily-login-bonus"><i class="demo fa fa-calendar" aria-hidden="true"></i>Daily Login Bonus</a> -->
                         <!-- <a class="dropdown-item" href="cash"><i class="demo fa fa-credit-card" aria-hidden="true"></i>Wish Cash</a> -->

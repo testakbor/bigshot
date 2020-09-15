@@ -38,7 +38,7 @@
                 
                 </div>
                 <div class="col-md-7" style="border: 2px solid rgb(212, 227, 235);background: #fff;height: 600px;">
-                @if (session('status'))
+                   @if (session('status'))
                         <div class="alert alert-success" role="alert" id="alert">
                             {{ session('status') }}
                         </div>
@@ -48,7 +48,7 @@
                     WishList
                   </div>
                   <!-- Product #1 -->
-                  @php $name=''; $image='no-image.png'; @endphp
+                  @php $name=''; $image='no-image.png'; $price=''; @endphp
                  @foreach($wishProduct as $item)
                  @php
                   $product=DB::table('posts')
