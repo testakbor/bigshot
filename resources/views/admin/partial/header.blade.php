@@ -80,7 +80,7 @@
                         
           
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link {{isset($page) && $page=='product'?'active':''}}">
               <i class="nav-icon fas fa-circle"></i>
               <p>
                Product
