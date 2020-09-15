@@ -17,6 +17,7 @@
                 @php
                 $rprice=0;
                 $sprice=0;
+                $image='';
                 @endphp
                 @foreach($products as $item)
                    @foreach ($item->productMeta as $meta)
@@ -30,12 +31,17 @@
                       $sprice=$meta['meta_value'];
                       @endphp
                     @endif
+                    @if($meta['meta_key']=='attached_file')
+                        @php                            
+                        $image=$meta['meta_value'];
+                        @endphp
+                       @endif
                   @endforeach
               
                   <li class="product fl-l">
                     <a href="{{route('product-page',$item->ID)}}">
                       <div class="container-prod">
-                        <div class="image" style="background-image:url({{asset('assets/front/images/1.jpg')}});"></div>
+                        <div class="image" style="background-image:url({{asset('backend/products/'.$image)}});"></div>
                         <div class="container-information">
                           <div class="title">
                              {{$item->post_title}}. R-{{$rprice}}. S-{{$sprice}}
