@@ -57,13 +57,14 @@
 .nav-tabs.nav-tabs-right li.active .glyphicon:hover {
   color: #444;
 }
-.nav-tabs.nav-tabs-left li.active a,
-.nav-tabs.nav-tabs-right li.active a,
+.nav-tabs.nav-tabs-left li.active ,
+.nav-tabs.nav-tabs-right li.active ,
 .nav-tabs.nav-tabs-left li.active a:hover,
 .nav-tabs.nav-tabs-right li.active a:hover,
 .nav-tabs.nav-tabs-left li.active a:focus,
 .nav-tabs.nav-tabs-right li.active a:focus {
   color: #fff;
+  background: cadetblue;
 }
 .nav-tabs.nav-tabs-left li:not(:last-of-type),
 .nav-tabs.nav-tabs-right li:not(:last-of-type) {
@@ -112,5 +113,18 @@ col.did {
 }
 .nav-tabs>li>a,.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
 	border: none;
+     color: #fff !important;
+}
+.nav-tabs>li{
+  border: none;
+  padding-right: 30px;
+    font-size: 22px;
+    background: rgb(170, 170, 170);
+ 
+}
+.nav-tabs>li.active{
+
+  background: rgb(52,173,236);
+
 }
 

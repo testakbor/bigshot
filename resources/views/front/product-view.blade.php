@@ -127,8 +127,9 @@ endif;
         </table>
 
       </div>
+      </form>
     </div>
-  </form>
+  
   </div>
 </div>
 <script type="text/javascript">
@@ -146,7 +147,112 @@ $('#buy-toaster').click(function() {
 
 
 			</div>
+
+
+
+
 		</div>
+    <div class="col-md-12 mb-5">
+      <div class="container">
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#description">Description</a></li>
+    <li><a data-toggle="tab" href="#specification">Specification</a></li>
+    <li><a data-toggle="tab" href="#releted">Releted Products</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="description" class="tab-pane active">
+      <h3>Description</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+    <div id="specification" class="tab-pane fade">
+      <h3>Specification</h3>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <div id="releted" class="tab-pane fade">
+      <section style="margin-left: 120px" class="mt-5">
+
+              <ul class="wrapper cf mt-3">
+
+                  <li class="product fl-l">
+                    <a href="">
+                      <div class="container-prod">
+                        <div class="image" >
+                          <img src="{{asset('assets/front/images/download.jpg')}}">
+                        </div>
+                        <div class="container-information">
+                          <div class="title">
+                             Product
+                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
+                          </div>
+                      </div>
+
+                      <div class="buttons cf">
+                        <span style="margin-left: 3px;font-size: 12px;">
+                          <span class="add ml-2">20,000+ bought this</span>
+
+                      </span>
+
+                  </div>
+              </div>
+                    </a>
+          </li>
+           <li class="product fl-l">
+                    <a href="">
+                      <div class="container-prod">
+                        <div class="image" >
+                          <img src="{{asset('assets/front/images/download.jpg')}}">
+                        </div>
+                        <div class="container-information">
+                          <div class="title">
+                             Product
+                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
+                          </div>
+                      </div>
+
+                      <div class="buttons cf">
+                        <span style="margin-left: 3px;font-size: 12px;">
+                          <span class="add ml-2">20,000+ bought this</span>
+
+                      </span>
+
+                  </div>
+              </div>
+                    </a>
+          </li>
+          <li class="product fl-l">
+                    <a href="">
+                      <div class="container-prod">
+                        <div class="image" >
+                          <img src="{{asset('assets/front/images/download.jpg')}}">
+                        </div>
+                        <div class="container-information">
+                          <div class="title">
+                             Product
+                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
+                          </div>
+                      </div>
+
+                      <div class="buttons cf">
+                        <span style="margin-left: 3px;font-size: 12px;">
+                          <span class="add ml-2">20,000+ bought this</span>
+
+                      </span>
+
+                  </div>
+              </div>
+                    </a>
+          </li>
+
+         
+</ul>
+
+</section>
+    </div>
+  </div>
+      </div>
+    </div>
 
 </div>
 </div>

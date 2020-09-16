@@ -141,7 +141,25 @@ $(function(){
         $("#alert").hide();
         }, 2000);
       });
-</script>
 
+</script>
+<script>
+$(document).ready(function(){
+  $(".nav-tabs a").click(function(){
+    $(this).tab('show');
+  });
+});
+$('.nav-tabs a[href="#description"]').tab('show')
+
+// Select first tab
+$('.nav-tabs a:first').tab('show')
+
+// Select last tab
+$('.nav-tabs a:last').tab('show')
+
+// Select fourth tab (zero-based)
+$('.nav-tabs li:eq(3) a').tab('show')
+
+</script>
   </body>
 </html>

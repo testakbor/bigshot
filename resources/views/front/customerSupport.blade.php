@@ -20,7 +20,7 @@
           <ul class="nav nav-tabs nav-tabs-left nav-centered" role="tablist">
            
            
-            <li role="presentation">
+            <li role="presentation" class="active"> 
               <a href="#general" data-toggle="tab" role="tab">
                 General Enquiries
               </a>
@@ -34,7 +34,7 @@
           </ul>
           <div id="my_side_tabs" class="tab-content side-tabs side-tabs-left">
           
-            <div class="tab-pane fade" id="general" role="tabpanel">
+            <div class="tab-pane active " id="general" role="tabpanel">
               <div class="col-sm-12">
                 <form method="" action="">
                 <h3>General Enquiries Form</h3>

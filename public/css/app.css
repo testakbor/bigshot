@@ -48509,5 +48509,10 @@ span.flatpickr-weekday {
   left: 50%
   transform: translate(-50%, -50%)
 }
+.box{
+    width: 152px;
+    height: 80px;
+    border-radius: 10px;
+}
 
 

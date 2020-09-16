@@ -83,7 +83,7 @@
                     <div class="image">
                       <img width="90" height="80" src="{{asset('backend/products/'.$image)}}" alt="" />
                     </div>
-                    <div class="description">
+                    <div class="description ml-3">
                       <span>{{$name}}</span>
                     </div>
                     <div class="total-price">Taka: {{ $price}}</div>
