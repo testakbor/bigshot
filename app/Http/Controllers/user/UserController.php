@@ -5,15 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Model\front\Post;
-use App\Model\front\Postmeta;
-
-
-use App\Model\front\Order_item;
-
-use Auth;
 use DB;
-class OrderController extends Controller
+use Session;
+
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,12 +17,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $invoice = Postmeta::where('meta_key','_customer_user')
-        ->where('meta_value', Auth::user()->id)
-        ->first();
-        // dd($invoice);
-        $orders=Post::where('ID',$invoice->post_id)->get();   
-        return view('front.order.list',compact('invoice'),compact('orders'));
+        //
     }
 
     /**
@@ -70,16 +60,9 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        $order=Post::find($id);
-        $products=Order_item::where('order_id',$id)->get();
-        $extraInfo=array(
-            'title'=>"Order Edit",
-            'page'=>'order'
-        );
-        $order_info=DB::table('postmeta')
-        ->where('post_id',$id)
-        ->get();
-         return view('front.order.edit',compact('order','products','order_info'))->with($extraInfo);
+        $user=DB::table('users')->where('id',$id)->first();
+        return view('user.profile.edit',compact('user'));
+        
     }
 
     /**
@@ -91,7 +74,12 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user=DB::table('users')
+        ->where('id',$id)
+        ->update(['name'=>$request->name]);
+        session()->flash("success","Information Update Successfully");
+        return redirect(url('profile'));
+
     }
 
     /**

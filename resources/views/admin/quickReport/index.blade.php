@@ -18,12 +18,54 @@
       </div><!-- /.container-fluid -->
     </section>
 
+<<<<<<< HEAD
         <div class="row ml-2">
            <div class="col-1">
                 <div class="box" style="background: #3467C1">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
                   <h3 class="text-center">Pending Order</h3>
+=======
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        @include('admin.includes.messages')
+        <div class="row">
+           
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Quick Report</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <!-- <table class="table table-bordered table-striped">
+                  <thead class="bg-success">                  
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Quick Report Name</th>
+                      <th>Status</th>
+                      <th >Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>NO</td>
+                      <td>name</td>
+                      <td>status</td>
+                      <td>
+                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Action</a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+              </div>
+              <div class="d-flex justify-content-center">            
+              </div>  
+            </div>
+            <!-- /.card -->
+           
+>>>>>>> 08f2e5af4c03affb96d75910c15555ce1342e001
 
                 </div>
               </div>

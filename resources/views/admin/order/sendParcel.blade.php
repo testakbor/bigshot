@@ -22,7 +22,7 @@ use App\Model\front\Order_item;
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Search Send Parcel</legend>
+          <legend>Send Parcel</legend>
         </fieldset>
         <div class="inner-form ml-5" style="width: 32.5%;">
           
@@ -58,8 +58,7 @@ use App\Model\front\Order_item;
                   <th class="center">Oder Id</th>
                   <th>Name</th>
                   <th>Address</th>
-
-                  <th class="right">Items</th>
+                  <!-- <th class="right">Items</th> -->
                   <th class="center">Qty</th>
                   <th class="right">Amount</th>
                   <th class="right">Status</th>
@@ -109,7 +108,7 @@ use App\Model\front\Order_item;
                       <td class="center">{{$items->ID}}</td>
                       <td class="left strong">{{$cust}}</td>
                       <td class="left">{{$address}}</td>
-                      <td class="right">{{$mobile_no}}</td>
+                      <!-- <td class="right"></td> -->
                       <td class="center">{{$qty}}</td>
                       <td class="right">{{$sub = $subtotal*$qty}}</td>
                       <td class="right">{{$items->post_status}}</td>
@@ -151,7 +150,7 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box">
-                  <button class="btn-primary" type="Submite"  style="height: 56px;width: 80%;border-radius: 6px;">Submite & Print</button>
+                  <button class="btn-primary" type="Submit"  style="height: 56px;width: 80%;border-radius: 6px;">Submit & Print</button>
                 </div>
               </div>
         </div>       

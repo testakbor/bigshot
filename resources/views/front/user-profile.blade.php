@@ -19,9 +19,13 @@
                         <!-- SIDEBAR USER TITLE -->
                         <div class="profile-usertitle">
                           <div class="profile-usertitle-name">
-                              {{ Auth::user()->name }} <br>
+                              {{ Auth::user()->name }}   <br>
                               Email : {{ Auth::user()->email }}
                           </div>
+                          @php 
+                          $uid=Auth::user()->id;
+                          @endphp
+                          <a href="{{route('profile.edit',$uid)}}" > <i class="fa fa-pencil" aria-hidden="true"></i> Edit </a>
                           <!--   <div class="profile-usertitle-job">
                               Developer
                             </div> -->
