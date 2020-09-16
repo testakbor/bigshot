@@ -174,8 +174,29 @@
                  Customer List
                   </p>
                 </a>
+            </li>
+
+
+
+      
+            <li class="nav-item has-treeview">
+            <a href="#" class="nav-link {{isset($page) && $page=='banner_images'?'active':''}}">
+              <i class="nav-icon fas fa-circle"></i>
+              <p>
+               Settings 
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('banner.index')}}" class="nav-link {{isset($page) && $page=='banner_images'?'active':''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Banner Image</p>
+                </a>
               </li>
-              <li class="nav-item has-treeview">
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-circle"></i>
               <p>
@@ -253,7 +274,7 @@
 
               
           <li class="nav-item">
-            <a href="{{route('logout')}}"   onclick="event.preventDefault();
+            <a href="{{route('logout')}}" onclick="event.preventDefault();
             document.getElementById('logout-form').submit();" class="nav-link">
               <i class="fas fa-check nav-icon"></i>
               <p>Logout</p>

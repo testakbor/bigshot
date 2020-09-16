@@ -124,5 +124,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         Route::get('user/{id}','CustomerController@edit');
         Route::post('user/update','CustomerController@update')->name('user_update');
+
+        //baner image route for home page
+        Route::resource('/banner','BannerController');
     });
 
