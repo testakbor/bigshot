@@ -23,10 +23,9 @@ class OrderController extends Controller
     public function index()
     {
         $invoice = Postmeta::where('meta_key','_customer_user')
-        ->where('meta_value', Auth::user()->id)
+        ->where('meta_value',Auth::user()->id)
         ->first();
-        // dd($invoice);
-        $orders=Post::where('ID',$invoice->post_id)->get();   
+        $orders=Post::where('ID',$invoice->post_id)->where('post_type','shop_order')->get();  
         return view('front.order.list',compact('invoice'),compact('orders'));
     }
 

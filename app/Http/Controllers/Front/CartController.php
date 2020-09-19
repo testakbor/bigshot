@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Cart;
+use auth;
 
 class CartController extends Controller
 {
@@ -18,8 +19,21 @@ class CartController extends Controller
     public function cart()
     {
         $info= Cart::getContent();
-        
-        return view('front.cart',compact('info'));
+        $login_user=auth::user();
+        if(isset($login_user)){
+          $log_user=DB::table('posts')
+          ->where('post_type','shop_order')
+          ->where('post_author',$login_user->id)
+          ->select('ID')
+          ->first();
+          if(isset($log_user)){
+            $log_user=$log_user->ID;
+          }
+          $user_info=DB::table('postmeta')->where('post_id',$log_user)->get();
+        }else{
+            $user_info=DB::table('postmeta')->where('post_id',0)->get();; 
+        }
+        return view('front.cart',compact('info','user_info'));
     }
 
     public function addCart(Request $request){    
@@ -42,6 +56,12 @@ class CartController extends Controller
     }
 
     public function checkout(Request $request){
+        $id=auth()->user()->id;
+        if($id==''){
+            $id=0;
+        }else{
+            $id=auth()->user()->id;
+        }
         $post_date=date('Y-m-d H:i:s');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
         $order=array(
@@ -52,36 +72,69 @@ class CartController extends Controller
             'post_date'=>$post_date,
             'post_date_gmt'=>$post_date_gmt,
             'post_type'=>'shop_order',
-
+            'post_author'=>$id,
         );
         $order_id=DB::table('posts')->insertGetId($order);
-        // dd($order_id);
-        
-
         $order_post=array(
             'post_id'=>$order_id,
-            'meta_key'=>'_shipping_address_1',
-            'meta_value'=>$request->address1,
+            'meta_key'=>'first_name',
+            'meta_value'=>$request->first_name,
         );
         DB::table('postmeta')->insert($order_post);
         $order_post=array(
             'post_id'=>$order_id,
-            'meta_key'=>'_shipping_country',
-            'meta_value'=>$request->_shipping_country,
+            'meta_key'=>'last_name',
+            'meta_value'=>$request->last_name,
         );
         DB::table('postmeta')->insert($order_post); 
         $order_post=array(
             'post_id'=>$order_id,
-            'meta_key'=>'_shipping_last_name',
-            'meta_value'=>$request->lastName,
+            'meta_key'=>'address_one',
+            'meta_value'=>$request->address_one,
         );
         DB::table('postmeta')->insert($order_post);  
         $order_post=array(
             'post_id'=>$order_id,
-            'meta_key'=>'_shipping_first_name',
-            'meta_value'=>$request->firstName,
+            'meta_key'=>'address_two',
+            'meta_value'=>$request->address_two,
+        );
+        DB::table('postmeta')->insert($order_post);  
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'phone',
+            'meta_value'=>$request->phone,
         );
         DB::table('postmeta')->insert($order_post); 
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'country',
+            'meta_value'=>$request->country,
+        );
+        DB::table('postmeta')->insert($order_post); 
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'state',
+            'meta_value'=>$request->state,
+        );
+        DB::table('postmeta')->insert($order_post); 
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'city',
+            'meta_value'=>$request->city,
+        );
+        DB::table('postmeta')->insert($order_post);   
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'zip',
+            'meta_value'=>$request->zip,
+        );
+        DB::table('postmeta')->insert($order_post);
+        $order_post=array(
+            'post_id'=>$order_id,
+            'meta_key'=>'_customer_user',
+            'meta_value'=>$id,
+        );
+        DB::table('postmeta')->insert($order_post);
         $order_post=array(
             'post_id'=>$order_id,
             'meta_key'=>'_billing_postcode',
@@ -90,92 +143,30 @@ class CartController extends Controller
         DB::table('postmeta')->insert($order_post); 
         $order_post=array(
             'post_id'=>$order_id,
-            'meta_key'=>'_billing_state',
-            'meta_value'=>$request->state,
-        );
-        DB::table('postmeta')->insert($order_post); 
-
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_city',
-            'meta_value'=>$request->city,
-        );
-        DB::table('postmeta')->insert($order_post); 
-        
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_address_2',
-            'meta_value'=>$request->address2,
-        );
-        DB::table('postmeta')->insert($order_post); 
-
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_address_1',
-            'meta_value'=>$request->address1,
-        );
-        DB::table('postmeta')->insert($order_post);   
-
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_address_2',
-            'meta_value'=>$request->address2,
-        );
-        DB::table('postmeta')->insert($order_post); 
-
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_country',
-            'meta_value'=>$request->_billing_country,
-        );
-        DB::table('postmeta')->insert($order_post);
-
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_phone',
-            'meta_value'=>$request->phone,
-        );
-        DB::table('postmeta')->insert($order_post);
-        $order_post=array(
-            'post_id'=>$order_id,
-            'meta_key'=>'_billing_email',
-            'meta_value'=>$request->_billing_email,
-        );
-        DB::table('postmeta')->insert($order_post);
-        $order_post=array(
-            'post_id'=>$order_id,
             'meta_key'=>'_billing_company',
             'meta_value'=>$request->_billing_company,
         );
         DB::table('postmeta')->insert($order_post); 
-
         $order_post=array(
             'post_id'=>$order_id,
             'meta_key'=>'_billing_last_name',
             'meta_value'=>$request->lastName,
         );
         DB::table('postmeta')->insert($order_post); 
-
         $order_post=array(
             'post_id'=>$order_id,
             'meta_key'=>'_billing_first_name',
             'meta_value'=>$request->firstName,
         );
-     
         DB::table('postmeta')->insert($order_post); 
-
         $info= Cart::getContent();
-
         foreach ($info as  $value) {
            $order_item=array(
             'order_item_name'=>$value->name,
             'order_item_type'=>'line-item',
             'order_id'=>$order_id,
         );
-
         DB::table('order_items')->insert($order_item); 
- 
-
        }
 
         foreach ($info as $item){

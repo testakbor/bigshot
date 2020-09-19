@@ -19,7 +19,6 @@ endif;
   endif;
     endforeach;
 @endphp
-
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">
 	<div class="row">
@@ -105,9 +104,7 @@ endif;
 												<div>
 													<h2 class="title" style="padding: 0 !important;"></h2>
                                                   @if(isset($metavalue))
-                                                  @foreach($metavalue as $metaInfo)
-                                                  
-															
+                                                  @foreach($metavalue as $metaInfo)	
 													<div class="tm-size-color-single">
 														<label>
                                                     @php 
@@ -124,8 +121,6 @@ endif;
 													</div>
                                                     @endforeach
                                                     @endif
-                                                
-														
 												</div>
 											</div>
 											<div id="menu2" class="tab-pane fade">
@@ -141,9 +136,7 @@ endif;
                                                 @foreach($product_info as $info) 
                                                   @if($info->meta_key=='regular_price') @php $rprice=$info->meta_value @endphp @endif 
                                                   @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp @endif 
-                                                @endforeach
-                                                      
-																	
+                                                @endforeach		
 															<li class="product fl-l">
 																<a href="{{route('product-page',$related->ID)}}">
 																	<div class="container-prod">
@@ -152,8 +145,7 @@ endif;
 																			</div>
 																			<div class="container-information">
 																				<div class="title">
-                                                                {{$related->post_title}} 
-																							
+                                                                {{$related->post_title}} 	
 																					<span class="text-dark ml-5">৳{{$rprice}}</span>
 																				</p>
 																				<a href="#" class="more close">
@@ -165,8 +157,7 @@ endif;
 																	</div>
 																</a>
 															</li>         
-                                 @endforeach                      
-																
+                                                          @endforeach                      
 														</ul>
 													</section>
 												</div>
