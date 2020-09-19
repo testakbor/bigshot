@@ -106,17 +106,15 @@
 }
 
 .quantity{
-  padding-top: 20px;
+  padding-top: 8px;
   margin-right: 60px;
 }
 .quantity input{
   -webkit-appearance: none;
-  border: none;
+  border: 1px solid #bdbfc58f;
   text-align: center;
-  width: 46px;
+  width: 120px;
   font-size: 1em;
-  color: #43484D;
-  font-weight: 300;
 }
 button[class*=btn] {
  /* width: 30px;

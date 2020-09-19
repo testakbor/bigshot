@@ -10,9 +10,10 @@
        <div class="container-fluid">
 
           <section style="margin-left: 120px" class="">
-
-              <img src="{{asset('assets/front/images/add.png')}}" width="1267" class="img-fluid" alt="Responsive image">
-
+          @if(isset($banner))
+					@if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
+              <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-fluid" alt="Responsive image">
+          @endif     
               <ul class="wrapper cf mt-3">
                 @php
                 $rprice=0;

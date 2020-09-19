@@ -33,8 +33,13 @@ class AppServiceProvider extends ServiceProvider
         ->where('terms.status',1)
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->get();
+        ->limit(13)->get();
         view()->share('categories',$categories);
 
+        $banner=DB::table('posts')
+        ->where('post_type','banner')
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->first();
+        view()->share('banner',$banner);
     }
 }

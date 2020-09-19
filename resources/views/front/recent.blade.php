@@ -53,9 +53,9 @@
                       </div>
 
                       <div class="buttons cf">
-                        <span style="margin-left: 3px;font-size: 12px;">
+                        <!-- <span style="margin-left: 3px;font-size: 12px;">
                           <span class="add ml-2">20,000+ bought this</span>
-                      </span>
+                      </span> -->
 
                   </div>
               </div>

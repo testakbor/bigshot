@@ -1,7 +1,5 @@
 @extends('front.layouts.master')
-
 @section('content')
-
 @php
 $rprice=0;
 $sprice=0;
@@ -9,253 +7,179 @@ $image='no-image.png';
    foreach ($product->productMeta as $meta):
       if($meta['meta_key']=='_regular_price'):
         $rprice=$meta['meta_value'];        
-endif;
+    endif;
       if($meta['meta_key']=='sale_price'):
       $sprice=$meta['meta_value'];      
 endif;
       if($meta['meta_key']=='default_attribute'):
         $metavalue=json_decode($meta['meta_value']);
 endif;  
-
   if($meta['meta_key']=='attached_file'):
     $image=$meta['meta_value'];
   endif;
-  
     endforeach;
-
-    $images=DB::table('posts')
-    ->where('post_parent',$product->ID)
-    ->where('post_type','attachment')
-    ->get();
 @endphp
-
 
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">
-    <div class="row">
-        <div class="col-md-12 ">
-      		<div class="container-fluid">
-
-<div class="codepen-container">
-  <div class="content-container">
-    <div class="left-container">
-      <div class="triangle-topleft">
-        <div class="back-arrow" id="buy-toaster"></div>
-      </div>
-      <div class="product-image--container">
-        <img class="product-image--featured" id="featured" src="{{asset('backend/products/'.$image)}}" alt="toaster"/>
-        <ul class="product-image--list">
-@foreach($images as $item) 
-          <li class="item-selected"><img src="{{asset('backend/products/'.$item->guid)}}" class="product-image--item"/></li>          
-@endforeach          
-        </ul>
-      </div>
-    </div>
-    <div class="right-container">
-       @if (session('status'))
-                        <div class="alert alert-success" role="alert" id="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-      <form action="{{route('addCart')}}" method="POST" id="addCartForm">
-        @csrf
-      <div>
-        
-        <h1 class="title" style="padding: 0 !important;">Black & Decker</h1>
-        <h2 class="subtitle subtitle-container">{{$product->post_title}}</h2>
-        <input type="hidden" name="name" value="{{$product->post_title}}">
-        
-      </div>
-      <span>
-        <p> <span class="text-dark"> Price: </span>
-          <span class="emphasize"> tk. {{$sprice}}</span>
-          <input type="hidden" name="price" value="{{$sprice}}">
-        </p>
-        <div class="tm-size-color-single">
-        <label for="quantity">Quantity:</label>
-        
-        <div class="quantity buttons_added">
-          <input type="button" value="-" class="minus">
-          <input type="number" id="" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
-          <input type="button" value="+" class="plus">
-        </div>
-        </div>
-      </span>
-      <div>
-        <h2 class="title" style="padding: 0 !important;">Product Description</h2>
-        @if(isset($metavalue))
-        @foreach($metavalue as $metaInfo)
-        <div class="tm-size-color-single">
-            <label>
-              @php 
-              $result=explode('_',$metaInfo->taxonomy);
-              @endphp
-              {{ucfirst(end($result))}}
-            </label>
-            <div>
-              @php 
-            $termsInfo=DB::table('terms')->where('term_id',$metaInfo->term)->first();
-              @endphp          
-              @if(isset($termsInfo->name)) {{$termsInfo->name}} @endif</div>
-        </div>
-        @endforeach
-        @endif
-        <p>
-          {!! $product->post_content !!}
-        </p>
-      </div>
-    
-      <div>               
-          <input type="hidden" name="id" value="{{$product->ID}}">        
-        <table>
-          <tr>
-            <th>
-              <button type="submit" class="my-btn flex-btn">
-               <span class="btn-text text-dark" style="width: 195px">Buy</span>
-          
-                </button>
-            </th>
-            <th>
-              <span class="text-dark" >
-                <a href="{{url('/wishlist/product/'.$product->ID)}}">
-                  <i class="far fa-heart ml-2 h4"></i>
-                </a>
-              </span>
-               
-            </th>
-          </tr>
-        </table>
-
-      </div>
-      </form>
-    </div>
-  
-  </div>
-</div>
-<script type="text/javascript">
-	$('.product-image--list li').hover(function() {
-  var url = $(this).children('img').attr('src');
-  $('.item-selected').removeClass('item-selected');
-  $(this).addClass('item-selected');
-  $('#featured').attr('src', url);
-});
-
-$('#buy-toaster').click(function() {
-  alert("BUY ME PLS!");
-});
-</script>
-
-
+	<div class="row">
+		<div class="col-md-12 ">
+			<div class="container-fluid">
+				<div class="codepen-container">
+					<div class="content-container">
+						<div class="left-container">
+							<div class="triangle-topleft">
+								<div class="back-arrow" id="buy-toaster"></div>
+							</div>
+							<div class="product-image--container">
+								<img width="100%" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}" alt="toaster"/>
+								<ul class="product-image--list">
+                                  @foreach($gallery_images as $g)  
+									<li class="item-selected">
+										<img src="{{asset('backend/products/'.$g->meta_value)}}" class="product-image--item"/>
+									</li>          
+                                  @endforeach          
+								</ul>
+							</div>
+						</div>
+						<div class="right-container">
+                           @if(session('status'))
+							<div class="alert alert-success" role="alert" id="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+							<form action="{{route('addCart')}}" method="POST" id="addCartForm">
+                            @csrf
+								<div>
+									<h1 class="title" style="padding: 0 !important;"></h1>
+									<h2 class="subtitle subtitle-container">{{$product->post_title}}</h2>
+									<input type="hidden" name="name" value="{{$product->post_title}}">
+									</div>
+									<span>
+										<p>
+											<span class="text-dark"> Price: </span>
+											<span class="emphasize"> tk. {{$sprice}}</span>
+											<input type="hidden" name="price" value="{{$sprice}}">
+											</p>
+											<div class="tm-size-color-single">
+												<label for="quantity">Quantity:</label>
+												<div class="quantity buttons_added">
+													<input type="number"  class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="400" inputmode="numeric">
+													</div>
+												</div>
+											</span>
+											<div>
+												<input type="hidden" name="id" value="{{$product->ID}}">
+													<table>
+														<tr>
+															<th>
+																<button type="submit" class="my-btn flex-btn">
+																	<span class="btn-text text-dark" style="width: 195px">Buy</span>
+																</button>
+															</th>
+															<th>
+																<span class="text-dark" >
+																	<a href="{{url('/wishlist/product/'.$product->ID)}}">
+																		<i class="far fa-heart ml-2 h4"></i>
+																	</a>
+																</span>
+															</th>
+														</tr>
+													</table>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="container">
+										<nav class="nav nav-tabs nav-justified">
+											<a class="nav-item nav-link active" data-toggle="tab" href="#home">Description</a>
+											<a class="nav-item nav-link" data-toggle="tab" href="#menu1">Specification</a>
+											<a class="nav-item nav-link" data-toggle="tab" href="#menu2">Related</a>
+											<a class="nav-item nav-link disabled" data-toggle="tab" href="#menu3"></a>
+										</nav>
+										<div class="tab-content">
+											<div id="home" class="tab-pane fade show active">
+												<p>{!! $product->post_content !!}</p>
+											</div>
+											<div id="menu1" class="tab-pane fade">
+												<div>
+													<h2 class="title" style="padding: 0 !important;"></h2>
+                                                  @if(isset($metavalue))
+                                                  @foreach($metavalue as $metaInfo)
+                                                  
+															
+													<div class="tm-size-color-single">
+														<label>
+                                                    @php 
+                                                    $result=explode('_',$metaInfo->taxonomy);
+                                                    @endphp
+                                                    {{ucfirst(end($result))}}
+                                                      </label>
+														<div>
+                                                    @php 
+                                                      $termsInfo=DB::table('terms')->where('term_id',$metaInfo->term)->first();
+                                                    @endphp          
+                                                    @if(isset($termsInfo->name)) {{$termsInfo->name}} @endif
+                                                  </div>
+													</div>
+                                                    @endforeach
+                                                    @endif
+                                                
+														
+												</div>
+											</div>
+											<div id="menu2" class="tab-pane fade">
+												<div id="releted">
+													<section style="margin-left: 120px" class="mt-5">
+														<ul class="wrapper cf mt-3">
+                                                @php
+                                                $rprice=0;
+                                                $img='';
+                                                @endphp
+                                                @foreach($product_related as $related)
+                                                @php $product_info=DB::table('postmeta')->where('post_id',$related->ID)->get(); @endphp  
+                                                @foreach($product_info as $info) 
+                                                  @if($info->meta_key=='regular_price') @php $rprice=$info->meta_value @endphp @endif 
+                                                  @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp @endif 
+                                                @endforeach
+                                                      
+																	
+															<li class="product fl-l">
+																<a href="{{route('product-page',$related->ID)}}">
+																	<div class="container-prod">
+																		<div class="image" >
+																			<img src="{{asset('backend/products/'.$img)}}">
+																			</div>
+																			<div class="container-information">
+																				<div class="title">
+                                                                {{$related->post_title}} 
+																							
+																					<span class="text-dark ml-5">৳{{$rprice}}</span>
+																				</p>
+																				<a href="#" class="more close">
+																					<i class="fa fa-times"></i>
+																				</a>
+																			</div>
+																		</div>
+																		<!-- <div class="buttons cf"><span style="margin-left: 3px;font-size: 12px;"><span class="add ml-2">20,000+ bought this</span></span></div> -->
+																	</div>
+																</a>
+															</li>         
+                                 @endforeach                      
+																
+														</ul>
+													</section>
+												</div>
+											</div>
+											<div id="menu3" class="tab-pane fade"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-
-
-
-
 		</div>
-    <div class="col-md-12 mb-5">
-      <div class="container">
-
-  <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#description">Description</a></li>
-    <li><a data-toggle="tab" href="#specification">Specification</a></li>
-    <li><a data-toggle="tab" href="#releted">Releted Products</a></li>
-  </ul>
-
-  <div class="tab-content">
-    <div id="description" class="tab-pane active">
-      <h3>Description</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </div>
-    <div id="specification" class="tab-pane fade">
-      <h3>Specification</h3>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div id="releted" class="tab-pane fade">
-      <section style="margin-left: 120px" class="mt-5">
-
-              <ul class="wrapper cf mt-3">
-
-                  <li class="product fl-l">
-                    <a href="">
-                      <div class="container-prod">
-                        <div class="image" >
-                          <img src="{{asset('assets/front/images/download.jpg')}}">
-                        </div>
-                        <div class="container-information">
-                          <div class="title">
-                             Product
-                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
-                          </div>
-                      </div>
-
-                      <div class="buttons cf">
-                        <span style="margin-left: 3px;font-size: 12px;">
-                          <span class="add ml-2">20,000+ bought this</span>
-
-                      </span>
-
-                  </div>
-              </div>
-                    </a>
-          </li>
-           <li class="product fl-l">
-                    <a href="">
-                      <div class="container-prod">
-                        <div class="image" >
-                          <img src="{{asset('assets/front/images/download.jpg')}}">
-                        </div>
-                        <div class="container-information">
-                          <div class="title">
-                             Product
-                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
-                          </div>
-                      </div>
-
-                      <div class="buttons cf">
-                        <span style="margin-left: 3px;font-size: 12px;">
-                          <span class="add ml-2">20,000+ bought this</span>
-
-                      </span>
-
-                  </div>
-              </div>
-                    </a>
-          </li>
-          <li class="product fl-l">
-                    <a href="">
-                      <div class="container-prod">
-                        <div class="image" >
-                          <img src="{{asset('assets/front/images/download.jpg')}}">
-                        </div>
-                        <div class="container-information">
-                          <div class="title">
-                             Product
-                              <a href="#" class="more close"><i class="fa fa-times"></i></a>                
-                          </div>
-                      </div>
-
-                      <div class="buttons cf">
-                        <span style="margin-left: 3px;font-size: 12px;">
-                          <span class="add ml-2">20,000+ bought this</span>
-
-                      </span>
-
-                  </div>
-              </div>
-                    </a>
-          </li>
-
-         
-</ul>
-
-</section>
-    </div>
-  </div>
-      </div>
-    </div>
-
-</div>
-</div>
-</div>
-
+	</div>
 @endsection

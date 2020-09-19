@@ -28,7 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/popular','PageController@popular')->name('popular');
-        Route::get('/Categories/{id}','PageController@categoryProduct');
+        Route::get('/categories/product/{id}','PageController@categoryProduct')->name('category.product');
         Route::get('/cart','CartController@cart')->name('cart');
         Route::get('/profile','PageController@profile')->name('profile');
 
@@ -125,7 +125,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('user/{id}','CustomerController@edit');
         Route::post('user/update','CustomerController@update')->name('user_update');
 
-        //baner image route for home page
+        //banner image route for home page
         Route::resource('/banner','BannerController');
     });
 

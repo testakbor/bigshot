@@ -74,7 +74,7 @@
 								<ul>
                         @foreach($categories as $value)
 									<li>
-										<a href="{{url('Categories/'.$value->term_taxonomy_id)}}">
+										<a href="{{route('category.product',base64_encode($value->term_taxonomy_id))}}">
 											<table>
 												<tr>
 													<th class="tb-text">{{$value->name}}</th>
@@ -83,7 +83,6 @@
 										</a>
 										</li>
                          @endforeach
-
 									</ul>
 								</div>
 							</div>

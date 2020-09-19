@@ -24,8 +24,7 @@ class HomeController extends Controller
         // product 
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
-        ->get();
-        
+        ->get();       
         return view('front.home',compact('categories','products'));
     }
 }

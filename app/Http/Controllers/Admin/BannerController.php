@@ -106,7 +106,8 @@ class BannerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $banner=DB::table('postmeta')->where('meta_id',$id)->first();
+        return view('admin.banner.edit',compact('banner'));
     }
 
     /**
@@ -118,7 +119,18 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       if($request->banner_img==''){
+        $image=$request->default_img;
+       }else{
+        $image = time().'.'.$request->banner_img->extension();  
+        $request->banner_img->move('backend/banner/',$image);
+       } 
+       
+       DB::table('postmeta')->where('meta_id',$id)->update([
+           'meta_value' =>$image
+       ]);
+       session()->flash("success","Banner image has been update successfully");
+       return redirect(route('banner.index'));
     }
 
     /**

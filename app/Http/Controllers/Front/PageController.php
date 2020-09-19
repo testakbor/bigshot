@@ -18,7 +18,22 @@ class PageController extends Controller
 		$product=Post::where('post_type','product')
         ->where('ID',$id)
 		->first();
-    	return view('front.product-view',compact('product'));
+		$product_category=DB::table('term_relationships')->where('object_id',$id)->first();
+
+		if(isset($product_category)){
+		  $cat_id=$product_category->term_taxonomy_id;
+		}
+		$product_related=DB::table('term_relationships')
+		->where('term_taxonomy_id',$cat_id)
+		->where('posts.post_type','product')
+		->join('posts','term_relationships.object_id','=','posts.ID')
+		->get();
+		$gallery_images=DB::table('postmeta')
+		->where('post_id',$product->ID)
+		->where('meta_key','gallery_file')
+		->select('meta_key','meta_value')
+		->get();
+    	return view('front.product-view',compact('product','product_category','product_related','gallery_images'));
 	}
 
     public function cart()
@@ -51,11 +66,12 @@ class PageController extends Controller
 	}
 	public function categoryProduct($id)
 	{
-		$data=DB::SELECT("SELECT * from `term_relationships` 
-		where term_taxonomy_id=$id and object_id in(select ID from `posts` 
-		where `post_type`='product' 
-		and post_status='publish' and ID=term_relationships.object_id)");
-		
+		$id=base64_decode($id);
+		$data=DB::table('term_relationships')
+		->leftjoin('posts','term_relationships.object_id','=','posts.ID')
+		->where('term_taxonomy_id',$id)
+		->where('posts.post_type','product')
+		->paginate(20);
 	    return view('front.Categories',compact('data'));
 	}
 	public function wishlist()
