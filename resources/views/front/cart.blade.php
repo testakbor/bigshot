@@ -35,12 +35,12 @@
                   </div>
                   <span class="text-muted">    {{ \Cart::getTotalquantity()}}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
+             <!--    <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <small class="text-muted">Shipping</small>
                   </div>
                   <span class="text-muted">$8</span>
-                </li>
+                </li> -->
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <small class="text-muted">Order Total</small>
@@ -51,7 +51,7 @@
                   <div class="text-success">
                     <small>*Approx</small>
                   </div>
-                  <span class="text-muted">৳ {{Cart::getTotal() +8+5}} BDT</span>
+                  <span class="text-muted">৳ {{Cart::getTotal()}} BDT</span>
                 </li>                          
               </ul>
 
@@ -147,14 +147,14 @@
                 <div class="col-md-6 mb-3">
 
                 </div>
-                <div class="col-md-6 mb-3">
+              <!--   <div class="col-md-6 mb-3">
                   <button type="button" class="btn btn-light ml-1" style="width: 118px;border: 1px solid skyblue;color: skyblue;background-color: white;font-weight: 600;">Cancel</button>
                   <button type="button" class="btn btn-info ml-3">Use this Address</button>
 
-                </div>
+                </div> -->
 
               </div>
-              <hr class="mb-4">
+              <!-- <hr class="mb-4"> -->
 
               <hr class="mb-4">
 

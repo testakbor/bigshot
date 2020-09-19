@@ -328,7 +328,7 @@ class CartController extends Controller
             ['relative' => false,
              'value' => $qty ]
             ]);
-         return back();
+         return back()->with('status','Item update done');
 
     }
 
