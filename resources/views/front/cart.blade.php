@@ -83,7 +83,7 @@
                   <div class="text-success">
                     <small>*Approx</small>
                   </div>
-                  <span class="text-muted">৳ {{Cart::getTotal() +8+5}} BDT</span>
+                  <span class="text-muted">৳ {{Cart::getTotal()}} BDT</span>
                 </li>                          
               </ul>
 
@@ -180,7 +180,7 @@
                 </div> -->
 
               </div>
-              <hr class="mb-4">
+              <!-- <hr class="mb-4"> -->
 
               <hr class="mb-4">
 
