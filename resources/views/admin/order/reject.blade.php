@@ -49,7 +49,7 @@
           <div class="card-body">
             <div class="row mb-4">
             </div>
-
+            <img alt="testing" src="public\backend\products\1600171768.jpg'.$barcontent.'"/>
             <div class="table-responsive-sm">
               <table class="table table-striped">
                 <thead>

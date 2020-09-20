@@ -11,7 +11,7 @@ use App\Model\front\Order_item;
 use Carbon\Carbon;
 use DB;
 use Session;
-
+use App;
 use Auth;
 class OrderController extends Controller
 {
@@ -126,7 +126,27 @@ class OrderController extends Controller
         return view('admin.order.deliveryInvoice')->with($extraInfo);
     }
     public function reject()
-    {    
+    {    $bar = App::make('BarCode');
+$barcodes = [
+                'text' => 'HelloHello',
+                'size' => 50,
+                'orientation' => 'horizontal',
+                'code_type' => 'code39',
+                'print' => true,
+                'sizefactor' => 1,
+                'filename' => 'image1.jpeg'
+            ];
+$barcontent = $bar->barcodeFactory()->renderBarcode(
+                                    $text=$barcodes["text"], 
+                                    $size=$barcodes['size'], 
+                                    $orientation=$barcodes['orientation'], 
+                                    $code_type=$barcodes['code_type'], // code_type : code128,code39,code128b,code128a,code25,codabar 
+                                    $print=$barcodes['print'], 
+                                    $sizefactor=$barcodes['sizefactor'],
+                                    $filename = $barcodes['filename']
+                            )->filename($barcodes['filename']);
+
+ 
         $extraInfo=array(
             'title'=>"Brand List",
             'page'=>'reject'
@@ -135,7 +155,7 @@ class OrderController extends Controller
         ->where('post_type','shop_order')
         ->where('post_status','Cancelled')
         ->get();
-        return view('admin.order.reject',compact('reject_order'))->with($extraInfo);
+        return view('admin.order.reject',compact('reject_order','barcontent'))->with($extraInfo);
     }
     public function stock()
     {    
