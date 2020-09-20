@@ -62,7 +62,7 @@ class CartController extends Controller
         }else{
             $id=auth()->user()->id;
         }
-        $post_date=date('Y-m-d H:i:s');
+        $post_date=date('Y-m-d 0:0:0)');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
         $order=array(
             'post_title'=>'Order'.date('Y-m-d H:i:s'),

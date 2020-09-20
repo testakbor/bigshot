@@ -128,5 +128,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 
         //banner image route for home page
         Route::resource('/banner','BannerController');
+
+
+
+        //pending order route
+        Route::get('pending/order/print/{id}','OrderController@pending_order_print')->name('pending_order_print');
+        Route::get('pending/order/processing/{id}','OrderController@pending_order_processing')->name('pending_order_processing');
+        Route::get('pending/order/cancel/{id}','OrderController@pending_order_cancel')->name('pending_order_cancel');
+        Route::get('pending/order/edit/{id}','OrderController@pending_order_edit')->name('pending_order_edit');
+        //pending order route
+
+        //send parcel print route
+         Route::post('send/parcel/print','OrderController@sendParcelPrint')->name('parcel_print');
+        //send parcel print route
+
+
+
+
     });
 

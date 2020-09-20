@@ -40,6 +40,7 @@ class OrderController extends Controller
         );
          $orders=Post::where('posts.post_type','shop_order')
          ->where('post_status','on-hold')
+         ->orderBy('ID','DESC')
         ->paginate(10); 
         $total_orders=Post::where('posts.post_type','shop_order')
             ->where('post_status','on-hold')
@@ -55,6 +56,7 @@ class OrderController extends Controller
         $orders=Post::where('posts.post_type','shop_order')
         ->where('post_status','on-hold')
         ->whereBetween('post_date',array([$start,$end]))
+        ->orderBy('ID','DESC')
        ->get();
        $total_orders=Post::where('posts.post_type','shop_order')
        ->where('post_status','on-hold')
@@ -220,8 +222,8 @@ class OrderController extends Controller
             'page'=>'order'
         );
        $order=Post::find($id);
-       $products=Order_item::where('order_id',$id)->get();
-       
+       $products=Order_item::where('order_id',$id)->groupBy('order_id')->get();
+       $order_info=DB::table('postmeta')->where('post_id',$order->ID)->get();
        return view('admin.order.edit',compact('order','products','id','order_info'))->with($extraInfo);     
     }
 
@@ -254,6 +256,46 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    //pending order print
+    public function pending_order_print($id){
+        $orders=Post::where('posts.post_type','shop_order')
+        ->where('post_status','on-hold')
+        ->where('ID',$id)
+       ->get();
+       return view('admin.order.pendingOrder_print',compact('orders')); 
+    }
+
+    public function pending_order_processing($id){
+        DB::table('posts')->where('ID',$id)->update([
+          'post_status' =>'Processing'
+        ]);
+        session()->flash("success","Status has been changed Successfully");
+        return back();
+    }
+
+    public function pending_order_cancel($id){
+        DB::table('posts')->where('ID',$id)->update([
+          'post_status' =>'Cancel'
+        ]);
+        session()->flash("success","Status has been changed Successfully");
+        return back();
+    }
+
+    public function pending_order_edit($id){
+     
+    }
+
+    public function sendParcelPrint(){
+        $orders=Post::where('posts.post_type','shop_order')
+        ->where('post_status','Processing')
+       ->paginate(10); 
+       $total_orders=Post::where('posts.post_type','shop_order')
+       ->where('post_status','Processing')
+       ->count();  
+        return view('admin.order.parcel_print',compact('orders','total_orders'));
     }
 
 

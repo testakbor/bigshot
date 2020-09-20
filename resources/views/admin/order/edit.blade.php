@@ -30,12 +30,12 @@
           <div class="col-md-9">
            <div class="card card-default">
             <div class="card-header">
-            @php $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city='';  @endphp
+            @php $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city='';  @endphp
             @foreach($order_info as $info)
-                    @if($info->meta_key=='_billing_phone')
+                    @if($info->meta_key=='phone')
                      @php $mobile_no=$info->meta_value; @endphp
                     @endif 
-                    @if($info->meta_key=='_billing_address_1')
+                    @if($info->meta_key=='address_one')
                      @php $address=$info->meta_value; @endphp
                     @endif 
 
@@ -49,11 +49,11 @@
                      @php $customer_ip=$info->meta_value; @endphp
                     @endif
 
-                    @if($info->meta_key=='_shipping_address_2')
+                    @if($info->meta_key=='address_two')
                      @php $shipping_address=$info->meta_value; @endphp
                     @endif
 
-                    @if($info->meta_key=='_shipping_city')
+                    @if($info->meta_key=='city')
                      @php $shipping_city=$info->meta_value; @endphp
                     @endif
 
@@ -120,7 +120,7 @@
                     <div class="form-group">
                       <label for="customer">Customer</label>
                       <select name="customer" id="customer" class="form-control">
-                        <option value="1">@if(isset($user->name)){{$user->name}} @endif</option>
+                        <option value="1">@if(isset($user->name)){{$user->name}} @else Guest @endif</option>
                       </select>
                     </div>
                     
@@ -230,7 +230,7 @@
               </button>
             </div>
           </div>
-          <div class="card-body d-flex flex-row text-center" style="display: block;">
+          <!-- <div class="card-body d-flex flex-row text-center" style="display: block;">
            <select name="" class="form-control" id="">
              <option value="">Choose an action</option>
              <option value="">Email</option>
@@ -238,7 +238,7 @@
              <option value="">Regenarate</option>
            </select>
 
-          </div>
+          </div> -->
           <div class="card-footer">
             <button type="submit" value="draft" name="dreft" class="btn text-danger" >Move to trash</button>
             <button type="submit" value="submit" name="submit" class="btn btn-primary">Update</button>

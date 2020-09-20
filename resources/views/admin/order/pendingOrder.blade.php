@@ -7,6 +7,7 @@ use App\Model\front\Order_item;
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
+      @include('admin.includes.messages')
         <div class="row mb-2">
           <div class="col-sm-6">
             <!-- <h1>Pending Order</h1> -->
@@ -73,27 +74,33 @@ use App\Model\front\Order_item;
                   <th>Name</th>
                   <th>SKU</th>
 
-                  <th class="right">Color</th>
+                  <!-- <th class="right">Color</th> -->
                   <th class="center">Qty</th>
                   <th class="right">Item</th>
                   <th class="right">Address</th>
                   <th class="right">Mobile</th>
                   <th class="right">Amount</th>
+                  <th class="right">Status</th>
                   <th class="right">Action</th>
                   <!-- <th class="right">Comments</th> -->
                   </tr>
                 </thead>
 
                 <tbody>
-                @php $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+                @php $product_name=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
                 @foreach($orders as $items)
+
                  @php 
                    $products=Order_item::where('order_id',$items->ID)->get();
                    $order_info=DB::table('postmeta')
                    ->where('post_id',$items->ID)
                    ->get();
+
                  @endphp
+
+                 
                  @foreach($products as $item)
+                    @php $product_name=$item->order_item_name; @endphp 
                     @foreach($item->orderMeta as $value)
                     @php              
                     if($value->meta_key=='_line_subtotal'){
@@ -106,10 +113,10 @@ use App\Model\front\Order_item;
                     @endforeach 
                   @endforeach 
                   @foreach($order_info as $info)
-                    @if($info->meta_key=='_billing_phone')
+                    @if($info->meta_key=='phone')
                      @php $mobile_no=$info->meta_value; @endphp
                     @endif 
-                    @if($info->meta_key=='_billing_address_1')
+                    @if($info->meta_key=='address_one')
                      @php $address=$info->meta_value; @endphp
                     @endif 
 
@@ -133,7 +140,7 @@ use App\Model\front\Order_item;
                
                     </table>
                   </td>
-
+<!-- 
                   <td class="right">
                     <table>
 
@@ -142,7 +149,7 @@ use App\Model\front\Order_item;
                       </tr>
                  
                     </table>
-                  </td>
+                  </td> -->
                   <td class="center">
                     <table>
 
@@ -155,18 +162,19 @@ use App\Model\front\Order_item;
                   <td class="right"><table>
 
                       <tr>
-                        <td>{{$items->order_item_name}}</td>
+                        <td>{{$product_name}}</td>
                       </tr>
 
                     </table></td>
                   <td class="right">{{$address}}</td>
                   <td class="right">{{$mobile_no}}</td>
                   <td class="right">{{$sub = $subtotal*$qty}}</td>
+                  <td class="right">{{$items->post_status}}</td>
                   <td class="right">
-                    <i class="fas fa-print"><a href="#">Print</a></i><br>
-                    <i class="fas fa-spinner"><a href="#">Processing</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a href="#">Cancel</a></i>
+                    <i class="fas fa-print"><a href="{{route('pending_order_print',$items->ID)}}">Print</a></i><br>
+                    <i class="fas fa-spinner"><a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}">Processing</a></i><br>
+                    <i class="fas fa-edit"><a href="{{route('pending_order_edit',$items->ID)}}">Edit</a></i><br>
+                    <i class="fas fa-window-close"><a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}">Cancel</a></i>
                   </td>
                   <!-- <td class="right">hello</td> -->
                   </tr>

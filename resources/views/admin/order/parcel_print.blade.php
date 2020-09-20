@@ -28,33 +28,31 @@ tr:nth-child(even) {
 <h1>Company Name : Bigshot</h1>
 <p>Company Email: Demo@email.com</p>
 <p>Company Address : Demo Address</p>
-<table>
-  <tr>
-    <th>Oder Id</th>
-    <th>Name</th>
-    <th>SKU</th>
-    <!-- <th>Color</th> -->
-    <th>Qty</th>
-    <th>Item</th>
-    <th>Address</th>
-    <th>Mobile</th>
-    <th>Amount</th>
-  </tr>
+<table class="table table-striped">
+                <thead>
+                  <tr>
+                  <th class="center">Oder Id</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th class="right">Items</th>
+                  <th class="center">Qty</th>
+                  <th class="right">Amount</th>
+                  <th class="right">Status</th>
+                  <!-- <th class="right">Action</th> -->
+                  </tr>
+                </thead>
 
-  @php $product_name=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+                <tbody>
+                @php $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
                 @foreach($orders as $items)
-
                  @php 
                    $products=Order_item::where('order_id',$items->ID)->get();
                    $order_info=DB::table('postmeta')
                    ->where('post_id',$items->ID)
                    ->get();
-
                  @endphp
-
-                 
                  @foreach($products as $item)
-                    @php $product_name=$item->order_item_name; @endphp 
+                    @php $product=$item->order_item_name; @endphp
                     @foreach($item->orderMeta as $value)
                     @php              
                     if($value->meta_key=='_line_subtotal'){
@@ -67,7 +65,7 @@ tr:nth-child(even) {
                     @endforeach 
                   @endforeach 
                   @foreach($order_info as $info)
-                    @if($info->meta_key=='phone')
+                    @if($info->meta_key=='_billing_phone')
                      @php $mobile_no=$info->meta_value; @endphp
                     @endif 
                     @if($info->meta_key=='address_one')
@@ -83,20 +81,31 @@ tr:nth-child(even) {
                       @foreach($user as $users) @php $cust=$users->name; @endphp @endforeach
                     @endif
                   @endforeach 
-                <tr>
-                  <td>{{$items->ID}}</td>
-                  <td>{{$cust}}</td>
-                  <td>{{$sku}} </td>
-                  <!-- <td>Red</td> -->
-                  <td>{{$qty}}</td>
-                  <td>{{$product_name}}</td>
-                  <td>{{$address}}</td>
-                  <td>{{$mobile_no}}</td>
-                  <td>{{$sub = $subtotal*$qty}}</td>
-                </tr>
-  @endforeach 
+                  <tr>
+                      <td class="center">{{$items->ID}}</td>
+                      <td class="left strong">{{$cust}}</td>
+                      <td class="left">{{$address}}</td>
+                      <td class="right">{{$product}}</td>
+                      <td class="center">{{$qty}}</td>
+                      <td class="right">{{$sub = $subtotal*$qty}}</td>
+                      <td class="right">{{$items->post_status}}</td>
+                      <!-- <td class="right"></td> -->
+                  </tr>
+                  @php $grandTotal+=$sub; @endphp
+                  @endforeach 
+                </tbody>
+                <tfoot>
+  <tr>
+    <td colspan="6">Processing</td>
+    <td>{{$total_orders}}</td>
+  </tr>
+   <tr>
+    <td colspan="6">Total Percel</td>
+    <td>{{$grandTotal}}</td>
+  </tr>
+</tfoot>
 
-</table>
+              </table>
 <script type="text/javascript">
   window.print();
 </script>

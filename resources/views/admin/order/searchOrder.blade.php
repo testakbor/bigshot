@@ -76,7 +76,7 @@ use App\Model\front\Order_item;
                   <th>Name</th>
                   <th>SKU</th>
 
-                  <th class="right">Color</th>
+                  <!-- <th class="right">Color</th> -->
                   <th class="center">Qty</th>
                   <th class="right">Item</th>
                   <th class="right">Address</th>
@@ -88,7 +88,7 @@ use App\Model\front\Order_item;
                 </thead>
 
                 <tbody>
-                @php $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+                @php $product_name=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
                 @foreach($orders as $items)
                  @php 
                    $products=Order_item::where('order_id',$items->ID)->get();
@@ -97,6 +97,7 @@ use App\Model\front\Order_item;
                    ->get();
                  @endphp
                  @foreach($products as $item)
+                 @php $product_name=$item->order_item_name; @endphp 
                     @foreach($item->orderMeta as $value)
                     @php              
                     if($value->meta_key=='_line_subtotal'){
@@ -109,10 +110,10 @@ use App\Model\front\Order_item;
                     @endforeach 
                   @endforeach 
                   @foreach($order_info as $info)
-                    @if($info->meta_key=='_billing_phone')
+                    @if($info->meta_key=='phone')
                      @php $mobile_no=$info->meta_value; @endphp
                     @endif 
-                    @if($info->meta_key=='_billing_address_1')
+                    @if($info->meta_key=='address_one')
                      @php $address=$info->meta_value; @endphp
                     @endif 
 
@@ -140,7 +141,7 @@ use App\Model\front\Order_item;
                     </table>
                   </td>
 
-                  <td class="right">
+                  <!-- <td class="right">
                     <table>
 
                       <tr>
@@ -148,7 +149,7 @@ use App\Model\front\Order_item;
                       </tr>
                  
                     </table>
-                  </td>
+                  </td> -->
                   <td class="center">
                     <table>
 
@@ -161,7 +162,7 @@ use App\Model\front\Order_item;
                   <td class="right"><table>
 
                       <tr>
-                        <td>{{$items->order_item_name}}</td>
+                        <td>{{$product_name}}</td>
                       </tr>
 
                     </table></td>

@@ -26,17 +26,17 @@ use App\Model\front\Order_item;
         </fieldset>
         <div class="inner-form ml-5" style="width: 32.5%;">
           
-          <div class="input-field second-wrap">
+          <!-- <div class="input-field second-wrap">
             <p>Choose Image for Scan</p>
             <form>
               <input type="file" accept="image/*;capture=camera">
             </form>
-          </div>
+          </div> -->
     
         
-          <div class="input-field fifth-wrap">
+          <!-- <div class="input-field fifth-wrap">
             <button class="btn-search" type="button">SEARCH</button>
-          </div>
+          </div> -->
         </div>
       </form>
     </div>
@@ -58,7 +58,7 @@ use App\Model\front\Order_item;
                   <th class="center">Oder Id</th>
                   <th>Name</th>
                   <th>Address</th>
-                  <!-- <th class="right">Items</th> -->
+                  <th class="right">Items</th>
                   <th class="center">Qty</th>
                   <th class="right">Amount</th>
                   <th class="right">Status</th>
@@ -67,7 +67,7 @@ use App\Model\front\Order_item;
                 </thead>
 
                 <tbody>
-                @php $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+                @php $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
                 @foreach($orders as $items)
                  @php 
                    $products=Order_item::where('order_id',$items->ID)->get();
@@ -76,6 +76,7 @@ use App\Model\front\Order_item;
                    ->get();
                  @endphp
                  @foreach($products as $item)
+                    @php $product=$item->order_item_name; @endphp
                     @foreach($item->orderMeta as $value)
                     @php              
                     if($value->meta_key=='_line_subtotal'){
@@ -91,7 +92,7 @@ use App\Model\front\Order_item;
                     @if($info->meta_key=='_billing_phone')
                      @php $mobile_no=$info->meta_value; @endphp
                     @endif 
-                    @if($info->meta_key=='_billing_address_1')
+                    @if($info->meta_key=='address_one')
                      @php $address=$info->meta_value; @endphp
                     @endif 
 
@@ -108,7 +109,7 @@ use App\Model\front\Order_item;
                       <td class="center">{{$items->ID}}</td>
                       <td class="left strong">{{$cust}}</td>
                       <td class="left">{{$address}}</td>
-                      <!-- <td class="right"></td> -->
+                      <td class="right">{{$product}}</td>
                       <td class="center">{{$qty}}</td>
                       <td class="right">{{$sub = $subtotal*$qty}}</td>
                       <td class="right">{{$items->post_status}}</td>
@@ -150,7 +151,10 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box">
-                  <button class="btn-primary" type="Submit"  style="height: 56px;width: 80%;border-radius: 6px;">Submit & Print</button>
+                  <form method="post" action="{{route('parcel_print')}}">
+                    @csrf 
+                     <button class="btn-primary" type="Submit"  style="height: 56px;width: 80%;border-radius: 6px;">Print</button>
+                  </form>
                 </div>
               </div>
         </div>       
