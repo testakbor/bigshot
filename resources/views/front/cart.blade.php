@@ -1,16 +1,11 @@
 @extends('front.layouts.master')
 
 @section('content')
-
-@php $fname=''; $lname=''; $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; @endphp
+@php  $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; $name=''; @endphp
 <!-- Page Content  -->
-@foreach($user_info as $in) 
-    @if($in->meta_key=='first_name') 
-      @php $fname=$in->meta_value; @endphp 
-    @endif  
-    @if($in->meta_key=='last_name') 
-      @php $lname=$in->meta_value; @endphp 
-    @endif  
+
+@if(Auth::check()) @php $name=auth()->user()->name; @endphp @endif 
+@foreach($user_info as $in)   
     @if($in->meta_key=='address_one') 
       @php $address1=$in->meta_value; @endphp 
     @endif  
@@ -33,9 +28,6 @@
       @php $zip=$in->meta_value; @endphp 
     @endif 
 @endforeach 
-
-
-
 <div id="content" class="p-4 p-md-5">
   <div class="row">
     <div class="col-md-12 ">
@@ -93,26 +85,29 @@
                   <div class="input-group-append">
                     <button type="submit" name="reedeem" class="btn btn-secondary">Redeem</button>
                   </div> -->
+                  @if(\Cart::getTotalquantity()>0) 
                   <div class="input-group">
                     <button class="btn btn-primary btn-lg btn-block mt-3" type="submit">Continue to checkout</button>
                   </div>
+                  @endif 
                 </div>
               {{-- </form> --}}
             </div>
             <div class="col-md-7 order-md-1 ml-5" style="border: 1px solid rgb(212, 227, 235);">
+              @if(\Cart::getTotalquantity()==0) You have no product in your cart!! <a href="{{url('/')}}">Shop Now</a>   @endif
               <h4 class="mb-3 title-text">Billing address</h4>
               
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="firstName">First name<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="firstName" value="{{$fname}}" name="first_name" placeholder="First Name" required>
+                  <input type="text" class="form-control" id="firstName" value="{{$name}}" name="first_name" placeholder="First Name" required>
                   <div class="invalid-feedback">
                     Valid first name is required.
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="lastName">Last name<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="lastName" value="{{$lname}}" name="last_name" placeholder="Last Name" required>
+                  <input type="text" class="form-control" id="lastName" value="{{$name}}" name="last_name" placeholder="Last Name" required>
                   <div class="invalid-feedback">
                     Valid last name is required.
                   </div>
@@ -238,8 +233,9 @@
                 </div>
               </div>
               <hr class="mb-4">
-              <button class="btn btn-primary btn-lg btn-block" name="paymentSubmit" type="submit">Use Payment Method</button>
-              
+              @if(\Cart::getTotalquantity()>0) 
+                <button class="btn btn-primary btn-lg btn-block" name="paymentSubmit" type="submit">Use Payment Method</button>
+              @endif
               <div class="btn btn-success btn-lg btn-block">
                 Items In Cart
               </div>
@@ -282,15 +278,15 @@
                               <input type="number" id="" class="input-text quantity_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="quantity" size="4" inputmode="numeric">
                               <!-- <input type="button" value="+" class="plus"> -->
                               <!-- <input type="submit" value="" class="plus"> -->
-                              <button type="submit" class="btn btn-primary">Update</button>
+                              <button type="submit" class="btn btn-primary btn-sm">Update</button>
                             </div>
                         </form>
                       </div>
                       <div class="ml-3">
                         <a href="{{url('/remove/'.$item->id)}}">
-                           <div class="buttons">
-                      <span class="delete-btn"></span>
-                    </div>
+                           <div class="buttons" style="margin-top:3px !important">
+                              <span class="delete-btn"></span>
+                           </div>
                         </a>
                       </div>
                       </div>

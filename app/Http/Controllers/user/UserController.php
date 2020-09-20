@@ -61,7 +61,18 @@ class UserController extends Controller
     public function edit($id)
     {
         $user=DB::table('users')->where('id',$id)->first();
-        return view('user.profile.edit',compact('user'));
+            $log_user=DB::table('posts')
+            ->where('post_type','shop_order')
+            ->where('post_author',$user->id)
+            ->select('ID')
+            ->first();
+            if(isset($log_user)){
+              $log_user=$log_user->ID;
+            }else{
+                $log_user=0; 
+            }
+        $user_info=DB::table('postmeta')->where('post_id',$log_user)->get();
+        return view('user.profile.edit',compact('user','user_info'));
         
     }
 

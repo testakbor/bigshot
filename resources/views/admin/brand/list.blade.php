@@ -106,9 +106,14 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Brands</h3>
+                <form method="get" action="{{route('brand.index')}}"> 
+                    <input type="text" name="brand" class="form-control" placeholder="Search Brand" autocomplete="off">
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fd-search"></i> Search</button>
+                 </form>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              @if($brands->count()==0) No Data Found @endif
                 <table class="table table-bordered table-striped">
                   <thead class="bg-danger">                  
                     <tr>
