@@ -22,11 +22,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $invoice = Postmeta::where('meta_key','_customer_user')
-        ->where('meta_value',Auth::user()->id)
-        ->first();
-        $orders=Post::where('ID',$invoice->post_id)->where('post_type','shop_order')->get();  
-        return view('front.order.list',compact('invoice'),compact('orders'));
+       $shop_order=DB::table('posts')->where('post_author',auth()->user()->id)->select('ID','post_date','post_status')->first();
+       $order_item=DB::table('order_items')->where('order_id',$shop_order->ID)->groupBy('order_id')->get();
+       return view('front.order.list',compact('order_item','shop_order'));
     }
 
     /**

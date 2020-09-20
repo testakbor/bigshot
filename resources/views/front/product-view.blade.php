@@ -92,7 +92,7 @@ endif;
 									<div class="container">
 										<nav class="nav nav-tabs nav-justified">
 											<a class="nav-item nav-link active" data-toggle="tab" href="#home">Description</a>
-											<a class="nav-item nav-link" data-toggle="tab" href="#menu1">Specification</a>
+											<!-- <a class="nav-item nav-link" data-toggle="tab" href="#menu1">Specification</a> -->
 											<a class="nav-item nav-link" data-toggle="tab" href="#menu2">Related</a>
 											<a class="nav-item nav-link disabled" data-toggle="tab" href="#menu3"></a>
 										</nav>

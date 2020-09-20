@@ -16,30 +16,20 @@
                   @php 
                     $i=1;
                     @endphp
-                   @foreach($orders as $value)
-                   @foreach ($value->productMeta as $meta)
-                   @if($meta['meta_key']=='_order_total')
-                   @php                            
-                   $total=$meta['meta_value'];
-                   @endphp
-                 @endif
-                   
-                   @endforeach
-                <div class="card-body row">
+                   @foreach($order_item as $value)
+                    <div class="card-body row">
                     <div class="col"> <strong>Order Id #</strong>{{$i}} <br></div>
-                    <div class="col"> <strong>Date</strong> <br>{{$value->post_date}}</div>
-                    <div class="col"> <strong>Status</strong> <br> {{$value->post_status}}  </div>
-                    <div class="col"> <strong>Total</strong> <br>{{$value->total}} </div>
+                    <div class="col"> <strong>Date</strong> <br>@if(isset($shop_order->post_date)) {{date('d-M-Y',strtotime($shop_order->post_date))}} @endif</div>
+                    <div class="col"> <strong>Status</strong> <br> @if(isset($shop_order->post_status)) {{$shop_order->post_status}} @endif  </div>
+                    <div class="col"> <strong>Total</strong> <br>345435 </div>
                    <!--  <div class="col">
                         <figure class="itemside mb-3">
                             <div class="aside"><img src="https://res.cloudinary.com/dxfq3iotg/image/upload/v1571751108/Ecommerce/laptop-dell-xps-15-computer-monitors-laptops.jpg" class="img-sm border"></div>
                         </figure>
                     </div> -->
                     <div class="col">
-                        <a href="{{route('order-list.edit',$value->ID)}}" class="btn btn-success text-white" data-abc="true">View</a>
+                        <a href="" class="btn btn-success text-white" data-abc="true">View</a>
                     </div>
-
-                   
                 </div>
                  @php 
                     $i++;
