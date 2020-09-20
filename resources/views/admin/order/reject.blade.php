@@ -17,25 +17,7 @@
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
-      <form>
-        <fieldset>
-          <!-- <legend>Search Pending Order</legend> -->
-        </fieldset>
-        <div class="inner-form ml-5" style="width: 32.5%;">
-          
-          <div class="input-field second-wrap">
-            <p>Choose Image for Scan</p>
-            <form>
-              <input type="file" accept="image/*;capture=camera">
-            </form>
-          </div>
-    
-        
-          <div class="input-field fifth-wrap">
-            <button class="btn-search" type="button">SEARCH</button>
-          </div>
-        </div>
-      </form>
+
     </div>
 
        
@@ -49,7 +31,7 @@
           <div class="card-body">
             <div class="row mb-4">
             </div>
-            <img alt="testing" src="public\backend\products\1600171768.jpg'.$barcontent.'"/>
+
             <div class="table-responsive-sm">
               <table class="table table-striped">
                 <thead>

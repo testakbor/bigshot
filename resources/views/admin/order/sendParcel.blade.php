@@ -55,7 +55,7 @@ use App\Model\front\Order_item;
               <table class="table table-striped">
                 <thead>
                   <tr>
-                  <th class="center">Oder Id</th>
+                  <th class="center">Oder No</th>
                   <th>Name</th>
                   <th>Address</th>
                   <th class="right">Items</th>
@@ -69,6 +69,8 @@ use App\Model\front\Order_item;
                 <tbody>
                 @php $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
                 @foreach($orders as $items)
+                @php                 
+                @endphp
                  @php 
                    $products=Order_item::where('order_id',$items->ID)->get();
                    $order_info=DB::table('postmeta')
@@ -106,7 +108,7 @@ use App\Model\front\Order_item;
                     @endif
                   @endforeach 
                   <tr>
-                      <td class="center">{{$items->ID}}</td>
+                      <td class="center">{{$items->ID}} <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($items->ID, 'C39+',3,33,array(1,1,1)) . '" alt="barcode"   />'; ?></td>
                       <td class="left strong">{{$cust}}</td>
                       <td class="left">{{$address}}</td>
                       <td class="right">{{$product}}</td>
