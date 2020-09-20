@@ -1,3 +1,6 @@
+<?php 
+use App\Model\front\Order_item;
+?>
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;">
@@ -6,7 +9,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Delivery Report List</h1>
+            <!-- <h1>Pending Order</h1> -->
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -16,58 +19,160 @@
           </div>
         </div>
       </div><!-- /.container-fluid -->
+      <div class="s002">
+      <form method="post" action="">
+       @csrf() 
+        <fieldset>
+          <legend>Search Delivery Report</legend>
+        </fieldset>
+        <div class="inner-form ml-5">
+          
+          <div class="input-field second-wrap">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
+              </svg>
+            </div>
+            <input class="datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
+
+          </div>
+          <div class="input-field third-wrap">
+            <div class="icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
+              </svg>
+            </div>
+            <input class="datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
+          </div>
+        
+          <div class="input-field fifth-wrap">
+            <button type="submit" class="btn-search" type="button">SEARCH</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+       
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        @include('admin.includes.messages')
-        <div class="row">
-           
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Delivery Report</h3>
-              </div>
+      <div class="container">
+        <div class="card">
 
-              <div class="card-body">
-                <table class="table table-bordered table-striped">
-                  <thead class="bg-success">                  
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Product Name</th>
-                      <th>Status</th>
-                      <th >Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                   
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
-                      </td>
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
-              <div class="d-flex justify-content-center">            
-                                  
-              </div>  
-            </div>
           
-          </div>
-        
+
+          <div class="card-body">
+           
+
+            <div class="table-responsive-sm">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                  <th class="center">Oder Id</th>
+                  <th>Name</th>
+                  <th>Mobile</th>
+
+                  <th class="right">Quantity</th>
+       
+                  <th class="right">Delivered Date</th>
+                  <th class="right">Action</th>
+       
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  <tr>
+                  <td class="center">Barcode &Create date</td>
+
+                  <td class="right">
+                    <table>
+
+                      <tr>
+                        <td>Red</td>
+                      </tr>
+                 
+                    </table>
+                  </td>
+             
+                  <td class="right"><table>
+
+                      <tr>
+                        <td>132343546578</td>
+                      </tr>
+
+                    </table></td>
+                  <td class="right">4</td>
+       
+                  <td class="right">20-10-2020</td>
+                  <td class="right">
+                    <i class="fas fa-print"><a href="#">Print</a></i><br>
+                    <i class="fas fa-spinner"><a href="#">Processing</a></i><br>
+                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
+                    <i class="fas fa-window-close"><a href="#">Cancel</a></i>
+                  </td>
+                  <!-- <td class="right">hello</td> -->
+                  </tr>
+               
+              
+                </tbody>
+               
+              </table>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+
+                </div>
+
+            </div>
 
           </div>
-
         </div>
-      
+      </div>
+      <div class="container">
+        <div class="row">
+           <div class="col-md-4">
+                <div class="box bg-primary">
+                  <!-- <i class="fa fa-lemon ml-1"></i> -->
+                 
+                  <h3 class="text-center">44</h3>
+                 
+                  <p class="lead text-center font-weight-bold">Total Delivered</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box bg-success">
+                  <!-- <i class="fa fa-user ml-1"></i> -->
+                 
+                 
+                  <h3 class="text-center">5</h3>
+                 
+                  <p class="lead text-center font-weight-bold">Total Item</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box bg-info">
+                  <!-- <i class="fa fa-handshake ml-1"></i> -->
+                  
+                 
+                  <h3 class="text-center"> 200</h3>
+                  
+                  <p class="lead text-center font-weight-bold">Total Amount</p>
+                </div>
+              </div>
+        </div>       
+            
       </div>
     </section>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+   
+    <!-- /.content -->
+ <!--  </div> -->
+@endsection
 
-  </div>
+@section('js')
+
 @endsection

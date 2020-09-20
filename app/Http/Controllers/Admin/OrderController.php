@@ -71,6 +71,10 @@ class OrderController extends Controller
         ); 
         return view('admin.order.processing')->with($extraInfo);
     } 
+    public function print()
+    {   
+        return view('admin.order.pendingOrder_print');
+    }
     public function dispat()
     {   
      $extraInfo=array(

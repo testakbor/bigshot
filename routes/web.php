@@ -86,6 +86,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/pendingOrder','OrderController@pendingOrder')->name('order.pendingOrder');
         Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
         Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
+        Route::get('admin/pendingOrder/print','OrderController@print')->name('pendingOrder.print');
         Route::get('admin/pendingOrder/cancelled','OrderController@cancelled')->name('order.cancelled');
         Route::get('admin/sendparcel','OrderController@sendParcel')->name('order.sendParcel');
         Route::get('admin/allStatus','OrderController@allStatus')->name('order.allStatus');

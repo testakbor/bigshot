@@ -154,6 +154,7 @@ class PageController extends Controller
 		->groupBy('wishlist.product_id')
 		->orderBy('wishlist.id','DESC')
 		->paginate(3);
+		
 	    return view('front.user-profile',compact('wishProduct'));
 	}
 	public function privacy()

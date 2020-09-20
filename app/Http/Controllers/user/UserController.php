@@ -76,7 +76,7 @@ class UserController extends Controller
     {
         $user=DB::table('users')
         ->where('id',$id)
-        ->update(['name'=>$request->name]);
+        ->update(['name'=>$request->firstName]);
         session()->flash("success","Information Update Successfully");
         return redirect(url('profile'));
 
