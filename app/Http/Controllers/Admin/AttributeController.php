@@ -23,13 +23,19 @@ class AttributeController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         $extraInfo=array(
             'title'=>"Attribute List",
             'page'=>'attribute'
         );
-        $attributes=attribute_taxonomie::paginate(5);        
+        $q=$request->attribute;
+        if($q==''){
+            $attributes=attribute_taxonomie::paginate(5); 
+        }else{
+            $attributes=attribute_taxonomie::where('attribute_name', 'like', '%' .$q. '%')->paginate(5);
+        }
+              
         return view('admin.attribute.list',compact('attributes'))->with($extraInfo);
     }
 

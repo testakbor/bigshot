@@ -94,9 +94,14 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Tags</h3>
+                <form method="get" action="{{route('tag.index')}}"> 
+                    <input type="text" name="tag" class="form-control" placeholder="Search Tag" autocomplete="off">
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fd-search"></i> Search</button>
+                 </form>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+              @if($tags->count()==0) No Data Found @endif
                 <table class="table table-bordered table-striped">
                   <thead class="bg-danger">                  
                     <tr>

@@ -22,19 +22,30 @@ class CategoryController extends Controller
     }
 
     
-    public function index()
+    public function index(Request $request)
     {
+        $q=$request->category;
         $extraInfo=array(
             'title'=>"Category List",
             'page'=>'category'
         );
-
-        $categories=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_cat')
-        ->select('term_taxonomy.*','terms.name','terms.status')
-        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->paginate(3);                
+        if($request->category==''){
+            $categories=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','product_cat')
+            ->select('term_taxonomy.*','terms.name','terms.status')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->paginate(5); 
+        }else{
+            $categories=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','product_cat')
+            ->where('terms.name', 'like', '%' .$q. '%')
+            ->select('term_taxonomy.*','terms.name','terms.status')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->paginate(10); 
+        }
+                    
         return view('admin.category.list',compact('categories'))->with($extraInfo);
     }
 
@@ -99,18 +110,15 @@ class CategoryController extends Controller
             'title'=>"Category Edit",
             'page'=>'category'
         );
-
         $category=DB::table('terms')
         ->where('term_id',$id)
         ->first();
-        
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(3);
-                
         return view('admin.category.list',compact('categories','category'))->with($extraInfo);
     }
 

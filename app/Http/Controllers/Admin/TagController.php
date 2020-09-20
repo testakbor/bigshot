@@ -23,19 +23,30 @@ class TagController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
       $extraInfo=array(
             'title'=>"Tag List",
             'page'=>'tag'
         );
-
-        $tags=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_tag')
-        ->select('term_taxonomy.*','terms.name','terms.status')
-        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->paginate(10);                
+        $q=$request->tag;
+        if($q==''){
+            $tags=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','product_tag')
+            ->select('term_taxonomy.*','terms.name','terms.status')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->paginate(5);  
+        }else{
+            $tags=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','product_tag')
+            ->where('terms.name', 'like', '%' .$q. '%')
+            ->select('term_taxonomy.*','terms.name','terms.status')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->paginate(10); 
+        }
+                     
         return view('admin.tag.list',compact('tags'))->with($extraInfo);
     }
 

@@ -30,8 +30,6 @@ class HomeController extends Controller
     public function index()
     {
         // return view('home');
-
-
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')

@@ -23,22 +23,35 @@ class BrandController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         
        $extraInfo=array(
             'title'=>"Brand List",
             'page'=>'brand'
         );
-
-        $brands=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
-        ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
-        ->where('term_taxonomy.taxonomy','product_brand')
-        ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
-        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->paginate(5);    
+        $q=$request->brand;
+        if($q==''){
+            $brands=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+            ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+            ->where('term_taxonomy.taxonomy','product_brand')
+            ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->paginate(5);   
+        }else{
+            $brands=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+            ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+            ->where('term_taxonomy.taxonomy','product_brand')
+            ->where('terms.name', 'like', '%' .$q. '%')
+            ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->paginate(5);  
+        }
+      
         return view('admin.brand.list',compact('brands'))->with($extraInfo);
     }
 

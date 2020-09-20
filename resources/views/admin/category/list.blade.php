@@ -94,9 +94,14 @@
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Categories</h3>
+                 <form method="get" action="{{route('category.index')}}"> 
+                    <input type="text" name="category" class="form-control" placeholder="Search Category" autocomplete="off">
+                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fd-search"></i> Search</button>
+                 </form>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                @if($categories->count()==0) No Data Found @endif
                 <table class="table table-bordered table-striped">
                   <thead class="bg-danger">                  
                     <tr>
