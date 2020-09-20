@@ -27,7 +27,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         //category for front end
-        $categories=DB::table('term_taxonomy')
+		
+		 $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')
         ->where('terms.status',1)
@@ -41,5 +42,6 @@ class AppServiceProvider extends ServiceProvider
         ->join('postmeta','posts.ID','=','postmeta.post_id')
         ->first();
         view()->share('banner',$banner);
+       
     }
 }
