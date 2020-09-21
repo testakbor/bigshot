@@ -110,11 +110,11 @@ class ProductController extends Controller
                 );
 
             }
-            $attribute=json_encode($attribute);
+            $attributes=json_encode($attribute);
             $attributeMeta=array(
                 'post_id'=>$post_id,
                 'meta_key'=>'default_attribute',
-                'meta_value'=> $attribute
+                'meta_value'=> $attributes
             );
             DB::table('postmeta')->insert($attributeMeta);
         }       
@@ -219,5 +219,119 @@ public function attributeValue($id){
    echo json_encode($attributeValues);
 
 }
+
+// product edit
+public function edit($id)
+    {        
+
+        $extraInfo=array(
+            'title'=>"New Product",
+            'page'=>'products'
+        );
+        // for bands
+        $brands=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+        ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+        ->where('term_taxonomy.taxonomy','product_brand')
+        ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
+        ->get();
+        // categories
+        $categories=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','product_cat')
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->get();   
+
+        // tag
+        $tags=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','product_tag')
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->get();          
+        // attribute 
+
+        $product=DB::table('posts')
+                ->where('ID',$id)
+                ->first();
+
+        // product categorys                
+        $texonomoys=DB::table('term_relationships')
+                  ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
+                  ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                  ->where('object_id',$id)
+                  ->where('term_taxonomy.taxonomy','product_cat')
+                  ->select('terms.name')
+                  ->get();
+        $nameTaxonomy=array();
+            foreach ($texonomoys as  $value) {
+            array_push($nameTaxonomy,$value->name);
+        }      
+          // product tag                
+        $texonomoys=DB::table('term_relationships')
+                  ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
+                  ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                  ->where('object_id',$id)
+                  ->where('term_taxonomy.taxonomy','product_tag')
+                  ->select('terms.name')
+                  ->get();
+        $tagTaxonomy=array();
+            foreach ($texonomoys as  $value) {
+            array_push($tagTaxonomy,$value->name);
+        }                  
+       
+          // product band                
+        $texonomoys=DB::table('term_relationships')
+                  ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
+                  ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                  ->where('object_id',$id)
+                  ->where('term_taxonomy.taxonomy','product_brand')
+                  ->select('terms.name')
+                  ->get();
+        $bandTaxonomy=array();
+            foreach ($texonomoys as  $value) {
+            array_push($bandTaxonomy,$value->name);
+        }                  
+       
+        // product image 
+        $image=DB::table('postmeta')
+                ->where('post_id',$id)
+                ->where('meta_key','attached_file')
+                ->first();
+
+        // product pice 
+        $image=DB::table('postmeta')
+                ->where('post_id',$id)
+                ->where('meta_key','attached_file')
+                ->first();
+
+    $stock_status=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'stock_status'])->first();
+    $regular_price=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'regular_price'])->first();
+    $sale_price=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'sale_price'])->first();
+    $weight=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'weight'])->first();
+    $length=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'length'])->first();
+    $width=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'width'])->first();
+    $height=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'height'])->first();
+    $qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'qty'])->first();
+    $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->first();
+
+    $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
+     
+    $arributeArray=json_decode($allAttribute->meta_value);
+    
+
+
+    $attributes=attribute_taxonomie::where('status',1)->get();
+    return view('admin.product.edit',compact('brands','categories','tags','attributes',
+    'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',
+    'stock_status','regular_price','sale_price','weight',
+    'length','width','height','qty','alert_qty','arributeArray'
+    ))->with($extraInfo);
+
+    }
+
+    public function update(Request $request,$id){
+
+    }
 
 }
