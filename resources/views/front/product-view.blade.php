@@ -75,6 +75,7 @@ endif;
                                             <div>
                                                 <input type="hidden" name="id" value="{{$product->ID}}">
                                                 <input type="hidden" name="name" value="{{$product->post_title}}">
+                                                <input type="hidden" name="main_qty" value="{{$qty}}">
                                                     <table>
                                                         <tr>
                                                             <th>
