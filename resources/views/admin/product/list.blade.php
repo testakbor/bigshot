@@ -50,7 +50,7 @@
                       <td>{{$value->post_title}}</td>
                       <td>{{$value->post_status}}</td>
                       <td>
-                        <a href="#" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
+                        <a href="{{route('product.edit',$value->ID)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
                       </td>
                     </tr>
                     @php 
