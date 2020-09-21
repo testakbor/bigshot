@@ -143,9 +143,9 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'stock'
         ); 
-        $products=Post::where('post_type','product')
-        // ->where('post_status','publish')
-        ->paginate(5); 
+        $products=DB::table('posts')
+        ->where('post_type','product')
+        ->paginate(10); 
         return view('admin.order.stock',compact('products'))->with($extraInfo);
     }
     public function lowerStock(){
@@ -153,9 +153,9 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'lowerstock'
         ); 
-        $products=Post::where('post_type','product')
-        // ->where('post_status','publish')
-        ->paginate(5); 
+        $products=DB::table('posts')
+        ->where('post_type','product')
+        ->paginate(10); 
         return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
     }
     public function oldStock(){

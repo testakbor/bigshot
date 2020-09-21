@@ -36,7 +36,10 @@ class CartController extends Controller
         return view('front.cart',compact('info','user_info'));
     }
 
-    public function addCart(Request $request){    
+    public function addCart(Request $request){   
+    if ($request->quantity>$request->main_qty) {
+          return back()->with('status','Quantity limit Exists');
+     }else{
         Cart::add(array(
             array(
                 'id' => $request->id,
@@ -48,6 +51,9 @@ class CartController extends Controller
         )
     );
         return redirect(route('product-page',$request->id))->with('status','Product added in Cart');
+     }
+        
+        
     }
     
     public function index()
@@ -56,11 +62,10 @@ class CartController extends Controller
     }
 
     public function checkout(Request $request){
-        $id=auth()->user()->id;
-        if($id==''){
-            $id=0;
+        if(\Auth::check()){
+             $id=auth()->user()->id;
         }else{
-            $id=auth()->user()->id;
+            $id=0;
         }
         $post_date=date('Y-m-d 0:0:0)');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
@@ -171,6 +176,15 @@ class CartController extends Controller
 
         foreach ($info as $item){
 
+        $pro=DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->get();
+        foreach($pro as $pros){
+           $ac_qty=$pros->meta_value;
+           $customer_qty=$item->quantity;
+           $tot_qty=$ac_qty-$customer_qty;
+           DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->update([
+               'meta_value' => $tot_qty,
+           ]);
+        }
         $order_item=array(
             'order_item_name'=>$item->name,
             'order_item_type'=>'line-item',
@@ -197,7 +211,7 @@ class CartController extends Controller
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_product_id',
-            'meta_value'=>'',
+            'meta_value'=>$item->id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
 
