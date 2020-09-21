@@ -19,7 +19,7 @@
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Lower Stock</legend>
+          <legend>Lower Stock List</legend>
         </fieldset>
         <div class="inner-form ml-5">
           
@@ -74,12 +74,15 @@
                 </thead>
 
                 <tbody>
-                @php $qty=0; $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
+                @php $alert=0; $qty=0; $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
                 @foreach($products as $item)
                   @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get(); @endphp
                   @foreach($product_info as $info)
-                     @if($info->meta_key=='alert_qty')
+                     @if($info->meta_key=='qty')
                       @php $qty=$info->meta_value; @endphp 
+                     @endif
+                     @if($info->meta_key=='alert_qty')
+                      @php $alert=$info->meta_value; @endphp 
                      @endif
                      @if($info->meta_key=='sale_price')
                       @php $price=$info->meta_value; @endphp 
@@ -87,40 +90,11 @@
                      @if($info->meta_key=='stock_status')
                       @php $status=$info->meta_value; @endphp 
                      @endif
-                     @if($info->meta_key=='sku')
+                     @if($info->meta_key=='_sku')
                       @php $sku=$info->meta_value; @endphp 
                      @endif
                    @endforeach 
-                   <!-- @foreach ($item->productMeta as $meta)
-                        @if($meta['meta_key']=='_regular_price')
-                          @php                            
-                          $rprice=$meta['meta_value'];
-                          @endphp
-                        @endif
-                        @if($meta['meta_key']=='_sale_price')
-                          @php                            
-                          $sprice=is_numeric($meta['meta_value']);
-                          $total_sell_price+=$sprice;
-                          @endphp
-                        @endif
-                        @if($meta['meta_key']=='_sku')
-                          @php                            
-                          $sku=$meta['meta_value'];
-                          @endphp
-                        @endif 
-                        @if($meta['meta_key']=='_stock')
-                          @php 
-                           $qty=is_numeric($meta['meta_value']);
-                        @endphp
-                        @endif 
-                        @if($meta['meta_key']=='_price')
-                          @php 
-                           $price=is_numeric($meta['meta_value']);
-                        @endphp
-                        @endif
-                      @endforeach -->
-               
-              
+                      @if($alert<=$alert)
                       @php $i++ @endphp
                       <tr>
                         <td class="center">{{$sku}}</td>
@@ -137,9 +111,8 @@
                         </td>
                     </tr>
                      @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
-     
-        
-                    @endforeach   
+                   @endif 
+                  @endforeach   
                 </tbody>
               </table>
               {{$products->links()}}

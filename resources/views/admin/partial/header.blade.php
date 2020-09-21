@@ -163,7 +163,7 @@
                 <a href="{{route('order.stock.old')}}" class="nav-link {{isset($page) && $page=='oldstock'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
-                  Old Stock List
+                  Sold Stock List
                   </p>
                 </a>
               </li>
@@ -205,17 +205,11 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('man.stock')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Man Stock</p>
-                </a>
-              </li>
-              
+          
               <li class="nav-item">
                 <a href="{{route('women.stock')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Women Stock</p>
+                  <p>Category Stock</p>
                 </a>
               </li>
 

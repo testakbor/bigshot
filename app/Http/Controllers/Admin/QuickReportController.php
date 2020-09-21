@@ -29,11 +29,32 @@ class QuickReportController extends Controller
     }
     public function manStock()
     {
+      $data=DB::table('term_relationships')
+		->leftjoin('posts','term_relationships.object_id','=','posts.ID')
+		->where('term_taxonomy_id',1)
+		->where('posts.post_type','product')
+      ->paginate(20);
+    
        return view('admin.quickReport.man_stock');
     }
-    public function womenStock()
+    public function womenStock(Request $request)
     {
-       return view('admin.quickReport.women_stock');
+      $categories=DB::table('term_taxonomy')
+      ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+      ->where('term_taxonomy.taxonomy','product_cat')
+      ->select('term_taxonomy.*','terms.name','terms.status')
+      ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+      ->get(); 
+      if($request->cat_id==''){
+        $cat_pro=[];
+      }else{
+         $cat_pro=DB::table('term_relationships')
+         ->leftjoin('posts','term_relationships.object_id','=','posts.ID')
+         ->where('term_taxonomy_id',$request->cat_id)
+         ->where('posts.post_type','product')
+         ->get();
+      }
+       return view('admin.quickReport.women_stock',compact('categories','cat_pro'));
     }
     public function salesReport()
     {
