@@ -74,7 +74,7 @@
                 </thead>
 
                 <tbody>
-                @php $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
+                @php $qty=0; $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
                 @foreach($products as $item)
                   @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get(); @endphp
                   @foreach($product_info as $info)
@@ -120,7 +120,7 @@
                         @endif
                       @endforeach -->
                
-                      @if($qty>0)
+              
                       @php $i++ @endphp
                       <tr>
                         <td class="center">{{$sku}}</td>
@@ -137,7 +137,7 @@
                         </td>
                     </tr>
                      @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
-                   @endif 
+     
         
                     @endforeach   
                 </tbody>

@@ -74,7 +74,7 @@
                 </thead>
 
                 <tbody>
-                @php $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
+                @php $qty=0; $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
                 @foreach($products as $item)
                   @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get(); @endphp
                   @foreach($product_info as $info)
@@ -83,9 +83,6 @@
                      @endif
                      @if($info->meta_key=='sale_price')
                       @php $price=$info->meta_value; @endphp 
-                     @endif
-                     @if($info->meta_key=='stock_status')
-                      @php $status=$info->meta_value; @endphp 
                      @endif
                      @if($info->meta_key=='sku')
                       @php $sku=$info->meta_value; @endphp 
@@ -120,7 +117,7 @@
                         @endif
                       @endforeach -->
                
-                      @if($qty>0)
+                      @if($qty==0)
                       @php $i++ @endphp
                       <tr>
                         <td class="center">{{$sku}}</td>
@@ -129,7 +126,7 @@
                         <td class="right">{{$qty}}</td>
                         <td class="right"> Tk {{$tot=$qty*$price}}</td>
                         <td class="right">Tk {{$price}}</td>
-                        <td class="right">{{$status}}</td>
+                        <td class="right">Out of Stock</td>
                         <td class="right">
                           <i class="fas fa-print"><a href="#">Print</a></i><br>
                           <i class="fas fa-edit"><a href="#">Edit</a></i><br>
@@ -138,7 +135,7 @@
                     </tr>
                      @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
                    @endif 
-        
+
                     @endforeach   
                 </tbody>
               </table>

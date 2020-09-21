@@ -56,11 +56,10 @@ class CartController extends Controller
     }
 
     public function checkout(Request $request){
-        $id=auth()->user()->id;
-        if($id==''){
-            $id=0;
+        if(\Auth::check()){
+             $id=auth()->user()->id;
         }else{
-            $id=auth()->user()->id;
+            $id=0;
         }
         $post_date=date('Y-m-d 0:0:0)');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
