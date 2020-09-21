@@ -66,12 +66,14 @@ class UserController extends Controller
             ->where('post_author',$user->id)
             ->select('ID')
             ->first();
+            
             if(isset($log_user)){
               $log_user=$log_user->ID;
             }else{
                 $log_user=0; 
             }
         $user_info=DB::table('postmeta')->where('post_id',$log_user)->get();
+        dd($user_info);
         return view('user.profile.edit',compact('user','user_info'));
         
     }
@@ -88,6 +90,11 @@ class UserController extends Controller
         $user=DB::table('users')
         ->where('id',$id)
         ->update(['name'=>$request->firstName]);
+
+        $user_info=DB::table('postmeta')
+        ->where('post_id',$log_user)
+        ->update(['_billing_address_1'=>$request->address1]);
+
         session()->flash("success","Information Update Successfully");
         return redirect(url('profile'));
 
