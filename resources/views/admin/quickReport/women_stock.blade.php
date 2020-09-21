@@ -6,68 +6,144 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Women Stock List</h1>
+            
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Women Stock List</li>
+              <li class="breadcrumb-item active">Search Category wise stock List</li>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
+      <div class="s002">
+      <form>
+        <fieldset>
+          <legend>Search Category wise stock List</legend>
+        </fieldset>
+        <form method="get" action="{{route('women.stock')}}">
+          @csrf 
+        <div class="inner-form ml-5">
+          <div class="input-field second-wrap">
+          <select class="form-control" name="cat_id" required>
+            @foreach($categories as $cat)
+              <option value="{{$cat->term_taxonomy_id}}">{{$cat->name}}</option>
+            @endforeach   
+         </select>
+
+          </div>
+          <div class="input-field fifth-wrap">
+            <button type="submit" class="btn-search" type="button">SEARCH</button>
+          </div>
+          </form>
+        </div>
+      </form>
+    </div>
+
+       
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        @include('admin.includes.messages')
-        <div class="row">
-           
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Women Stock</h3>
-              </div>
+      <div class="container">
+        <div class="card">
 
-              <div class="card-body">
-                <table class="table table-bordered table-striped">
-                  <thead class="bg-success">                  
-                    <tr>
-                      <th style="width: 10px">#</th>
-                      <th>Product Name</th>
-                      <th>Status</th>
-                      <th >Action</th>
+          <div class="card-body">
+
+            <div class="table-responsive-sm">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                  <!-- <th>SKU</th> -->
+                  <th>Items</th>
+                  <!-- <th class="right">Categories</th> -->
+                  <th class="center">Quantity</th>
+                  <th class="right">Cost</th>
+                  <th class="right">Sale Price</th>
+                  <th class="right">Status</th>
+                  <!-- <th class="right">Action</th> -->
+                  </tr>
+                </thead>
+
+                <tbody>
+                  @php $qty=0;$price=0;$tot_qty=0;$tot_cost=0; $tot_price=0; @endphp
+                  @foreach($cat_pro as $pro)
+                  @php $product_info=DB::table('postmeta')->where('post_id',$pro->ID)->get(); @endphp
+                  @foreach($product_info as $info)
+                   @if($info->meta_key=='qty') @php $qty=$info->meta_value; @endphp  @endif 
+                   @if($info->meta_key=='sale_price') @php $price=$info->meta_value; @endphp  @endif 
+                  @endforeach
+                      <tr>
+                        <!-- <td class="center">rrr</td> -->
+                        <td class="left strong">{{$pro->post_title}}</td>
+                        <!-- <td class="left">Women</td> -->
+                        <td class="right">{{$qty}}</td>
+                        <td class="right">TK {{$cost=$price*$qty}}</td>
+                        <td class="right">Tk {{$price}}</td>
+                        <td class="right">@if($qty>0) In stock @else Out of Stock @endif</td>
+                        <!-- <td class="right">
+                          <i class="fas fa-print"><a href="#">Print</a></i><br>
+                          <i class="fas fa-edit"><a href="#">Edit</a></i><br>
+                          <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
+                        </td> -->
+                        @php $tot_qty+=$qty; $tot_cost+=$cost; $tot_price+=$price; @endphp
                     </tr>
-                  </thead>
-                  <tbody>
-                   
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
-                      </td>
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
-              <div class="d-flex justify-content-center">            
-                                  
-              </div>  
+                 @endforeach 
+                </tbody>
+              </table>
+    
             </div>
-          
-          </div>
-        
+
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">
+
+                </div>
+            </div>
 
           </div>
-
         </div>
-      
+      </div>
+      <div class="container">
+        <div class="row">
+           <div class="col-md-4">
+                <div class="box bg-primary">
+                  <!-- <i class="fa fa-lemon ml-1"></i> -->
+                 
+                  <h3 class="text-center">{{$tot_qty}}</h3>
+                 
+                  <p class="lead text-center font-weight-bold">Total Stock </p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box bg-success">
+                  <!-- <i class="fa fa-user ml-1"></i> -->
+                 
+                 
+                  <h3 class="text-center">{{$tot_cost}}</h3>
+                 
+                  <p class="lead text-center font-weight-bold">Total Cost</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box bg-info">
+                  <!-- <i class="fa fa-handshake ml-1"></i> -->
+                  
+                 
+                  <h3 class="text-center">{{$tot_price}}</h3>
+                  
+                  <p class="lead text-center font-weight-bold">Total Sell Price</p>
+                </div>
+              </div>
+        </div>       
+            
       </div>
     </section>
-
-  </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+   
+    <!-- /.content -->
+ <!--  </div> -->
 @endsection
+
+
+

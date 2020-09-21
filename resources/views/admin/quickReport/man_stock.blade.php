@@ -36,8 +36,8 @@
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Product Name</th>
-                      <th>Status</th>
-                      <th >Action</th>
+                      <th>Quantity</th>
+                      <!-- <th>Action</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -46,9 +46,9 @@
                       <td></td>
                       <td></td>
                       <td></td>
-                      <td>
+                      <!-- <td>
                         <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
-                      </td>
+                      </td> -->
                     </tr>
                    
                   </tbody>

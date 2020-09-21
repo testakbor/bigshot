@@ -176,6 +176,15 @@ class CartController extends Controller
 
         foreach ($info as $item){
 
+        $pro=DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->get();
+        foreach($pro as $pros){
+           $ac_qty=$pros->meta_value;
+           $customer_qty=$item->quantity;
+           $tot_qty=$ac_qty-$customer_qty;
+           DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->update([
+               'meta_value' => $tot_qty,
+           ]);
+        }
         $order_item=array(
             'order_item_name'=>$item->name,
             'order_item_type'=>'line-item',
@@ -202,7 +211,7 @@ class CartController extends Controller
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_product_id',
-            'meta_value'=>'',
+            'meta_value'=>$item->id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
 

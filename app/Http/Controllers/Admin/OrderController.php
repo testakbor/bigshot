@@ -153,10 +153,9 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'lowerstock'
         ); 
-        $products=Post::where('post_type','product')
-        // ->where('post_status','publish')
-        ->get();
-        dd($products); 
+        $products=DB::table('posts')
+        ->where('post_type','product')
+        ->paginate(10); 
         return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
     }
     public function oldStock(){

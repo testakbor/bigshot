@@ -19,7 +19,7 @@
       <div class="s002">
       <form>
         <fieldset>
-          <legend>Old Stock</legend>
+          <legend>Sold Out Stock List</legend>
         </fieldset>
         <div class="inner-form ml-5">
           
@@ -126,7 +126,7 @@
                         <td class="right">{{$qty}}</td>
                         <td class="right"> Tk {{$tot=$qty*$price}}</td>
                         <td class="right">Tk {{$price}}</td>
-                        <td class="right">Out of Stock</td>
+                        <td class="right">Out of stock</td>
                         <td class="right">
                           <i class="fas fa-print"><a href="#">Print</a></i><br>
                           <i class="fas fa-edit"><a href="#">Edit</a></i><br>
