@@ -63,7 +63,7 @@ endif;
                                             <span class="text-dark"> Price: </span>
                                             <span class="emphasize"> tk. {{$sprice}}</span>
                                             <input type="hidden" name="price" value="{{$sprice}}">
-                                            <input type="hidden" name="main_qty" value="{{$qty}}">
+                                      
                                             </p>
                                             <div class="tm-size-color-single">
                                                 <label for="quantity">Quantity:</label>
@@ -74,6 +74,7 @@ endif;
                                             </span>
                                             <div>
                                                 <input type="hidden" name="id" value="{{$product->ID}}">
+                                                <input type="hidden" name="name" value="{{$product->post_title}}">
                                                     <table>
                                                         <tr>
                                                             <th>

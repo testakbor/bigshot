@@ -87,10 +87,11 @@ use App\Model\front\Order_item;
                 @foreach($data as $order) 
                   @php $order_item=DB::table('order_items')
                   ->where('order_id',$order->ID)
+                  ->groupBy('order_id')
                   ->get(); 
                   @endphp
-                @endforeach
-                @foreach($order_item as $item)
+                  @endforeach
+
                   <tr>
                   <td class="center">1</td>
                   <td class="left strong">sdfdsf</td>
@@ -100,7 +101,7 @@ use App\Model\front\Order_item;
                   <td class="right">243354</td>
                   <td class="right">243354</td>
                   </tr>
-                @endforeach
+  
                 </tbody>
               </table>
             </div>

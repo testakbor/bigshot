@@ -39,17 +39,18 @@ class CartController extends Controller
     public function addCart(Request $request){   
     if ($request->quantity>$request->main_qty) {
           return back()->with('status','Quantity limit Exists');
+          exit();
      }else{
-        Cart::add(array(
-            array(
-                'id' => $request->id,
-                'price' =>$request->price,
-                'quantity' => $request->quantity,
-                'name' => $request->name,
-                'options' => array()
+            Cart::add(array(
+                array(
+                    'id' => $request->id,
+                    'price' =>$request->price,
+                    'quantity' => $request->quantity,
+                    'name' => $request->name,
+                    'options' => array()
+                )
             )
-        )
-    );
+          );
         return redirect(route('product-page',$request->id))->with('status','Product added in Cart');
      }
         
@@ -189,6 +190,7 @@ class CartController extends Controller
             'order_item_name'=>$item->name,
             'order_item_type'=>'line-item',
             'order_id'=>$order_id,
+            'product_id'=>$item->id
         );
         $order_item_id=DB::table('order_items')->insertGetId($order_item);
            $order_item_details=array(
