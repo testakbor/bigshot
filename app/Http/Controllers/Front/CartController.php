@@ -36,7 +36,10 @@ class CartController extends Controller
         return view('front.cart',compact('info','user_info'));
     }
 
-    public function addCart(Request $request){    
+    public function addCart(Request $request){   
+    if ($request->quantity>$request->main_qty) {
+          return back()->with('status','Quantity limit Exists');
+     }else{
         Cart::add(array(
             array(
                 'id' => $request->id,
@@ -48,6 +51,9 @@ class CartController extends Controller
         )
     );
         return redirect(route('product-page',$request->id))->with('status','Product added in Cart');
+     }
+        
+        
     }
     
     public function index()

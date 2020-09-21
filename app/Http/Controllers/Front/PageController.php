@@ -1,57 +1,52 @@
 <?php
-
 namespace App\Http\Controllers\Front;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
 use DB;
 use Auth;
-
-
-
 class PageController extends Controller
 {
     public function productView($id)
     {
-		$product=Post::where('post_type','product')
+        $product=Post::where('post_type','product')
         ->where('ID',$id)
 		->first();
-		$product_category=DB::table('term_relationships')->where('object_id',$id)->first();
-
-		if(isset($product_category)){
-		  $cat_id=$product_category->term_taxonomy_id;
+		
+        $product_category=DB::table('term_relationships')->where('object_id',$id)->first();
+        if(isset($product_category)){
+          $cat_id=$product_category->term_taxonomy_id;
 		}
-		$product_related=DB::table('term_relationships')
-		->where('term_taxonomy_id',$cat_id)
-		->where('posts.post_type','product')
-		->join('posts','term_relationships.object_id','=','posts.ID')
+		
+        $product_related=DB::table('term_relationships')
+        ->where('term_taxonomy_id',$cat_id)
+        ->where('posts.post_type','product')
+        ->join('posts','term_relationships.object_id','=','posts.ID')
 		->get();
-		$gallery_images=DB::table('postmeta')
-		->where('post_id',$product->ID)
-		->where('meta_key','gallery_file')
-		->select('meta_key','meta_value')
-		->get();
-    	return view('front.product-view',compact('product','product_category','product_related','gallery_images'));
-	}
-
+	
+        $gallery_images=DB::table('postmeta')
+        ->where('post_id',$product->ID)
+        ->where('meta_key','gallery_file')
+        ->select('meta_key','meta_value')
+        ->get();
+        return view('front.product-view',compact('product','product_category','product_related','gallery_images'));
+    }
     public function cart()
     {
-    	return view('front.cart');
-	}
-	public function OrderHistory()
-	{
-	    return view('front.order-history');
-	}
-
-	public function OrderSuccess()
-	{
-	    return view('front.order-success');
-	}
-	public function popular()
-	{
-		$categories=DB::table('term_taxonomy')
+        return view('front.cart');
+    }
+    public function OrderHistory()
+    {
+        return view('front.order-history');
+    }
+    public function OrderSuccess()
+    {
+        return view('front.order-success');
+    }
+    public function popular()
+    {
+        $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')
         ->where('terms.status',1)
@@ -62,75 +57,72 @@ class PageController extends Controller
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
         ->get();
-	    return view('front.popular',compact('categories','products'));
-	}
-	public function categoryProduct($id)
-	{
-		$id=base64_decode($id);
-		$data=DB::table('term_relationships')
-		->leftjoin('posts','term_relationships.object_id','=','posts.ID')
-		->where('term_taxonomy_id',$id)
-		->where('posts.post_type','product')
-		->paginate(20);
-	    return view('front.Categories',compact('data'));
-	}
-	public function wishlist()
-	{
-		$wishProduct=DB::table('wishlist')
-		->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
-		->where('user_id',auth()->user()->id)
-		->groupBy('wishlist.product_id')
-		->orderBy('wishlist.id','DESC')
-		->paginate(3);
-	    return view('front.wishlist',compact('wishProduct'));
-	}
-	public function wishlistProduct(Request $request)
-	{
-		DB::table('wishlist')
-		->where('product_id',$request->id)
-		->where('user_id',Auth::user()->id)
-		->delete();
-	    $wishlist = array(
-	    	'product_id' => $request->id,
-	    	'user_id' => Auth::user()->id,
-	    );
-	    DB::table('wishlist')->insertGetId($wishlist);
-
-
-	    return back()->with('status','Product added in wishlist');
-	}
-	public function DailyLoginBonus()
-	{
-	    return view('front.daily-login-bonus');
-	}
-	public function rewards()
-	{
-	    return view('front.rewards');
-	}
-	public function cash()
-	{
-	    return view('front.cash');
-	}
-	public function pickupTab()
-	{
-	    return view('front.picku-tab');
-	}
-	public function recent()
-	{
-		$products=Post::where('post_type','product')
-		->where('post_status','publish')
-		->orderBy('ID','DESC')
-		->limit(20)->get();
-	    return view('front.recent',compact('products'));
-	}
-	public function brands()
-	{
-		  $extraInfo=array(
+        return view('front.popular',compact('categories','products'));
+    }
+    public function categoryProduct($id)
+    {
+        $id=base64_decode($id);
+        $data=DB::table('term_relationships')
+        ->leftjoin('posts','term_relationships.object_id','=','posts.ID')
+        ->where('term_taxonomy_id',$id)
+        ->where('posts.post_type','product')
+        ->paginate(20);
+        return view('front.Categories',compact('data'));
+    }
+    public function wishlist()
+    {
+        $wishProduct=DB::table('wishlist')
+        ->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
+        ->where('user_id',auth()->user()->id)
+        ->groupBy('wishlist.product_id')
+        ->orderBy('wishlist.id','DESC')
+        ->paginate(3);
+        return view('front.wishlist',compact('wishProduct'));
+    }
+    public function wishlistProduct(Request $request)
+    {
+        DB::table('wishlist')
+        ->where('product_id',$request->id)
+        ->where('user_id',Auth::user()->id)
+        ->delete();
+        $wishlist = array(
+            'product_id' => $request->id,
+            'user_id' => Auth::user()->id,
+        );
+        DB::table('wishlist')->insertGetId($wishlist);
+        return back()->with('status','Product added in wishlist');
+    }
+    public function DailyLoginBonus()
+    {
+        return view('front.daily-login-bonus');
+    }
+    public function rewards()
+    {
+        return view('front.rewards');
+    }
+    public function cash()
+    {
+        return view('front.cash');
+    }
+    public function pickupTab()
+    {
+        return view('front.picku-tab');
+    }
+    public function recent()
+    {
+        $products=Post::where('post_type','product')
+        ->where('post_status','publish')
+        ->orderBy('ID','DESC')
+        ->limit(20)->get();
+        return view('front.recent',compact('products'));
+    }
+    public function brands()
+    {
+          $extraInfo=array(
             'title'=>"Brands",
             'page'=>'brands'
         );
-
-		$categories=DB::table('term_taxonomy')
+        $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')
         ->where('terms.status',1)
@@ -140,55 +132,53 @@ class PageController extends Controller
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
         ->get();
-	    return view('front.brands',compact('categories','products'))->with($extraInfo);
-	}
-	public function faq()
-	{
-	    return view('front.faq');
-	}
-	public function profile()
-	{
-		$wishProduct=DB::table('wishlist')
-		->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
-		->where('user_id',auth()->user()->id)
-		->groupBy('wishlist.product_id')
-		->orderBy('wishlist.id','DESC')
-		->paginate(3);
-		
-	    return view('front.user-profile',compact('wishProduct'));
-	}
-	public function privacy()
-	{
-	    return view('front.privacy');
-	}
-	public function termsconditions()
-	{
-	    return view('front.terms&conditions');
-	}
-	public function about()
-	{
-	    return view('front.about');
-	}
-	public function returnPolicy()
-	{
-	    return view('front.return-policy');
-	}
-	public function settings()
-	{
-	    return view('front.settings');
-	}
-	public function customerSupport()
-	{
-	    return view('front.customerSupport');
-	}
-
-	//delete wishlist
-	public function wishlistDelete($id){
-	  $id=base64_decode($id);
-	  $data=DB::table('wishlist')
-	  ->where('product_id',$id)
-	  ->where('user_id',auth()->user()->id)
-	  ->delete();
-	  return back()->with('status','Product delete from wishlist');
-	}
+        return view('front.brands',compact('categories','products'))->with($extraInfo);
+    }
+    public function faq()
+    {
+        return view('front.faq');
+    }
+    public function profile()
+    {
+        $wishProduct=DB::table('wishlist')
+        ->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
+        ->where('user_id',auth()->user()->id)
+        ->groupBy('wishlist.product_id')
+        ->orderBy('wishlist.id','DESC')
+        ->paginate(3);
+        return view('front.user-profile',compact('wishProduct'));
+    }
+    public function privacy()
+    {
+        return view('front.privacy');
+    }
+    public function termsconditions()
+    {
+        return view('front.terms&conditions');
+    }
+    public function about()
+    {
+        return view('front.about');
+    }
+    public function returnPolicy()
+    {
+        return view('front.return-policy');
+    }
+    public function settings()
+    {
+        return view('front.settings');
+    }
+    public function customerSupport()
+    {
+        return view('front.customerSupport');
+    }
+    //delete wishlist
+    public function wishlistDelete($id){
+      $id=base64_decode($id);
+      $data=DB::table('wishlist')
+      ->where('product_id',$id)
+      ->where('user_id',auth()->user()->id)
+      ->delete();
+      return back()->with('status','Product delete from wishlist');
+    }
 }

@@ -93,7 +93,7 @@
               <div class="row">
                 <div class="col-md-6 mb-">
                   <label for="country">Country / Region<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" name="phone" value="{{$country}}" id="phone" placeholder="Phone" required>
+                  <input type="text" class="form-control" name="phone" value="{{$country}}" id="phone" placeholder="Country" required>
              
                 </div>                            
                 <div class="col-md-6 mb-3">
