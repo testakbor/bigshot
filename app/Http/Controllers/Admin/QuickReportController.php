@@ -56,9 +56,16 @@ class QuickReportController extends Controller
       }
        return view('admin.quickReport.women_stock',compact('categories','cat_pro'));
     }
-    public function salesReport()
+    public function salesReport(Request $request)
     {
-       return view('admin.quickReport.sales_report');
+       $start=$request->start;
+       $end=$request->end;
+       $data=DB::table('posts')
+       ->where('post_type','shop_order')
+       ->where('post_status','Completed')
+       ->whereBetween('post_date',[$start,$end])
+       ->get();
+       return view('admin.quickReport.sales_report',compact('data'));
     }
     public function deliveryReport()
     {

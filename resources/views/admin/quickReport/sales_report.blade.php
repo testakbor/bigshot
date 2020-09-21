@@ -20,7 +20,7 @@ use App\Model\front\Order_item;
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
-      <form method="post" action="{{route('s_pending_order')}}">
+      <form method="get" action="{{route('sales.report')}}">
        @csrf() 
         <fieldset>
           <legend>Search Sales Report</legend>
@@ -69,85 +69,45 @@ use App\Model\front\Order_item;
               <table class="table ">
                 <thead>
                   <tr>
-                  <th class="center">Oder Id</th>
+                  <th class="center">Oder No</th>
                   <th>Name</th>
-                  <th>SKU</th>
-
-                  <th class="right">Color</th>
+                  <!-- <th>SKU</th> -->
+                  <!-- <th class="right">Color</th> -->
                   <th class="center">Qty</th>
                   <th class="right">Item</th>
                   <th class="right">Address</th>
                   <th class="right">Mobile</th>
                   <th class="right">Amount</th>
-                  <th class="right">Action</th>
+                  <!-- <th class="right">Action</th> -->
                   <!-- <th class="right">Comments</th> -->
                   </tr>
                 </thead>
 
-                <tbody>
-
+                <tbody> 
+                @foreach($data as $order) 
+                  @php $order_item=DB::table('order_items')
+                  ->where('order_id',$order->ID)
+                  ->get(); 
+                  @endphp
+                @endforeach
+                @foreach($order_item as $item)
                   <tr>
                   <td class="center">1</td>
-                  <td class="left strong"></td>
-                  <td class="left">
-                    <table>
-                      <tr>
-                        <td> </td>
-                      </tr>
-               
-                    </table>
-                  </td>
-
-                  <td class="right">
-                    <table>
-
-                      <tr>
-                        <td>Red</td>
-                      </tr>
-                 
-                    </table>
-                  </td>
-                  <td class="center">
-                    <table>
-
-                      <tr>
-                        <td>5</td>
-                      </tr>
-                      
-                    </table>
-                  </td>
-                  <td class="right"><table>
-
-                      <tr>
-                        <td>mobile</td>
-                      </tr>
-
-                    </table></td>
+                  <td class="left strong">sdfdsf</td>
                   <td class="right">uttara</td>
                   <td class="right">132343546578</td>
                   <td class="right">243354</td>
-                  <td class="right">
-                    <i class="fas fa-print"><a href="#" onclick="window.print()">Print</a></i><br>
-                    <i class="fas fa-spinner"><a href="#">Processing</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a href="#">Cancel</a></i>
-                  </td>
-                  <!-- <td class="right">hello</td> -->
+                  <td class="right">243354</td>
+                  <td class="right">243354</td>
                   </tr>
-               
-              
+                @endforeach
                 </tbody>
-               
               </table>
             </div>
-
             <div class="row">
                 <div class="col-lg-4 col-sm-5">
-
                 </div>
-
             </div>
-
           </div>
         </div>
       </div>

@@ -184,77 +184,71 @@ class CartController extends Controller
             'order_item_type'=>'line-item',
             'order_id'=>$order_id,
         );
-
         $order_item_id=DB::table('order_items')->insertGetId($order_item);
-
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_tax_class',
             'meta_value'=>'',
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_qty',
             'meta_value'=>$item->quantity,
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_product_id',
             'meta_value'=>$item->id,
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_variation_id',
             'meta_value'=>'',
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_line_subtotal',
             'meta_value'=>$item=Cart::getSubTotal(),
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_line_total',
             'meta_value'=>$item=Cart::getTotal(),
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);  
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_line_subtotal_tax',
             'meta_value'=>'',
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);   
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_line_tax',
             'meta_value'=>'',
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
-
         // $_line_tax_data=date('Y-m-d H:i:s');
         $_line_tax_data_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
-
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_line_tax_data',
             'meta_value'=>$_line_tax_data_gmt,
+            'order_id'=>$order_id,
         );
            DB::table('order_itemmeta')->insert($order_item_details);
-
         }
         Cart::clear();
 

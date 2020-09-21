@@ -69,7 +69,7 @@
                   <th class="right">Cost</th>
                   <th class="right">Sale Price</th>
                   <th class="right">Status</th>
-                  <th class="right">Action</th>
+                  <!-- <th class="right">Action</th> -->
                   </tr>
                 </thead>
 
@@ -127,11 +127,11 @@
                         <td class="right"> Tk {{$tot=$qty*$price}}</td>
                         <td class="right">Tk {{$price}}</td>
                         <td class="right">Out of stock</td>
-                        <td class="right">
+                        <!-- <td class="right">
                           <i class="fas fa-print"><a href="#">Print</a></i><br>
                           <i class="fas fa-edit"><a href="#">Edit</a></i><br>
                           <i class="fas fa-trash-alt"><a href="#">Delete</a></i><br>
-                        </td>
+                        </td> -->
                     </tr>
                      @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
                    @endif 
