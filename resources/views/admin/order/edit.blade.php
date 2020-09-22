@@ -86,6 +86,7 @@
                         <option value="Cancelled">Cancelled</option>
                         <option value="Refunded">Refunded</option>
                         <option value="Failed">Failed</option>
+                        <option value="Delivered">Delivered</option>
                         @elseif($order->post_status=='Completed')
                         <option value="Processing">Processing</option>
                         <option value="on-hold">On Hold</option>
@@ -93,6 +94,7 @@
                         <option value="Cancelled">Cancelled</option>
                         <option value="Refunded">Refunded</option>
                         <option value="Failed">Failed</option>
+                        <option value="Delivered">Delivered</option>
                         @elseif($order->post_status=='Cancelled')
                         <option value="Processing">Processing</option>
                         <option value="on-hold">On Hold</option>
@@ -100,12 +102,22 @@
                         <option value="Cancelled"selected>Cancelled</option>
                         <option value="Refunded">Refunded</option>
                         <option value="Failed">Failed</option>
+                        <option value="Delivered">Delivered</option>
                         @elseif($order->post_status=='Refunded')
                         <option value="Processing">Processing</option>
                         <option value="on-hold">On Hold</option>
                         <option value="Completed">Completed</option>
                         <option value="Cancelled">Cancelled</option>
                         <option value="Refunded"selected>Refunded</option>
+                        <option value="Failed">Failed</option>
+                        <option value="Delivered">Delivered</option>
+                        @elseif($order->post_status=='Delivered')
+                        <option value="Processing">Processing</option>
+                        <option value="on-hold">On Hold</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Delivered"selected>Delivered</option>
+                        <option value="Refunded">Refunded</option>
                         <option value="Failed">Failed</option>
                         @else 
                         <option value="Processing">Processing</option>
@@ -114,6 +126,7 @@
                         <option value="Cancelled">Cancelled</option>
                         <option value="Refunded">Refunded</option>
                         <option value="Failed"selected>Failed</option>
+                        <option value="Delivered">Delivered</option>
                        @endif
                       </select>
                     </div>

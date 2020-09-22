@@ -20,7 +20,7 @@ use App\Model\front\Order_item;
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
-      <form method="post" action="">
+      <form method="get" action="{{route('delivery.report')}}">
        @csrf() 
         <fieldset>
           <legend>Search Delivery Report</legend>
@@ -66,85 +66,55 @@ use App\Model\front\Order_item;
            
 
             <div class="table-responsive-sm">
-              <table class="table table-striped">
+              <table class="table ">
                 <thead>
                   <tr>
-                  <th class="center">Oder Id</th>
-                  <th>Name</th>
-                  <th>Mobile</th>
-
-                  <th class="right">Quantity</th>
-       
-                  <th class="right">Delivered Date</th>
+                  <th class="center">#</th>
+                  <th>Order Id</th>
+                  <!-- <th>SKU</th> -->
+                  <!-- <th class="right">Color</th> -->
+                  <th class="center">Order Date</th>
+                  <!-- <th class="right">Status</th> -->
                   <th class="right">Action</th>
-       
+                  <!-- <th class="right">Action</th> -->
+                  <!-- <th class="right">Comments</th> -->
                   </tr>
                 </thead>
 
                 <tbody>
-
+                  @foreach($order_item as $key=>$item) 
                   <tr>
-                  <td class="center">Barcode &Create date</td>
-
-                  <td class="right">
-                    <table>
-
-                      <tr>
-                        <td>Red</td>
-                      </tr>
-                 
-                    </table>
-                  </td>
-             
-                  <td class="right"><table>
-
-                      <tr>
-                        <td>132343546578</td>
-                      </tr>
-
-                    </table></td>
-                  <td class="right">4</td>
-       
-                  <td class="right">20-10-2020</td>
-                  <td class="right">
-                    <i class="fas fa-print"><a href="#">Print</a></i><br>
-                    <i class="fas fa-spinner"><a href="#">Processing</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a href="#">Cancel</a></i>
-                  </td>
-                  <!-- <td class="right">hello</td> -->
+                  <td class="center">{{++$key}}</td>
+                  <td class="left strong">{{$item->ID}}</td>
+                  <td class="right">{{date('d-M-Y',strtotime($item->post_date))}}</td>
+                  <!-- <td class="right">{{$item->post_status}}</td> -->
+                  <td class="right"><a class="btn btn-success btn-sm" href="">View Details</a></td>
                   </tr>
-               
-              
+                  @endforeach 
                 </tbody>
-               
               </table>
             </div>
-
             <div class="row">
                 <div class="col-lg-4 col-sm-5">
-
                 </div>
-
             </div>
-
           </div>
         </div>
       </div>
-      <div class="container">
+      <!-- <div class="container">
         <div class="row">
            <div class="col-md-4">
                 <div class="box bg-primary">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
+           
                  
                   <h3 class="text-center">44</h3>
                  
-                  <p class="lead text-center font-weight-bold">Total Delivered</p>
+                  <p class="lead text-center font-weight-bold">Total Order</p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="box bg-success">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
+           
                  
                  
                   <h3 class="text-center">5</h3>
@@ -154,7 +124,7 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box bg-info">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
+           
                   
                  
                   <h3 class="text-center"> 200</h3>
@@ -164,7 +134,7 @@ use App\Model\front\Order_item;
               </div>
         </div>       
             
-      </div>
+      </div> -->
     </section>
         <!-- /.row -->
       </div><!-- /.container-fluid -->

@@ -69,39 +69,26 @@ use App\Model\front\Order_item;
               <table class="table ">
                 <thead>
                   <tr>
-                  <th class="center">Oder No</th>
-                  <th>Name</th>
+                  <th class="center">#</th>
+                  <th>Order Id</th>
                   <!-- <th>SKU</th> -->
                   <!-- <th class="right">Color</th> -->
-                  <th class="center">Qty</th>
-                  <th class="right">Item</th>
-                  <th class="right">Address</th>
-                  <th class="right">Mobile</th>
-                  <th class="right">Amount</th>
+                  <th class="center">Order Date</th>
+                  <!-- <th class="right">Status</th> -->
+                  <th class="right">Action</th>
                   <!-- <th class="right">Action</th> -->
                   <!-- <th class="right">Comments</th> -->
                   </tr>
                 </thead>
 
                 <tbody>
-                  @php $order_item=[]; @endphp 
-                @foreach($data as $order) 
-                  @php $order_item=DB::table('order_items')
-                  ->where('order_id',$order->ID)
-                  ->whereNotNull('product_id')
-                  ->groupBy('product_id')
-                  ->get(); 
-                  @endphp
-                  @endforeach
-                  @foreach($order_item as $item) 
+                  @foreach($order_item as $key=>$item) 
                   <tr>
-                  <td class="center">1</td>
-                  <td class="left strong">sdfdsf</td>
-                  <td class="right">uttara</td>
-                  <td class="right">132343546578</td>
-                  <td class="right">243354</td>
-                  <td class="right">243354</td>
-                  <td class="right">243354</td>
+                  <td class="center">{{++$key}}</td>
+                  <td class="left strong">{{$item->ID}}</td>
+                  <td class="right">{{date('d-M-Y',strtotime($item->post_date))}}</td>
+                  <!-- <td class="right">{{$item->post_status}}</td> -->
+                  <td class="right"><a class="btn btn-success btn-sm" href="">View Details</a></td>
                   </tr>
                   @endforeach 
                 </tbody>
@@ -114,11 +101,11 @@ use App\Model\front\Order_item;
           </div>
         </div>
       </div>
-      <div class="container">
+      <!-- <div class="container">
         <div class="row">
            <div class="col-md-4">
                 <div class="box bg-primary">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
+           
                  
                   <h3 class="text-center">44</h3>
                  
@@ -127,7 +114,7 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box bg-success">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
+           
                  
                  
                   <h3 class="text-center">5</h3>
@@ -137,7 +124,7 @@ use App\Model\front\Order_item;
               </div>
               <div class="col-md-4">
                 <div class="box bg-info">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
+           
                   
                  
                   <h3 class="text-center"> 200</h3>
@@ -147,7 +134,7 @@ use App\Model\front\Order_item;
               </div>
         </div>       
             
-      </div>
+      </div> -->
     </section>
         <!-- /.row -->
       </div><!-- /.container-fluid -->

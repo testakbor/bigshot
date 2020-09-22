@@ -62,16 +62,23 @@ class QuickReportController extends Controller
     {
        $start=$request->start;
        $end=$request->end;
-       $data=DB::table('posts')
+       $order_item=DB::table('posts')
        ->where('post_type','shop_order')
        ->where('post_status','Completed')
        ->whereBetween('post_date',[$start,$end])
        ->get();
-       return view('admin.quickReport.sales_report',compact('data'));
+       return view('admin.quickReport.sales_report',compact('order_item'));
     }
-    public function deliveryReport()
+    public function deliveryReport(Request $request)
     {
-       return view('admin.quickReport.delivery_report');
+      $start=$request->start;
+      $end=$request->end;
+      $order_item=DB::table('posts')
+      ->where('post_type','shop_order')
+      ->where('post_status','Delivered')
+      ->whereBetween('post_date',[$start,$end])
+      ->get();
+       return view('admin.quickReport.delivery_report',compact('order_item'));
     }
     public function rejectItem()
     {
