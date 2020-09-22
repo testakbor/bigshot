@@ -316,9 +316,12 @@ public function edit($id)
     $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->first();
 
     $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
-     
+    if($allAttribute){ 
     $arributeArray=json_decode($allAttribute->meta_value);
-    
+    }
+    else{
+        $arributeArray=array();
+    }
 
 
     $attributes=attribute_taxonomie::where('status',1)->get();
