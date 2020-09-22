@@ -22,9 +22,13 @@ class OrderController extends Controller
      */
     public function index()
     {
-       $shop_order=DB::table('posts')->where('post_author',auth()->user()->id)->select('ID','post_date','post_status')->first();
-       $order_item=DB::table('order_items')->where('order_id',$shop_order->ID)->groupBy('order_id')->get();
-       return view('front.order.list',compact('order_item','shop_order'));
+       $shop_order=DB::table('posts')
+       ->where('post_type','shop_order')
+       ->where('post_author',auth()->user()->id)
+       ->select('ID','post_date','post_status')
+       ->orderBy('post_date')
+       ->paginate(10);
+       return view('front.order.list',compact('shop_order'));
     }
 
     /**
@@ -68,7 +72,9 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order=Post::find($id);
-        $products=Order_item::where('order_id',$id)->get();
+        $products=Order_item::where('order_id',$id)
+        ->whereNotNull('product_id')
+        ->get();
         $extraInfo=array(
             'title'=>"Order Edit",
             'page'=>'order'

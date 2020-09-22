@@ -53,14 +53,14 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('/addCart','CartController@addCart')->name('addCart');
         Route::post('/checkout','CartController@checkout')->name('checkout');
         Route::post('/cart_update','CartController@update')->name('cart.update');
-        Route::get('/remove/{id}','CartController@remove')->name('remove');
-         
+        Route::get('/remove/{id}','CartController@remove')->name('remove');     
     });
 
     Route::group(['namespace'=>'User'],function(){
-        Route::resource('/order-list','OrderController');
+        Route::resource('/order-list','OrderController')->middleware('auth');
         Route::resource('user/profile','UserController');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
+        Route::get('/customer/order/edit/{id}','OrderController@edit')->name('customer_ordere_edit');
     }); 
        
     Route::group(['namespace'=>'Search'],function(){

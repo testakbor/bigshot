@@ -19,7 +19,7 @@
                 <div class="col-auto "> <small>Receipt Voucher : 1KAU9-84UIL</small> </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-md-12">
                     <div class="card card-2">
                         <div class="card-body">
                             <div class="media">
@@ -64,7 +64,6 @@
                                           if($value->meta_key=='_qty'){
                                             $qty=$value->meta_value;
                                           }
-                        
                                           @endphp
                                           @endforeach
                                           <tr>
@@ -92,7 +91,7 @@
             </div>
 
             <div class="row mt-4">
-                <div class="col">
+                <div class="col-md-12">
                     <div class="row justify-content-between">
                         <div class="col-auto">
                             <p class="mb-1 text-dark"><b>Order Details</b></p>

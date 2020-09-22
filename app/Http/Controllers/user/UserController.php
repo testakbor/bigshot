@@ -61,19 +61,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user=DB::table('users')->where('id',$id)->first();
-            $log_user=DB::table('posts')
-            ->where('post_type','shop_order')
-            ->where('post_author',$user->id)
-            ->select('ID')
-            ->first();
-            
-            if(isset($log_user)){
-              $log_user=$log_user->ID;
-            }else{
-                $log_user=0; 
-            }
-        $user_info=DB::table('postmeta')->where('post_id',$log_user)->get();
-        dd($user_info);
+        $user_info=DB::table('usermeta')->where('user_id',$id)->get();
         return view('user.profile.edit',compact('user','user_info'));
         
     }
@@ -89,11 +77,120 @@ class UserController extends Controller
     {
         $user=DB::table('users')
         ->where('id',$id)
-        ->update(['name'=>$request->firstName]);
-
-        $user_info=DB::table('postmeta')
-        ->where('post_id',$log_user)
-        ->update(['_billing_address_1'=>$request->address1]);
+        ->update(['name'=>$request->first_name]);
+        $user_count=DB::table('usermeta')->where('user_id',$id)->count();
+        if($user_count==0){
+        $user_info=array(
+            'meta_key'=>'first_name',
+            'meta_value'=>$request->first_name,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'last_name',
+            'meta_value'=>$request->last_name,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);    
+        $user_info=array(
+            'meta_key'=>'address_one',
+            'meta_value'=>$request->address_one,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'address_two',
+            'meta_value'=>$request->address_two,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'phone',
+            'meta_value'=>$request->phone,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'country',
+            'meta_value'=>$request->country,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'state',
+            'meta_value'=>$request->state,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'city',
+            'meta_value'=>$request->city,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'zip',
+            'meta_value'=>$request->zip,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+       }else{
+          DB::table('usermeta')->where('user_id',$id)->delete();
+          $user_info=array(
+            'meta_key'=>'first_name',
+            'meta_value'=>$request->first_name,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'last_name',
+            'meta_value'=>$request->last_name,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);    
+        $user_info=array(
+            'meta_key'=>'address_one',
+            'meta_value'=>$request->address_one,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'address_two',
+            'meta_value'=>$request->address_two,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'phone',
+            'meta_value'=>$request->phone,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'country',
+            'meta_value'=>$request->country,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'state',
+            'meta_value'=>$request->state,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'city',
+            'meta_value'=>$request->city,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+        $user_info=array(
+            'meta_key'=>'zip',
+            'meta_value'=>$request->zip,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+       }
 
         session()->flash("success","Information Update Successfully");
         return redirect(url('profile'));

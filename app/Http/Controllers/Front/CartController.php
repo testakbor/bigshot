@@ -17,21 +17,14 @@ class CartController extends Controller
      */
 
     public function cart()
-    {
+    {;
         $info= Cart::getContent();
-        $login_user=auth::user();
-        if(isset($login_user)){
-          $log_user=DB::table('posts')
-          ->where('post_type','shop_order')
-          ->where('post_author',$login_user->id)
-          ->select('ID')
-          ->first();
-          if(isset($log_user)){
-            $log_user=$log_user->ID;
-          }
-          $user_info=DB::table('postmeta')->where('post_id',$log_user)->get();
+        if(Auth::check()){
+            $user_info=DB::table('usermeta')
+            ->where('user_id',auth()->user()->id)
+            ->get();
         }else{
-            $user_info=DB::table('postmeta')->where('post_id',0)->get();; 
+            $user_info=[];
         }
         return view('front.cart',compact('info','user_info'));
     }
@@ -174,9 +167,7 @@ class CartController extends Controller
         );
         DB::table('order_items')->insert($order_item); 
        }
-
         foreach ($info as $item){
-
         $pro=DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->get();
         foreach($pro as $pros){
            $ac_qty=$pros->meta_value;
@@ -259,12 +250,7 @@ class CartController extends Controller
            DB::table('order_itemmeta')->insert($order_item_details);
         }
         Cart::clear();
-
-
         return redirect(route('order.success'));
-       // dd($order_post);
-       // dd($order_item_details);
-
    }
 
     /**
