@@ -90,13 +90,15 @@ class QuickReportController extends Controller
        $product=Post::where('post_type','product')->get();
        return view('admin.quickReport.soldout_stock',compact('product'));
     }
-    public function bestCustomer()
+    public function bestCustomer(Request $request)
     {
-       $customer=DB::SELECT("SELECT SUM(order_itemmeta.meta_value) as tot_qty,customer_id,users.name
-       FROM order_itemmeta
-       LEFT JOIN users ON customer_id=users.id
-       WHERE order_itemmeta.meta_key='_qty'
-       GROUP BY order_itemmeta.customer_id");
+      $start=$request->start; 
+      $end=$request->end; 
+       $customer=DB::SELECT("SELECT SUM(order_itemmeta.meta_value) as tot_qty,customer_id,users.name 
+       FROM order_itemmeta LEFT JOIN users ON customer_id=users.id 
+       WHERE order_itemmeta.meta_key='_qty' AND order_date BETWEEN '$start' AND '$end'
+       GROUP BY order_itemmeta.customer_id
+       order by max(order_itemmeta.meta_value) desc");
        return view('admin.quickReport.best_customer',compact('customer'));
     }
     public function grossProfit()
