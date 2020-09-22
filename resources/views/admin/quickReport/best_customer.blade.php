@@ -30,7 +30,31 @@
                 <h3 class="card-title">
                 Best Customer</h3>
               </div>
+              <form method="get" action="">
+              <div class="form-group">
+                <div class="row">
 
+        
+                <div class="col-md-3"> 
+                  <label>Start Date</label>
+                  <input type="date" class="form-control" name="start" required>
+                </div>
+
+                <div class="col-md-3"> 
+                  <label>End Date</label>
+                  <input type="date" class="form-control" name="end" required>
+                </div>
+
+                <div class="col-md-3"> 
+                  <label>Item Quantity</label>
+                  <input type="text" class="form-control" name="item_qty" placeholder="Enter Quantity" required>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-sm">Search</button>
+           
+                   </div>
+                </div>
+                </form>
               <div class="card-body">
                 <table class="table table-bordered table-striped">
                   <thead class="bg-success">                  
@@ -53,12 +77,14 @@
                       @foreach($user_info as $info)
                         @php $phone=$info->meta_value; @endphp
                        @endforeach
+                 
                       <tr>
                         <td>{{++$key}}</td>
                         <td>{{$cust->name}}</td>
                         <td>{{$phone}}</td>
                         <td>{{$cust->tot_qty}}</td>
                       </tr>
+                 
                     @endforeach
                   </tbody>
                 </table>
