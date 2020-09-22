@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use DB;
 use Session;
+use App\Model\front\Post;
+
 
 class QuickReportController extends Controller
 {
@@ -85,7 +87,8 @@ class QuickReportController extends Controller
     }
     public function soldoutStock()
     {
-       return view('admin.quickReport.soldout_stock');
+       $product=Post::where('post_type','product')->get();
+       return view('admin.quickReport.soldout_stock',compact('product'));
     }
     public function bestCustomer()
     {

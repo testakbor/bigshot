@@ -238,12 +238,12 @@
                   <p>Best selling items</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{route('cancellation.items')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cancellation Items</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{route('sold.stock')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

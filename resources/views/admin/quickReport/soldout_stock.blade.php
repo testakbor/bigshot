@@ -38,20 +38,26 @@
                       <th style="width: 10px">#</th>
                       <th>Product Name</th>
                       <th>Status</th>
-                      <th >Action</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                   
+                    @php $qty=0; @endphp
+                     @foreach($product as $key=>$item)
+                     @foreach($item->productMeta as $meta)
+                      @if($meta->meta_key=='qty') @php $qty=$meta->meta_value; @endphp  @endif
+                     @endforeach
+                     @if($qty==0)
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>{{++$key}}</td>
+                      <td>{{$item->post_title}}</td>
+                      <td>Out of Stock</td>
                       <td>
-                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
+                        <a href="{{route('product.edit',$item->ID)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
                       </td>
                     </tr>
-                   
+                    @endif
+                    @endforeach
                   </tbody>
                 </table>
               </div>
