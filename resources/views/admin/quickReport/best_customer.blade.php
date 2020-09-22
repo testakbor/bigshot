@@ -36,22 +36,30 @@
                   <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Product Name</th>
-                      <th>Status</th>
-                      <th >Action</th>
+                      <th>Customer Name</th>
+                      <th>Mobile</th>
+                      <th>Total Quantity</th>
                     </tr>
                   </thead>
                   <tbody>
-                   
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
-                      </td>
-                    </tr>
-                   
+                    @php $phone=''; @endphp
+                     @foreach($customer as $key=>$cust)
+                      @php 
+                        $user_info=DB::table('usermeta')
+                        ->where('user_id',$cust->customer_id)
+                        ->where('meta_key','phone')
+                        ->get(); 
+                      @endphp
+                      @foreach($user_info as $info)
+                        @php $phone=$info->meta_value; @endphp
+                       @endforeach
+                      <tr>
+                        <td>{{++$key}}</td>
+                        <td>{{$cust->name}}</td>
+                        <td>{{$phone}}</td>
+                        <td>{{$cust->tot_qty}}</td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>

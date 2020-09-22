@@ -92,7 +92,12 @@ class QuickReportController extends Controller
     }
     public function bestCustomer()
     {
-       return view('admin.quickReport.best_customer');
+       $customer=DB::SELECT("SELECT SUM(order_itemmeta.meta_value) as tot_qty,customer_id,users.name
+       FROM order_itemmeta
+       LEFT JOIN users ON customer_id=users.id
+       WHERE order_itemmeta.meta_key='_qty'
+       GROUP BY order_itemmeta.customer_id");
+       return view('admin.quickReport.best_customer',compact('customer'));
     }
     public function grossProfit()
     {
