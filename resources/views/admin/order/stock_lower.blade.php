@@ -94,7 +94,7 @@
                       @php $sku=$info->meta_value; @endphp 
                      @endif
                    @endforeach 
-                      @if($alert<=$alert)
+                      @if($qty<=$alert)
                       @php $i++ @endphp
                       <tr>
                         <td class="center">{{$sku}}</td>
