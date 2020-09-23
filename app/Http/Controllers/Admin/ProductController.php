@@ -29,6 +29,7 @@ class ProductController extends Controller
 
         $products=DB::table('posts')
         ->where('posts.post_type','product')
+        ->orderBy('ID','DESC')
         ->paginate(10);                
         return view('admin.product.list',compact('products'))->with($extraInfo);
     }
@@ -66,7 +67,7 @@ class ProductController extends Controller
         return view('admin.product.create',compact('brands','categories','tags','attributes'))->with($extraInfo);
     }
 
-    public function store(Request $request){        
+    public function store(Request $request){     
         $year=$request->year;
         $month=$request->month;
         $day=$request->day;
@@ -168,6 +169,7 @@ class ProductController extends Controller
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'qty','meta_value'=>$request->stockQuality]);
 
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'product_stock','meta_value'=>$request->product_stock]);
     
     // product image 
 $image_name=null;
@@ -223,7 +225,6 @@ public function attributeValue($id){
 // product edit
 public function edit($id)
     {        
-
         $extraInfo=array(
             'title'=>"New Product",
             'page'=>'products'
@@ -314,7 +315,7 @@ public function edit($id)
     $height=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'height'])->first();
     $qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'qty'])->first();
     $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->first();
-
+    $stock=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'product_stock'])->first();
     $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
     if($allAttribute){ 
     $arributeArray=json_decode($allAttribute->meta_value);
@@ -328,7 +329,7 @@ public function edit($id)
     return view('admin.product.edit',compact('brands','categories','tags','attributes',
     'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',
     'stock_status','regular_price','sale_price','weight',
-    'length','width','height','qty','alert_qty','arributeArray'
+    'length','width','height','qty','alert_qty','arributeArray','stock'
     ))->with($extraInfo);
 
     }

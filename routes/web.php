@@ -96,6 +96,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');
         Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
+        Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
 
         Route::resource('admin/customer','CustomerController');
         

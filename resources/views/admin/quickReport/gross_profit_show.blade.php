@@ -79,6 +79,99 @@
 
                 <tbody>
 
+                  <tr>
+                  @foreach($order as $order_id)    
+                  <td class="center">{{date('d-m-Y',strtotime($order_id->post_date))}}</td>
+                  <td class="left strong">{{$order_id->ID}}</td>
+                  @endforeach 
+                  <td class="left">
+                    <table>
+                      <tr>
+                        <td>Tunic (category)</td>
+                        
+                      </tr>
+                      <tr>
+                 
+                        <td>Tote bags (category)</td>
+                      </tr>
+                      <tr>
+                        <td>Total</td>
+                      </tr>
+               
+                    </table>
+                  </td>
+
+                  <td class="right">
+                    <table>
+
+                      <tr>
+                        <td>1 pcs</td>
+          
+                      </tr>
+                       <tr>
+           
+                        <td>1 pcs</td>
+                      </tr>
+                        <tr>
+                        <td>2 pcs</td>
+                      </tr>
+                 
+                    </table>
+                  </td>
+                  <td class="center">
+                    <table>
+
+                      <tr>
+                
+                        <td>1000</td>
+                      </tr>
+                         <tr>
+                        <td>1200</td>
+                     
+                      </tr>
+                        <tr>
+                        <td>2200</td>
+                      </tr>
+                      
+                    </table>
+                  </td>
+                  <td class="right">
+                    <table>
+
+                      <tr>
+                        <td>600</td>
+                      
+                      </tr>
+                      <tr>
+                    
+                        <td>700</td>
+                      </tr>
+                        <tr>
+                        <td>1300</td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td class="right">
+                    <table>
+
+                      <tr>
+                        <td>400tk</td>
+                        
+                      </tr>
+                        <tr>
+                       
+                        <td>500tk</td>
+                      </tr>
+                        <tr>
+                        <td>900tk</td>
+                      </tr>
+
+                    </table>
+                  </td>
+
+                
+                  <!-- <td class="right">hello</td> -->
+                  </tr>
                
               
                 </tbody>

@@ -108,8 +108,29 @@ class QuickReportController extends Controller
        order by max(order_itemmeta.meta_value) desc");
        return view('admin.quickReport.best_customer',compact('customer'));
     }
+
     public function grossProfit()
     {
        return view('admin.quickReport.gross_profit');
+    }
+  //gross profit report show
+    public function grossProfitShow(Request $request)
+    {
+       $start=$request->start;
+       $end=$request->end;
+       $order=DB::table('posts')
+       ->where(['post_type'=>'shop_order','post_status'=>'completed'])
+       ->whereBetween('post_date',[$start,$end])
+       ->select('ID','post_date')
+       ->get();
+       foreach($order as $product){
+         $products[$product->ID] = DB::table('order_items')
+         ->select('product_id')
+         ->where(['order_id'=>$product->ID])
+         ->whereNotNull('product_id')
+         ->get();
+       }
+       dd($products);
+       return view('admin.quickReport.gross_profit_show',compact('order','products'));
     }
 }

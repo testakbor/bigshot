@@ -60,8 +60,14 @@
                         <input type="text" name="sale_price" value="{{$sale_price->meta_value}}" class="form-control" id="sale_price" placeholder="Sale Price">
                       </div>
                     </div>
+                  
+                    <div class="form-group row">
+                      <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="product_stock" value="@if(isset($stock->meta_value)){{$stock->meta_value}} @else 0 @endif" class="form-control" id="stock" placeholder="Stock" required>
+                      </div>
+                    </div>
                   </div>
-
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                   <div class="col-md-12 mt-3">

@@ -59,6 +59,12 @@
                         <input type="text" name="sale_price" class="form-control" id="sale_price" placeholder="Sale Price">
                       </div>
                     </div>
+                    <div class="form-group row">
+                      <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="product_stock" class="form-control" id="stock" placeholder="Stock" required>
+                      </div>
+                    </div>
                   </div>
 
                 </div>
