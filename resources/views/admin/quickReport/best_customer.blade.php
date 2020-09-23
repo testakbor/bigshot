@@ -35,12 +35,12 @@
                 <div class="row">
                 <div class="col-md-6"> 
                   <label>Start Date</label>
-                  <input type="date" class="form-control" name="start" required>
+                  <input value="{{date('Y-m-d')}}" type="date" class="form-control" name="start" required>
                 </div>
 
                 <div class="col-md-6"> 
                   <label>End Date</label>
-                  <input type="date" class="form-control" name="end" required>
+                  <input value="{{date('Y-m-d')}}" type="date" class="form-control" name="end" required>
                 </div>
                 <div class="col-md-12">
                 <button type="submit" class="btn btn-success">Search</button>

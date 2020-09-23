@@ -226,12 +226,12 @@
                   <p>Delivery Report</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{route('reject.item')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Reject Item</p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{route('best.selling')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
