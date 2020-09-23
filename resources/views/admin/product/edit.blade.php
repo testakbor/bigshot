@@ -162,11 +162,19 @@
           </div>
         </div>
         <div class="card-body d-flex flex-row text-center" style="display: block;">
-          <input type="text" style="width: 30px" name="day" id="" value="<?php echo date('d')?>" >
-          <input type="text" style="width: 30px" name="month" id="" value="<?php echo date('m')?>" >
-          <input type="text" style="width: 50px" name="year" id="" value="<?php echo date('Y')?>" >
-          <input type="text" style="width: 30px" name="HH" id="" value="<?php echo date('H')?>" >
-          <input type="text" style="width: 30px" name="min" id="" value="<?php echo date('i')?>" >
+        @php 
+        $date=$product->post_date;
+        $day=date('d',strtotime($date));
+        $month=date('m',strtotime($date));
+        $year=date('Y',strtotime($date));
+        $hours=date('H',strtotime($date));
+        $min=date('i',strtotime($date));
+        @endphp
+          <input type="text" style="width: 30px" name="day" id="" value="{{$day}}" >
+          <input type="text" style="width: 30px" name="month" id="" value="{{$month}}" >
+          <input type="text" style="width: 50px" name="year" id="" value="{{$year}}" >
+          <input type="text" style="width: 30px" name="HH" id="" value="{{$hours}}" >
+          <input type="text" style="width: 30px" name="min" id="" value="{{$min}}" >
 
         </div>
         <div class="card-footer">
@@ -185,7 +193,7 @@
         <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
          @foreach($categories as $category)
          @php 
-        $check=in_array($category->name,$nameTaxonomy);
+         $check=in_array($category->name,$nameTaxonomy);
          @endphp
          <div class="custom-control custom-checkbox">
           <input class="custom-control-input" {{($check==true)?'checked':''}} name="category[]" type="checkbox" id="{{$category->term_id}}" value="{{$category->term_id}}">
@@ -253,6 +261,7 @@
     <div class="card-body" style="display: block;">
      <input type="file" name="product_image" id="" class="form-control">
      <img src="{{asset('backend/products/').'/'.$image->meta_value}}" style="height:100px;weight:100px"/>
+     <input type="hidden" name="oldImage" value="{{$image->meta_value}}">
    </div>
  </div>
  {{-- product Gallary --}}
