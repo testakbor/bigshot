@@ -20,7 +20,7 @@
                     <h3>WishList</h3>
                   </div>
                   <!-- Product #1 -->
-                  @php $name=''; $price=''; $image='no-image.png'; @endphp
+                  @php $name=''; $price=''; $image='no-image.png'; $qty=0; @endphp
                  @foreach($wishProduct as $item)
                  @php
                   $product=DB::table('posts')
@@ -38,6 +38,11 @@
                      @if($meta->meta_key=='sale_price')
                         @php 
                            $price=$meta->meta_value;
+                        @endphp
+                    @endif 
+                    @if($meta->meta_key=='qty')
+                        @php 
+                           $qty=$meta->meta_value;
                         @endphp
                     @endif 
                     @if($meta->meta_key=='attached_file')
@@ -62,7 +67,8 @@
                     <div class="quantity">
                     <form action="{{route('addCart')}}" method="POST" id="addCartForm">
                     @csrf
-                    <input type="hidden" name="id" value="{{$item->product_id}}">   
+                    <input type="hidden" name="id" value="{{$item->product_id}}">  
+                    <input type="hidden" name="main_qty" value="{{$qty}}"> 
                     <input type="hidden" name="price" value="{{ $price}}">    
                     <input type="hidden"  class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" inputmode="numeric">
                     <input type="hidden" name="name" value="{{$name}}">  
