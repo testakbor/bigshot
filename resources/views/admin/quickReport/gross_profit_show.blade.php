@@ -67,7 +67,6 @@
               <table class="table ">
                 <thead>
                   <tr>
-                  <th class="center">Date</th>
                   <th>Order Id</th>
                   <th>Description</th>
                   <th class="center">Quantity</th>
@@ -77,105 +76,37 @@
                   </tr>
                 </thead>
 
-                <tbody>
+                 <tbody>
+                 @php 
+                 $subtotal=0;
+                 $qty=0;
+                 $product_id=0;
+                @endphp
+               @foreach($order_item as $order_items)
+               @foreach($order_items->orderMeta as $value)
+                  @php                  
+                  if($value->meta_key=='_line_subtotal'){
+                    $subtotal=$value->meta_value;
+                  }
+                  if($value->meta_key=='_qty'){
+                    $qty=$value->meta_value;
+                  }
+                  if($value->meta_key=='_product_id'){
+                    $product_id=$value->meta_value;
+                  }
+                  @endphp
+                  @endforeach
+                 <tr>
+                  <td>{{$order_items->order_id}}</td>
+                  <td>65765</td>
+                  <td>{{$qty}} pcs</td>
+                  <td>{{$subtotal}}</td>
+                  <td>324432</td>
+                  <td>555 tk</td>
+                </tr>
+               @endforeach
 
-                  <tr>
-                  @foreach($order as $order_id)    
-                  <td class="center">{{date('d-m-Y',strtotime($order_id->post_date))}}</td>
-                  <td class="left strong">{{$order_id->ID}}</td>
-                  @endforeach 
-                  <td class="left">
-                    <table>
-                      <tr>
-                        <td>Tunic (category)</td>
-                        
-                      </tr>
-                      <tr>
-                 
-                        <td>Tote bags (category)</td>
-                      </tr>
-                      <tr>
-                        <td>Total</td>
-                      </tr>
-               
-                    </table>
-                  </td>
-
-                  <td class="right">
-                    <table>
-
-                      <tr>
-                        <td>1 pcs</td>
-          
-                      </tr>
-                       <tr>
-           
-                        <td>1 pcs</td>
-                      </tr>
-                        <tr>
-                        <td>2 pcs</td>
-                      </tr>
-                 
-                    </table>
-                  </td>
-                  <td class="center">
-                    <table>
-
-                      <tr>
-                
-                        <td>1000</td>
-                      </tr>
-                         <tr>
-                        <td>1200</td>
-                     
-                      </tr>
-                        <tr>
-                        <td>2200</td>
-                      </tr>
-                      
-                    </table>
-                  </td>
-                  <td class="right">
-                    <table>
-
-                      <tr>
-                        <td>600</td>
-                      
-                      </tr>
-                      <tr>
-                    
-                        <td>700</td>
-                      </tr>
-                        <tr>
-                        <td>1300</td>
-                      </tr>
-                    </table>
-                  </td>
-                  <td class="right">
-                    <table>
-
-                      <tr>
-                        <td>400tk</td>
-                        
-                      </tr>
-                        <tr>
-                       
-                        <td>500tk</td>
-                      </tr>
-                        <tr>
-                        <td>900tk</td>
-                      </tr>
-
-                    </table>
-                  </td>
-
-                
-                  <!-- <td class="right">hello</td> -->
-                  </tr>
-               
-              
                 </tbody>
-               
               </table>
             </div>
 

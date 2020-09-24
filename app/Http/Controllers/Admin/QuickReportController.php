@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use App\Model\front\Post;
+use App\Model\front\Order_item;
 
 
 class QuickReportController extends Controller
@@ -118,19 +119,18 @@ class QuickReportController extends Controller
     {
        $start=$request->start;
        $end=$request->end;
-       $order=DB::table('posts')
-       ->where(['post_type'=>'shop_order','post_status'=>'completed'])
-       ->whereBetween('post_date',[$start,$end])
-       ->select('ID','post_date')
-       ->get();
-       foreach($order as $product){
-         $products[$product->ID] = DB::table('order_items')
-         ->select('product_id')
-         ->where(['order_id'=>$product->ID])
-         ->whereNotNull('product_id')
-         ->get();
+       $order=Post::where(['post_type'=>'shop_order','post_status'=>'Completed'])->whereBetween('post_date',[$start,$end])->get();
+       $order_id=[];
+       foreach($order as $orders){
+         $order_id[]=$orders->ID;
        }
-       dd($products);
-       return view('admin.quickReport.gross_profit_show',compact('order','products'));
+       $id=$order_id;
+       $id_array=implode(',', $id);
+       $cities=explode(',', $id_array);
+       $order_item=Order_item::select("*")
+       ->whereIn('order_id', $cities)
+       ->whereNotNull('product_id')
+       ->get();
+       return view('admin.quickReport.gross_profit_show',compact('order_item'));
     }
 }

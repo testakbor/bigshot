@@ -336,6 +336,160 @@ public function edit($id)
 
     public function update(Request $request,$id){
 
+        $postDelete=DB::table('posts')->where('ID',$id)->delete();
+        $postmetaDelete=DB::table('postmeta')->where('post_id',$id)->delete();
+        $term_relationships=DB::table('term_relationships')->where('object_id',$post_id)->delete();
+        dd($request);
+        $year=$request->year;
+        $month=$request->month;
+        $day=$request->day;
+        $H=$request->HH;
+        $min=$request->min;
+
+        $post_date=date('Y-m-d H:i:00',strtotime($year.'-'.$month.'-'.$day.' '.$H.':'.$min.':00'));
+        $post_date_gmt=date('Y-m-d H:i:s',strtotime($post_date.'+6 hour'));
+
+        $product=array(
+            'post_title'=>$request->post_title,
+            'post_name'=>$request->post_title,
+            'post_content'=>$request->post_content,
+            'post_excerpt'=>$request->post_excerpt,
+            'post_status'=>'publish',
+            'post_author'=>Auth::user()->id,
+            'post_date'=>$post_date,
+            'post_date_gmt'=>$post_date_gmt,
+            'to_ping'=>'',
+            'pinged'=>'',
+            'post_content_filtered'=>'',
+            'post_type'=>'product',
+
+        );
+        $post_id=DB::table('posts')->insertGetId($product);
+        
+// product attributes
+        if($request->valueName  !=null ){
+            $attribute=[];
+            foreach($request->valueName as $value){
+
+                $detailVal= DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_taxonomy.term_id',$value)
+                ->select('term_taxonomy.*','terms.name')
+                ->first();
+
+                $attribute[]=array(
+                    'taxonomy'=>$detailVal->taxonomy,
+                    'term'=>$detailVal->name
+                );
+
+            }
+            $attributes=json_encode($attribute);
+            $attributeMeta=array(
+                'post_id'=>$post_id,
+                'meta_key'=>'default_attribute',
+                'meta_value'=> $attributes
+            );
+            DB::table('postmeta')->insert($attributeMeta);
+        }       
+
+        // product categories
+        if($request->category !=null){
+            foreach ($request->category as  $value) {
+             DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
+         }
+     }
+
+
+     // product tag
+     if(count($request->tag) > 0){
+        foreach ($request->tag as  $value) {
+         DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
+     }
+ }
+
+     // brand
+ if($request->brand){
+    DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
+}
+
+     // sale price and reqgular price
+// $productPrice=[
+//     'regular_price'=>$request->regular_price,
+//     'sale_price'=>$request->sale_price,
+//     'weight'=>$request->weight,
+//     'length'=>$request->length,
+//     'width'=>$request->width,
+//     'height'=>$request->height
+// ];
+// DB::table('postmeta')->insert($productPrice);  
+
+    // sale price and reqgular price
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'stock_status','meta_value'=>$request->stock_status]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'regular_price','meta_value'=>$request->regular_price]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'sale_price','meta_value'=>$request->sale_price]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'weight','meta_value'=>$request->weight]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'length','meta_value'=>$request->length]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'width','meta_value'=>$request->width]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'height','meta_value'=>$request->height]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'qty','meta_value'=>$request->stockQuality]);
+
+    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
+    
+    // product image 
+$image_name=null;
+if($request->hasFile('product_image')){
+    $image_name = time().'.'.$request->product_image->getClientOriginalExtension();
+    $request->product_image->move(('backend/products'), $image_name);
+
+    $porductImage=array(
+        'post_id'=>$post_id,
+        'meta_key'=>'attached_file',
+        'meta_value'=>$image_name
+    );
+
+    $postmeta=DB::table('postmeta')->insert($porductImage);
+}
+else{
+    
+     $porductImage=array(
+        'post_id'=>$post_id,
+        'meta_key'=>'attached_file',
+        'meta_value'=>$request->oldImage
+    );
+
+    $postmeta=DB::table('postmeta')->insert($porductImage);
+}
+
+        // gallery image
+if($request->hasFile('galleryImage'))
+{
+    $galleryImage = [];
+    foreach($request->file('galleryImage') as $image)
+    {
+        $filename = $image->getClientOriginalName();
+        $image->move(('backend/products'), $filename);
+
+      
+        $porductGalleryImage=array(
+            'post_id'=>$post_id,
+            'meta_key'=>'gallery_file',
+            'meta_value'=>$filename
+        );
+    
+        $postmeta=DB::table('postmeta')->insert($porductGalleryImage);
+    }
+
+}
+
+session()->flash("success","Information saved Updated");
+return redirect(route('product.index'));
     }
 
 }
