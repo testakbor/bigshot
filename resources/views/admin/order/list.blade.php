@@ -38,7 +38,7 @@
                       <th>Order</th>
                       <th>Date</th>
                       <th>Status</th>
-                      <th>Total</th>
+                      <!-- <th>Total</th> -->
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -60,7 +60,7 @@
                       <td>{{$value->post_name}}</td>
                       <td>{{$value->post_date}}</td>
                       <td>{{$value->post_status}}</td>
-                      <td>{{$value->total}}</td>
+                      <!-- <td>{{$value->total}}</td> -->
                       <td><a class="btn btn-success" href="{{route('order.edit',$value->ID)}}">Change Status</a></td>
                     </tr>
                     @php 

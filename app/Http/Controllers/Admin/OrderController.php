@@ -28,7 +28,7 @@ class OrderController extends Controller
             'page'=>'order'
         );
          $orders=Post::where('posts.post_type','shop_order')
-         ->orderBy('post_date','DESC')
+         ->orderBy('ID','DESC')
         ->paginate(10);       
          return view('admin.order.list',compact('orders'))->with($extraInfo);
     }

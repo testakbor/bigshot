@@ -98,11 +98,34 @@
                   @endforeach
                  <tr>
                   <td>{{$order_items->order_id}}</td>
-                  <td>65765</td>
+                  <td>@php
+                      $texonomoys=DB::table('term_relationships')
+                      ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
+                      ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                      ->where('object_id',$product_id)
+                      ->where('term_taxonomy.taxonomy','product_cat')
+                      ->select('terms.name as cat_name')
+                      ->first(); 
+                      @endphp
+                      @if(isset($texonomoys->cat_name))
+                        @php $cat=$texonomoys->cat_name; @endphp 
+                        @else 
+                        @php $cat=''; @endphp 
+                      @endif
+                      {{$cat}}
+                  </td>
                   <td>{{$qty}} pcs</td>
                   <td>{{$subtotal}}</td>
-                  <td>324432</td>
-                  <td>555 tk</td>
+                  <td>@php 
+                      $stock=DB::table('postmeta')->where(['post_id'=>$product_id,'meta_key'=>'product_stock'])->first(); 
+                      @endphp 
+                      @if(isset($stock->meta_value)) 
+                      @php $stock_product=$stock->meta_value; 
+                      @endphp 
+                      @else
+                      @php $stock_product=0; @endphp   
+                      @endif {{ $stock_product}}</td>
+                  <td>{{$subtotal-$stock_product}} tk</td>
                 </tr>
                @endforeach
 
