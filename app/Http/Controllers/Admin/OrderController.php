@@ -222,7 +222,7 @@ class OrderController extends Controller
             'page'=>'order'
         );
        $order=Post::find($id);
-       $products=Order_item::where('order_id',$id)->groupBy('order_id')->get();
+       $products=Order_item::where('order_id',$id)->whereNotNull('product_id')->get();
        $order_info=DB::table('postmeta')->where('post_id',$order->ID)->get();
        return view('admin.order.edit',compact('order','products','id','order_info'))->with($extraInfo);     
     }

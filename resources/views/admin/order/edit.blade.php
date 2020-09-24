@@ -183,14 +183,14 @@
                 </thead>
                 <tbody>
                 @php 
-                $i=1;
-                 $grandTotal=0;
                  $subtotal=0;
                  $qty=0;
+                 $total=0;
+                 $grand_total=0;
+                 $total_sub=0;
                 @endphp
-                @foreach($products as $item)
-               
-                  @foreach($item->orderMeta as $value)
+               @foreach($products as $key=>$items) 
+               @foreach($items->orderMeta as $value)
                   @php                  
                   if($value->meta_key=='_line_subtotal'){
                     $subtotal=$value->meta_value;
@@ -198,21 +198,20 @@
                   if($value->meta_key=='_qty'){
                     $qty=$value->meta_value;
                   }
-
+                  if($value->meta_key=='_line_total'){
+                    $total=$value->meta_value;
+                  }
                   @endphp
                   @endforeach
                   <tr>
-                    <th scope="row">{{$i}}</th>
-                    <td>{{$item->order_item_name}}</td>
+                    <th scope="row">{{++$key}}</th>
+                    <td>{{$items->order_item_name}}</td>
                     <td>{{$subtotal}}</td>
                     <td>{{$qty}}</td>
-                    <td>{{$sub = $subtotal*$qty}}</td>
+                    <td>{{$total}}</td>
                   </tr>   
-                   @php 
-                $i++;
-                $grandTotal += $sub;
-                @endphp   
-                  @endforeach          
+                  @php $grand_total+=$total; $total_sub+=$subtotal; @endphp
+              @endforeach  
                 </tbody>
 
               </table>
@@ -222,11 +221,11 @@
              <div class="d-flex flex-column justify-content-end">
               <div class="d-flex flex-row justify-content-end">
                  <div> item Sub total:</div>
-                 <div> $ {{$grandTotal}}</div>
+                 <div> $ {{$total_sub}}</div>
               </div>
               <div class="d-flex flex-row justify-content-end">
                 <div> Order Total: </div>
-                 <div> $ {{$grandTotal}}</div>
+                 <div> $ {{$grand_total}}</div>
               </div>
              </div>
           </div>
