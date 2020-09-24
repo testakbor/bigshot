@@ -42,7 +42,7 @@ class HomeController extends Controller
         ->where('post_status','publish')
         ->get();
       
-        return view('home',compact('categories','products'));
+        return view('front.home',compact('categories','products'));
    
 
     }
