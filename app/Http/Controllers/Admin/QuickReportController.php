@@ -25,10 +25,41 @@ class QuickReportController extends Controller
             'title'=>"Quick Report",
             'page'=>'quickReport'
         );
-        $products=DB::table('posts')
-        ->where('posts.post_type','product')
-        ->paginate(10);                
-        return view('admin.quickReport.index',compact('products'))->with($extraInfo);
+        $today_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-d')])
+        ->count(); 
+        $day_one_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-01')])
+        ->count();  
+        $day_two_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-02')])
+        ->count();
+        $day_three_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-03')])
+        ->count();
+        $day_four_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-04')])
+        ->count();
+        $all_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
+        ->count();  
+        $product_total_stock=DB::table('posts')
+        ->where(['post_type'=>'product','meta_key'=>'qty'])
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->sum('meta_value');  
+        $product=Post::where('post_type','product')->get();   
+        $delivered_qty=DB::table('posts')->where(['post_type'=>'shop_order','post_status'=>'Delivered'])->count();     
+        return view('admin.quickReport.index',
+        compact('today_pending_order',
+        'day_one_pending_order',
+        'day_two_pending_order',
+        'day_three_pending_order',
+        'day_four_pending_order',
+        'all_pending_order',
+        'product_total_stock',
+        'product',
+        'delivered_qty'
+        ))->with($extraInfo);
     }
     public function manStock()
     {
@@ -87,7 +118,8 @@ class QuickReportController extends Controller
     }
     public function bestSelling()
     {
-       return view('admin.quickReport.best_selling');
+       $order=Post::where(['post_type'=>'shop_order','post_status'=>'Completed'])->get();
+       return view('admin.quickReport.best_selling',compact('order'));
     }
     public function cancellationItems()
     {

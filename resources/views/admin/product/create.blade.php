@@ -60,9 +60,9 @@
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                      <label for="stock" class="col-sm-2 col-form-label">Cost</label>
                       <div class="col-sm-10">
-                        <input type="text" name="product_stock" class="form-control" id="stock" placeholder="Stock" required>
+                        <input type="text" name="product_stock" class="form-control" id="stock" placeholder="Cost" required>
                       </div>
                     </div>
                   </div>
