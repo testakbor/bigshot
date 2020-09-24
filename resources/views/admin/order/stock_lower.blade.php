@@ -74,7 +74,7 @@
                 </thead>
 
                 <tbody>
-                @php $alert=0; $qty=0; $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0; @endphp
+                @php $alert=0; $qty=0; $i=0; $price=0; $sprice=0; $sku='';  $total_sell_price=0; $total_cost=0;$status=''; @endphp
                 @foreach($products as $item)
                   @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get(); @endphp
                   @foreach($product_info as $info)
