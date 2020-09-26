@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Model\Front\Post;
-use App\Model\Front\Postmeta;
+use App\Model\front\Post;
+use App\Model\front\Postmeta;
 use App\Model\front\Order_item;
 use Carbon\Carbon;
 use DB;

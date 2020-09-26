@@ -146,7 +146,5 @@ class BannerController extends Controller
         ->where('ID',$id)
         ->where('postmeta.post_id',$id)
         ->delete();
-        
-        
     }
 }

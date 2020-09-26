@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Model\admin\attribute_taxonomie;
-
 use DB;
 use Session;
 use Illuminate\Support\Facades\Auth;
+use DataTables;
 
 class ProductController extends Controller
 {
@@ -20,18 +19,27 @@ class ProductController extends Controller
     }
 
     
-    public function index()
+    public function index(Request $request)
     {
         $extraInfo=array(
             'title'=>"Product List",
             'page'=>'product'
         );
-
-        $products=DB::table('posts')
+        if ($request->ajax()) {
+        $data=DB::table('posts')
         ->where('posts.post_type','product')
         ->orderBy('ID','DESC')
-        ->paginate(10);                
-        return view('admin.product.list',compact('products'))->with($extraInfo);
+        ->get(); 
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('action', function($row){
+            $btn = '<a target="_blank" class="btn btn-primary" title="View Profile" href="'.route('product.edit',$row->ID).'"> <i class="fa fa-edit"></i> Edit</a>';
+            return $btn;
+        })
+        ->rawColumns(['action'])
+        ->make(true);       
+        }        
+        return view('admin.product.list')->with($extraInfo);
     }
 
     public function create()

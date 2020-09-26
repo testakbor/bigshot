@@ -15,10 +15,8 @@
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
         @include('admin.includes.messages')
@@ -29,55 +27,46 @@
               <div class="card-header">
                 <h3 class="card-title">Product</h3>
               </div>
-              <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered table-striped">
+              <table class="table table-bordered table-striped table">
                   <thead class="bg-success">                  
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Product Name</th>
                       <th>Status</th>
-                      <th >Action</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    @php 
-                    $i=1;
-                    @endphp
-                   @foreach($products as $value)
-                    <tr>
-                      <td>{{$i}}</td>
-                      <td>{{$value->post_title}}</td>
-                      <td>{{$value->post_status}}</td>
-                      <td>
-                        <a href="{{route('product.edit',$value->ID)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
-                      </td>
-                    </tr>
-                    @php 
-                    $i++;
-                    @endphp
-                   @endforeach
                   </tbody>
                 </table>
               </div>
               <div class="d-flex justify-content-center">            
-                {{$products->links()}}                  
+                             
               </div>  
             </div>
-            <!-- /.card -->
-           
-
           </div>
-        
-
           </div>
-          <!-- /.col -->
         </div>
-      
-      
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
-    <!-- /.content -->
   </div>
+<script type="text/javascript">
+    var table = $('.table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('product.index') }}",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'post_title', name: 'post_title'},
+            {data: 'post_status', name: 'post_status'},
+            {
+                data: 'action', 
+                name: 'action', 
+                orderable: true, 
+                searchable: true
+            },
+        ]
+    });
+</script>
 @endsection
