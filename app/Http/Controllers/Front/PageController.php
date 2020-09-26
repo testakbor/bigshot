@@ -122,17 +122,15 @@ class PageController extends Controller
             'title'=>"Brands",
             'page'=>'brands'
         );
-        $categories=DB::table('term_taxonomy')
+        $brands=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_cat')
-        ->where('terms.status',1)
-        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+        ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+        ->where('term_taxonomy.taxonomy','product_brand')
+        ->select('term_taxonomy.*', 'terms.name', 'terms.status', 'postmeta.meta_value as image')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->get();
-        $products=Post::where('post_type','product')
-        ->where('post_status','publish')
-        ->get();
-        return view('front.brands',compact('categories','products'))->with($extraInfo);
+        ->paginate(5);
+        return view('front.brands',compact('brands'))->with($extraInfo);
     }
     public function faq()
     {

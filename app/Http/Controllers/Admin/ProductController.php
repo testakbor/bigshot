@@ -33,7 +33,7 @@ class ProductController extends Controller
         return Datatables::of($data)
         ->addIndexColumn()
         ->addColumn('action', function($row){
-            $btn = '<a target="_blank" class="btn btn-primary" title="View Profile" href="'.route('product.edit',$row->ID).'"> <i class="fa fa-edit"></i> Edit</a>';
+            $btn = '<a class="btn btn-primary" title="Edit Product" href="'.route('product.edit',$row->ID).'"> <i class="fa fa-edit"></i> Edit</a>';
             return $btn;
         })
         ->rawColumns(['action'])
@@ -46,7 +46,7 @@ class ProductController extends Controller
     {        
         $extraInfo=array(
             'title'=>"New Product",
-            'page'=>'products'
+            'page'=>'product'
         );
         // for bands
         $brands=DB::table('term_taxonomy')

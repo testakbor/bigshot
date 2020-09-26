@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use DataTables;
 
 class CustomerController extends Controller
 {
@@ -20,14 +21,31 @@ class CustomerController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $extraInfo=array(
             'title'=>"Customer List",
             'page'=>'customer'
         );
-        $customers=DB::table('users')->orderBy('id','DESC')->get();                
-        return view('admin.customer.list',compact('customers'))->with($extraInfo);
+        if ($request->ajax()) {
+            $data=DB::table('users')->orderBy('id','DESC')->get(); 
+            return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('status', function($row){
+              if($row->status==1){
+                return "Active";
+              }else{
+                return "Inactive";
+              }
+            })
+            ->addColumn('action', function($row){
+                $btn = '<a class="btn btn-primary" title="" href="'.url('/user/'.$row->id).'"> <i class="fa fa-edit"></i> Edit</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);       
+            }               
+        return view('admin.customer.list')->with($extraInfo);
     }
 
     /**

@@ -37,9 +37,9 @@ class BrandController extends Controller
             ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
             ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
             ->where('term_taxonomy.taxonomy','product_brand')
-            ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
+            ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value as image')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(5);   
+            ->paginate(5); 
         }else{
             $brands=DB::table('term_taxonomy')
             ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -47,11 +47,10 @@ class BrandController extends Controller
             ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
             ->where('term_taxonomy.taxonomy','product_brand')
             ->where('terms.name', 'like', '%' .$q. '%')
-            ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
+            ->select('term_taxonomy.*', 'terms.name', 'terms.status', 'postmeta.meta_value as image')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
             ->paginate(5);  
         }
-      
         return view('admin.brand.list',compact('brands'))->with($extraInfo);
     }
 
@@ -76,23 +75,18 @@ class BrandController extends Controller
         $this->validate($request,[
             'brandName'=>'required|min:3',
             ]);    
-
-           
-
            $termInfo=array(
                'name'=>$request->brandName,
                'status'=>$request->status,
                'slug'=>Str::slug($request->brandName)
            );
            $term=DB::table('terms')->insertGetId($termInfo);
-    
            $termTexonomyInfo=array(
                'term_id'=>$term,
                'taxonomy'=>'product_brand',
                'description'=>'',
            );
            $termTaxonomoy=DB::table('term_taxonomy')->insert($termTexonomyInfo);
-
           // image uplaod code
            if($request->hasFile('image')){
            $image_name = time().'.'.$request->image->getClientOriginalExtension();
@@ -163,9 +157,10 @@ class BrandController extends Controller
         ->join('term_taxonomy', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
         ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
-        ->select('terms.*','postmeta.meta_value')
+        ->select('terms.*', 'postmeta.meta_value as image')
         ->where('terms.term_id',$id)
         ->first();
+  
         
         
         $brands=DB::table('term_taxonomy')
@@ -173,7 +168,7 @@ class BrandController extends Controller
         ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
         ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
         ->where('term_taxonomy.taxonomy','product_brand')
-        ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value')
+        ->select('term_taxonomy.*','terms.name','terms.status','ecommerce_termmeta.meta_value','postmeta.meta_value as image')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(5); 
                 
