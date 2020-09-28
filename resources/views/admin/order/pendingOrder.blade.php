@@ -171,10 +171,10 @@ use App\Model\front\Order_item;
                   <td class="right">{{$sub = $subtotal*$qty}}</td>
                   <td class="right">{{$items->post_status}}</td>
                   <td class="right">
-                    <i class="fas fa-print"><a href="{{route('pending_order_print',$items->ID)}}">Print</a></i><br>
-                    <i class="fas fa-spinner"><a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}">Processing</a></i><br>
-                    <i class="fas fa-edit"><a href="{{route('pending_order_edit',$items->ID)}}">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}">Cancel</a></i>
+                    <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a><br>
+                    <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary" ><i class="fas fa-spinner"> </i>Processing</a><br>
+                    <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
+                    <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
                   </td>
                   <!-- <td class="right">hello</td> -->
                   </tr>
