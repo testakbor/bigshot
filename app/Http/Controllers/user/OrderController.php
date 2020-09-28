@@ -85,6 +85,29 @@ class OrderController extends Controller
          return view('front.order.edit',compact('order','products','order_info'))->with($extraInfo);
     }
 
+    //cancel order
+    public function cancelOrder($id){
+      $check=DB::table('posts')
+            ->where('post_type', 'shop_order')
+            ->where('ID', $id)
+            ->where('post_status', 'on-hold')  
+            ->count();
+     if($check>0){
+      $status=DB::table('posts')
+      ->where('post_type','shop_order')
+      ->where('ID',$id)->update([
+       'post_status'=> 'Cancelled'
+      ]);
+      session()->flash("success", "Your Order Has Been Cancelled");
+      return back();
+     }else{
+     session()->flash("error", "Your Can't Change the order Status because the order has already been Processing");
+     return back();
+     }
+
+     
+    }
+
     /**
      * Update the specified resource in storage.
      *

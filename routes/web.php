@@ -61,6 +61,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('user/profile','UserController');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
         Route::get('/customer/order/edit/{id}','OrderController@edit')->name('customer_ordere_edit');
+        Route::get('/customer/order/cancel/{id}','OrderController@cancelOrder')->name('customer_ordere_cancel');
     }); 
        
     Route::group(['namespace'=>'Search'],function(){

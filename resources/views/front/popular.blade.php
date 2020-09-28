@@ -37,8 +37,6 @@
                         @endphp
                        @endif
                       @endforeach
-              
-                  
 							<li class="product fl-l">
 								<a href="{{route('product-page',$item->ID)}}">
 									<div class="container-prod">
@@ -46,8 +44,7 @@
 										<div class="container-information">
 											<div class="title">
 												<p> {{$item->post_title}}
-                            
-													<span class="text-dark ml-5">৳{{$sprice}}</span>
+													<span class="text-dark ml-1">৳{{$sprice}}</span>
 												</p>
 											</div>
 										</div>
@@ -60,8 +57,6 @@
 								</a>
 							</li>
 @endforeach
-         
-
 						</ul>
 					</section>
 				</div>

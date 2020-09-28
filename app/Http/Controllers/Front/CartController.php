@@ -189,6 +189,7 @@ class CartController extends Controller
             'meta_key'=>'_tax_class',
             'meta_value'=>'',
             'customer_id'=>$id,
+            'order_id' => $order_id,
             'order_date'=>date('Y-m-d'),
         );
            DB::table('order_itemmeta')->insert($order_item_details);

@@ -51,7 +51,7 @@
                         <div class="container-information">
                           <div class="title">
                             <p> {{$item->post_title}}
-                            <span class="text-dark ml-5">৳{{$sprice}}</span></p>
+                            <span class="text-dark ml-2">৳{{$sprice}}</span></p>
                                               
                           </div>
                       </div>

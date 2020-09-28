@@ -1,309 +1,307 @@
 @extends('front.layouts.master')
 
 @section('content')
-@php  $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; $name=''; @endphp
+@php $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; $name=''; @endphp
 <!-- Page Content  -->
 
-@if(Auth::check()) @php $name=auth()->user()->name; @endphp @endif 
-@foreach($user_info as $in)   
-    @if($in->meta_key=='address_one') 
-      @php $address1=$in->meta_value; @endphp 
-    @endif  
-    @if($in->meta_key=='address_two') 
-      @php $address2=$in->meta_value; @endphp 
-    @endif  
-    @if($in->meta_key=='phone') 
-      @php $phone=$in->meta_value; @endphp 
-    @endif 
-    @if($in->meta_key=='country') 
-      @php $country=$in->meta_value; @endphp 
-    @endif 
-    @if($in->meta_key=='state') 
-      @php $state=$in->meta_value; @endphp 
-    @endif 
-    @if($in->meta_key=='city') 
-      @php $city=$in->meta_value; @endphp 
-    @endif 
-    @if($in->meta_key=='zip') 
-      @php $zip=$in->meta_value; @endphp 
-    @endif 
-@endforeach 
+@if(Auth::check()) @php $name=auth()->user()->name; @endphp @endif
+@foreach($user_info as $in)
+@if($in->meta_key=='address_one')
+@php $address1=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='address_two')
+@php $address2=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='phone')
+@php $phone=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='country')
+@php $country=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='state')
+@php $state=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='city')
+@php $city=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='zip')
+@php $zip=$in->meta_value; @endphp
+@endif
+@endforeach
 <div id="content" class="p-4 p-md-5">
   <div class="row">
     <div class="col-md-12 ">
       <div class="container-fluid mt-2">
-       <div class="container">  
-         @if (session('status'))
-                        <div class="alert alert-success" role="alert" id="alert">
-                            {{ session('status') }}
-                        </div>
-         @endif
-         <form  role="form" action="{{route('checkout')}}" method="POST">
-          @csrf                  
-          <div class="row">
-            <div class="col-md-4 order-md-2 mb-4" >
-              <h4 class="d-flex justify-content-between align-items-center Title mb-3">
-                <span class="text-muted">Order Summary</span>
-                @if(\Cart::getTotalquantity()==0)
-                @else
-                <span class="badge badge-secondary badge-pill">
+        <div class="container">
+          @if (session('status'))
+          <div class="alert alert-success" role="alert" id="alert">
+            {{ session('status') }}
+          </div>
+          @endif
+          <form role="form" action="{{route('checkout')}}" method="POST">
+            @csrf
+            <div class="row">
+              <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center Title mb-3">
+                  <span class="text-muted">Order Summary</span>
+                  @if(\Cart::getTotalquantity()==0)
+                  @else
+                  <span class="badge badge-secondary badge-pill">
                     {{ \Cart::getTotalquantity()}}
-                @endif
-                </span>
-              </h4>
-              <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                  <div>
+                    @endif
+                  </span>
+                </h4>
+                <ul class="list-group mb-3">
+                  <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
 
-                    <small class="text-muted">Item Total</small>
-                  </div>
-                  <span class="text-muted">    {{ \Cart::getTotalquantity()}}</span>
-                </li>
-                <!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
+                      <small class="text-muted">Item Total</small>
+                    </div>
+                    <span class="text-muted"> {{ \Cart::getTotalquantity()}}</span>
+                  </li>
+                  <!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <small class="text-muted">Shipping</small>
                   </div>
                   <span class="text-muted">$8</span>
                 </li> -->
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                  <div>
-                    <small class="text-muted">Order Total</small>
-                  </div>
-                  <span class="text-muted">{{Cart::getTotal()}}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-light">
-                  <div class="text-success">
-                    <small>*Approx</small>
-                  </div>
-                  <span class="text-muted">৳ {{Cart::getTotal()}} BDT</span>
-                </li>                          
-              </ul>
+                  <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                      <small class="text-muted">Order Total</small>
+                    </div>
+                    <span class="text-muted">{{Cart::getTotal()}}</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between bg-light">
+                    <div class="text-success">
+                      <small>*Approx</small>
+                    </div>
+                    <span class="text-muted">৳ {{Cart::getTotal()}} BDT</span>
+                  </li>
+                </ul>
 
-              {{-- <form class="card p-2" action="/order-success"> --}}
+                {{-- <form class="card p-2" action="/order-success"> --}}
                 <div class="input-group">
                   <!-- <input type="text" name="promo_code" class="form-control" placeholder="Promo code" style="width: 50px;">
                   <div class="input-group-append">
                     <button type="submit" name="reedeem" class="btn btn-secondary">Redeem</button>
                   </div> -->
-                  @if(\Cart::getTotalquantity()>0) 
+                  @if(\Cart::getTotalquantity()>0)
                   <div class="input-group">
                     <button class="btn btn-primary btn-lg btn-block mt-3" type="submit">Continue to checkout</button>
                   </div>
-                  @endif 
+                  @endif
                 </div>
-              {{-- </form> --}}
-            </div>
-            <div class="col-md-7 order-md-1 ml-5" style="border: 1px solid rgb(212, 227, 235);">
-              @if(\Cart::getTotalquantity()==0) You have no product in your cart!! <a href="{{url('/')}}">Shop Now</a>   @endif
-              <h4 class="mb-3 title-text">Billing address</h4>
-              
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="firstName">First name<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="firstName" value="{{$name}}" name="first_name" placeholder="First Name" required>
-                  <div class="invalid-feedback">
-                    Valid first name is required.
+                {{-- </form> --}}
+              </div>
+              <div class="col-md-7 order-md-1 ml-5" style="border: 1px solid rgb(212, 227, 235);">
+                @if(\Cart::getTotalquantity()==0) You have no product in your cart!! <a href="{{url('/')}}">Shop Now</a> @endif
+                <h4 class="mb-3 title-text">Billing address</h4>
+
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="firstName">First name<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="firstName" value="{{$name}}" name="first_name" placeholder="First Name" required>
+                    <div class="invalid-feedback">
+                      Valid first name is required.
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="lastName">Last name<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="lastName" value="{{$name}}" name="last_name" placeholder="Last Name" required>
+                    <div class="invalid-feedback">
+                      Valid last name is required.
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                  <label for="lastName">Last name<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="lastName" value="{{$name}}" name="last_name" placeholder="Last Name" required>
+                <div class="mb-3">
+                  <label for="address">Address Line 1<span class="requiredField">*</span></label>
+                  <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address Line" required>
                   <div class="invalid-feedback">
-                    Valid last name is required.
-                  </div>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="address">Address Line 1<span class="requiredField">*</span></label>
-                <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address Line" required>
-                <div class="invalid-feedback">
-                  Please enter your shipping address.
-                </div>
-              </div>
-
-              <div class="mb-3">
-                <label for="address2">Address Line 2 <span class="text-muted"></span></label>
-                <input type="text" class="form-control" value="{{$address2}}" id="address2" name="address_two" placeholder="Optional">
-              </div>
-              <div class="mb-3">
-                <label for="phone">Phone<span class="requiredField">*</span></label>
-                <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Phone" required>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6 mb-">
-                  <label for="country">Country<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" value="{{$country}}" name="country"  placeholder="Country" required>
-                </div>                            
-                <div class="col-md-6 mb-3">
-                  <label for="state">State/Province/Regoin <span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="State" required>
-                  <div class="invalid-feedback">
-                    Zip code required.
+                    Please enter your shipping address.
                   </div>
                 </div>
 
-              </div>
-              <div class="row">
+                <div class="mb-3">
+                  <label for="address2">Address Line 2 <span class="text-muted"></span></label>
+                  <input type="text" class="form-control" value="{{$address2}}" id="address2" name="address_two" placeholder="Optional">
+                </div>
+                <div class="mb-3">
+                  <label for="phone">Phone<span class="requiredField">*</span></label>
+                  <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Phone" required>
+                </div>
 
-                <div class="col-md-6 mb-3">
-                  <label for="city">City<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" value="{{$city}}" id="city" name="city" placeholder="City" required>
-                  <div class="invalid-feedback">
-                    .
+                <div class="row">
+                  <div class="col-md-6 mb-">
+                    <label for="country">Country<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" value="{{$country}}" name="country" placeholder="Country" required>
                   </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="zip">Zip</label>
-                  <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Zip">
-                  <div class="invalid-feedback">
-                    Zip code required.
+                  <div class="col-md-6 mb-3">
+                    <label for="state">State/Province/Regoin <span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="State" required>
+                    <div class="invalid-feedback">
+                      Zip code required.
+                    </div>
                   </div>
-                </div>
-
-              </div>
-
-              <div class="row">
-
-                <div class="col-md-6 mb-3">
 
                 </div>
-                <!-- <div class="col-md-6 mb-3">
+                <div class="row">
+
+                  <div class="col-md-6 mb-3">
+                    <label for="city">City<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" value="{{$city}}" id="city" name="city" placeholder="City" required>
+                    <div class="invalid-feedback">
+                      .
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="zip">Zip</label>
+                    <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Zip">
+                    <div class="invalid-feedback">
+                      Zip code required.
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div class="col-md-6 mb-3">
+
+                  </div>
+                  <!-- <div class="col-md-6 mb-3">
                   <button type="button" class="btn btn-light ml-1" style="width: 118px;border: 1px solid skyblue;color: skyblue;background-color: white;font-weight: 600;">Cancel</button>
                   <button type="button" class="btn btn-info ml-3">Use this Address</button>
 
                 </div> -->
 
-              </div>
-              <!-- <hr class="mb-4"> -->
+                </div>
+                <!-- <hr class="mb-4"> -->
 
-              <hr class="mb-4">
+                <hr class="mb-4">
 
-              <h4 class="mb-3">Payment<span class="requiredField">*</span></h4>
+                <h4 class="mb-3">Payment<span class="requiredField">*</span></h4>
 
-              <div class="d-block my-3">
-                <div class="custom-control custom-radio">
-                  <input id="credit" name="paymentMethod" type="radio" value="cradit" class="custom-control-input" checked required>
-                  <label class="custom-control-label" for="credit" >Credit card</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input id="debit" name="paymentMethod" value="debit" type="radio" class="custom-control-input" required>
-                  <label class="custom-control-label" for="debit">Debit card</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input id="paypal" name="paymentMethod" value="paypal" type="radio" class="custom-control-input" required>
-                  <label class="custom-control-label" for="paypal">PayPal</label>
-                </div>
-                <div class="custom-control custom-radio">
-                  <input id="cash" name="paymentMethod" type="radio" value="cash" class="custom-control-input"  required>
-                  <label class="custom-control-label" id="cash" for="cash">Cash on delivery</label>
-                </div>
-              </div>
-              <div class="row" id="hnf">
-                <div class="col-md-6 mb-3">
-                  <label for="cc-name">Name on card<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-name" name="cardName" placeholder="Name of card" >
-                  <small class="text-muted">Full name as displayed on card</small>
-                  <div class="invalid-feedback">
-                    Name on card is required
+                <div class="d-block my-3">
+                  <div class="custom-control custom-radio">
+                    <input id="credit" name="paymentMethod" type="radio" value="cradit" class="custom-control-input">
+                    <label class="custom-control-label" for="credit">Credit card</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input id="debit" name="paymentMethod" value="debit" type="radio" class="custom-control-input">
+                    <label class="custom-control-label" for="debit">Debit card</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input id="paypal" name="paymentMethod" value="paypal" type="radio" class="custom-control-input">
+                    <label class="custom-control-label" for="paypal">PayPal</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input id="cash" name="paymentMethod" type="radio" value="cash" class="custom-control-input" checked>
+                    <label class="custom-control-label" id="cash" for="cash">Cash on delivery</label>
                   </div>
                 </div>
-                <div class="col-md-6 mb-3">
-                  <label for="cc-number">Credit card number<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-number" placeholder="Creadit Card Number" name="cc-number" >
-                  <div class="invalid-feedback">
-                    Credit card number is required
+                <div class="row" id="hnf" style="display:none;">
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-name">Name on card<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="cc-name" name="cardName" placeholder="Name of card">
+                    <small class="text-muted">Full name as displayed on card</small>
+                    <div class="invalid-feedback">
+                      Name on card is required
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-number">Credit card number<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="cc-number" placeholder="Creadit Card Number" name="cc-number">
+                    <div class="invalid-feedback">
+                      Credit card number is required
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="row" id="hnf1">
-                <div class="col-md-3 mb-3">
-                  <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-expiration" name="cc-expiration"  placeholder="Expiration">
-                  <div class="invalid-feedback">
-                    Expiration date required
+                <div class="row" id="hnf1" style="display:none;">
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="cc-expiration" name="cc-expiration" placeholder="Expiration">
+                    <div class="invalid-feedback">
+                      Expiration date required
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-cvv">CVV<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="Security code">
+                    <div class="invalid-feedback">
+                      Security code required
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                  <label for="cc-cvv">CVV<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="cc-cvv" name="cc-cvv" placeholder="Security code" >
-                  <div class="invalid-feedback">
-                    Security code required
-                  </div>
-                </div>
-              </div>
-              <hr class="mb-4">
-              @if(\Cart::getTotalquantity()>0) 
+                <hr class="mb-4">
+                @if(\Cart::getTotalquantity()>0)
                 <button class="btn btn-primary btn-lg btn-block" name="paymentSubmit" type="submit">Use Payment Method</button>
-              @endif
-              <div class="btn btn-success btn-lg btn-block">
-                Items In Cart
-              </div>
-              </form>
-              @foreach ($info as $item)
-
-              @php
-              $image='no-image.png';
-                  $images=DB::table('postmeta')
-                  ->where('post_id',$item->id)
-                  ->where('meta_key','attachment')
-                  ->first();
-                  if($images>0):
-                  $image= $images->meta_value;
-                  endif;
-              @endphp
-              <div class="d-flex flex-row mb-3">
-                <div class="col-md-2 p-0 ">
-                  <img src="{{asset('assets/backend/products/'.$image)}}" alt="" class="img-fluid">
+                @endif
+                <div class="btn btn-success btn-lg btn-block">
+                  Items In Cart
                 </div>
-                <div class="col-md-8">
-                  <div class="d-flex flex-column">
-                    <div>
-                      {{$item->name}} <br> 
-                      {{$item->id}}  
-                      {{$item->quantity}}
-                    </div>
-                    <div>
-                      Green <br>
-                      Shipping:$2<br>
-                      (Sep 7 - Nov 1)
-                    </div>
-                    <div class="d-flex flex-row">
-                      <div>
-                        <form method="POST" action="{{route('cart.update')}}" name="Updatequantity">
-                          @csrf
-                         <input type="hidden" name="product_id" value="{{$item->id}}"> 
-                            <div class="quantity buttons_added" style="padding: 0;">
-                             <!--  <input type="button" value="-" class="minus"> -->
-                              <input type="number" id="" class="input-text quantity_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="quantity" size="4" inputmode="numeric">
-                              <!-- <input type="button" value="+" class="plus"> -->
-                              <!-- <input type="submit" value="" class="plus"> -->
-                              <button type="submit" class="btn btn-primary btn-sm">Update</button>
-                            </div>
-                        </form>
+          </form>
+          @foreach ($info as $item)
+          @php
+          $image='no-image.png';
+          $images=DB::table('postmeta')
+          ->where('post_id',$item->id)
+          ->where('meta_key','attachment')
+          ->first();
+          if($images>0):
+          $image= $images->meta_value;
+          endif;
+          @endphp
+          <div class="d-flex flex-row mb-3">
+            <div class="col-md-2 p-0 ">
+              <img src="{{asset('assets/backend/products/'.$image)}}" alt="" class="img-fluid">
+            </div>
+            <div class="col-md-8">
+              <div class="d-flex flex-column">
+                <div>
+                  {{$item->name}} <br>
+                  {{$item->id}}
+                  {{$item->quantity}}
+                </div>
+                <div>
+                  Green <br>
+                  Shipping:$2<br>
+                  (Sep 7 - Nov 1)
+                </div>
+                <div class="d-flex flex-row">
+                  <div>
+                    <form method="POST" action="{{route('cart.update')}}" name="Updatequantity">
+                      @csrf
+                      <input type="hidden" name="product_id" value="{{$item->id}}">
+                      <div class="quantity buttons_added" style="padding: 0;">
+                        <!--  <input type="button" value="-" class="minus"> -->
+                        <input type="number" id="" class="input-text quantity_text" step="1" min="1" max="" name="quantity" value="{{$item->quantity}}" title="quantity" size="4" inputmode="numeric">
+                        <!-- <input type="button" value="+" class="plus"> -->
+                        <!-- <input type="submit" value="" class="plus"> -->
+                        <button type="submit" class="btn btn-primary btn-sm">Update</button>
                       </div>
-                      <div class="ml-3">
-                        <a href="{{url('/remove/'.$item->id)}}">
-                           <div class="buttons" style="margin-top:3px !important">
-                              <span class="delete-btn"></span>
-                           </div>
-                        </a>
-                      </div>
-                      </div>
-
-                    </div>
+                    </form>
                   </div>
-                  <div class="col-md-2"> ${{$total=$item->price*$item->quantity}}</div>
+                  <div class="ml-3">
+                    <a href="{{url('/remove/'.$item->id)}}">
+                      <div class="buttons" style="margin-top:3px !important">
+                        <span class="delete-btn"></span>
+                      </div>
+                    </a>
+                  </div>
                 </div>
-                @endforeach
+
               </div>
             </div>
+            <div class="col-md-2"> ${{$total=$item->price*$item->quantity}}</div>
+          </div>
+          @endforeach
         </div>
       </div>
     </div>
   </div>
 </div>
 </div>
+</div>
+</div>
 
 @endsection
-

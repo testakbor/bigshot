@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Model\front\Post;
+use App\Model\front\Postmeta;
+use App\Model\front\Order_item;
 use DB;
 
 class HomeController extends Controller
@@ -18,10 +21,28 @@ class HomeController extends Controller
             'title'=>"Home",
             'page'=>'home'
         );
-        $total_order=DB::table('posts')->where('post_type','shop_order')->count();
-        $total_product=DB::table('posts')->where('post_type','product')->count();
-        $total_registration=DB::table('users')->count();
-        return view("admin.home",compact('total_order','total_product','total_registration'))->with($extraInfo);
+        $total_sales=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','Completed')
+        ->whereBetween('post_date',[date('Y-m-01'),date('Y-m-t')])
+        ->count();
+        $total_delivered = DB::table('posts')
+        ->where('post_type', 'shop_order')
+        ->where('post_status', 'Delivered')
+        ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+        ->count();
+        $total_cancelled = DB::table('posts')
+        ->where('post_type', 'shop_order')
+        ->where('post_status', 'Cancelled')
+        ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+        ->count();
+        $sales_order =Post::where('post_type','shop_order')
+        ->where('post_status','Completed')
+        ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+        ->select('ID')
+        ->get();
+        dd($sales_order);
+        return view("admin.home",compact('total_sales','total_delivered','total_cancelled'))->with($extraInfo);
     }
 }
  
