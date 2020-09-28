@@ -301,7 +301,7 @@
                 </div>
               </div>                 
         </div> 
-        <!-- <div class="row ml-2 mt-2">
+        <div class="row ml-2 mt-2">
            <div class="col-1">
                 <div class="box" style="background: #3467C1">
            
@@ -330,8 +330,8 @@
                   <p class="lead text-center font-weight-bold">300</p>
                 </div>
               </div>                 
-        </div> -->
-        <!-- <div class="row ml-2 mt-2">
+        </div>
+         <div class="row ml-2 mt-2">
            <div class="col-1">
                 <div class="box" style="background: #3467C1">
 
@@ -360,7 +360,7 @@
                   <p class="lead text-center font-weight-bold">300</p>
                 </div>
               </div>                 
-        </div>   -->
+        </div> 
         <div class="row ml-2 mt-2">
            <div class="col-1">
                 <div class="box" style="background: #3467C1">
@@ -391,7 +391,7 @@
                 </div>
               </div>                 
         </div>   
-        <!-- <div class="row ml-2 mt-2">
+      <div class="row ml-2 mt-2">
            <div class="col-1">
                 <div class="box" style="background: #3467C1">
             
@@ -420,10 +420,6 @@
                   <p class="lead text-center font-weight-bold">300</p>
                 </div>
               </div>                 
-        </div>      -->
-            
-
-  
-
+        </div>      
   </div>
 @endsection

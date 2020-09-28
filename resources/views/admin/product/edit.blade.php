@@ -232,29 +232,7 @@
     <!-- /.card-body -->
   </div>
   {{-- brand --}}
-  <div class="card card-default">
-    <div class="card-header">
-      <h3 class="card-title">Product Brand</h3>
-      <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-        </button>
-      </div>
-    </div>
-    <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
-      @foreach ($brands as $brand)
 
-      
-        @php 
-        $check=in_array($brand->name,$bandTaxonomy);
-         @endphp
-
-      <div class="custom-control custom-radio">
-        <input class="custom-control-input"  {{($check==true)?'checked':''}} type="radio" id="{{$brand->term_id}}" value="{{$brand->term_id}}" name="product_brand">
-        <label for="{{$brand->term_id}}" class="custom-control-label"> {{$brand->name}}</label>
-      </div>
-      @endforeach
-    </div>
-  </div>
   {{-- product image --}}
   <div class="card card-default">
     <div class="card-header">

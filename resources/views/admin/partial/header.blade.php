@@ -61,14 +61,14 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{route('brand.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Brand                
                   </p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{route('attribute.index')}}" class="nav-link {{isset($page) && $page=='attribute'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>

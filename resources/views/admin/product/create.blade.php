@@ -27,7 +27,7 @@
         <div class="row">
 
           <div class="col-md-9">
-            <div class="form-group">     
+            <div class="form-group">
               <input type="text" name="post_title" placeholder="Product Name" value="{{old('post_title')}}" class="form-control">
             </div>
             <div class="form-group">
@@ -47,6 +47,12 @@
                 <div class="tab-content " id="v-pills-tabContent">
                   <div class="tab-pane fade active show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
                     <div class="col-md-12 mt-3">
+                      <div class="form-group row">
+                        <label for="regular_price" class="col-sm-2 col-form-label">Sku</label>
+                        <div class="col-sm-10">
+                          <input type="text" name="product_sku" class="form-control" id="regular_price" value="{{old('product_sku')}}" placeholder="Sku">
+                        </div>
+                      </div>
                       <div class="form-group row">
                         <label for="regular_price" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
                         <div class="col-sm-10">
@@ -213,23 +219,7 @@
               <!-- /.card-body -->
             </div>
             {{-- brand --}}
-            <div class="card card-default">
-              <div class="card-header">
-                <h3 class="card-title">Product Brand</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
-                @foreach ($brands as $brand)
-                <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" id="{{$brand->term_id}}" value="{{$brand->term_id}}" name="product_brand" {{ old('product_brand') == $brand->term_id ? 'checked' : ''}}>
-                  <label for="{{$brand->term_id}}" class="custom-control-label"> {{$brand->name}}</label>
-                </div>
-                @endforeach
-              </div>
-            </div>
+
             {{-- product image --}}
             <div class="card card-default">
               <div class="card-header">

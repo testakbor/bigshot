@@ -31,7 +31,7 @@ class ProductStoreRequest extends FormRequest
             'post_excerpt' => 'required',
             'category' => 'required',
             'tag' => 'required',
-            'product_brand' => 'required',
+            // 'product_brand' => 'required',
             'product_image' => 'required',
             'galleryImage' => 'required',
         ];
@@ -51,7 +51,7 @@ class ProductStoreRequest extends FormRequest
             'product_stock.required'        => 'Please enter cost',
             'post_excerpt.required'         => 'Please enter short description',
             'category.required'             => 'Please select category',
-            'product_brand.required'        => 'Please select brand',
+            // 'product_brand.required'        => 'Please select brand',
             'product_image.required'        => 'Please select product image',
             'galleryImage.required'         => 'Please select product gallery',
         ];
