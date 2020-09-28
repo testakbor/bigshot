@@ -316,6 +316,7 @@ public function edit($id)
     $qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'qty'])->first();
     $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->first();
     $stock=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'product_stock'])->first();
+    $sku = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => '_sku'])->first();
     $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
     if($allAttribute){ 
     $arributeArray=json_decode($allAttribute->meta_value);
@@ -329,7 +330,8 @@ public function edit($id)
     return view('admin.product.edit',compact('categories','tags','attributes',
     'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',
     'stock_status','regular_price','sale_price','weight',
-    'length','width','height','qty','alert_qty','arributeArray','stock'
+    'length','width','height','qty','alert_qty','arributeArray','stock',
+            'sku'
     ))->with($extraInfo);
 
     }
