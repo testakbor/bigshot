@@ -114,20 +114,21 @@
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="address">Address Line 1<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address Line" required>
+                  <label for="address">Address<span class="requiredField">*</span></label>
+                  <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address" required>
                   <div class="invalid-feedback">
                     Please enter your shipping address.
                   </div>
                 </div>
 
+                <!-- <div class="mb-3">
+                <label for="address2">Address Line 2 <span class="text-muted"></span></label>
+                <input type="text" class="form-control" value="{{$address2}}" id="address2" name="address_two" placeholder="Optional">
+              </div>
+ -->
                 <div class="mb-3">
-                  <label for="address2">Address Line 2 <span class="text-muted"></span></label>
-                  <input type="text" class="form-control" value="{{$address2}}" id="address2" name="address_two" placeholder="Optional">
-                </div>
-                <div class="mb-3">
-                  <label for="phone">Phone<span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Phone" required>
+                  <label for="phone">Mobile Number<span class="requiredField">*</span></label>
+                  <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Mobile Number" required>
                 </div>
 
                 <div class="row">
@@ -136,8 +137,8 @@
                     <input type="text" class="form-control" value="{{$country}}" name="country" placeholder="Country" required>
                   </div>
                   <div class="col-md-6 mb-3">
-                    <label for="state">State/Province/Regoin <span class="requiredField">*</span></label>
-                    <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="State" required>
+                    <label for="state">District <span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="District" required>
                     <div class="invalid-feedback">
                       Zip code required.
                     </div>
@@ -147,15 +148,15 @@
                 <div class="row">
 
                   <div class="col-md-6 mb-3">
-                    <label for="city">City<span class="requiredField">*</span></label>
+                    <label for="city">City/Thana<span class="requiredField">*</span></label>
                     <input type="text" class="form-control" value="{{$city}}" id="city" name="city" placeholder="City" required>
                     <div class="invalid-feedback">
                       .
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
-                    <label for="zip">Zip</label>
-                    <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Zip">
+                    <label for="zip">Postcode</label>
+                    <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Postcode">
                     <div class="invalid-feedback">
                       Zip code required.
                     </div>
@@ -183,23 +184,23 @@
 
                 <div class="d-block my-3">
                   <div class="custom-control custom-radio">
-                    <input id="credit" name="paymentMethod" type="radio" value="cradit" class="custom-control-input">
+                    <input id="credit" name="paymentMethod" type="radio" value="cradit" class="custom-control-input" required>
                     <label class="custom-control-label" for="credit">Credit card</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input id="debit" name="paymentMethod" value="debit" type="radio" class="custom-control-input">
+                    <input id="debit" name="paymentMethod" value="debit" type="radio" class="custom-control-input" required>
                     <label class="custom-control-label" for="debit">Debit card</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input id="paypal" name="paymentMethod" value="paypal" type="radio" class="custom-control-input">
+                    <input id="paypal" name="paymentMethod" value="paypal" type="radio" class="custom-control-input" required>
                     <label class="custom-control-label" for="paypal">PayPal</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input id="cash" name="paymentMethod" type="radio" value="cash" class="custom-control-input" checked>
+                    <input id="cash" name="paymentMethod" type="radio" value="cash" class="custom-control-input" checked required>
                     <label class="custom-control-label" id="cash" for="cash">Cash on delivery</label>
                   </div>
                 </div>
-                <div class="row" id="hnf" style="display:none;">
+                <div class="row" id="hnf" style="display:none">
                   <div class="col-md-6 mb-3">
                     <label for="cc-name">Name on card<span class="requiredField">*</span></label>
                     <input type="text" class="form-control" id="cc-name" name="cardName" placeholder="Name of card">
@@ -216,7 +217,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row" id="hnf1" style="display:none;">
+                <div class="row" id="hnf1" style="display:none">
                   <div class="col-md-3 mb-3">
                     <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>
                     <input type="text" class="form-control" id="cc-expiration" name="cc-expiration" placeholder="Expiration">
@@ -241,6 +242,7 @@
                 </div>
           </form>
           @foreach ($info as $item)
+
           @php
           $image='no-image.png';
           $images=DB::table('postmeta')

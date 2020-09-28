@@ -78,7 +78,7 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>10</h3>
+              <h3>{{$total_sale_amount}}</h3>
               <p>Sales Amount</p>
             </div>
             <div class="icon">
@@ -90,20 +90,29 @@
 
         <div class="col-md-12 text-center">
           {{date('Y-m-01')}} To {{date('Y-m-t')}}
+          @if($start=='' && $end=='')
           <input type="hidden" id="start_date" value="{{date('Y-m-01')}}">
           <input type="hidden" id="end_date" value="{{date('Y-m-t')}}">
+          @else
+          <input type="hidden" id="start_date" value="{{$start}}">
+          <input type="hidden" id="end_date" value="{{$end}}">
+          @endif
         </div>
-
+        <input type="text" id="sale_date" value="{{$total_sale_amount_date_wise}}">
+        <input type="text" id="delivery_date" value="{{$total_delivery_amount_date_wise}}">
+        <input type="text" id="cancel_date" value="{{$total_cancel_amount_date_wise}}">
         <div class="col-md-12">
-          <div class="form-group">
-            <label>Start</label>
-            <input type="date" class="form-control" name="start" placeholder="start" required>
-          </div>
-          <div class="form-group">
-            <label>End</label>
-            <input type="date" class="form-control" name="end" placeholder="start" required>
-          </div>
-          <button type="submit" class="btn btn-success">Search</button>
+          <form method="get" action="{{route('admin.home')}}">
+            <div class="form-group">
+              <label>Start</label>
+              <input type="date" class="form-control" value="{{date('Y-m-01')}}" name="start" placeholder="start" required>
+            </div>
+            <div class="form-group">
+              <label>End</label>
+              <input type="date" class="form-control" value="{{date('Y-m-t')}}" name="end" placeholder="start" required>
+            </div>
+            <button type="submit" class="btn btn-success">Search</button>
+          </form>
           <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         </div>
 
@@ -120,6 +129,9 @@
       var start = $("#start_date").val();
       var end = $("#end_date").val();
       var to = "To";
+      var tot_sales = document.getElementById('sale_date').value();
+      var delivery = $("#delivery_date").val();
+      var cancel = $("#cancel_date").val();
       var chart = new CanvasJS.Chart("chartContainer", {
         animationEnabled: true,
         theme: "light2",
@@ -136,15 +148,15 @@
           dataPoints: [
 
             {
-              y: 50,
+              y: tot_sales,
               label: "Sales"
             },
             {
-              y: 60,
+              y: delivery,
               label: "Delivere"
             },
             {
-              y: 80,
+              y: cancel,
               label: "Cancelled"
             },
 

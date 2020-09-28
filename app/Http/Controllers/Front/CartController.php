@@ -223,7 +223,7 @@ class CartController extends Controller
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_line_subtotal',
-            'meta_value'=>$item=Cart::getSubTotal(),
+            'meta_value'=>$item->quantity*$item->price,
             'order_id'=>$order_id,
             'customer_id'=>$id,
             'order_date'=>date('Y-m-d'),

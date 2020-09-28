@@ -108,7 +108,7 @@ marquee{
     color: #919aa3; }
 
 .loginBtn-facebook{
-  width: 100%;
+  width: 65%;
     height: 52px;
     background-color: rgb(36, 80, 175);
     color: #fff;
@@ -118,7 +118,7 @@ marquee{
     padding-top: 8px;
 }
 .loginBtn-google{
-  width: 100%;
+  width: 65%;
     height: 52px;
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(0, 0, 0, 0.13) 0px 0px 2px 0px, rgba(0, 0, 0, 0.12) 0px 0px 4px 0px;
@@ -127,4 +127,52 @@ marquee{
     border: none !important;
     border-radius: 4px;
     padding-top: 8px;
+}
+
+.hr-text{
+  position: relative;
+  ouline: 0;
+  border: 0;
+  height: 1.5em;
+  width: 64%;
+  float: left;
+}
+.hr-text:before{
+  content: '';
+  position: absolute;
+  background: green;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+}
+.hr-text:after{
+  content: attr(data-content);
+  position: relative;
+  display: inline-block;
+  color: black;
+  padding: 0 2em;
+  line-height: 1.5em;
+  color: #818078;
+  background-color: #fcfcfa;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: rgb(47, 183, 236);
+    /*border: 4px;*/
+}
+#submit_sign{
+     padding: 13px 20px 12px;
+    background-color: rgb(47, 183, 236);
+    border-radius: 4px;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #fff;
+    margin-bottom: 24px;
+    width: 100%;
+    border: none;
 }
