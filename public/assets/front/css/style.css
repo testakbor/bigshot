@@ -8964,6 +8964,7 @@ a[data-toggle="collapse"] {
   color: rgb(126, 154, 166);
   background-color: rgb(255, 255, 255);
   /*position: fixed;*/
+  width: 72.5%;
 }
   @media (max-width: 991.98px) {
     .footer {

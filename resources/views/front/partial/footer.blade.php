@@ -2,16 +2,16 @@
 
     <div id="target" class="d-flex justify-content-center">
       <ul class="footNavUL">
-                <li><a href="#">Customer Support</a></li>
-                <li><a href="#">Help/FAQ</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Careers</a></li>
                 <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Accessibility Statement</a></li>
-                <li><a href="#">Tax Policy</a></li>
-                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
                 <li><a href="#">Return Policy</a></li>
-                <li><a href="#">Categories</a></li>
+                <!-- <li><a href="#">Contact</a></li> -->
+                <li><a href="#">Follow us &nbsp; <i class="fab fa-facebook"></i></a></li>
+
+                <li><a href="#">Payment option: </a></li>
+                <li><a href="#"><button class="btn btn-link">Cash</button></li>
+                <li><a href="#"><button class="btn btn-link">Bkash</button></li>
+                <li><a href="#"><button class="btn btn-link">Visa</button></li>
               </ul>
     </div>
 

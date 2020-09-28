@@ -114,20 +114,20 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="address">Address Line 1<span class="requiredField">*</span></label>
-                <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address Line" required>
+                <label for="address">Address<span class="requiredField">*</span></label>
+                <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address" required>
                 <div class="invalid-feedback">
                   Please enter your shipping address.
                 </div>
               </div>
 
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="address2">Address Line 2 <span class="text-muted"></span></label>
                 <input type="text" class="form-control" value="{{$address2}}" id="address2" name="address_two" placeholder="Optional">
               </div>
-              <div class="mb-3">
-                <label for="phone">Phone<span class="requiredField">*</span></label>
-                <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Phone" required>
+ -->              <div class="mb-3">
+                <label for="phone">Mobile Number<span class="requiredField">*</span></label>
+                <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Mobile Number" required>
               </div>
 
               <div class="row">
@@ -136,8 +136,8 @@
                   <input type="text" class="form-control" value="{{$country}}" name="country"  placeholder="Country" required>
                 </div>                            
                 <div class="col-md-6 mb-3">
-                  <label for="state">State/Province/Regoin <span class="requiredField">*</span></label>
-                  <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="State" required>
+                  <label for="state">District <span class="requiredField">*</span></label>
+                  <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="District" required>
                   <div class="invalid-feedback">
                     Zip code required.
                   </div>
@@ -147,15 +147,15 @@
               <div class="row">
 
                 <div class="col-md-6 mb-3">
-                  <label for="city">City<span class="requiredField">*</span></label>
+                  <label for="city">City/Thana<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" value="{{$city}}" id="city" name="city" placeholder="City" required>
                   <div class="invalid-feedback">
                     .
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                  <label for="zip">Zip</label>
-                  <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Zip">
+                  <label for="zip">Postcode</label>
+                  <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Postcode">
                   <div class="invalid-feedback">
                     Zip code required.
                   </div>
