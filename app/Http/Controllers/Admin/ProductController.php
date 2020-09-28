@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Model\admin\attribute_taxonomie;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ProductStoreRequest;
 use DataTables;
+
+
+
 
 class ProductController extends Controller
 {
@@ -18,7 +23,6 @@ class ProductController extends Controller
         $this->middleware('auth:admin');
     }
 
-    
     public function index(Request $request)
     {
         $extraInfo=array(
@@ -49,13 +53,13 @@ class ProductController extends Controller
             'page'=>'product'
         );
         // for bands
-        $brands=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
-        ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
-        ->where('term_taxonomy.taxonomy','product_brand')
-        ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
-        ->get();
+        // $brands=DB::table('term_taxonomy')
+        // ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        // ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+        // ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+        // ->where('term_taxonomy.taxonomy','product_brand')
+        // ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
+        // ->get();
         // categories
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -72,19 +76,17 @@ class ProductController extends Controller
         // attribute 
 
         $attributes=attribute_taxonomie::where('status',1)->get();
-        return view('admin.product.create',compact('brands','categories','tags','attributes'))->with($extraInfo);
+        return view('admin.product.create',compact('categories','tags','attributes'))->with($extraInfo);
     }
 
-    public function store(Request $request){     
+    public function store(ProductStoreRequest $request){
         $year=$request->year;
         $month=$request->month;
         $day=$request->day;
         $H=$request->HH;
         $min=$request->min;
-
         $post_date=date('Y-m-d H:i:00',strtotime($year.'-'.$month.'-'.$day.' '.$H.':'.$min.':00'));
         $post_date_gmt=date('Y-m-d H:i:s',strtotime($post_date.'+6 hour'));
-
         $product=array(
             'post_title'=>$request->post_title,
             'post_name'=>$request->post_title,
@@ -98,26 +100,21 @@ class ProductController extends Controller
             'pinged'=>'',
             'post_content_filtered'=>'',
             'post_type'=>'product',
-
         );
         $post_id=DB::table('posts')->insertGetId($product);
-        
-// product attributes
+        // product attributes
         if($request->valueName  !=null ){
             $attribute=[];
             foreach($request->valueName as $value){
-
                 $detailVal= DB::table('term_taxonomy')
                 ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
                 ->where('term_taxonomy.term_id',$value)
                 ->select('term_taxonomy.*','terms.name')
                 ->first();
-
                 $attribute[]=array(
                     'taxonomy'=>$detailVal->taxonomy,
                     'term'=>$detailVal->name
                 );
-
             }
             $attributes=json_encode($attribute);
             $attributeMeta=array(
@@ -127,22 +124,18 @@ class ProductController extends Controller
             );
             DB::table('postmeta')->insert($attributeMeta);
         }       
-
         // product categories
         if($request->category !=null){
             foreach ($request->category as  $value) {
              DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
          }
      }
-
-
      // product tag
      if(count($request->tag) > 0){
         foreach ($request->tag as  $value) {
          DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
      }
  }
-
      // brand
  if($request->brand){
     DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
@@ -178,6 +171,7 @@ class ProductController extends Controller
 
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'product_stock','meta_value'=>$request->product_stock]);
+    DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $request->product_sku]);
     
     // product image 
 $image_name=null;
@@ -201,8 +195,6 @@ if($request->hasFile('galleryImage'))
     {
         $filename = $image->getClientOriginalName();
         $image->move(('backend/products'), $filename);
-
-      
         $porductGalleryImage=array(
             'post_id'=>$post_id,
             'meta_key'=>'gallery_file',
@@ -238,13 +230,13 @@ public function edit($id)
             'page'=>'products'
         );
         // for bands
-        $brands=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
-        ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
-        ->where('term_taxonomy.taxonomy','product_brand')
-        ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
-        ->get();
+        // $brands=DB::table('term_taxonomy')
+        // ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        // ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
+        // ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
+        // ->where('term_taxonomy.taxonomy','product_brand')
+        // ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
+        // ->get();
         // categories
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -324,6 +316,7 @@ public function edit($id)
     $qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'qty'])->first();
     $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->first();
     $stock=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'product_stock'])->first();
+    $sku = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => '_sku'])->first();
     $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
     if($allAttribute){ 
     $arributeArray=json_decode($allAttribute->meta_value);
@@ -334,10 +327,11 @@ public function edit($id)
 
 
     $attributes=attribute_taxonomie::where('status',1)->get();
-    return view('admin.product.edit',compact('brands','categories','tags','attributes',
+    return view('admin.product.edit',compact('categories','tags','attributes',
     'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',
     'stock_status','regular_price','sale_price','weight',
-    'length','width','height','qty','alert_qty','arributeArray','stock'
+    'length','width','height','qty','alert_qty','arributeArray','stock',
+            'sku'
     ))->with($extraInfo);
 
     }

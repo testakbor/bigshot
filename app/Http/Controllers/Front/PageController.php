@@ -138,13 +138,15 @@ class PageController extends Controller
     }
     public function profile()
     {
+        $id=auth()->user()->id;
         $wishProduct=DB::table('wishlist')
         ->leftjoin('postmeta', 'postmeta.post_id', '=', 'wishlist.product_id')
         ->where('user_id',auth()->user()->id)
         ->groupBy('wishlist.product_id')
         ->orderBy('wishlist.id','DESC')
         ->paginate(3);
-        return view('front.user-profile',compact('wishProduct'));
+        $profile_image=DB::table('usermeta')->where(['user_id'=>$id,'meta_key'=>'user_image'])->first();
+        return view('front.user-profile',compact('wishProduct', 'profile_image'));
     }
     public function privacy()
     {

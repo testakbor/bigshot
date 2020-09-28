@@ -61,14 +61,14 @@
                   </p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="{{route('brand.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     Brand                
                   </p>
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a href="{{route('attribute.index')}}" class="nav-link {{isset($page) && $page=='attribute'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
@@ -226,24 +226,24 @@
                   <p>Delivery Report</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="{{route('reject.item')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Reject Item</p>
                 </a>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <a href="{{route('best.selling')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Best selling items</p>
                 </a>
               </li>
-              <!-- <li class="nav-item">
+              <li class="nav-item">
                 <a href="{{route('cancellation.items')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Cancellation Items</p>
                 </a>
-              </li> -->
+              </li>
               <li class="nav-item">
                 <a href="{{route('sold.stock')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

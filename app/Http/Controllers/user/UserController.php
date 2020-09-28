@@ -75,6 +75,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($request->user_image==''){
+         $image_name=$request->d_image;
+        }else{
+            $image_name = time() . '.' . $request->user_image->getClientOriginalExtension();
+            $request->user_image->move(('assets/front/user/'), $image_name);
+        }
         $user=DB::table('users')
         ->where('id',$id)
         ->update(['name'=>$request->first_name]);
@@ -189,6 +195,13 @@ class UserController extends Controller
             'meta_value'=>$request->zip,
             'user_id'=>$id
         );
+        DB::table('usermeta')->insert($user_info);
+
+        $user_info = array(
+                'meta_key' => 'user_image',
+                'meta_value' =>$image_name,
+                'user_id' => $id
+            );
         DB::table('usermeta')->insert($user_info);
        }
 
