@@ -98,9 +98,6 @@
           <input type="hidden" id="end_date" value="{{$end}}">
           @endif
         </div>
-        <input type="text" id="sale_date" value="{{$total_sale_amount_date_wise}}">
-        <input type="text" id="delivery_date" value="{{$total_delivery_amount_date_wise}}">
-        <input type="text" id="cancel_date" value="{{$total_cancel_amount_date_wise}}">
         <div class="col-md-12">
           <form method="get" action="{{route('admin.home')}}">
             <div class="form-group">
@@ -129,7 +126,7 @@
       var start = $("#start_date").val();
       var end = $("#end_date").val();
       var to = "To";
-      var tot_sales = document.getElementById('sale_date').value();
+
       var delivery = $("#delivery_date").val();
       var cancel = $("#cancel_date").val();
       var chart = new CanvasJS.Chart("chartContainer", {
@@ -148,15 +145,15 @@
           dataPoints: [
 
             {
-              y: tot_sales,
+              y: {{$total_sale_amount_date_wise}},
               label: "Sales"
             },
             {
-              y: delivery,
+              y: {{$total_delivery_amount_date_wise}},
               label: "Delivere"
             },
             {
-              y: cancel,
+              y: {{$total_cancel_amount_date_wise}},
               label: "Cancelled"
             },
 
