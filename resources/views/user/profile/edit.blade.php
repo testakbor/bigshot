@@ -72,21 +72,21 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="address">Address Line 1<span class="requiredField"></span></label>
-            <input type="text" class="form-control" id="address" value="{{$address_one}}" name="address_one" placeholder="Address Line">
+            <label for="address">Address<span class="requiredField"></span></label>
+            <input type="text" class="form-control" id="address" value="{{$address_one}}" name="address_one" placeholder="Address">
             <div class="invalid-feedback">
               Please enter your shipping address.
             </div>
           </div>
-          <div class="mb-3">
+ <!--          <div class="mb-3">
             <label for="address2">Address Line 2 <span class="text-muted"></span></label>
             <input type="text" class="form-control" id="address2" value="{{$address_two}}" name="address_two" placeholder="Optional">
-          </div>
+          </div> -->
           <div class="mb-3">
-            <label for="phone">Phone<span class="requiredField">*</span></label>
-            <input type="text" class="form-control" name="phone" value="{{$phone}}" id="phone" placeholder="Phone" required>
+            <label for="phone">Mobile<span class="requiredField">*</span></label>
+            <input type="text" class="form-control" name="phone" value="{{$phone}}" id="phone" placeholder="Mobile" required>
           </div>
-          <div class="row">
+<!--           <div class="row">
             <div class="col-md-6 mb-">
               <label for="country">Country / Region<span class="requiredField"></span></label>
               <input type="text" class="form-control" name="country" value="{{$country}}" id="phone" placeholder="Country">
@@ -99,22 +99,21 @@
                 Zip code required.
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="city">City<span class="requiredField"></span></label>
-              <input type="text" class="form-control" id="city" value="{{$city}}" name="city" placeholder="City">
-              <div class="invalid-feedback">
-                .
+          </div> -->
+      <!--     <div class="row">
+
+                <div class="col-md-12 mb-3">
+                <label for="n_password">New Password</label>
+                  <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="n_password" required autocomplete="new-password" placeholder="New Password" >
               </div>
-            </div>
-            <div class="col-md-6 mb-3">
+            </div> -->
+         <!--    <div class="col-md-6 mb-3">
               <label for="zip">Zip</label>
               <input type="text" class="form-control" name="zip" value="{{$zip}}" id="zip" placeholder="Zip">
               <div class="invalid-feedback">
                 Zip code required.
               </div>
-            </div>
+            </div> -->
             <div class="col-md-12 mb-3">
               <label for="zip">Photo</label>
               <img width="50px" height="50px" src="{{asset('assets/front/user/'.$image)}}">
@@ -123,8 +122,14 @@
               <div class="invalid-feedback">
               </div>
             </div>
+            <div class="col-md-12 mb-3">
+              <select class="custom-select" id="inputGroupSelect01" name="status">
+                <option value="1">activate Account</option>
+                <option value="0">Deactivate Account</option>
+              </select>
+            <button type="submit" class="btn btn-primary float-right mb-3">Update Information</button>
           </div>
-          <button type="submit" class="btn btn-primary float-right mb-3">Update Information</button>
+          
         </form>
       </div>
     </div>
