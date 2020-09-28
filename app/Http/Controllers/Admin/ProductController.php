@@ -340,8 +340,8 @@ public function edit($id)
 
         $postDelete=DB::table('posts')->where('ID',$id)->delete();
         $postmetaDelete=DB::table('postmeta')->where('post_id',$id)->delete();
-        $term_relationships=DB::table('term_relationships')->where('object_id',$post_id)->delete();
-        dd($request);
+        $term_relationships=DB::table('term_relationships')->where('object_id',$id)->delete();
+        
         $year=$request->year;
         $month=$request->month;
         $day=$request->day;
