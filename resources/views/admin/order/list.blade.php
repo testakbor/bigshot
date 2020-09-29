@@ -22,6 +22,33 @@
   <section class="content">
     <div class="container-fluid">
       @include('admin.includes.messages')
+      <ul class="nav" style="background: gray;">
+        <li class="nav-item " style="border-right: 1px solid white;">
+          <a class="nav-link " href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status</a>
+        </li>
+      </ul>
+
       <div class="row">
 
         <div class="col-md-12">
