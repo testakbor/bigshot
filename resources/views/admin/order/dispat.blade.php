@@ -36,11 +36,33 @@
               </svg>
             </div>
             <input class="datepicker" id="return" type="date" placeholder="30 Aug 2018" />
-          </div>
+          </div> 
         
           <div class="input-field fifth-wrap">
             <button class="btn-search" type="button">SEARCH</button>
           </div>
+          
+           <div class="offset-3 col-md-4">
+                <div class="box bg-primary">
+                  <!-- <i class="fa fa-lemon ml-1"></i> -->
+                 
+                  <h3 class="text-center">50</h3>
+                 
+                  <p class="lead text-center font-weight-bold">Total Order</p>
+                </div>
+              </div>
+            
+              <div class="col-md-4 ">
+                <div class="box bg-info">
+                  <!-- <i class="fa fa-handshake ml-1"></i> -->
+                  
+                 
+                  <h3 class="text-center">10000</h3>
+                  
+                  <p class="lead text-center font-weight-bold">Total Amount</p>
+                </div>
+              </div>
+        
         </div>
       </form>
     </div>
@@ -82,11 +104,12 @@
                   <td class="right">Uttara</td>
                   <td class="right">01680000000</td>
                   <td class="right">$999,00</td>
+                  <td class="right">hello</td>
                   <td class="right">
                     <button type="button" class="btn btn-success">Delivered</button><br>
-                    <button type="button" class="btn btn-primary mt-1" style=" width: 52%;">Edit</button>
+                    <button type="button" class="btn btn-primary mt-1" style=" width: 49%;">Edit</button>
                   </td>
-                  <td class="right">hello</td>
+                  
                   </tr>
                   
                 </tbody>
@@ -105,7 +128,7 @@
       </div>
       <div class="container">
         <div class="row">
-           <div class="col-md-4">
+           <div class="offset-8 col-md-2">
                 <div class="box bg-primary">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
@@ -115,7 +138,7 @@
                 </div>
               </div>
             
-              <div class="col-md-4 ">
+              <div class="col-md-2 ">
                 <div class="box bg-info">
                   <!-- <i class="fa fa-handshake ml-1"></i> -->
                   
