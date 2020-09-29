@@ -84,6 +84,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('admin/product','ProductController');
         Route::resource('admin/order','OrderController');
         Route::get('admin/pendingOrder','OrderController@pendingOrder')->name('order.pendingOrder');
+
+        Route::get('admin/todayPendingOrder','OrderController@todayPendingOrder')->name('todayPendingOrder');
+        Route::get('admin/pendingOrderByDate/{day}','OrderController@todayPendingOrder')->name('pendingOrderByDate');
+
         Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
         Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
         Route::get('admin/pendingOrder/print','OrderController@print')->name('pendingOrder.print');
