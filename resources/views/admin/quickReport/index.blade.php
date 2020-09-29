@@ -3,21 +3,54 @@
 <style>
 .box{
   border-radius: 10px;
-  box-shadow:5px 5px 10px black;
+  box-shadow:2px 2px 10px black;
+text-align: center;
 }
-.box h3{
-  font-size:1.1em;
-  padding-top:5px;
+a{
+  text-decoration:none !important;
 }
 .box p{
   font-size:1.0em;
+}
+.reportTitleBg{
+background: #3467C1;
+text-align: center;
+}
+.reportText{
+  text-align:center;
+  font-weight:bold;
+  color:white;
+}
+.reportDayText{
+   text-align:center;
+  color:white;
+  font-weight:  bold;
+}
+.reportDayValue{
+  text-align:center;
+  color:white;
+}
+.todayBg{
+  background:#6DB040;
+}
+.dayThreeBg{
+  background:#FAC300;
+}
+.dayFourBg{
+  background:#F47926;
+}
+.dayFiveBg{
+  background:#C00000;
+}
+.allStatus{
+  background:#FF0000;
 }
 </style>
 <div class="content-wrapper" style="min-height: 1203.6px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="mb-2">
           <div class="col-sm-6">
             <h1>Quick Report List</h1>
           </div>
@@ -30,239 +63,192 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
+        <div class="mt-5 mb-5 ml-3">
+        <div class="d-flex flex-row ml-2 flex-wrap">
+                <div class="col-md-1 ml-4 reportTitleBg d-flex align-items-center box pl-3 pr-3" >
+                 
+                  <div class="reportText">Pending Order</div>
 
-        <div class="row ml-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->                 
-                  <h3 class="text-center">Pending Order</h3>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-user ml-1"></i> -->                                  
-                  <h3 class="text-center">Today </h3>                 
-                  <p class="text-center font-weight-bold">{{$today_pending_order}}</p>
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="{{route('todayPendingOrder')}}">
+                  <div class="reportDayText">Today </div>                 
+                  <div class="reportDayValue">{{$today_pending_order}}</div>
+                </a>
+             
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                 
+                  <div class="reportDayText"> Day 1</div>                  
+                  <div class="reportDayValue">{{$day_one_pending_order}}</div>
+                </a>
+           
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                    
+                  <div class="reportDayText"> Day 2</div>                  
+                  <div class="reportDayValue">{{$day_two_pending_order}}</div>
+                </a>
+          
+              
+                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#"> 
+                  <div class="reportDayText"> Day 3</div>                  
+                  <div class="reportDayValue">{{$day_three_pending_order}}</div>
+                </a>
+        
+              
+                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column"  href="#">                                   
+                  <div class="reportDayText"> Day 4</div>                  
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                </a>
+          
+              
+                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column"  href="#">                                   
+                  <div class="reportDayText"> Day 5</div>                  
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                </a>
+           
+              
+                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column"  href="#">
+                  <div class="reportDayText"> All</div>                  
+                  <div class="reportDayValue">{{$all_pending_order}}</div>
+                </a>
+             
+        </div>     
+
+           <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+           
+                <div class="col-md-1 ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3 box" >
+                  <div class="reportText">Processing</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 1</h3>
-                  
-                  <p class="text-center font-weight-bold">{{$day_one_pending_order}}</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 2</h3>
-                  
-                  <p class="text-center font-weight-bold">{{$day_two_pending_order}}</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #F37927;">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 3</h3>
-                  
-                  <p class="text-center font-weight-bold">{{$day_three_pending_order}}</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #C00000">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 4</h3>
-                  
-                  <p class="text-center font-weight-bold">{{$day_four_pending_order}}</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #FF0000">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> All</h3>
-                  
-                  <p class="text-center font-weight-bold">{{$all_pending_order}}</p>
-                </div>
-              </div>
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText">Today </div>                 
+                  <div class="reportDayValue">{{$today_pending_order}}</div>
+                </a>
+              
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                  
+                  <div class="reportDayText"> Day 1</div>                  
+                  <div class="reportDayValue">{{$day_one_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                   
+                  <div class="reportDayText"> Day 2</div>                  
+                  <div class="reportDayValue">{{$day_two_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> Day 3</div>                  
+                  <div class="reportDayValue">{{$day_three_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
+                  <div class="reportDayText"> Day 4</div>                  
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
+                  <div class="reportDayText"> Day 5</div>                  
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> All</div>                  
+                  <div class="reportDayValue">{{$all_pending_order}}</div>
+                </a>
         </div>
-        <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">Dispatch</h3>
 
+        <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+        
+                <div class="ml-4 col-md-1 reportTitleBg d-flex align-items-center pl-3 pr-3 box" href="#">
+                  <div class="reportText">Dispatch</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
-                 
-                 
-                  <h3 class="text-center">Today </h3>
-                 
-                  <p class="text-center font-weight-bold">5</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 1</h3>
-                  
-                  <p class="text-center font-weight-bold">2</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 2</h3>
-                  
-                  <p class="text-center font-weight-bold">0</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #F37927;">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 3</h3>
-                  
-                  <p class="text-center font-weight-bold">10</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #C00000">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Day 4</h3>
-                  
-                  <p class="text-center font-weight-bold">5</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #FF0000">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> All</h3>
-                  
-                  <p class="text-center font-weight-bold">0</p>
-                </div>
-              </div>
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText">Today </div>                 
+                  <div class="reportDayValue">{{$today_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                  
+                  <div class="reportDayText"> Day 1</div>                  
+                  <div class="reportDayValue">{{$day_one_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                   
+                  <div class="reportDayText"> Day 2</div>                  
+                  <div class="reportDayValue">{{$day_two_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> Day 3</div>                  
+                  <div class="reportDayValue">{{$day_three_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
+                  <div class="reportDayText"> Day 4</div>                  
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
+                  <div class="reportDayText"> Day 5</div>                  
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                </a>
+              
+                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> All</div>                  
+                  <div class="reportDayValue">{{$all_pending_order}}</div>
+                </a>
         </div>
-        <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">Stock Moving</h3>
-
+      
+        <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+                <div class="col-md-1 ml-4 box reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
+                  <div class="reportText">Stock Moving</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
-                 
-                 
-                  <h3 class="text-center">Week 1 </h3>
-                 
-                  <p class="text-center font-weight-bold">5</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Week 2</h3>
-                  
-                  <p class="text-center font-weight-bold">2</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Month 1</h3>
-                  
-                  <p class="text-center font-weight-bold">0</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #F37927;">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Month 2</h3>
-                  
-                  <p class="text-center font-weight-bold">10</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #C00000">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Month 3</h3>
-                  
-                  <p class="text-center font-weight-bold">5</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #FF0000">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> All</h3>
-                  
-                  <p class="text-center font-weight-bold">0</p>
-                </div>
-              </div>
+             
+                <a class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText">Week 1 </div>
+                  <div class="reportDayValue">5</div>
+                </a>
+             
+                <a class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> Week 2</div>
+                  <div class="reportDayValue">2</div>
+                </a>
+             
+                <a class="col-md-1 box ml-4  dayThreeBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> Month 1</div>
+                  <div class="reportDayValue">0</div>
+                </a>
+             
+                <a class="col-md-1 box ml-4  dayFourBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> Month 2</div>
+                  <div class="reportDayValue">10</div>
+                </a>
+             
+                <a class="col-md-1 box ml-4  dayFiveBg d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> Month 3</div>
+                  <div class="reportDayValue">5</div>
+                </a>
+             
+                <a class="col-md-1 box ml-4  allStatus d-flex justify-content-center flex-column" href="#">
+                  <div class="reportDayText"> All</div>
+                  <div class="reportDayValue">0</div>
+                </a>
+              
         </div>
-        <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">Stock</h3>
-
+        <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+                <div class="col-md-1 ml-4 box reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                  <div class="reportText">Stock</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
-                 
-                 
-                  <h3 class="text-center">Pieces </h3>
-                 
-                  <p class="text-center font-weight-bold">{{$product_total_stock}}</p>
+             
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                  <div class="reportDayText">Pieces </div>
+                  <div class="reportDayValue">{{$product_total_stock}}</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Amount</h3>
-                  
-                  <p class="text-center font-weight-bold">
+             
+              
+                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                  <div class="reportDayText"> Amount</div>
+                  <div class="text-center font-weight-div">
                   @php $qty=0; $sale_price=0; $total_price=0; @endphp
                   @foreach($product as $products)
                     @foreach($products->productMeta as $meta)
@@ -275,159 +261,82 @@
                     @endphp 
                   @endforeach
                   {{$total_price}}
-                  </p>
+                  </div>
                 </div>
-              </div>                 
         </div>
-        <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">Lower Stock</h3>
-
+        <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                  <div class="reportText">Lower Stock</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
-                 
-                 
-                  <h3 class="text-center">Weekly </h3>
-                 
-                  <p class="text-center font-weight-bold">5</p>
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >                 
+                  <div class="reportDayText">Weekly </div>
+                  <div class="reportDayValue">5</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> All</h3>
-                  
-                  <p class="text-center font-weight-bold">2345450</p>
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                 
+                  <div class="reportDayText"> All</div>
+                  <div class="reportDayValue">2345450</div>
                 </div>
-              </div>                 
         </div> 
-        <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
+        <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
+                  <div class="reportText">Sold Out</div>
+                </div>
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                  <div class="reportDayText">Weekly</div>
+                  <div class="reportDayValue">5</div>
+                </div>
+                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                  <div class="reportDayText"> Yearly</div>
+                  <div class="reportDayValue">300</div>
+                </div>
+        </div>
+         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
            
-                 
-                  <h3 class="text-center">Sold Out</h3>
-
+                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                  <div class="reportText">Best Selling</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-             
-                 
-                 
-                  <h3 class="text-center">Weekly</h3>
-                 
-                  <p class="text-center font-weight-bold">5</p>
+         
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                  <div class="reportDayText">Weekly</div>
+                  <div class="reportDayValue">5</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
             
-                  
-                 
-                  <h3 class="text-center"> Yearly</h3>
-                  
-                  <p class="text-center font-weight-bold">300</p>
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                  <div class="reportDayText"> Yearly</div>
+                  <div class="reportDayValue">300</div>
                 </div>
-              </div>                 
-        </div>
-         <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-
-                 
-                  <h3 class="text-center">Best Selling</h3>
-
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-
-                 
-                 
-                  <h3 class="text-center">Weekly</h3>
-                 
-                  <p class="text-center font-weight-bold">5</p>
-                </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box " style="background: #68A93B">
-     
-                  
-                 
-                  <h3 class="text-center"> Yearly</h3>
-                  
-                  <p class="text-center font-weight-bold">300</p>
-                </div>
-              </div>                 
         </div> 
-        <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">Delivered</h3>
-
+        <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
+         
+                <div class="col-md-1 box ml-4  reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                  <div class="reportText">Delivered</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                  <!-- <i class="fa fa-user ml-1"></i> -->
-                 
-                 
-                  <h3 class="text-center">Quantity</h3>
-                 
-                  <p class="text-center font-weight-bold">{{$delivered_qty}}</p>
+             
+                <div class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" >
+                  <div class="reportDayText">Quantity</div>
+                  <div class="reportDayValue">{{$delivered_qty}}</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                  <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
-                  <h3 class="text-center"> Amount</h3>
-                  
-                  <p class="text-center font-weight-bold">300</p>
+           
+                <div class="col-md-1 box ml-4  dayThreeBg d-flex justify-content-center flex-column">
+                  <div class="reportDayText"> Amount</div>
+                  <div class="reportDayValue">300</div>
                 </div>
-              </div>                 
         </div>   
-      <div class="row ml-2 mt-2">
-           <div class="col-1">
-                <div class="box" style="background: #3467C1">
-            
-                 
-                  <h3 class="text-center">Gross Profit</h3>
-
+      <div class=" d-flex flex-row ml-2 mt-2 flex-wrap">
+                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                  <div class="reportText">Gross Profit</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box" style="background: #68A93B">
-                
-                 
-                 
-                  <h3 class="text-center">Monthly</h3>
-                 
-                  <p class="text-center font-weight-bold">500000</p>
+              
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                  <div class="reportDayText">Monthly</div>
+                  <div class="reportDayValue">500000</div>
                 </div>
-              </div>
-              <div class="col-1 ml-4">
-                <div class="box bg-warning">
-                 
-                  
-                 
-                  <h3 class="text-center"> Yearly</h3>
-                  
-                  <p class="text-center font-weight-bold">300</p>
+             
+                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                  <div class="reportDayText"> Yearly</div>
+                  <div class="reportDayValue">300</div>
                 </div>
-              </div>                 
-        </div>      
+        </div>    
+        </div>  
   </div>
 @endsection

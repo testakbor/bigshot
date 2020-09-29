@@ -1,10 +1,10 @@
 <body>
   <div class="col-md-12 header-menu">
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;
-    width: 100%;">
+    width: 100%; box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);">
       <div class="container-fluid">
         <h1><a href="{{url('/')}}" class="logo">
-            <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 50px;width: 70px">
+            <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 46px;width: 70px">
           </a></h1>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav ml-auto">
@@ -116,4 +116,37 @@
       </div>
   </div>
   </nav>
+  </div>
+
+  <div class="col-md-12 main-menu ">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: rgba(245, 246, 247, 1) !important;">
+       <!--  <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav" style="width: 80%">
+            <li class="nav-item ">
+              <a class="nav-link" href="#">Women <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Men</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item ">
+              <a class="nav-link" href="#">FAQ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Customer Support</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+    </div>
   </div>

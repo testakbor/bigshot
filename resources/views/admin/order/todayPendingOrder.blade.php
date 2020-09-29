@@ -89,41 +89,95 @@ use App\Model\front\Order_item;
                 <tbody>
                 @php $product_name=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
                 @foreach($orders as $items)
-                  @php 
-                  $count=count($items->orderItem);    
-                       echo '<pre>';
-                      var_dump($items->orderItemMeta);   
-                
-                  @endphp
 
-                  <tr>
-                  <td rowspan="{{$count}}" class="center">{{$items->ID}}</td>
-                  <td rowspan="{{$count}}" class="left strong">Customer</td>
+                 @php 
+                   $products=Order_item::where('order_id',$items->ID)->get();
+                   $order_info=DB::table('postmeta')
+                   ->where('post_id',$items->ID)
+                   ->get();
+
+                 @endphp
+
                  
-                  <td  class="left"> Yes </td>
-                  <td  class="left"> QTY </td>
-                  <td  class="left"> {{$items->orderItem[0]->order_item_name}} </td>
+                 @foreach($products as $item)
+                    @php $product_name=$item->order_item_name; @endphp 
+                    @foreach($item->orderMeta as $value)
+                    @php              
+                    if($value->meta_key=='_line_subtotal'){
+                      $subtotal=$value->meta_value;
+                    }
+                    if($value->meta_key=='_qty'){
+                      $qty=$value->meta_value;
+                    }
+                    @endphp
+                    @endforeach 
+                  @endforeach 
+                  @foreach($order_info as $info)
+                    @if($info->meta_key=='phone')
+                     @php $mobile_no=$info->meta_value; @endphp
+                    @endif 
+                    @if($info->meta_key=='address_one')
+                     @php $address=$info->meta_value; @endphp
+                    @endif 
 
-                  <td rowspan="{{$count}}" class="right">{{$address}}</td>
-                  <td rowspan="{{$count}}" class="right">{{$mobile_no}}</td>
-                  <td rowspan="{{$count}}" class="right">{{$sub = $subtotal*$qty}}</td>
-                  <td rowspan="{{$count}}" class="right">{{$items->post_status}}</td>
-                  <td rowspan="{{$count}}" class="right">
+                    @if($info->meta_key=='_sku')
+                     @php $sku=$info->meta_value; @endphp
+                    @endif 
+
+                    @if($info->meta_key=='_customer_user') 
+                      @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->get(); @endphp 
+                      @foreach($user as $users) @php $cust=$users->name; @endphp @endforeach
+                    @endif
+                  @endforeach 
+                  <tr>
+                  <td class="center">{{$items->ID}}</td>
+                  <td class="left strong">{{$cust}}</td>
+                  <td class="left">
+                    <table>
+                      <tr>
+                        <td>{{$sku}} </td>
+                      </tr>
+               
+                    </table>
+                  </td>
+<!-- 
+                  <td class="right">
+                    <table>
+
+                      <tr>
+                        <td>Red</td>
+                      </tr>
+                 
+                    </table>
+                  </td> -->
+                  <td class="center">
+                    <table>
+
+                      <tr>
+                        <td>{{$qty}}</td>
+                      </tr>
+                      
+                    </table>
+                  </td>
+                  <td class="right"><table>
+
+                      <tr>
+                        <td>{{$product_name}}</td>
+                      </tr>
+
+                    </table></td>
+                  <td class="right">{{$address}}</td>
+                  <td class="right">{{$mobile_no}}</td>
+                  <td class="right">{{$sub = $subtotal*$qty}}</td>
+                  <td class="right">{{$items->post_status}}</td>
+                  <td class="right">
                     <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a><br>
                     <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary" ><i class="fas fa-spinner"> </i>Processing</a><br>
                     <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
                     <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
                   </td>
-
+                  <!-- <td class="right">hello</td> -->
                   </tr>
-                  @for($i=1;$i<$count;$i++)
-                  <tr>
-                  <td  class="left"> SKU {{$i}}</td>
-                  <td  class="left"> QTY {{$i}}</td>
-                  <td  class="left">{{$items->orderItem[0]->order_item_name}}</td>                   
-                  </tr>
-                  @endfor 
-
                   @php 
                 $grandTotal += $sub;
                 @endphp   

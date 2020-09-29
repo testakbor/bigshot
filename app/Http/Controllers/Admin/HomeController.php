@@ -9,6 +9,7 @@ use App\Model\front\Postmeta;
 use App\Model\front\Order_item;
 use DB;
 
+
 class HomeController extends Controller
 {
     public function __construct()

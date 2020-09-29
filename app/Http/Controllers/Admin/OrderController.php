@@ -13,6 +13,7 @@ use DB;
 use Session;
 use App;
 use Auth;
+use PDF;
 class OrderController extends Controller
 {
     /**
@@ -42,10 +43,45 @@ class OrderController extends Controller
          ->where('post_status','on-hold')
          ->orderBy('ID','DESC')
         ->paginate(10); 
+        
         $total_orders=Post::where('posts.post_type','shop_order')
             ->where('post_status','on-hold')
         ->count();  
          return view('admin.order.pendingOrder',compact('orders','total_orders'))->with($extraInfo);
+    }
+    public function todayPendingOrder(){
+        $extraInfo=array(
+            'title'=>"Today Pending order List",
+            'page'=>'todayPendingOrder'
+        );
+         $orders=Post::where('posts.post_type','shop_order')
+         ->where('post_status','on-hold')         
+         ->whereBetween('post_date', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
+         ->orderBy('ID','DESC')
+        ->paginate(10); 
+        $total_orders=Post::where('posts.post_type','shop_order')
+            ->where('post_status','on-hold')
+            ->whereBetween('post_date', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
+        ->count();  
+         return view('admin.order.todayPendingOrder',compact('orders','total_orders'))->with($extraInfo);
+    }
+    public function pendingOrderByDate($day){
+        $extraInfo=array(
+            'title'=>$date." processing order List",
+            'page'=>'todayPendingOrder'
+        );
+         $orders=Post::where('posts.post_type','shop_order')
+        ->join('post_meta','posts.ID','=','post_meta.post_id')
+         ->where('post_status','porcessing')
+        
+         ->orderBy('ID','DESC')
+        ->paginate(10); 
+        dd($orders);
+        $total_orders=Post::where('posts.post_type','shop_order')
+            ->where('post_status','on-hold')
+            ->whereBetween('post_date', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
+        ->count();  
+         return view('admin.order.pendingOrderByDate',compact('orders','total_orders'))->with($extraInfo);
     }
     
     public function search_pending_order(Request $request){
@@ -296,6 +332,16 @@ class OrderController extends Controller
        ->where('post_status','Processing')
        ->count();  
         return view('admin.order.parcel_print',compact('orders','total_orders'));
+    }
+
+    public function downloadShippingAddress($id){
+        $order = Post::find($id);
+        $products = Order_item::where('order_id', $id)
+        ->whereNotNull('product_id')
+        ->get();
+        $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+        $pdf = PDF::loadView('admin.pdf.order.shipping_address',   $order_info);
+        return $pdf->download('shipping.pdf');
     }
 
 

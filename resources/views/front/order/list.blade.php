@@ -52,7 +52,76 @@
                                         <td>
                                             <a class="btn btn-success btn-sm" href="{{route('customer_ordere_edit',$order->ID)}}"><span style="color:#ffffff">View</span></a>
                                             @if($order->post_status=='on-hold')
-                                            <a onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm" href="{{route('customer_ordere_cancel',$order->ID)}}"><span style="color:#ffffff">Cancel Order</span></a>
+                                            <!-- <a onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm" href="{{route('customer_ordere_cancel',$order->ID)}}"><span style="color:#ffffff">Cancel Order</span></a> -->
+                                            <!-- <a onclick="return confirm('Are you sure??')" class="btn btn-danger btn-sm" href=""><span style="color:#ffffff">Cancel Order</span></a> -->
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalLong" style="background-color: red !important;">
+                                                  Cancel
+                                            </button>
+                                            <!-- Modal -->
+                                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                  <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Select item you want to cancelor return</h5>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                          <div class="container-fluid">
+                                                            <div class="row">
+                                                              <div class="col-md-6 bg-dark">
+                                                                  <p>Order placed 01-06-2020</p>
+                                                              </div>
+                                                              <div class="col-md-6 bg-dark">
+                                                                  <p>Processing 02-06-2020</p>
+                                                              </div>
+                                                            </div>
+                                                            <div class="row">
+                                                              <div class="col-md-12">
+                                                                    <table class="table table-striped">
+                                                                        <tbody>
+                                                                          <tr>
+                                                                          
+                                                                          <td> 
+                                                                            <input type="checkbox"  name="" value="">
+                                                                                Picture <br>  &nbsp; &nbsp; SKU
+                                                                          </td>
+                                                                          <td class="right">Long Tunic </td>
+                                                                          <td class="right">Qty 2</td>   
+                                                                          </tr>
+
+                                                                           <tr>   
+                                                                              <td> 
+                                                                                <input type="checkbox"  name="" value="">
+                                                                                    Picture <br>  &nbsp; &nbsp; SKU
+                                                                              </td>
+                                                                              <td class="right">Long Tunic </td>
+                                                                              <td class="right">Qty 2</td>   
+                                                                          </tr>
+                                                                           <tr>   
+                                                                              <td colspan="3"> 
+                                                                                <input type="checkbox"  name="" value="">
+                                                                                    Full order cancel/return
+                                                                              </td>  
+                                                                            </tr>
+                                                                           <tr>   
+                                                                              <td colspan="3"> 
+                                                                                <textarea placeholder="Reason for return/cancel" rows="4" cols="50"></textarea>
+                                                                              </td>  
+                                                                            </tr>
+                                                                          
+                                                                        </tbody>
+                                                                      </table>
+                                                              </div>
+                                                             
+                                                            </div>
+                                                        </div>
+
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="Submit" class="btn btn-primary">Submit</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
                                             @endif
                                         </td>
                                     </tr>
