@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 use DB;
 use Session;
+use Auth;
 
 class UserController extends Controller
 {
@@ -65,6 +67,7 @@ class UserController extends Controller
         return view('user.profile.edit',compact('user','user_info'));
         
     }
+   
 
     /**
      * Update the specified resource in storage.
@@ -83,7 +86,13 @@ class UserController extends Controller
         }
         $user=DB::table('users')
         ->where('id',$id)
-        ->update(['name'=>$request->first_name]);
+        ->update(
+            [
+                'name'=>$request->first_name,
+                'password'=>$request->n_password,
+                'status'=>$request->status
+            ]
+        );
         $user_count=DB::table('usermeta')->where('user_id',$id)->count();
         if($user_count==0){
         $user_info=array(
@@ -204,6 +213,11 @@ class UserController extends Controller
             );
         DB::table('usermeta')->insert($user_info);
        }
+
+       if($request->status==0){
+            Auth::logout();
+            return Redirect::route('home');
+        }
 
         session()->flash("success","Information Update Successfully");
         return redirect(url('profile'));

@@ -59,6 +59,8 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::group(['namespace'=>'User'],function(){
         Route::resource('/order-list','OrderController')->middleware('auth');
         Route::resource('user/profile','UserController');
+        Route::get('user/profile/chnage/{id}','PageController@passwordEdit')->name('password.edit');
+        Route::post('user/profile/chnage/{id}','PageController@passwordUpdate')->name('password.update');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
         Route::get('/customer/order/edit/{id}','OrderController@edit')->name('customer_ordere_edit');
         Route::get('/customer/order/cancel/{id}','OrderController@cancelOrder')->name('customer_ordere_cancel');

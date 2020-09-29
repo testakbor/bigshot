@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
         #invoice-POS {
             box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
@@ -11,6 +11,7 @@
             width: 140mm;
             background: #FFF;
             min-height: 400px;
+            border: 2px solid #000000;
         }
     </style>
 </head>
