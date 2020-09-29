@@ -4,14 +4,11 @@
 .box{
   border-radius: 10px;
   box-shadow:2px 2px 10px black;
-  /*min-width: 150px;
-  min-height: 100px;*/
 text-align: center;
 }
-/*.box{
-  font-size:1.1em;
-  padding-top:5px;
-}*/
+a{
+  text-decoration:none !important;
+}
 .box p{
   font-size:1.0em;
 }
@@ -68,52 +65,52 @@ text-align: center;
     </section>
         <div class="mt-5 mb-5 ml-3">
         <div class="d-flex flex-row ml-2 flex-wrap">
-           
                 <div class="col-md-1 ml-4 reportTitleBg d-flex align-items-center box pl-3 pr-3" >
+                 
                   <div class="reportText">Pending Order</div>
+
                 </div>
-             
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="{{route('todayPendingOrder')}}">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_pending_order}}</div>
-                </div>
+                </a>
              
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                                  
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                 
                   <div class="reportDayText"> Day 1</div>                  
                   <div class="reportDayValue">{{$day_one_pending_order}}</div>
-                </div>
+                </a>
            
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                                   
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                    
                   <div class="reportDayText"> Day 2</div>                  
                   <div class="reportDayValue">{{$day_two_pending_order}}</div>
-                </div>
+                </a>
           
               
-                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#"> 
                   <div class="reportDayText"> Day 3</div>                  
                   <div class="reportDayValue">{{$day_three_pending_order}}</div>
-                </div>
+                </a>
         
               
-                <div class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" >                                   
+                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column"  href="#">                                   
                   <div class="reportDayText"> Day 4</div>                  
                   <div class="reportDayValue">{{$day_four_pending_order}}</div>
-                </div>
+                </a>
           
               
-                <div class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" >                                   
+                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column"  href="#">                                   
                   <div class="reportDayText"> Day 5</div>                  
                   <div class="reportDayValue">{{$day_four_pending_order}}</div>
-                </div>
+                </a>
            
               
-                <div class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column"  href="#">
                   <div class="reportDayText"> All</div>                  
                   <div class="reportDayValue">{{$all_pending_order}}</div>
-                </div>
+                </a>
              
         </div>     
 
@@ -123,85 +120,83 @@ text-align: center;
                   <div class="reportText">Processing</div>
                 </div>
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_pending_order}}</div>
-                </div>
+                </a>
               
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                                  
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                  
                   <div class="reportDayText"> Day 1</div>                  
                   <div class="reportDayValue">{{$day_one_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                                   
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                   
                   <div class="reportDayText"> Day 2</div>                  
                   <div class="reportDayValue">{{$day_two_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> Day 3</div>                  
                   <div class="reportDayValue">{{$day_three_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" >                                   
+                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
                   <div class="reportDayText"> Day 4</div>                  
                   <div class="reportDayValue">{{$day_four_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" >                                   
+                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
                   <div class="reportDayText"> Day 5</div>                  
                   <div class="reportDayValue">{{$day_four_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> All</div>                  
                   <div class="reportDayValue">{{$all_pending_order}}</div>
-                </div>
+                </a>
         </div>
 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
         
-                <div class="ml-4 col-md-1 reportTitleBg d-flex align-items-center pl-3 pr-3 box" >
+                <div class="ml-4 col-md-1 reportTitleBg d-flex align-items-center pl-3 pr-3 box" href="#">
                   <div class="reportText">Dispatch</div>
                 </div>
-         
-
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                                  
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                  
                   <div class="reportDayText"> Day 1</div>                  
                   <div class="reportDayValue">{{$day_one_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">                                   
+                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                   
                   <div class="reportDayText"> Day 2</div>                  
                   <div class="reportDayValue">{{$day_two_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> Day 3</div>                  
                   <div class="reportDayValue">{{$day_three_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" >                                   
+                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
                   <div class="reportDayText"> Day 4</div>                  
                   <div class="reportDayValue">{{$day_four_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" >                                   
+                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
                   <div class="reportDayText"> Day 5</div>                  
                   <div class="reportDayValue">{{$day_four_pending_order}}</div>
-                </div>
+                </a>
               
-                <div class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> All</div>                  
                   <div class="reportDayValue">{{$all_pending_order}}</div>
-                </div>
+                </a>
         </div>
       
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
@@ -209,35 +204,35 @@ text-align: center;
                   <div class="reportText">Stock Moving</div>
                 </div>
              
-                <div class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText">Week 1 </div>
                   <div class="reportDayValue">5</div>
-                </div>
+                </a>
              
-                <div class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> Week 2</div>
                   <div class="reportDayValue">2</div>
-                </div>
+                </a>
              
-                <div class="col-md-1 box ml-4  dayThreeBg d-flex justify-content-center flex-column">
+                <a class="col-md-1 box ml-4  dayThreeBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> Month 1</div>
                   <div class="reportDayValue">0</div>
-                </div>
+                </a>
              
-                <div class="col-md-1 box ml-4  dayFourBg d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4  dayFourBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> Month 2</div>
                   <div class="reportDayValue">10</div>
-                </div>
+                </a>
              
-                <div class="col-md-1 box ml-4  dayFiveBg d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4  dayFiveBg d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> Month 3</div>
                   <div class="reportDayValue">5</div>
-                </div>
+                </a>
              
-                <div class="col-md-1 box ml-4  allStatus d-flex justify-content-center flex-column" >
+                <a class="col-md-1 box ml-4  allStatus d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> All</div>
                   <div class="reportDayValue">0</div>
-                </div>
+                </a>
               
         </div>
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
