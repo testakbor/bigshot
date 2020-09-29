@@ -12,6 +12,7 @@
                 <li><a href="#"><button class="btn btn-link">Cash</button></li>
                 <li><a href="#"><button class="btn btn-link">Bkash</button></li>
                 <li><a href="#"><button class="btn btn-link">Visa</button></li>
+                <li><a href="#"><button class="btn btn-link">Master</button></li>
               </ul>
     </div>
 
@@ -38,7 +39,7 @@
         .stop(false, true)
         .toggleClass("information")
         .removeClass("social-sharing");
-      show.preventDefault();
+      show.preventDefault(); 
     });
 
     $(".wrapper .share").click(function(share) {
@@ -75,14 +76,33 @@
   })(jQuery);
 
 
-  $(document).ready(function() {
-    $('input[type="radio"]').click(function() {
-      var inputValue = $(this).attr("value");
-      var targetBox = $("." + inputValue);
-      $(".box").not(targetBox).hide();
-      $(targetBox).show();
+  // $(document).ready(function() {
+  //   $('input[type="radio"]').click(function() {
+  //     var inputValue = $(this).attr("value");
+  //     var targetBox = $("." + inputValue);
+  //     $(".box").not(targetBox).hide();
+  //     $(targetBox).show();
+  //   });
+  // });
+
+$(document).ready(function() {
+    $("input[name='colorRadio']").on('change',function() {
+      var value=$(this).val();
+      if (value=='full') {
+        $('#skuDiv').hide();
+      } 
+      else{
+        $('#skuDiv').show();
+      }
     });
-  });
+       });
+    // $("#f_cancel").click(function() {
+    //   $(this).is(":checked");
+    //     // $("#dvPassport").show();
+      
+    // });
+
+
 </script>
 <script type="text/javascript">
   $(function() {
@@ -95,6 +115,7 @@
         $("#cc-numbe").hide();
         $("#cc-expiration").hide();
         $("#cc-cvv").hide();
+        $("#bks_num").hide();
       } else {
         // $("#dvPassport").hide();
         $("#hnf").show("slow");
@@ -108,6 +129,7 @@
         // $("#dvPassport").show();
         $("#hnf").show("slow");
         $("#hnf1").show("slow");
+        $("#bks_num").hide();
       } else {
 
       }
@@ -119,19 +141,22 @@
         // $("#dvPassport").show();
         $("#hnf").show("slow");
         $("#hnf1").show("slow");
+        $("#bks_num").hide();
       } else {
 
       }
     });
   });
   $(function() {
-    $("#paypal").click(function() {
+    $("#Bkash").click(function() {
       if ($(this).is(":checked")) {
         // $("#dvPassport").show();
-        $("#hnf").show("slow");
-        $("#hnf1").show("slow");
+        $("#bks_num").show("slow");
+        $("#hnf").hide();
+        $("#hnf1").hide();
       } else {
-
+         $("#bks_num").hide();
+        $("#bks_num").hide();
       }
     });
   });

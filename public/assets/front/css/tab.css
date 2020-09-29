@@ -82,8 +82,9 @@
   overflow-y: auto;
 }
 .tab-content.side-tabs-left {
-  margin-left: 45px;
+  /*margin-left: 45px;*/
   border: 1px solid rgb(240, 245, 247);
+  height: 570px;
 }
 .tab-content.side-tabs-left .tab-pane {
   border-radius: 0;

@@ -273,7 +273,10 @@ a{
   overflow-x:hidden;
   overflow-y:auto;
 }
-
+.main-menu{
+  background-color: rgba(245, 246, 247, 1);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
 .sharing{
   text-align:center;
   width:100%;
@@ -4235,7 +4238,9 @@ ul.footNavUL li {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem; }
+  border-radius: 0.25rem; 
+  height: 700px;
+}
   .card > hr {
     margin-right: 0;
     margin-left: 0; }
@@ -5282,7 +5287,10 @@ a.close.disabled {
 
 .modal-title {
   margin-bottom: 0;
-  line-height: 1.5; }
+  line-height: 1.5; 
+  color: rgba(116, 177, 239, 1);
+  font-weight: 900;
+}
 
 .modal-body {
   position: relative;
@@ -8824,13 +8832,13 @@ h1, h2, h3, h4, h5,
   /*padding: 15px 10px;*/
   position: fixed;
   background: #f8f9fa !important;
-  border: none;
+  border-bottom: 2px solid black; 
   border-radius: 0;
   z-index: 99;
 
   /*margin-bottom: 40px;*/
-  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+ /* -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); */
   height: 52px;
 }
 
