@@ -43,6 +43,7 @@ class OrderController extends Controller
          ->where('post_status','on-hold')
          ->orderBy('ID','DESC')
         ->paginate(10); 
+        
         $total_orders=Post::where('posts.post_type','shop_order')
             ->where('post_status','on-hold')
         ->count();  
