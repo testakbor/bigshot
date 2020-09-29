@@ -13,6 +13,7 @@ use DB;
 use Session;
 use App;
 use Auth;
+use PDF;
 class OrderController extends Controller
 {
     /**
@@ -296,6 +297,16 @@ class OrderController extends Controller
        ->where('post_status','Processing')
        ->count();  
         return view('admin.order.parcel_print',compact('orders','total_orders'));
+    }
+
+    public function downloadShippingAddress($id){
+        $order = Post::find($id);
+        $products = Order_item::where('order_id', $id)
+        ->whereNotNull('product_id')
+        ->get();
+        $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+        $pdf = PDF::loadView('admin.pdf.order.shipping_address',   $order_info);
+        return $pdf->download('shipping.pdf');
     }
 
 

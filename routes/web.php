@@ -74,18 +74,15 @@ Route::get('/home', 'HomeController@index')->name('home');
     Route::group(['namespace'=>'Admin'],function(){
        
         Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');
-
         Route::GET('admin-login','Auth\LoginController@showLoginForm')->name('admin.login');
         Route::POST('admin-login','Auth\LoginController@login');
         Route::get('admin/home','HomeController@index')->name('admin.home');
-
         Route::resource('admin/category','CategoryController');
         Route::resource('admin/tag','TagController');
         Route::resource('admin/brand','BrandController');
         Route::resource('admin/attribute','AttributeController');
         Route::resource('admin/product','ProductController');
         Route::resource('admin/order','OrderController');
-
         Route::get('admin/pendingOrder','OrderController@pendingOrder')->name('order.pendingOrder');
         Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
         Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
@@ -100,19 +97,14 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
         Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
-
         Route::resource('admin/customer','CustomerController');
-        
         Route::get('admin/attributeValue/{id}','AttributeController@attributeValue')->name('attribute.attributeValue');
         Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
         Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');
         Route::PATCH('admin/attributeValueUpdate/{id}','AttributeController@attributeValueUpdate')->name('attributeValue.update');
-
         Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
         Route::POST('admin/product/store','ProductController@store')->name('product.store');
-
         // Route::get('admin/dispat','PageController@dispat')->name('dispat');
-
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
         Route::post('admin/order/status/update','OrderController@update')->name('update.order.status');
         Route::get('admin/quickReport/man_stock','QuickReportController@manStock')->name('man.stock');
@@ -126,25 +118,22 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/quickReport/soldout_stock','QuickReportController@soldoutStock')->name('sold.stock');
         Route::get('admin/quickReport/best_customer','QuickReportController@bestCustomer')->name('best.customer');
         Route::get('admin/quickReport/gross_profit','QuickReportController@grossProfit')->name('gross.profit');
-
         Route::get('user/{id}','CustomerController@edit');
         Route::post('user/update','CustomerController@update')->name('user_update');
-
         //banner image route for home page
         Route::resource('/banner','BannerController');
-
-
-
         //pending order route
         Route::get('pending/order/print/{id}','OrderController@pending_order_print')->name('pending_order_print');
         Route::get('pending/order/processing/{id}','OrderController@pending_order_processing')->name('pending_order_processing');
         Route::get('pending/order/cancel/{id}','OrderController@pending_order_cancel')->name('pending_order_cancel');
         Route::get('pending/order/edit/{id}','OrderController@pending_order_edit')->name('pending_order_edit');
         //pending order route
-
         //send parcel print route
          Route::post('send/parcel/print','OrderController@sendParcelPrint')->name('parcel_print');
         //send parcel print route
+
+        //download shipping address
+        Route::get('download/shipping/address/{id}','OrderController@downloadShippingAddress')->name('download.shipping.address'); 
 
 
 

@@ -177,6 +177,7 @@ return [
         Darryldecode\Cart\CartServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -232,6 +233,7 @@ return [
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 
