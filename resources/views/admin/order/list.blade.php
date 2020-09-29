@@ -22,33 +22,6 @@
   <section class="content">
     <div class="container-fluid">
       @include('admin.includes.messages')
-      <ul class="nav" style="background: gray;">
-        <li class="nav-item " style="border-right: 1px solid white;">
-          <a class="nav-link " href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="#" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status</a>
-        </li>
-      </ul>
-
       <div class="row">
 
         <div class="col-md-12">
@@ -58,63 +31,41 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table class="table table-bordered table-striped">
-                <thead class="bg-info">
-                  <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Order</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <!-- <th>Total</th> -->
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @php
-                  $i=1;
-                  @endphp
-                  @foreach($orders as $value)
-                  @foreach ($value->productMeta as $meta)
-                  @if($meta['meta_key']=='_order_total')
-                  @php
-                  $total=$meta['meta_value'];
-                  @endphp
-                  @endif
-
-                  @endforeach
-                  <tr>
-                    <td>{{$i}}</td>
-                    <td>{{$value->post_name}}</td>
-                    <td>{{$value->post_date}}</td>
-                    <td>{{$value->post_status}}</td>
-                    <!-- <td>{{$value->total}}</td> -->
-                    <td>
-                      <a class="btn btn-success btn-sm" href="{{route('order.edit',$value->ID)}}">Change Status</a>
-                      <a class="btn btn-primary btn-sm" href="{{route('download.shipping.address',$value->ID)}}">Download Shipping Address</a>
-                    </td>
-                  </tr>
-                  @php
-                  $i++;
-                  @endphp
-                  @endforeach
-                </tbody>
-              </table>
+              <ul class="nav" style="background: gray;">
+                <li class="nav-item " style="border-right: 1px solid white;">
+                  <a class="nav-link" target="_blank" href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order({{$pending_order}})</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a class="nav-link" target="_blank" href="{{route('order.sendParcel')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing({{$processing_order}})</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a target="_blank" class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch({{$dispatch_order}})</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a target="_blank" class="nav-link" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a target="_blank" class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a target="_blank" class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered({{$delivered_order}})</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a target="_blank" class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled({{$cancelled_order}})</a>
+                </li>
+                <li class="nav-item" style="border-right: 1px solid white;">
+                  <a target="_blank" class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_status}})</a>
+                </li>
+              </ul>
             </div>
             <div class="d-flex justify-content-center">
-              {{$orders->links()}}
             </div>
           </div>
           <!-- /.card -->
-
-
         </div>
-
-
       </div>
       <!-- /.col -->
     </div>
-
-
     <!-- /.row -->
 </div><!-- /.container-fluid -->
 </section>
