@@ -137,10 +137,14 @@ Route::get('/home', 'HomeController@index')->name('home');
         //send parcel print route
 
         //download shipping address
-        Route::get('download/shipping/address/{id}','OrderController@downloadShippingAddress')->name('download.shipping.address'); 
+        Route::get('download/shipping/address/{id}','OrderController@downloadShippingAddress')->name('download.shipping.address');
 
-
-
+        //excel dispatch
+        Route::get('excel/dispatch', 'OrderController@excelDispatch')->name('order.excel.dispatch');
+        //delivery invoice
+        Route::get('delivery/invoice', 'OrderController@deliveryInvoiceOrder')->name('order.delivery.invoice');
+        Route::get('delivered/order', 'OrderController@deliveredOrder')->name('order.deliver');
+        Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled'); 
 
     });
 

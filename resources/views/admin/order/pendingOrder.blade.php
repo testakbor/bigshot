@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 use App\Model\front\Order_item;
 ?>
 @extends('admin.layouts.master')
@@ -132,7 +133,7 @@ use App\Model\front\Order_item;
                  endif;
                  @endphp
                  @php
-                 if($i >1 ):
+                 if($i >1):
                    @endphp
                    <tr>
                      <td  class="left"> Yes </td>
