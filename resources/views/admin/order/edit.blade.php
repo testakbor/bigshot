@@ -21,144 +21,89 @@
   <section class="content">
     <div class="container-fluid">
       @include('admin.includes.messages')
-      <form action="{{route('update.order.status')}}" method="POST">
-        {{ csrf_field() }}
+      <div class="row">
+        <input type="hidden" name="id" value="{{$id}}">
+        <div class="col-md-9">
+          <div class="card card-default">
+            <div class="card-header">
+              @php $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
+              @foreach($order_info as $info)
+              @if($info->meta_key=='phone')
+              @php $mobile_no=$info->meta_value; @endphp
+              @endif
+              @if($info->meta_key=='address_one')
+              @php $address=$info->meta_value; @endphp
+              @endif
 
-        <div class="row">
-          <input type="hidden" name="id" value="{{$id}}">
-          <div class="col-md-9">
-            <div class="card card-default">
-              <div class="card-header">
-                @php $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
-                @foreach($order_info as $info)
-                @if($info->meta_key=='phone')
-                @php $mobile_no=$info->meta_value; @endphp
-                @endif
-                @if($info->meta_key=='address_one')
-                @php $address=$info->meta_value; @endphp
-                @endif
+              @if($info->meta_key=='_sku')
+              @php $sku=$info->meta_value; @endphp
+              @endif
+              @if($info->meta_key=='_created_via')
+              @php $check_out=$info->meta_value; @endphp
+              @endif
+              @if($info->meta_key=='_customer_ip_address')
+              @php $customer_ip=$info->meta_value; @endphp
+              @endif
 
-                @if($info->meta_key=='_sku')
-                @php $sku=$info->meta_value; @endphp
-                @endif
-                @if($info->meta_key=='_created_via')
-                @php $check_out=$info->meta_value; @endphp
-                @endif
-                @if($info->meta_key=='_customer_ip_address')
-                @php $customer_ip=$info->meta_value; @endphp
-                @endif
+              @if($info->meta_key=='address_two')
+              @php $shipping_address=$info->meta_value; @endphp
+              @endif
 
-                @if($info->meta_key=='address_two')
-                @php $shipping_address=$info->meta_value; @endphp
-                @endif
-
-                @if($info->meta_key=='city')
-                @php $shipping_city=$info->meta_value; @endphp
-                @endif
+              @if($info->meta_key=='city')
+              @php $shipping_city=$info->meta_value; @endphp
+              @endif
 
 
-                @if($info->meta_key=='_customer_user')
-                @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->first(); @endphp
-                @endif
-                @endforeach
-                <h3 class="card-title" style="width: 100%">Order #{{$id}} details </h3>
+              @if($info->meta_key=='_customer_user')
+              @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->first(); @endphp
+              @endif
+              @endforeach
+              <h3 class="card-title" style="width: 100%">Order #{{$id}} details </h3>
 
-                <h3 class="card-title">Payment via {{$check_out}}. Customer IP: {{$customer_ip}}</h3>
+              <h3 class="card-title">Payment via {{$check_out}}. Customer IP: {{$customer_ip}}</h3>
 
-              </div>
-              <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
-                <div class="genarel">
-                  <div class="font-weight-bold text-center">Genarel</div>
-                  <div class="mt-3">
-                    <form>
-                      <div class="form-group">
-                        <label for="dateCreated">Date created:</label>
-                        <input type="text" class="form-control" id="dateCreated" value="{{date('Y-m-d',strtotime($order->post_date))}}">
-                      </div>
-                      <div class="form-group">
-                        <label for="sattus">Status</label>
-                        <select name="status" id="status" class="form-control">
-                          @if($order->post_status=='on-hold')
-                          <option value="on-hold" selected>Pending</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Dispatch">Dispatch</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Cancelled">Cancelled</option>
-                          <option value="Failed">Reject</option>
-                          @elseif($order->post_status=='Processing')
-                          <option value="on-hold">Pending</option>
-                          <option value="Processing" selected>Processing</option>
-                          <option value="Dispatch">Dispatch</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Cancelled">Cancelled</option>
-                          <option value="Failed">Reject</option>
-                          @elseif($order->post_status=='Dispatch')
-                          <option value="on-hold">Pending</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Dispatch" selected>Dispatch</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Cancelled">Cancelled</option>
-                          <option value="Failed">Reject</option>
-                          @elseif($order->post_status=='Delivered')
-                          <option value="on-hold">Pending</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Dispatch">Dispatch</option>
-                          <option value="Delivered" selected>Delivered</option>
-                          <option value="Cancelled">Cancelled</option>
-                          <option value="Failed">Reject</option>
-                          <option value="Dispatch">Dispatch</option>
-                          @elseif($order->post_status=='Cancelled')
-                          <option value="on-hold">Pending</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Dispatch">Dispatch</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Cancelled" selected>Cancelled</option>
-                          <option value="Failed">Reject</option>
-                          @else
-                          <option value="on-hold">Pending</option>
-                          <option value="Processing">Processing</option>
-                          <option value="Dispatch">Dispatch</option>
-                          <option value="Delivered">Delivered</option>
-                          <option value="Cancelled">Cancelled</option>
-                          <option value="Failed" selected>Reject</option>
-                          @endif
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <label for="customer">Customer</label>
-                        <select name="customer" id="customer" class="form-control">
-                          <option value="1">@if(isset($user->name)){{$user->name}} @else Guest @endif</option>
-                        </select>
-                      </div>
-
-                    </form>
-                  </div>
-                </div>
-                <div>
-                  <div class="font-weight-bold">Billing</div>
-                  <div class="mt-3">
-                    @if(isset($user->name)){{$user->name}} @endif <br>
-                    {{$address}}
-                  </div>
-                  <div class="font-weight-bold">Email Address</div>
-                  <div> @if(isset($user->email)){{$user->email}} @endif</div>
-
-                  <div class="font-weight-bold mt-2">Phone</div>
-                  <div>{{$mobile_no}}</div>
-                </div>
-                <div>
-                  <div class="font-weight-bold">Shipping</div>
-                  <div class="mt-3">
-                    Address:{{$shipping_address}}<br>
-
-                    City:{{$shipping_city}} <br>
-
-                  </div>
-                </div>
-
-              </div>
             </div>
+            <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
+              <div class="genarel">
+                <div class="font-weight-bold text-center">Genarel</div>
+                <div class="mt-3">
 
+                  <div class="form-group">
+                    <label for="dateCreated">Date created:</label>
+                    {{date('Y-m-d',strtotime($order->post_date))}}
+
+                  </div>
+                  Status:{{$order->post_status}}
+
+
+                </div>
+              </div>
+              <div>
+                <div class="font-weight-bold">Billing</div>
+                <div class="mt-3">
+                  @if(isset($user->name)){{$user->name}} @endif <br>
+                  {{$address}}
+                </div>
+                <div class="font-weight-bold">Email Address</div>
+                <div> @if(isset($user->email)){{$user->email}} @endif</div>
+
+                <div class="font-weight-bold mt-2">Phone</div>
+                <div>{{$mobile_no}}</div>
+              </div>
+              <div>
+                <div class="font-weight-bold">Shipping</div>
+                <div class="mt-3">
+                  Address:{{$shipping_address}}<br>
+
+                  City:{{$shipping_city}} <br>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <form action="{{route('update.order.quantity')}}" method="POST">
+            @csrf
             <div class="card card-default">
               <div class="card-header">
                 <h3 class="card-title" style="width: 100%">Item Info</h3>
@@ -199,15 +144,16 @@
                     @endforeach
                     <tr>
                       <th scope="row">{{++$key}}</th>
-                      <td>{{$items->order_item_name}}</td>
+                      <td>{{$items->order_item_name}} </td>
                       <td>{{$subtotal}}</td>
-                      <td>{{$qty}}</td>
+                      <td><input type="number" name="qty[]" value="{{$qty}}"></td>
                       <td>{{$total}}</td>
+                      <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
+                      <input type="hidden" name="order_id" value="{{$id}}">
                     </tr>
                     @php $grand_total+=$total; $total_sub+=$subtotal; @endphp
                     @endforeach
                   </tbody>
-
                 </table>
 
               </div>
@@ -224,41 +170,20 @@
                 </div>
               </div>
 
-            </div>
-          </div>
+              <button type="submit" value="submit" name="submit" class="btn btn-primary float-right" style="width: 15%;">Update</button>
 
-          <div class="col-md-3">
-            <div class="card card-default">
-              <div class="card-header">
-                <h3 class="card-title">Order Action</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <!-- <div class="card-body d-flex flex-row text-center" style="display: block;">
-           <select name="" class="form-control" id="">
-             <option value="">Choose an action</option>
-             <option value="">Email</option>
-             <option value="">Resend</option>
-             <option value="">Regenarate</option>
-           </select>
-
-          </div> -->
-              <div class="card-footer">
-                <button type="submit" value="draft" name="dreft" class="btn text-danger">Move to trash</button>
-                <button type="submit" value="submit" name="submit" class="btn btn-primary">Update</button>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- /.card-body -->
+          </form>
         </div>
+      </div>
 
 
 
+      <!-- /.card-body -->
     </div>
+
+
+
+</div>
 
 </div>
 </form>

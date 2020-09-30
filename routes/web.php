@@ -111,6 +111,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         // Route::get('admin/dispat','PageController@dispat')->name('dispat');
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
         Route::post('admin/order/status/update','OrderController@update')->name('update.order.status');
+        Route::post('admin/order/update/qty', 'OrderController@updateOrderQty')->name('update.order.quantity');
         Route::get('admin/quickReport/man_stock','QuickReportController@manStock')->name('man.stock');
         Route::get('admin/quickReport/women_stock','QuickReportController@womenStock')->name('women.stock');
         Route::get('admin/quickReport/sales_report','QuickReportController@salesReport')

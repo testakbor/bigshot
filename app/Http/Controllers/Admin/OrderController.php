@@ -325,8 +325,25 @@ class OrderController extends Controller
 
     public function pending_order_processing($id){
         DB::table('posts')->where('ID',$id)->update([
-          'post_status' =>'Processing'
+          'post_status' =>'Processing',
+          'post_modified'   =>date('Y-m-d')
         ]);
+        //check if already have meta value
+        $check=DB::table('postmeta')->where('post_id',$id)->where('meta_key','processing_date')->count();
+        if($check>0){
+            $check = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'processing_date')->delete();
+            DB::table('postmeta')->insert([
+                'post_id' => $id,
+                'meta_key' => 'processing_date',
+                'meta_value' => date('Y-m-d')
+            ]);
+        }else{
+            DB::table('postmeta')->insert([
+                'post_id' => $id,
+                'meta_key' => 'processing_date',
+                'meta_value' => date('Y-m-d')
+            ]);
+        }
         session()->flash("success","Status has been changed Successfully");
         return back();
     }
@@ -340,7 +357,14 @@ class OrderController extends Controller
     }
 
     public function pending_order_edit($id){
-       $order=Post::find($id);
+        $extraInfo = array(
+            'title' => "Order Edit",
+            'page' => 'order'
+        );
+        $order = Post::find($id);
+        $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
+        $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+        return view('admin.order.edit', compact('order', 'products', 'id', 'order_info'))->with($extraInfo);     
     }
 
     public function sendParcelPrint(){
@@ -378,6 +402,12 @@ class OrderController extends Controller
 
     public function cancelledOrder()
     {
+
+    }
+
+    public function updateOrderQty(Request $request){
+        $order_item=DB::table('order_items')->where('order_id',$request->order_id)->select('order_item_id')->get();
+        dd($order_item);
 
     }
 
