@@ -36,7 +36,7 @@
                   <a class="nav-link" target="_blank" href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order({{$pending_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a class="nav-link" target="_blank" href="{{route('order.sendParcel')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing({{$processing_order}})</a>
+                  <a class="nav-link" target="_blank" href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing({{$processing_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
                   <a target="_blank" class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch({{$dispatch_order}})</a>

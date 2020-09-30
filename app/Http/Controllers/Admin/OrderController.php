@@ -114,13 +114,23 @@ class OrderController extends Controller
        return view('admin.order.searchOrder',compact('orders','total_orders'));
     }
 
-    public function processing()
+    public function processing(Request $request)
     {   
+        
      $extraInfo=array(
             'title'=>"Brand List",
             'page'=>'processing'
-        ); 
-        return view('admin.order.processing')->with($extraInfo);
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order=Post::where('post_type','shop_order')
+        ->where('post_status','Processing')
+        ->where('post_modified','>=',$date) 
+        ->paginate(20);
+        $total_order=Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Processing')
+        ->where('post_modified', '>=', $date)
+        ->count();
+        return view('admin.order.processing',compact('order','total_order'))->with($extraInfo);
     } 
     public function print()
     {   
@@ -408,6 +418,10 @@ class OrderController extends Controller
     public function updateOrderQty(Request $request){
         $order_item=DB::table('order_items')->where('order_id',$request->order_id)->select('order_item_id')->get();
         dd($order_item);
+
+    }
+
+    public function processingOrderPrint($id){
 
     }
 
