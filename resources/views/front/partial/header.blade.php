@@ -6,23 +6,25 @@
         <h1><a href="{{url('/')}}" class="logo">
             <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 46px;width: 70px">
           </a></h1>
-    
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+        <div class="" id="navbarSupportedContent">
           <ul class="nav navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item d-none d-lg-block">
               <div class="form-group has-search">
                 <span class="fa fa-search form-control-feedback"></span>
-                <form class="searchform cf" method="POST" action="{{url('/search')}}" role="search">
+                <form class="searchform cf " method="POST" action="{{url('/search')}}" role="search">
                   @csrf
                   <input type="text" name="q" placeholder="What do you want to find?">
                   <button type="submit">Search</button>
                 </form>
               </div>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item d-inline">
               <div class="dropdown">
                 @guest
-            <li class="nav-item active">
+            <li class="nav-item ">
               <div class="icons">
                 <a href="{{ route('login') }}">
                   <i class="fas fa-sign-in-alt" aria-hidden="true"></i>
@@ -92,7 +94,7 @@
                     <i class="fa fa-bell" aria-hidden="true"></i>
                   </div>
                 </li> -->
-        <li class="nav-item active">
+        <li class="nav-item ">
           <div class="icons">
             <a href="{{url('/cart')}}"><i class="fa fa-shopping-cart" aria-hidden="true">
                 @if(\Cart::getTotalQuantity()==0)
@@ -105,7 +107,7 @@
               </i></a>
           </div>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item ">
           <div class="icons">
             <a href="{{url('wishlist')}}">
               <i class="fa fa-heart" aria-hidden="true"></i>
@@ -121,38 +123,35 @@
 
   <div class="col-md-12 main-menu ">
     <div class="container-fluid">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: rgba(245, 246, 247, 1) !important;">
-       <!--  <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button> -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav" style="width: 80%">
-            <li class="nav-item ">
-              <a class="nav-link" href="#">Women <span class="sr-only">(current)</span></a>
+      <div class="memu-list" style="background-color: rgba(245, 246, 247, 1) !important;">
+
+        <div class="memu-item" id="">
+          <ul class="" style="width: 80%">
+            <li class=" ">
+              <a class="" href="#">Women <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Men</a>
+            <li class="">
+              <a class="" href="#">Men</a>
             </li>
           </ul>
           
-          <ul class="navbar-nav">
-            <li class="nav-item ">
-              <a class="nav-link" href="#">FAQ</a>
+          <ul class="">
+            <li class=" ">
+              <a class="" href="#">FAQ</a>
             </li>
             @guest
             @else
-            <li class="nav-item">
-              <a class="nav-link" href="#">Customer Support</a>
+            <li class="">
+              <a class="" href="#">Customer Support</a>
             </li>
             @endguest
-            <li class="nav-item">
-              <a class="nav-link" href="#">About Us</a>
+            <li class="">
+              <a class="" href="#">About Us</a>
             </li>
           </ul>
            
         </div>
-      </nav>
+      </div>
 
     </div>
   </div>
