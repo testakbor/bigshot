@@ -78,7 +78,7 @@
               </thead>
 
               <tbody>
-                @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
+                @php $sub=0; $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
                 @foreach($order as $orders)
                 @foreach($orders->productMeta as $meta)
                 @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif

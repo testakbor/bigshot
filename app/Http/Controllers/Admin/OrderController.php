@@ -137,12 +137,21 @@ class OrderController extends Controller
         return view('admin.order.pendingOrder_print');
     }
     public function dispat()
-    {   
-     $extraInfo=array(
-            'title'=>"Brand List",
-            'page'=>'dispat'
-        ); 
-        return view('admin.order.dispat')->with($extraInfo);
+    {
+        $extraInfo = array(
+            'title' => "Brand List",
+            'page' => 'processing'
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Dispatch')
+        ->where('post_modified', '>=', $date)
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Dispatch')
+        ->where('post_modified', '>=', $date)
+            ->count();
+        return view('admin.order.dispat', compact('order','total_order'))->with($extraInfo); 
     }
     public function cancelled()
     {   
@@ -492,6 +501,21 @@ class OrderController extends Controller
         ->count();
         return view('admin.order.processing_date_wise', compact('order', 'total_order'))->with($extraInfo);
 
+    }
+
+    public function dispatchOrderDelivered($id){
+      DB::table('posts')->where('ID',$id)->update([
+        'post_status' =>'Delivered',
+        'post_modified' => date('Y-m-d'),
+      ]);
+      session()->flash("success", "Order has been delivered");
+      return back();
+    }
+
+    public function dispatchOrderEdit($id){
+        $order=Post::where('ID',$id)->first();
+        $order_item = Post::where('ID', $id)->get();
+       return view('admin.order.dispatch_order_edit',compact('order','order_item'));
     }
 
 

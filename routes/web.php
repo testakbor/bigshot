@@ -150,7 +150,11 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('processing/order/edit/{id}', 'OrderController@processingOrderEdit')->name('order.processing.edit');
         Route::get('processing/order/cancel/{id}', 'OrderController@processingOrderCancel')->name('order.processing.cancel');
         Route::post('processing/order/date/wise', 'OrderController@processingOrderdatewise')->name('process.order.date.wise');
-        Route::post('processing/order/update', 'OrderController@processingOrderUpdate')->name('process.order.update'); 
+        Route::post('processing/order/update', 'OrderController@processingOrderUpdate')->name('process.order.update');
+
+        Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
+        Route::get('dispatch/order/delivered/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivered');
+        Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
 
     });
 
