@@ -55,7 +55,7 @@
 
           <div class="card-header">Invoice
             <strong>01/01/01/2018</strong> 
-            <span class="float-right"> <strong>Status:</strong> Pending</span>
+            <span class="float-right"> <strong>Status:</strong> Cancel order</span>
           </div>
 
           <div class="card-body">
@@ -88,8 +88,8 @@
                   <td class="right">10-9-2020</td>
                   <td class="right">hello</td>
                   <td class="right">
-                    <i class="fas fa-print"><a href="#">Print</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i>
+                    <a href="#" class="btn btn-primary mb-2"><i class="fas fa-print"></i> Print</a><br>
+                  <a href="#"  class="btn btn-success">  <i class="fas fa-edit"> </i> Edit</a>
                   </td>
                   </tr>
                   
@@ -110,7 +110,7 @@
       <div class="container">
         <div class="row">
            <div class="col-md-4">
-                <div class="box bg-primary">
+                <div class="box bg-danger">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
                   <h3 class="text-center">0</h3>

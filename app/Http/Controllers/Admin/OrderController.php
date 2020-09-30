@@ -408,7 +408,20 @@ class OrderController extends Controller
 
     //excel dispatch
     public function excelDispatch(){
-
+ $extraInfo = array(
+            'title' => "Brand List",
+            'page' => 'processing'
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Dispatch')
+        ->where('post_modified', '>=', $date)
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Dispatch')
+        ->where('post_modified', '>=', $date)
+            ->count();
+        return view('admin.order.excelDispatch', compact('order','total_order'))->with($extraInfo); 
     }
 
     public function deliveryInvoiceOrder(){
@@ -416,12 +429,29 @@ class OrderController extends Controller
     }
 
     public function deliveredOrder(){
-
+$extraInfo = array(
+            'title' => "Delivery List",
+            'page' => 'processing'
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Dispatch')
+        ->where('post_modified', '>=', $date)
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'delivery')
+        ->where('post_modified', '>=', $date)
+            ->count();
+        return view('admin.order.delivery', compact('order','total_order'))->with($extraInfo); 
     }
 
     public function cancelledOrder()
     {
-
+        $extraInfo = array(
+            'title' => "Cancel order List",
+            'page' => 'processing'
+        );
+return view('admin.order.cancelled')->with($extraInfo); 
     }
 
     public function updateOrderQty(Request $request){
