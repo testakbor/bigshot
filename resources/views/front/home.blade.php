@@ -4,15 +4,15 @@
 
 
 <!-- Page Content  -->
-<div id="content" class="p-4 p-md-5">
+<div id="content" class=" p-md-5">
     <div class="row">
       <div class="col-md-10 ">
        <div class="container-fluid">
 
-          <section style="margin-left: 120px" class="">
+          <section  class="banner-img ml-5">
           @if(isset($banner))
 					@if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
-              <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-fluid" alt="Responsive image">
+              <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-responsive img-fluid" alt="Responsive image">
           @endif     
               <ul class="wrapper cf mt-3">
                 @php
@@ -73,7 +73,7 @@
 
 </div>
 </div>
-<div class="col-md-2 col-sm-12 mt-4" style="background-color: #fff;position: fixed;
+<div class="col-md-2 col-sm-12 mt-4 d-none d-lg-block" style="background-color: #fff;position: fixed;
 right: 10px;top:96px;">
 <div class="img-box mt-3">
     <img src="{{asset('assets/front/images/offer.png')}}" height="200" width="210">

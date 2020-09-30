@@ -172,3 +172,26 @@ input:focus{
     margin-right: 20px;
   }
 }
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+
+  .right-container{
+    margin-top: 328px;
+    margin-left: -242px;
+  }
+  img{
+    width: 218px;
+  }
+  #new-board-btn {
+    white-space: normal;
+}
+.logo img{
+  margin-top: -40px;
+}
+.banner-img img{
+  width: 70%;
+    height: 58px;
+}
+}
+}

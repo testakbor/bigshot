@@ -6,6 +6,7 @@
         <h1><a href="{{url('/')}}" class="logo">
             <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 46px;width: 70px">
           </a></h1>
+    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav navbar-nav ml-auto">
             <li class="nav-item active">
@@ -134,17 +135,22 @@
               <a class="nav-link" href="#">Men</a>
             </li>
           </ul>
+          
           <ul class="navbar-nav">
             <li class="nav-item ">
               <a class="nav-link" href="#">FAQ</a>
             </li>
+            @guest
+            @else
             <li class="nav-item">
               <a class="nav-link" href="#">Customer Support</a>
             </li>
+            @endguest
             <li class="nav-item">
               <a class="nav-link" href="#">About Us</a>
             </li>
           </ul>
+           
         </div>
       </nav>
 
