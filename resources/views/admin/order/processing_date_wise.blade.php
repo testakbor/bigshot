@@ -101,9 +101,9 @@
                                     <td class="right">{{$phone}}</td>
                                     <td class="right">{{$sub=$subtotal}}</td>
                                     <td class="right">
-                                        <i class="fas fa-print"><a href="{{route('order.processing.print',$orders->ID)}}">Print</a></i><br>
-                                        <i class="fas fa-edit"><a href="{{route('order.processing.edit',$orders->ID)}}">Edit</a></i><br>
-                                        <i class="fas fa-window-close"><a onclick="return confirm('Are you sure??')" href="{{route('order.processing.cancel',$orders->ID)}}">Cancel</a></i>
+                                        <a href="{{route('order.processing.print',$orders->ID)}}" class="btn btn-primary"><i class="fas fa-print"> Print</i></a><br>
+                                     <a href="{{route('order.processing.edit',$orders->ID)}}" class="btn btn-info">   <i class="fas fa-edit"> </i> Edit</a><br>
+                                        <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.cancel',$orders->ID)}}" class="btn btn-danger"><i class="fas fa-window-close"></i>Cancel</a>
                                     </td>
                                     <!-- <td class="right">hello</td> -->
                                 </tr>
