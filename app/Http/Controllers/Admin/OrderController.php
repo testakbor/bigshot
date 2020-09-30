@@ -393,7 +393,7 @@ class OrderController extends Controller
         ->whereNotNull('product_id')
         ->get();
         $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
-        $pdf = PDF::loadView('admin.pdf.order.shipping_address',   $order_info);
+        $pdf = PDF::loadView('admin.pdf.order.shipping_address', $order_info);
         return $pdf->download('shipping.pdf');
     }
 
@@ -431,22 +431,67 @@ class OrderController extends Controller
     }
 
     public function processingOrderPrint($id){
-        $date = \Carbon\Carbon::today()->subDays(30);
-        $order = Post::where('post_type', 'shop_order')
+        $order = Post::where('post_type','shop_order')
             ->where('ID',$id) 
-            ->where('post_status', 'Processing')
-            ->where('post_modified', '>=', $date)
             ->get();
-        $pdf = PDF::loadView('admin.order.processing_order_pdf', array('orders' => $order));
-        return $pdf->download('processingorder');
+        $pdf = PDF::loadView('admin.order.processing_order_pdf', array('order' => $order));
+        return $pdf->download('processingorder.pdf');
     }
 
     public function processingOrderEdit($id)
     {
+        $order = Post::where('post_type', 'shop_order')
+        ->where('ID', $id)
+        ->get();
+        return view('admin.order.processing_order_edit',compact('order'));
     }
 
     public function processingOrderCancel($id)
     {
+        DB::table('posts')->where('ID',$id)->update([
+            'post_status' => 'Cancelled',
+            'post_modified' => date('Y-m-d'),
+        ]);
+        session()->flash("success", "Order has been cancel");
+        return back();
+    }
+
+    public function processingOrderUpdate(Request $request){
+
+      DB::table('postmeta')->where('post_id',$request->order_id)->where('meta_key','first_name')->update([
+          'meta_value'=>$request->first_name
+      ]);
+      DB::table('postmeta')->where('post_id', $request->order_id)->where('meta_key', 'last_name')->update([
+            'meta_value' => $request->last_name
+      ]);
+      DB::table('postmeta')->where('post_id', $request->order_id)->where('meta_key', 'address_one')->update([
+            'meta_value' => $request->address
+      ]);
+        session()->flash("success", "Information update successfully");
+        return back();
+
+    }
+
+    public function processingOrderdatewise(Request $request){
+       $start=$request->start;
+       $end=$request->end;
+        $extraInfo = array(
+            'title' => "Brand List",
+            'page' => 'processing'
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->whereBetween('post_date',[$start,$end])
+        ->where('post_status', 'Processing')
+        ->where('post_modified', '>=', $date)
+        ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+        ->whereBetween('post_date', [$start, $end])
+        ->where('post_status', 'Processing')
+        ->where('post_modified', '>=', $date)
+        ->count();
+        return view('admin.order.processing_date_wise', compact('order', 'total_order'))->with($extraInfo);
+
     }
 
 
