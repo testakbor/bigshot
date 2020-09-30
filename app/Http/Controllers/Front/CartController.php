@@ -61,6 +61,9 @@ class CartController extends Controller
         }else{
             $id=0;
         }
+
+        $info= Cart::getContent();
+      
         $post_date=date('Y-m-d 0:0:0)');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
         $order=array(
@@ -159,14 +162,14 @@ class CartController extends Controller
         );
         DB::table('postmeta')->insert($order_post); 
         $info= Cart::getContent();
-        foreach ($info as  $value) {
-           $order_item=array(
-            'order_item_name'=>$value->name,
-            'order_item_type'=>'line-item',
-            'order_id'=>$order_id,
-        );
-        DB::table('order_items')->insert($order_item); 
-       }
+    //     foreach ($info as  $value) {
+    //        $order_item=array(
+    //         'order_item_name'=>$value->name,
+    //         'order_item_type'=>'line-item',
+    //         'order_id'=>$order_id,
+    //     );
+    //     DB::table('order_items')->insert($order_item); 
+    //    }
         foreach ($info as $item){
         $pro=DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->get();
         foreach($pro as $pros){
@@ -184,6 +187,7 @@ class CartController extends Controller
             'product_id'=>$item->id
         );
         $order_item_id=DB::table('order_items')->insertGetId($order_item);
+
            $order_item_details=array(
             'order_item_id'=>$order_item_id,
             'meta_key'=>'_tax_class',
