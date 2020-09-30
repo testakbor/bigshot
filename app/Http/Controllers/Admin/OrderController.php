@@ -325,8 +325,25 @@ class OrderController extends Controller
 
     public function pending_order_processing($id){
         DB::table('posts')->where('ID',$id)->update([
-          'post_status' =>'Processing'
+          'post_status' =>'Processing',
+          'post_modified'   =>date('Y-m-d')
         ]);
+        //check if already have meta value
+        $check=DB::table('postmeta')->where('post_id',$id)->where('meta_key','processing_date')->count();
+        if($check>0){
+            $check = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'processing_date')->delete();
+            DB::table('postmeta')->insert([
+                'post_id' => $id,
+                'meta_key' => 'processing_date',
+                'meta_value' => date('Y-m-d')
+            ]);
+        }else{
+            DB::table('postmeta')->insert([
+                'post_id' => $id,
+                'meta_key' => 'processing_date',
+                'meta_value' => date('Y-m-d')
+            ]);
+        }
         session()->flash("success","Status has been changed Successfully");
         return back();
     }

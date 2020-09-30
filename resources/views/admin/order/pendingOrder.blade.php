@@ -88,7 +88,7 @@ use App\Model\front\Order_item;
             </thead>
 
             <tbody>
-              @php $product_name=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+              @php $product_name=''; $qty=0; $sub=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
               @foreach($orders as $items)
               @php 
               foreach ($items->productMeta as $value) {
