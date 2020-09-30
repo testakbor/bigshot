@@ -49,12 +49,17 @@ class OrderController extends Controller
             'title'=>"Brand List",
             'page'=>'pendingOrder'
         );
+         $date = \Carbon\Carbon::today()->subDays(30);
          $orders=Post::where('posts.post_type','shop_order')
          ->where('post_status','on-hold')
+         ->where('post_date','>=',$date)
          ->orderBy('ID','DESC')
         ->paginate(10); 
+    
+
         $total_orders=Post::where('posts.post_type','shop_order')
             ->where('post_status','on-hold')
+            ->where('post_date', '>=', $date)
         ->count();  
          return view('admin.order.pendingOrder',compact('orders','total_orders'))->with($extraInfo);
     }
@@ -147,7 +152,7 @@ class OrderController extends Controller
         );
         $date = \Carbon\Carbon::today()->subDays(30);
         $orders = Post::where('posts.post_type','shop_order')
-        ->where('post_date', '>=', $date)
+        ->where('post_date','>=', $date)
         ->orderBy('ID', 'DESC')
         ->get();
         return view('admin.order.allStatus')->with($extraInfo);
@@ -315,7 +320,8 @@ class OrderController extends Controller
         ->where('post_status','on-hold')
         ->where('ID',$id)
        ->get();
-       return view('admin.order.pendingOrder_print',compact('orders')); 
+        $pdf = PDF::loadView('admin.order.pendingOrder_print', array('orders' => $orders));
+        return $pdf->download('shipping.pdf');
     }
 
     public function pending_order_processing($id){
@@ -335,7 +341,7 @@ class OrderController extends Controller
     }
 
     public function pending_order_edit($id){
-     
+       $order=Post::find($id);
     }
 
     public function sendParcelPrint(){
