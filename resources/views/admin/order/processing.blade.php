@@ -4,6 +4,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
+      @include('admin.includes.messages')
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1>Order Processing</h1>
@@ -17,7 +18,8 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form>
+      <form method="post" action="{{route('process.order.date.wise')}}">
+        @csrf
         <div class="inner-form ml-5">
 
           <div class="input-field second-wrap">
@@ -26,7 +28,7 @@
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
               </svg>
             </div>
-            <input class="datepicker" id="depart" type="date" placeholder="29 Aug 2018" />
+            <input name="start" class="datepicker" id="depart" type="date" placeholder="29 Aug 2018" />
 
           </div>
           <div class="input-field third-wrap">
@@ -35,11 +37,11 @@
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
               </svg>
             </div>
-            <input class="datepicker" id="return" type="date" placeholder="30 Aug 2018" />
+            <input name="end" class="datepicker" id="return" type="date" placeholder="30 Aug 2018" />
           </div>
 
           <div class="input-field fifth-wrap">
-            <button class="btn-search" type="button">SEARCH</button>
+            <button type="submit" class="btn-search" type="button">SEARCH</button>
           </div>
         </div>
       </form>
@@ -55,7 +57,7 @@
 
         <div class="card-header">Invoice
           <strong>{{date('d-m-Y')}}</strong>
-          <span class="float-right"> <strong>Status:</strong> Pending</span>
+          <!-- <span class="float-right"> <strong>Status:</strong> Pending</span> -->
         </div>
 
         <div class="card-body">
@@ -101,7 +103,7 @@
                   <td class="right">
                     <i class="fas fa-print"><a href="{{route('order.processing.print',$orders->ID)}}">Print</a></i><br>
                     <i class="fas fa-edit"><a href="{{route('order.processing.edit',$orders->ID)}}">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a href="{{route('order.processing.cancel',$orders->ID)}}">Cancel</a></i>
+                    <i class="fas fa-window-close"><a onclick="return confirm('Are you sure??')" href="{{route('order.processing.cancel',$orders->ID)}}">Cancel</a></i>
                   </td>
                   <!-- <td class="right">hello</td> -->
                 </tr>
