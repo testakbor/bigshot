@@ -430,11 +430,45 @@ class OrderController extends Controller
         $count=count($request->qty);
       
         for($i=0;$i<$count;$i++){
+
+            $oldQty=DB::table('order_itemmeta')
+           ->where('order_id',$request->order_id)
+           ->where('order_item_id',$request->order_item_id[$i])
+           ->where('meta_key','_qty')
+           ->first();
+
+       
+           
+            $stuTotal=DB::table('order_itemmeta')
+           ->where('order_id',$request->order_id)
+           ->where('order_item_id',$request->order_item_id[$i])
+           ->where('meta_key','_line_subtotal')
+           ->first();
+        
+           $unitPrice=$stuTotal->meta_value/$oldQty->meta_value;
+
+        //    dd($unitPrice);
+
             $term=DB::table('order_itemmeta')
            ->where('order_id',$request->order_id)
            ->where('order_item_id',$request->order_item_id[$i])
            ->where('meta_key','_qty')
            ->update(['meta_value'=>$request->qty[$i]]);
+
+            $term=DB::table('order_itemmeta')
+           ->where('order_id',$request->order_id)
+           ->where('order_item_id',$request->order_item_id[$i])
+           ->where('meta_key','_line_subtotal')
+           ->update(['meta_value'=>$request->qty[$i]*$unitPrice]);
+
+            $term=DB::table('order_itemmeta')
+           ->where('order_id',$request->order_id)
+           ->where('order_item_id',$request->order_item_id[$i])
+           ->where('meta_key','_line_total')
+           ->update(['meta_value'=>$request->qty[$i]*$unitPrice]);
+
+
+
         }
         return redirect(route('order.pendingOrder'));
     }

@@ -1,4 +1,5 @@
-<!-- <div class="wrapper d-flex align-items-stretch">
+<div class="wrapper d-flex align-items-stretch">
+<!-- 
 	<nav id="sidebar" class="active">
 		<ul class="list-unstyled components mb-5">
 			<li class="{{'popular' == request()->path()? 'active' : ''}}">

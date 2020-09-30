@@ -112,7 +112,19 @@ use App\Model\front\Order_item;
                 $qtys=DB::table('order_itemmeta')
                 ->where('order_item_id',$orderMetas->order_item_id)
                 ->where('meta_key','_qty')
-                ->first();                 
+                ->first();    
+                
+                $sku=DB::table('postmeta')
+                ->where('post_id',$orderMetas->product_id)
+                ->where('meta_key','_sku')
+                ->first();    
+
+                $posts=DB::table('posts')
+                ->where('ID',$orderMetas->product_id)        
+                ->first();    
+                
+               
+
                 if($i==1):
                 @endphp  
 
@@ -125,9 +137,9 @@ use App\Model\front\Order_item;
 
                    @endphp
 
-                   <td  class="left"> Yes </td>
+                   <td  class="left"> {{$sku->meta_value}} </td>
                    <td  class="left"> {{$qtys->meta_value}} </td>
-                   <td  class="left"> {{$orderMetas->order_item_id}} </td>
+                   <td  class="left"> {{$posts->post_title}} </td>
 
                    @php 
                  endif;
@@ -136,9 +148,9 @@ use App\Model\front\Order_item;
                  if($i >1):
                    @endphp
                    <tr>
-                     <td  class="left"> Yes </td>
+                     <td  class="left"> {{$sku->meta_value}} </td>
                      <td  class="left"> {{$qtys->meta_value}} </td>
-                     <td  class="left"> {{$orderMetas->order_item_id}} </td>
+                     <td  class="left"> {{$posts->post_title}} </td>
                    </tr>
                    @php 
                  endif;
