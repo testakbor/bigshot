@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
 use App\Model\front\Order_item;
+
 use Carbon\Carbon;
 use DB;
 use Session;
@@ -406,9 +407,18 @@ class OrderController extends Controller
     }
 
     public function updateOrderQty(Request $request){
-        $order_item=DB::table('order_items')->where('order_id',$request->order_id)->select('order_item_id')->get();
-        dd($order_item);
 
+        // dd($request);
+        $count=count($request->qty);
+      
+        for($i=0;$i<$count;$i++){
+            $term=DB::table('order_itemmeta')
+           ->where('order_id',$request->order_id)
+           ->where('order_item_id',$request->order_item_id[$i])
+           ->where('meta_key','_qty')
+           ->update(['meta_value'=>$request->qty[$i]]);
+        }
+        return redirect(route('order.pendingOrder'));
     }
 
 
