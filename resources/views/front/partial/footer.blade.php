@@ -2,9 +2,9 @@
 
     <div id="target" class="d-flex justify-content-center">
       <ul class="footNavUL">
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms & Conditions</a></li>
-                <li><a href="#">Return Policy</a></li>
+                <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
+                <li><a href="{{route('terms.conditions')}}">Terms & Conditions</a></li>
+                <li><a href="{{route('return.policy')}}">Return Policy</a></li>
                 <!-- <li><a href="#">Contact</a></li> -->
                 <li><a href="#">Follow us &nbsp; <i class="fab fa-facebook"></i></a></li>
 

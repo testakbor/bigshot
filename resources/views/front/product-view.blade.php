@@ -39,8 +39,8 @@ endforeach;
                             <div class="triangle-topleft">
                                 <div class="back-arrow" id="buy-toaster"></div>
                             </div>
-                            <div class="product-image--container">
-                                <img width="100%" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}" alt="toaster" />
+                            <div class="product-image col-sm-12 col-md-12">
+                                <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}" class="img-responsive" alt="Responsive image"/>
                                 <ul class="product-image--list">
                                     <div class="w3-content w3-section">
                                         @foreach($gallery_images as $g)
@@ -50,7 +50,7 @@ endforeach;
                                 </ul>
                             </div>
                         </div>
-                        <div class="right-container">
+                        <div class="right-container col-sm-12">
                             @if(session('status'))
                             <div class="alert alert-success" role="alert" id="alert">
                                 {{ session('status') }}
@@ -58,7 +58,7 @@ endforeach;
                             @endif
                             <form action="{{route('addCart')}}" method="POST" id="addCartForm">
                                 @csrf
-                                <div>
+                                <div class="">
                                     <h1 class="title" style="padding: 0 !important;"></h1>
                                     <h2 class="subtitle subtitle-container">{{$product->post_title}}</h2>
 
@@ -85,7 +85,7 @@ endforeach;
                                         <tr>
                                             <th>
                                                 <button type="submit" class="my-btn flex-btn">
-                                                    <span class="btn-text text-dark" style="width: 195px">Buy</span>
+                                                    <span id="new-board-btn" class="btn-text text-dark" style="width: 195px">Buy</span>
                                                 </button>
                                             </th>
                                             <th>
