@@ -94,7 +94,7 @@
                 {{-- </form> --}}
               </div>
               <div class="col-md-7 order-md-1 ml-5" style="border: 1px solid rgb(212, 227, 235);">
-                @if(\Cart::getTotalquantity()==0) You have no product in your cart!! <a href="{{url('/')}}">Shop Now</a> @endif
+                @if(\Cart::getTotalquantity()==0) You have no product in your cart!! <a href="{{url('/')}}" style="color: #28a745 !important;">Shop Now</a> @endif
                 <h4 class="mb-3 title-text">Billing address</h4>
 
                 <div class="row">
@@ -192,8 +192,8 @@
                     <label class="custom-control-label" for="debit">Debit card</label>
                   </div>
                   <div class="custom-control custom-radio">
-                    <input id="paypal" name="paymentMethod" value="paypal" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="paypal">PayPal</label>
+                    <input id="Bkash" name="paymentMethod" value="Bkash" type="radio" class="custom-control-input" required>
+                    <label class="custom-control-label" for="Bkash">Bkash</label>
                   </div>
                   <div class="custom-control custom-radio">
                     <input id="cash" name="paymentMethod" type="radio" value="cash" class="custom-control-input" checked required>
@@ -217,6 +217,26 @@
                     </div>
                   </div>
                 </div>
+
+                <!-- bkash -->
+                <div class="row" id="bks_num" style="display:none">
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-name">Bkash Number<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="bksnum" name="bksnum" placeholder="Bkash Number">
+                    <div class="invalid-feedback">
+                      Number on Bkash is required
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-number">Reference number<span class="requiredField">*</span></label>
+                    <input type="text" class="form-control" id="rfnum" placeholder="Bkash Reference Number" name="rfnum">
+                    <div class="invalid-feedback">
+                      Reference number is required
+                    </div>
+                  </div>
+                </div>
+                <!-- bkash end -->
+
                 <div class="row" id="hnf1" style="display:none">
                   <div class="col-md-3 mb-3">
                     <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>

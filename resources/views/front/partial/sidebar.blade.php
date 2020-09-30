@@ -1,4 +1,4 @@
-<div class="wrapper d-flex align-items-stretch">
+<!-- <div class="wrapper d-flex align-items-stretch">
 	<nav id="sidebar" class="active">
 		<ul class="list-unstyled components mb-5">
 			<li class="{{'popular' == request()->path()? 'active' : ''}}">
@@ -9,15 +9,7 @@
 					<div class="">Popular</div>
 				</a>
 			</li>
-			<!-- <li>
-				<a isemphasized="0" isinsidemenubarshowv2="0" class="SideTabBar__SideTabItem-sc-18isgdb-0-Component gaHUxX" href="{{url('')}}/pickup-tab">
-					<svg viewBox="0 0 13 15"
-						xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 25px; margin-top: 12px;">
-						<path d="M6.5 0C10.09 0 13 2.82 13 6.298a6.052 6.052 0 0 1-1.904 4.411l.001.001L6.5 15l-4.28-4.009C.86 9.859 0 8.188 0 6.298 0 2.82 2.91 0 6.5 0zm0 4.618c-.957 0-1.733.752-1.733 1.68 0 .927.776 1.679 1.733 1.679.957 0 1.733-.752 1.733-1.68 0-.927-.776-1.679-1.733-1.679z" fill="#2eaa77"></path>
-					</svg>
-					<div class="SideTabBar__SideTabTitle-sc-18isgdb-1 jyOheE">Local</div>
-				</a>
-			</li> -->
+		
 			<li class="{{'recent' == request()->path()? 'active' : ''}}">
 				<a isemphasized="0" isinsidemenubarshowv2="0" class="" href="{{url('/recent')}}">
 					<svg viewBox="0 0 22 22" style="width: 100%; height: 25px; margin-top: 12px;">
@@ -70,7 +62,7 @@
 						</a>
 						<div class="megadrop">
 							<div class="col">
-								<!-- <h3>Title</h3> -->
+								
 								<ul>
                         @foreach($categories as $value)
 									<li>
@@ -91,4 +83,4 @@
 				</li>
 			</ul>
 			<div class="footer"></div>
-		</nav>
+		</nav> -->

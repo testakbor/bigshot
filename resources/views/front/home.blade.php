@@ -73,7 +73,7 @@
 
 </div>
 </div>
-<div class="col-md-2 col-sm-12" style="background-color: #fff;position: fixed;
+<div class="col-md-2 col-sm-12 mt-4" style="background-color: #fff;position: fixed;
 right: 10px;top:96px;">
 <div class="img-box mt-3">
     <img src="{{asset('assets/front/images/offer.png')}}" height="200" width="210">
