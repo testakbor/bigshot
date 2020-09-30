@@ -127,7 +127,8 @@
                     $subtotal=0;
                     $qty=0;
                     $total=0;
-                    $grand_total=0;
+                    $grandTotal=0;
+                    $grandLinetotal=0;
                     $total_sub=0;
                     @endphp
                     @foreach($products as $key=>$items)
@@ -147,15 +148,18 @@
                     <tr>
                       <th scope="row">{{++$key}}</th>
                       <td>{{$items->order_item_name}} </td>
-                      <td>{{$subtotal}}</td>
+                      <td>{{$subtotal/$qty}}</td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
-                      <td>{{$total}}</td>
+                      <td>{{$subtotal}}</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
                       <input type="hidden" name="order_id" value="{{$id}}">
                       <input type="hidden" name="order_item_id[]" value="{{$value->order_item_id}}">
-                      <input type="hidden" name="total[]" value="{{$total}}">
+                      <input type="hidden" name="total[]" value="{{$subtotal}}">
                     </tr>
-                    @php $grand_total+=$total; $total_sub+=$subtotal; @endphp
+                    @php
+                    $grandTotal +=$subtotal;
+                     $grandLinetotal +=$total; 
+                      @endphp
                     @endforeach
                   </tbody>
                 </table>
@@ -165,11 +169,11 @@
                 <div class="d-flex flex-column justify-content-end">
                   <div class="d-flex flex-row justify-content-end">
                     <div> item Sub total:</div>
-                    <div> $ {{$total_sub}}</div>
+                    <div> $ {{$grandTotal}}</div>
                   </div>
                   <div class="d-flex flex-row justify-content-end">
                     <div> Order Total: </div>
-                    <div> $ {{$grand_total}}</div>
+                    <div> $ {{$grandLinetotal}}</div>
                   </div>
                 </div>
               </div>
