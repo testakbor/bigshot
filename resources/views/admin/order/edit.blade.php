@@ -73,8 +73,10 @@
                     {{date('Y-m-d',strtotime($order->post_date))}}
 
                   </div>
-                  Status:{{$order->post_status}}
-
+                    <div class="form-group">
+                 <label for=""> Status:</label>
+                  {{$order->post_status}}
+                  </div>
 
                 </div>
               </div>
@@ -150,6 +152,8 @@
                       <td>{{$total}}</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
                       <input type="hidden" name="order_id" value="{{$id}}">
+                      <input type="hidden" name="order_item_id[]" value="{{$value->order_item_id}}">
+                      <input type="hidden" name="total[]" value="{{$total}}">
                     </tr>
                     @php $grand_total+=$total; $total_sub+=$subtotal; @endphp
                     @endforeach
@@ -169,9 +173,9 @@
                   </div>
                 </div>
               </div>
-
-              <button type="submit" value="submit" name="submit" class="btn btn-primary float-right" style="width: 15%;">Update</button>
-
+              <div class="col-md-12 text-center">
+              <button type="submit" value="submit" name="submit" class="btn btn-primary" >Update</button>
+               </div>     
           </form>
         </div>
       </div>

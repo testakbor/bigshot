@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
 use App\Model\front\Order_item;
+
 use Carbon\Carbon;
 use DB;
 use Session;
@@ -119,8 +120,17 @@ class OrderController extends Controller
      $extraInfo=array(
             'title'=>"Brand List",
             'page'=>'processing'
-        ); 
-        return view('admin.order.processing')->with($extraInfo);
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order=Post::where('post_type','shop_order')
+        ->where('post_status','Processing')
+        ->where('post_modified','>=',$date) 
+        ->paginate(20);
+        $total_order=Post::where('post_type', 'shop_order')
+        ->where('post_status', 'Processing')
+        ->where('post_modified', '>=', $date)
+        ->count();
+        return view('admin.order.processing',compact('order','total_order'))->with($extraInfo);
     } 
     public function print()
     {   
@@ -406,9 +416,37 @@ class OrderController extends Controller
     }
 
     public function updateOrderQty(Request $request){
-        $order_item=DB::table('order_items')->where('order_id',$request->order_id)->select('order_item_id')->get();
-        dd($order_item);
 
+        // dd($request);
+        $count=count($request->qty);
+      
+        for($i=0;$i<$count;$i++){
+            $term=DB::table('order_itemmeta')
+           ->where('order_id',$request->order_id)
+           ->where('order_item_id',$request->order_item_id[$i])
+           ->where('meta_key','_qty')
+           ->update(['meta_value'=>$request->qty[$i]]);
+        }
+        return redirect(route('order.pendingOrder'));
+    }
+
+    public function processingOrderPrint($id){
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+            ->where('ID',$id) 
+            ->where('post_status', 'Processing')
+            ->where('post_modified', '>=', $date)
+            ->get();
+        $pdf = PDF::loadView('admin.order.processing_order_pdf', array('orders' => $order));
+        return $pdf->download('processingorder');
+    }
+
+    public function processingOrderEdit($id)
+    {
+    }
+
+    public function processingOrderCancel($id)
+    {
     }
 
 
