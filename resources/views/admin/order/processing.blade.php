@@ -100,8 +100,8 @@
                   <td class="right">{{$sub=$subtotal}}</td>
                   <td class="right">
                     <i class="fas fa-print"><a href="{{route('order.processing.print',$orders->ID)}}">Print</a></i><br>
-                    <i class="fas fa-edit"><a href="#">Edit</a></i><br>
-                    <i class="fas fa-window-close"><a href="#">Cancel</a></i>
+                    <i class="fas fa-edit"><a href="{{route('order.processing.edit',$orders->ID)}}">Edit</a></i><br>
+                    <i class="fas fa-window-close"><a href="{{route('order.processing.cancel',$orders->ID)}}">Cancel</a></i>
                   </td>
                   <!-- <td class="right">hello</td> -->
                 </tr>

@@ -147,8 +147,9 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('delivered/order', 'OrderController@deliveredOrder')->name('order.deliver');
         Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled');
         Route::get('processing/order/print/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print');
-        Route::get('processing/order/edit/{id}', 'OrderController@processingOrderPri')->name('order.processing.print');
-        Route::get('processing/order/cancel/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print'); 
+        Route::get('processing/order/edit/{id}', 'OrderController@processingOrderEdit')->name('order.processing.edit');
+        Route::get('processing/order/cancel/{id}', 'OrderController@processingOrderCancel')->name('order.processing.cancel');
+        Route::get('processing/order/date/wise', 'OrderController@processingOrderCancel')->name('order.processing.cancel'); 
 
     });
 

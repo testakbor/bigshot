@@ -115,9 +115,8 @@ class OrderController extends Controller
        return view('admin.order.searchOrder',compact('orders','total_orders'));
     }
 
-    public function processing(Request $request)
+    public function processing()
     {   
-        
      $extraInfo=array(
             'title'=>"Brand List",
             'page'=>'processing'
@@ -432,7 +431,22 @@ class OrderController extends Controller
     }
 
     public function processingOrderPrint($id){
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+            ->where('ID',$id) 
+            ->where('post_status', 'Processing')
+            ->where('post_modified', '>=', $date)
+            ->get();
+        $pdf = PDF::loadView('admin.order.processing_order_pdf', array('orders' => $order));
+        return $pdf->download('processingorder');
+    }
 
+    public function processingOrderEdit($id)
+    {
+    }
+
+    public function processingOrderCancel($id)
+    {
     }
 
 
