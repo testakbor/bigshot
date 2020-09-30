@@ -5,7 +5,7 @@
 
 <!-- Page Content  -->
 <div id="content" class=" p-md-5">
-    <div class="row">
+    
       <div class="col-md-10 ">
        <div class="container-fluid">
 
@@ -87,7 +87,7 @@ right: 10px;top:96px;">
 </form> -->
 
 </div>
-</div>
+
 </div>
 </div>
 
