@@ -33,7 +33,7 @@
             <button type="submit" class="btn-search" type="button">SEARCH</button>
           </div>
       </form>
-      <div class="offset-3 col-md-4">
+      <div class="offset-4 col-md-4">
         <div class="box bg-primary">
           <!-- <i class="fa fa-lemon ml-1"></i> -->
           @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp

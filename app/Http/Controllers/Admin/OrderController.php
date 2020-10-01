@@ -644,25 +644,25 @@ public function dispatchOrderDelivered($id){
 // }
 
 
-    public function dispatchOrderdatewise(Request $request)
-    {
-        $extraInfo = array(
-            'title' => "Brand List",
-            'page' => 'processing'
-        );
-        $date = \Carbon\Carbon::today()->subDays(30);
-        $order = Post::where('post_type', 'shop_order')
-        ->where('ID', $request->order_id)
-            ->where('post_status', 'Dispatch')
-            ->where('post_modified', '>=', $date)
-            ->paginate(20);
-        $total_order = Post::where('post_type', 'shop_order')
-        ->where('ID', $request->order_id)
-            ->where('post_status', 'Dispatch')
-            ->where('post_modified', '>=', $date)
-            ->count();
-        return view('admin.order.dispatch_date_wise', compact('order', 'total_order'))->with($extraInfo);
-    }
+public function dispatchOrderdatewise(Request $request)
+{
+    $extraInfo = array(
+        'title' => "Brand List",
+        'page' => 'processing'
+    );
+    $date = \Carbon\Carbon::today()->subDays(30);
+    $order = Post::where('post_type', 'shop_order')
+    ->where('ID', $request->order_id)
+    ->where('post_status', 'Dispatch')
+    ->where('post_modified', '>=', $date)
+    ->paginate(20);
+    $total_order = Post::where('post_type', 'shop_order')
+    ->where('ID', $request->order_id)
+    ->where('post_status', 'Dispatch')
+    ->where('post_modified', '>=', $date)
+    ->count();
+    return view('admin.order.dispatch_date_wise', compact('order', 'total_order'))->with($extraInfo);
+}
 
 
 
@@ -676,44 +676,51 @@ public function dispatchOrderDelivered($id){
     //     return back();
     // }
 
-    public function dispatchOrderEdit($id)
-    {
-        $order = Post::where('ID', $id)->first();
-        $orders_data = Post::where('ID', $id)->get();
-        $order_item = Post::where('ID', $id)->get();
-        return view('admin.order.dispatch_order_edit', compact('order', 'order_item', 'orders_data'));
-    }
+public function dispatchOrderEdit($id)
+{
+    $order = Post::where('ID', $id)->first();
+    $orders_data = Post::where('ID', $id)->get();
+    $order_item = Post::where('ID', $id)->get();
+    return view('admin.order.dispatch_order_edit', compact('order', 'order_item', 'orders_data'));
+}
 
 
-    public function dispatchOrdercancel(Request $request)
-    {
-        if ($request->full_order == 'full') {
+public function dispatchOrdercancel(Request $request)
+{
+
+
+    if ($request->full_order == 'full') {
             $status_change = DB::table('posts')->where('ID', $request->order_id)->update([
                 'post_status' => 'Cancelled',
                 'post_modified' => date('Y-m-d'),
             ]);
-            $qty = 0;
-            $product_id = 0;
-            $order_item = DB::table('order_itemmeta')->where('order_id', $request->order_id)->get();
-            foreach ($order_item as $item) {
-                if ($item->meta_key == '_qty') {
-                    $qty = $item->meta_value;
-                }
-                if ($item->meta_key == '_product_id') {
-                    $product_id = $item->meta_value;
-                }
-                // $pro_qty=DB::table('postmeta')->where('post_id',$product_id)->where('meta_key','qty')->first();
-                // DB::table('postmeta')->where('post_id',$product_id)->where('meta_key','qty')->update([
-                //     'meta_value'
-                //     => 10
-                // ]);
-            }
-        } else {
-            dd($request->partial_cancel);
-        }
-    }
+       $order_items= DB::table('order_items')->where('order_id', $request->order_id)->get();
+
+       foreach ($order_items as $items) {
+
+          $itemQty=DB::table('order_itemmeta')
+          ->where('order_id', $items->order_id)
+          ->where('order_item_id', $items->order_item_id)
+          ->where('meta_key', '_qty')
+          ->first();
+
+
+     // old stock
+          $oldQty=DB::table('postmeta')->where('post_id', $items->product_id)->where('meta_key','qty')->first();
+
+          $newQty=$oldQty->meta_value+$itemQty->meta_value;
+          DB::table('postmeta')->where('post_id', $items->product_id)->where('meta_key','qty')->update([
+            'meta_value'=>$newQty]);
+
+      }
+
+  } else {
+    dd($request->partial_cancel);
+}
+return redirect(route('order.dispat'));
+}
 public function testpdf($id=1){    
-    
+
     if($id==1){
         $data=[];
         $pdf = PDF::loadView('admin.pdf.order.test',array('order' => $data));
@@ -722,7 +729,7 @@ public function testpdf($id=1){
     else{
        return view('admin.pdf.order.test');
    }
-   
+
 }
 
 
@@ -732,29 +739,29 @@ public function exceldispatchOrdercomplete($id){
    DB::table('posts')->where('ID',$id)->update([
      'post_status' =>'Delivered',
      'post_modified' =>date('Y-m-d'),
-   ]);
-        session()->flash("success", "Order has been delivered");
-        return redirect()->back();
+ ]);
+   session()->flash("success", "Order has been delivered");
+   return redirect()->back();
 }
 
 public function exceldispatchOrderdate(Request $request){
-        $start=$request->start;
-        $end = $request->end;
-        $extraInfo = array(
-            'title' => "Brand List",
-            'page' => 'processing'
-        );
+    $start=$request->start;
+    $end = $request->end;
+    $extraInfo = array(
+        'title' => "Brand List",
+        'page' => 'processing'
+    );
         //   $date = \Carbon\Carbon::today();
-        $order = Post::where('post_type', 'shop_order')
-            ->where('post_status', 'Dispatch')
-            ->whereBetween('post_modified',[$start,$end])
-            ->paginate(20);
+    $order = Post::where('post_type', 'shop_order')
+    ->where('post_status', 'Dispatch')
+    ->whereBetween('post_modified',[$start,$end])
+    ->paginate(20);
 
-        $total_order = Post::where('post_type', 'shop_order')
-            ->where('post_status', 'Dispatch')
-            ->whereBetween('post_modified', [$start, $end])
-            ->count();
-        return view('admin.order.excelDispatchdate', compact('order', 'total_order'))->with($extraInfo); 
+    $total_order = Post::where('post_type', 'shop_order')
+    ->where('post_status', 'Dispatch')
+    ->whereBetween('post_modified', [$start, $end])
+    ->count();
+    return view('admin.order.excelDispatchdate', compact('order', 'total_order'))->with($extraInfo); 
 }
 
 
