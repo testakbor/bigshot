@@ -110,6 +110,7 @@
                                                 <td class="right">{{$phone}}</td>
                                                 <td class="right">{{$sub=$subtotal}}</td>
                                             </tr>
+                                            <input type="hidden" name="order_id" value="{{$orders->ID}}">
                                             @endforeach
                                             @endforeach
                                         </tbody>
@@ -128,6 +129,7 @@
                                     </div>
                                 </div>
                             </div> -->
+
                             <div class="col-md-12 text-center">
                                 <button type="submit" name="full_order" value="full" name="submit" class="btn btn-primary">Full Order Cancel</button>
                                 <button type="submit" name="partial_order" value="partial" name="submit" class="btn btn-primary">Partial Order Cancel</button>

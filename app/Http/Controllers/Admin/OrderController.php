@@ -658,8 +658,35 @@ $extraInfo = array(
 
     public function dispatchOrdercancel(Request $request){
         if($request->full_order== 'full'){
-           dd('full');
-        }else{
+            $status_change=DB::table('posts')->where('ID',$request->order_id)->update([
+                'post_status' =>'Cancelled',
+                'post_modified' => date('Y-m-d'),
+            ]);
+            $qty = 0;
+            $product_id=0;
+            $order_item=DB::table('order_itemmeta')->where('order_id',$request->order_id)->get();
+            foreach($order_item as $item){
+               if($item->meta_key=='_qty'){
+                  $qty=$item->meta_value;
+               }
+               if ($item->meta_key=='_product_id') {
+                    $product_id=$item->meta_value;
+               
+               }
+                // $pro_qty=DB::table('postmeta')->where('post_id',$product_id)->where('meta_key','qty')->first();
+                // DB::table('postmeta')->where('post_id',$product_id)->where('meta_key','qty')->update([
+                //     'meta_value'
+                //     => 10
+                // ]);
+            }
+     
+          
+
+            
+        
+        }
+        
+        else{
             dd($request->partial_cancel);
         }
     }
