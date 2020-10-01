@@ -163,5 +163,9 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('dispatch/order/delivered/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivered');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
 
+        Route::get('testpdf/{id}', 'OrderController@testpdf');
+
+
+
     });
 
