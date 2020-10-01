@@ -642,6 +642,75 @@ public function dispatchOrderEdit($id){
     return view('admin.order.dispatch_order_edit',compact('order','order_item'));
 }
 
+
+    public function dispatchOrderdatewise(Request $request)
+    {
+        $extraInfo = array(
+            'title' => "Brand List",
+            'page' => 'processing'
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->where('ID', $request->order_id)
+            ->where('post_status', 'Dispatch')
+            ->where('post_modified', '>=', $date)
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+        ->where('ID', $request->order_id)
+            ->where('post_status', 'Dispatch')
+            ->where('post_modified', '>=', $date)
+            ->count();
+        return view('admin.order.dispatch_date_wise', compact('order', 'total_order'))->with($extraInfo);
+    }
+
+
+
+    public function dispatchOrderDelivered($id)
+    {
+        DB::table('posts')->where('ID', $id)->update([
+            'post_status' => 'Delivered',
+            'post_modified' => date('Y-m-d'),
+        ]);
+        session()->flash("success", "Order has been delivered");
+        return back();
+    }
+
+    public function dispatchOrderEdit($id)
+    {
+        $order = Post::where('ID', $id)->first();
+        $orders_data = Post::where('ID', $id)->get();
+        $order_item = Post::where('ID', $id)->get();
+        return view('admin.order.dispatch_order_edit', compact('order', 'order_item', 'orders_data'));
+    }
+
+
+    public function dispatchOrdercancel(Request $request)
+    {
+        if ($request->full_order == 'full') {
+            $status_change = DB::table('posts')->where('ID', $request->order_id)->update([
+                'post_status' => 'Cancelled',
+                'post_modified' => date('Y-m-d'),
+            ]);
+            $qty = 0;
+            $product_id = 0;
+            $order_item = DB::table('order_itemmeta')->where('order_id', $request->order_id)->get();
+            foreach ($order_item as $item) {
+                if ($item->meta_key == '_qty') {
+                    $qty = $item->meta_value;
+                }
+                if ($item->meta_key == '_product_id') {
+                    $product_id = $item->meta_value;
+                }
+                // $pro_qty=DB::table('postmeta')->where('post_id',$product_id)->where('meta_key','qty')->first();
+                // DB::table('postmeta')->where('post_id',$product_id)->where('meta_key','qty')->update([
+                //     'meta_value'
+                //     => 10
+                // ]);
+            }
+        } else {
+            dd($request->partial_cancel);
+        }
+    }
 public function testpdf($id=1){    
     
     if($id==1){
