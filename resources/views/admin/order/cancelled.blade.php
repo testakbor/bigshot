@@ -43,7 +43,7 @@
           </div>
 
            <div class="offset-1 col-md-4">
-            <div class="box bg-info">
+            <div class="box bg-danger">
               <!-- <i class="fa fa-lemon ml-1"></i> -->
               @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
               @foreach($order as $orders)
@@ -65,7 +65,17 @@
               @php $total_amount+=$sub; @endphp
               @endforeach
               <h3 class="text-center">{{$total_order}}</h3>
-              <p class="lead text-center font-weight-bold">Total Delevery</p>
+              <p class="lead text-center font-weight-bold">Total Cancelled</p>
+            </div>
+
+            
+
+          </div>
+          <div class="col-md-4">
+            <div class="box bg-info">
+             
+              <h3 class="text-center">125</h3>
+              <p class="lead text-center font-weight-bold">Total Ammount</p>
             </div>
           </div>
 
@@ -83,7 +93,7 @@
 
           <div class="card-header">Invoice
             <strong>01/01/01/2018</strong> 
-            <span class="float-right"> <strong>Status:</strong> Cancel order</span>
+            <span class="float-right"> <strong>Status:</strong> Cancelled order</span>
           </div>
 
            <div class="card-body">
@@ -127,12 +137,12 @@
                   <td class="right">{{$phone}}</td>
                   <td class="right">Quantity</td>
                   <td class="right">{{$sub=$subtotal}}</td>
-                  <td class="right">Cancel Date</td>
+                  <td class="right">{{date('Y-m-d',strtotime($orders->post_modified))}}</td>
                   <td class="right">Comment</td>
                   <td class="right">
-                   <a href="#" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a><br>
+                   <a href="{{route('order.cancelled.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
                   <a href="#" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
-                  <a onclick="return confirm('are you sure??')" href="#" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
+                  
                   </td>
                   <!-- <td class="right">hello</td> -->
                 </tr>
@@ -164,15 +174,7 @@
                   <p class="lead text-center font-weight-bold">Total Cancelled</p>
                 </div>
               </div>
-                 <div class="col-md-4">
-                <div class="box bg-success">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">0</h3>
-                 
-                  <p class="lead text-center font-weight-bold">Total Quantity</p>
-                </div>
-              </div>
+                
             
               <div class="col-md-4 ">
                 <div class="box bg-info">

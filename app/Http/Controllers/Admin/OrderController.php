@@ -166,6 +166,7 @@ class OrderController extends Controller
         ->where('post_status', 'cancelled')
         ->where('post_modified', '>=', $date)
             ->paginate(20);
+dd($order);            
         $total_order = Post::where('post_type', 'shop_order')
         ->where('post_status', 'cancelled')
         ->where('post_modified', '>=', $date)
@@ -457,13 +458,52 @@ $extraInfo = array(
         return view('admin.order.delivery', compact('order','total_order'))->with($extraInfo); 
     }
 
+    // public function cancelledOrder()
+    // {
+    //    $extraInfo=array(
+    //         'title'=>"Cancel List",
+    //         'page'=>'cancelled'
+    //     ); 
+
+    //     $date = \Carbon\Carbon::today()->subDays(30);
+    //     $order = Post::where('post_type', 'shop_order')
+    //     ->where('post_status', 'cancelled')
+    //     ->where('post_modified', '>=', $date)
+    //         ->paginate(20);   
+    //     $total_order = Post::where('post_type', 'shop_order')
+    //     ->where('post_status', 'cancelled')
+    //     ->where('post_modified', '>=', $date)
+    //         ->count();
+
+    //     return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
+    // } 
+
     public function cancelledOrder()
     {
-        $extraInfo = array(
-            'title' => "Cancel order List",
-            'page' => 'processing'
-        );
-return view('admin.order.cancelled')->with($extraInfo); 
+       $extraInfo=array(
+            'title'=>"Cancel List",
+            'page'=>'cancelled'
+        ); 
+
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'cancelled')
+        ->where('post_modified', '>=', $date)
+            ->paginate(20);   
+        $total_order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'cancelled')
+        ->where('post_modified', '>=', $date)
+            ->count();
+
+        return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
+    } 
+
+    public function cancelledOrderPrint($id)
+    {
+      $order = Post::where('ID',$id) 
+            ->get();
+        $pdf = PDF::loadView('admin.order.concelled_order_pdf', array('order' => $order));
+        return $pdf->download('cancelledorder.pdf');
     }
 
     public function updateOrderQty(Request $request){
