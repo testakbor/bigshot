@@ -433,14 +433,15 @@ public function grossProfit()
         'title' => "Brand List",
         'page' => 'processing'
     );
-     $date = \Carbon\Carbon::today()->subDays(30);
-     $order = Post::where('post_type', 'shop_order')
-     ->where('post_status', 'Dispatch')
-     ->where('post_modified', '>=', $date)
+    //   $date = \Carbon\Carbon::today();
+     $order = Post::where('post_type','shop_order')
+     ->where('post_status','Dispatch')
+     ->where('post_modified','=',date('Y-m-d'))
      ->paginate(20);
+
      $total_order = Post::where('post_type', 'shop_order')
      ->where('post_status', 'Dispatch')
-     ->where('post_modified', '>=', $date)
+     ->where('post_modified','=',date('Y-m-d'))
      ->count();
      return view('admin.order.excelDispatch', compact('order','total_order'))->with($extraInfo); 
  }
@@ -636,11 +637,11 @@ public function dispatchOrderDelivered($id){
   return back();
 }
 
-public function dispatchOrderEdit($id){
-    $order=Post::where('ID',$id)->first();
-    $order_item = Post::where('ID', $id)->get();
-    return view('admin.order.dispatch_order_edit',compact('order','order_item'));
-}
+// public function dispatchOrderEdit($id){
+//     $order=Post::where('ID',$id)->first();
+//     $order_item = Post::where('ID', $id)->get();
+//     return view('admin.order.dispatch_order_edit',compact('order','order_item'));
+// }
 
 
     public function dispatchOrderdatewise(Request $request)
@@ -665,15 +666,15 @@ public function dispatchOrderEdit($id){
 
 
 
-    public function dispatchOrderDelivered($id)
-    {
-        DB::table('posts')->where('ID', $id)->update([
-            'post_status' => 'Delivered',
-            'post_modified' => date('Y-m-d'),
-        ]);
-        session()->flash("success", "Order has been delivered");
-        return back();
-    }
+    // public function dispatchOrderDelivered($id)
+    // {
+    //     DB::table('posts')->where('ID', $id)->update([
+    //         'post_status' => 'Delivered',
+    //         'post_modified' => date('Y-m-d'),
+    //     ]);
+    //     session()->flash("success", "Order has been delivered");
+    //     return back();
+    // }
 
     public function dispatchOrderEdit($id)
     {
@@ -723,5 +724,44 @@ public function testpdf($id=1){
    }
    
 }
+
+
+
+
+public function exceldispatchOrdercomplete($id){
+   DB::table('posts')->where('ID',$id)->update([
+     'post_status' =>'Delivered',
+     'post_modified' =>date('Y-m-d'),
+   ]);
+        session()->flash("success", "Order has been delivered");
+        return redirect()->back();
+}
+
+public function exceldispatchOrderdate(Request $request){
+        $start=$request->start;
+        $end = $request->end;
+        $extraInfo = array(
+            'title' => "Brand List",
+            'page' => 'processing'
+        );
+        //   $date = \Carbon\Carbon::today();
+        $order = Post::where('post_type', 'shop_order')
+            ->where('post_status', 'Dispatch')
+            ->whereBetween('post_modified',[$start,$end])
+            ->paginate(20);
+
+        $total_order = Post::where('post_type', 'shop_order')
+            ->where('post_status', 'Dispatch')
+            ->whereBetween('post_modified', [$start, $end])
+            ->count();
+        return view('admin.order.excelDispatchdate', compact('order', 'total_order'))->with($extraInfo); 
+}
+
+
+
+
+
+
+
 
 }
