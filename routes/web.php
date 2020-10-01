@@ -93,7 +93,11 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/pendingOrder/print','OrderController@print')->name('pendingOrder.print');
         Route::get('admin/pendingOrder/cancelled','OrderController@cancelled')->name('order.cancelled');
         Route::get('admin/sendparcel','OrderController@sendParcel')->name('order.sendParcel');
+        
         Route::get('admin/allStatus','OrderController@allStatus')->name('order.allStatus');
+        Route::get('allStatus/print/{id}', 'OrderController@allStatusPrint')->name('order.allStatus.print');
+        
+
         Route::get('admin/deliveryInvoice','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
@@ -160,6 +164,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
         Route::post('dispatch/order/date/wise', 'OrderController@dispatchOrderdatewise')->name('dispatch.order.date.wise');
         Route::post('dispatch/order/cancel', 'OrderController@dispatchOrdercancel')->name('dispatch.order.cancel.type');
+
+        Route::get('testpdf/{id}', 'OrderController@testpdf');
+
+
 
     });
 
