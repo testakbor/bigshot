@@ -153,13 +153,25 @@ class OrderController extends Controller
             ->count();
         return view('admin.order.dispat', compact('order','total_order'))->with($extraInfo); 
     }
+
     public function cancelled()
     {   
      $extraInfo=array(
-            'title'=>"Brand List",
+            'title'=>"Cancel List",
             'page'=>'cancelled'
         ); 
-        return view('admin.order.cancelled')->with($extraInfo);
+
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'cancelled')
+        ->where('post_modified', '>=', $date)
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+        ->where('post_status', 'cancelled')
+        ->where('post_modified', '>=', $date)
+            ->count();
+
+        return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
     }
 
     public function allStatus()
@@ -435,7 +447,7 @@ $extraInfo = array(
         );
         $date = \Carbon\Carbon::today()->subDays(30);
         $order = Post::where('post_type', 'shop_order')
-        ->where('post_status', 'Dispatch')
+        ->where('post_status', 'delivery')
         ->where('post_modified', '>=', $date)
             ->paginate(20);
         $total_order = Post::where('post_type', 'shop_order')
