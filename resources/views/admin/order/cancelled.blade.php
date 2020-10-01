@@ -41,6 +41,44 @@
           <div class="input-field fifth-wrap">
             <button class="btn-search" type="button">SEARCH</button>
           </div>
+
+           <div class="offset-1 col-md-4">
+            <div class="box bg-danger">
+              <!-- <i class="fa fa-lemon ml-1"></i> -->
+              @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
+              @foreach($order as $orders)
+              @foreach($orders->productMeta as $meta)
+              @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
+              @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
+              @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
+              @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
+              @endforeach
+              @foreach($orders->orderItem as $info)
+              @foreach($info->orderMeta as $value)
+              @if($value->meta_key=='_line_subtotal')
+              @php $subtotal=$value->meta_value; @endphp
+              @endif
+
+              @endforeach
+              @endforeach
+              @php $sub=$subtotal; @endphp
+              @php $total_amount+=$sub; @endphp
+              @endforeach
+              <h3 class="text-center">{{$total_order}}</h3>
+              <p class="lead text-center font-weight-bold">Total Cancelled</p>
+            </div>
+
+            
+
+          </div>
+          <div class="col-md-4">
+            <div class="box bg-info">
+             
+              <h3 class="text-center">125</h3>
+              <p class="lead text-center font-weight-bold">Total Ammount</p>
+            </div>
+          </div>
+
         </div>
       </form>
     </div>
@@ -55,56 +93,74 @@
 
           <div class="card-header">Invoice
             <strong>01/01/01/2018</strong> 
-            <span class="float-right"> <strong>Status:</strong> Cancel order</span>
+            <span class="float-right"> <strong>Status:</strong> Cancelled order</span>
           </div>
 
-          <div class="card-body">
-           
+           <div class="card-body">
 
-            <div class="table-responsive-sm">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
+
+          <div class="table-responsive-sm">
+            <table class="table table-striped">
+              <thead>
+                <tr>
                   <th class="center">Oder Id</th>
                   <th>Name</th>
-                  
                   <th class="right">Mobile</th>
                   <th class="right">Quantity</th>
                   <th class="right">Amount</th>
-                  <th class="right">Cancelled Date</th>
-                 
-                  <th class="right">Comments</th>
+                  <th class="right">Cancel Date</th>
+                  <th class="right">Comment</th>
                   <th class="right">Action</th>
-                  </tr>
-                </thead>
+                </tr>
+              </thead>
 
-                <tbody>
-                  <tr>
-                  <td class="center">Barcode</td>
-                  <td>Saiful</td>
-                  <td class="right">01680000000</td>
-                  <td class="right">1</td>
-                  <td class="right">$999,00</td>
-                  <td class="right">10-9-2020</td>
-                  <td class="right">hello</td>
+              <tbody>
+                @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
+                @foreach($order as $orders)
+                @foreach($orders->productMeta as $meta)
+                @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
+                @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
+                @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
+                @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
+                @endforeach
+                @foreach($orders->orderItem as $info)
+                @foreach($info->orderMeta as $value)
+                @if($value->meta_key=='_line_subtotal')
+                @php $subtotal=$value->meta_value; @endphp
+                @endif
+
+                @endforeach
+                @endforeach
+                <tr>
+                  <td class="center">{{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
+                  <td>{{$name}} {{$last_name}}</td>
+                  <td class="right">{{$phone}}</td>
+                  <td class="right">Quantity</td>
+                  <td class="right">{{$sub=$subtotal}}</td>
+                  <td class="right">{{date('Y-m-d',strtotime($orders->post_modified))}}</td>
+                  <td class="right">Comment</td>
                   <td class="right">
-                    <a href="#" class="btn btn-primary mb-2"><i class="fas fa-print"></i> Print</a><br>
-                  <a href="#"  class="btn btn-success">  <i class="fas fa-edit"> </i> Edit</a>
-                  </td>
-                  </tr>
+                   <a href="{{route('order.cancelled.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
+                  <a href="#" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
                   
-                </tbody>
-              </table>
-            </div>
+                  </td>
+                  <!-- <td class="right">hello</td> -->
+                </tr>
+                @php $total_amount+=$sub; @endphp
+                @endforeach
+              </tbody>
+            </table>
+            {{$order->links()}}
+          </div>
 
-            <div class="row">
-                <div class="col-lg-4 col-sm-5">
-
-                </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-5">
 
             </div>
 
           </div>
+
+        </div>
         </div>
       </div>
       <div class="container">
@@ -118,15 +174,7 @@
                   <p class="lead text-center font-weight-bold">Total Cancelled</p>
                 </div>
               </div>
-                 <div class="col-md-4">
-                <div class="box bg-success">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
-                  <h3 class="text-center">0</h3>
-                 
-                  <p class="lead text-center font-weight-bold">Total Quantity</p>
-                </div>
-              </div>
+                
             
               <div class="col-md-4 ">
                 <div class="box bg-info">

@@ -145,7 +145,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         //delivery invoice
         Route::get('delivery/invoice', 'OrderController@deliveryInvoiceOrder')->name('order.delivery.invoice');
         Route::get('delivered/order', 'OrderController@deliveredOrder')->name('order.deliver');
+
         Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled');
+        Route::get('cancelled/order/print/{id}', 'OrderController@cancelledOrderPrint')->name('order.cancelled.print');
+
         Route::get('processing/order/print/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print');
         Route::get('processing/order/edit/{id}', 'OrderController@processingOrderEdit')->name('order.processing.edit');
         Route::get('processing/order/cancel/{id}', 'OrderController@processingOrderCancel')->name('order.processing.cancel');
