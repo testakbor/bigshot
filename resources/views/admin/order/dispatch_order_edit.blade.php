@@ -68,47 +68,55 @@
 
                         </div>
                     </div>
-                    <form action="{{route('update.order.quantity')}}" method="POST">
+                    <form action="{{route('dispatch.order.cancel.type')}}" method="POST">
                         @csrf
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title" style="width: 100%">Item Info</h3>
                             </div>
                             <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
-
-                                <table class="table table-striped">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Cost</th>
-                                            <th scope="col">Qty</th>
-                                            <th scope="col">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $product_name=''; @endphp
-                                        @foreach($order_item as $items)
-                                        @foreach($items->orderItem as $item_data)
-                                        @php $product_name=$item_data->order_item_name; @endphp
-                                        @endforeach
-                                        <tr>
-                                            <th scope="row">43543</th>
-                                            <td>435435 </td>
-                                            <td>43543</td>
-                                            <td><input type="number" name="qty[]" value=""></td>
-                                            <td>4354</td>
-                                            <input type="hidden" name="product_id[]" value="">
-                                            <input type="hidden" name="order_id" value="">
-                                            <input type="hidden" name="order_item_id[]" value="">
-                                            <input type="hidden" name="total[]" value="">
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <form method="post" action="">
+                                    <table class="table table-striped">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Order Id</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Address</th>
+                                                <th scope="col">Mobile</th>
+                                                <th scope="col">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
+                                            @foreach($orders_data as $key=>$orders)
+                                            @foreach($orders->productMeta as $meta)
+                                            @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
+                                            @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
+                                            @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
+                                            @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
+                                            @endforeach
+                                            @foreach($orders->orderItem as $info)
+                                            @foreach($info->orderMeta as $value)
+                                            @if($value->meta_key=='_line_subtotal')
+                                            @php $subtotal=$value->meta_value; @endphp
+                                            @endif
+                                            @endforeach
+                                            <tr>
+                                                <th scope="row"><input type="checkbox" id="" name="partial_cancel" value=""></th>
+                                                <td>{{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}} {{$info->order_item_id}}</td>
+                                                <td>{{$name}} {{$last_name}}</td>
+                                                <td class="right">{{$address_one}}</td>
+                                                <td class="right">{{$phone}}</td>
+                                                <td class="right">{{$sub=$subtotal}}</td>
+                                            </tr>
+                                            @endforeach
+                                            @endforeach
+                                        </tbody>
+                                    </table>
 
                             </div>
-                            <div class="card-footer ">
+                            <!-- <div class="card-footer ">
                                 <div class="d-flex flex-column justify-content-end">
                                     <div class="d-flex flex-row justify-content-end">
                                         <div> item Sub total:</div>
@@ -119,19 +127,20 @@
                                         <div> 43543</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-12 text-center">
-                                <button type="submit" value="submit" name="submit" class="btn btn-primary">Full Order Cancel</button>
-                                <button type="submit" value="submit" name="submit" class="btn btn-primary">Partial Order Cancel</button>
-                            </div>
+                                <button type="submit" name="full_order" value="full" name="submit" class="btn btn-primary">Full Order Cancel</button>
+                                <button type="submit" name="partial_order" value="partial" name="submit" class="btn btn-primary">Partial Order Cancel</button>
                     </form>
                 </div>
+                </form>
             </div>
-
-
-
-            <!-- /.card-body -->
         </div>
+
+
+
+        <!-- /.card-body -->
+</div>
 
 
 

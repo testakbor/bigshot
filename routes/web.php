@@ -155,6 +155,8 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
         Route::get('dispatch/order/delivered/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivered');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
+        Route::post('dispatch/order/date/wise', 'OrderController@dispatchOrderdatewise')->name('dispatch.order.date.wise');
+        Route::post('dispatch/order/cancel', 'OrderController@dispatchOrdercancel')->name('dispatch.order.cancel.type');
 
     });
 

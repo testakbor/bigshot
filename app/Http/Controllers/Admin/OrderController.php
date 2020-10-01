@@ -567,6 +567,26 @@ return view('admin.order.cancelled')->with($extraInfo);
 
     }
 
+    public function dispatchOrderdatewise(Request $request){
+        $extraInfo = array(
+            'title' => "Brand List",
+            'page' => 'processing'
+        );
+        $date = \Carbon\Carbon::today()->subDays(30);
+        $order = Post::where('post_type', 'shop_order')
+            ->where('ID', $request->order_id)
+            ->where('post_status', 'Dispatch')
+            ->where('post_modified', '>=', $date)
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+            ->where('ID', $request->order_id)
+            ->where('post_status', 'Dispatch')
+            ->where('post_modified', '>=', $date)
+            ->count();
+        return view('admin.order.dispatch_date_wise', compact('order', 'total_order'))->with($extraInfo);
+    }
+
+
     public function dispatchOrderDelivered($id){
       DB::table('posts')->where('ID',$id)->update([
         'post_status' =>'Delivered',
@@ -578,8 +598,18 @@ return view('admin.order.cancelled')->with($extraInfo);
 
     public function dispatchOrderEdit($id){
         $order=Post::where('ID',$id)->first();
+        $orders_data = Post::where('ID', $id)->get();
         $order_item = Post::where('ID', $id)->get();
-       return view('admin.order.dispatch_order_edit',compact('order','order_item'));
+       return view('admin.order.dispatch_order_edit',compact('order','order_item','orders_data'));
+    }
+
+
+    public function dispatchOrdercancel(Request $request){
+        if($request->full_order== 'full'){
+           dd('full');
+        }else{
+            dd($request->partial_cancel);
+        }
     }
 
 
