@@ -366,7 +366,7 @@ public function grossProfit()
     public function pending_order_processing($id){
         DB::table('posts')->where('ID',$id)->update([
           'post_status' =>'Processing',
-          'post_modified'   =>date('Y-m-d')
+            'post_modified' => date('Y-m-d H:i:s'),
       ]);
         //check if already have meta value
         $check=DB::table('postmeta')->where('post_id',$id)->where('meta_key','processing_date')->count();
@@ -436,18 +436,18 @@ public function grossProfit()
     //   $date = \Carbon\Carbon::today();
      $order = Post::where('post_type','shop_order')
      ->where('post_status','Dispatch')
-     ->where('post_modified','=',date('Y-m-d'))
+    ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
      ->paginate(20);
 
      $total_order = Post::where('post_type', 'shop_order')
      ->where('post_status', 'Dispatch')
-     ->where('post_modified','=',date('Y-m-d'))
+    ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
      ->count();
      return view('admin.order.excelDispatch', compact('order','total_order'))->with($extraInfo); 
  }
 
  public function deliveryInvoiceOrder(){
-
+   return view('admin.order.deliveryInvoiceOrder');
  }
 
  public function deliveredOrder(){
@@ -584,7 +584,7 @@ public function processingOrderCancel($id)
 {
     DB::table('posts')->where('ID',$id)->update([
         'post_status' => 'Cancelled',
-        'post_modified' => date('Y-m-d'),
+        'post_modified' => date('Y-m-d H:i:s'),
     ]);
     session()->flash("success", "Order has been cancel");
     return back();
@@ -631,7 +631,7 @@ public function processingOrderdatewise(Request $request){
 public function dispatchOrderDelivered($id){
   DB::table('posts')->where('ID',$id)->update([
     'post_status' =>'Delivered',
-    'post_modified' => date('Y-m-d'),
+    'post_modified' => date('Y-m-d H:i:s'),
 ]);
   session()->flash("success", "Order has been delivered");
   return back();
@@ -758,10 +758,34 @@ public function exceldispatchOrderdate(Request $request){
 }
 
 
+public function deliveryInvoiceData(Request $request){
+        $order_id=$request->order_id;
+        $date = $request->order_date;
+        if($order_id=='' && $date==''){
+            session()->flash("error", "Enter Invoice No Or Date");
+            return redirect()->back();
+        }
+        if($order_id!=NULL){
+            $order = Post::where('post_type', 'shop_order')
+                ->where('post_status', 'Delivered')
+                ->where('ID',$order_id)
+                ->get();
+        }
+        if($date!=NULL){
+            $order = Post::where('post_type', 'shop_order')
+                ->where('post_status', 'Delivered')
+                ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($date)), date('Y-m-d 23:59:59', strtotime($date))])
+                ->get();
+        }
+        return view('admin.order.deliveryInvoiceData',compact('order'));
 
+    }
 
-
-
-
+    public function deliveryInvoiceDataDetails($id){
+        $order = Post::find($id);
+        $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
+        $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+        return view('admin.order.deliveryInvoiceDataDetails', compact('order', 'products', 'id', 'order_info'));   
+    }
 
 }

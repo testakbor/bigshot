@@ -166,6 +166,9 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('dispatch/order/cancel', 'OrderController@dispatchOrdercancel')->name('dispatch.order.cancel.type');
         Route::get('excel/dispatch/order/complete/{id}', 'OrderController@exceldispatchOrdercomplete')->name('excel.dispatch.order.complete');
         Route::post('excel/dispatch/order/date/wise', 'OrderController@exceldispatchOrderdate')->name('excel.dispatch.order.date');
+        Route::post('order/delivery/invoice/data', 'OrderController@deliveryInvoiceData')->name('order.delivery.invoice.data');
+        Route::get('order/delivery/invoice/details/{id}', 'OrderController@deliveryInvoiceDataDetails')->name('order.delivery.invoice.data.details');
+
 
         Route::get('testpdf/{id}', 'OrderController@testpdf');
 
