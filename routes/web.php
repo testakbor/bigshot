@@ -102,6 +102,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
         Route::post('reject/product/search','OrderController@rejectProductSearh')->name('reject.search');
+        Route::post('reject/product/update','OrderController@rejectProductUpdate')->name('reject.update');
 
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
         Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');

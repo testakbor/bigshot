@@ -43,7 +43,7 @@
             </div>
             </div>
 
-       <form role="form" method="POST" action="{{route('brand.store')}}" enctype="multipart/form-data">
+       <form role="form" method="POST" action="{{route('reject.update')}}" enctype="multipart/form-data">
       <div class="container">
         <div class="card">
 
@@ -53,6 +53,7 @@
 
            
               {{csrf_field()}}
+             
               <div class="card-body">
                 <!-- <div class="form-group">
                   <label for="brandName">Brand Name</label>
@@ -62,6 +63,7 @@
                   <label for="image">Brand Image</label>
                   <input type="file" name="image" class="form-control" id="image">
                 </div> -->
+               
                 <table class="table table-striped table-bordered">
                   <thead class="thead-dark">
                     <tr>
@@ -70,13 +72,33 @@
                       <th>Quantity</th>
                     </tr>
                   </thead>
+                  @if(isset($meta_info))
                   <tbody>
                     <tr>
-                      <td>sku</td>
-                      <td>categroy</td>
-                      <td><input type="text" name="quantity" class="form-control" id="quantity"></td>
+                      <td>{{$meta_info->meta_value}}</td>
+                      <td>
+                        @php
+                         $name='';
+                        @endphp
+
+                          @foreach($relationShips as $item)
+                           @php 
+                          
+                $category=DB::table('terms')->where('term_id',$item->term_id)->first();
+                $name .=$category->name.', ';
+                
+                @endphp
+                          @endforeach
+                          {{substr($name,0,-2)}}
+
+                      </td>
+                      <td>
+                        <input type="hidden" name="product_id" value="{{$meta_info->post_id}}">
+
+                        <input type="text" name="quantity" class="form-control" id="quantity"></td>
                     </tr>
                   </tbody>
+                  @endif
                 </table>
               </div>
           </div>

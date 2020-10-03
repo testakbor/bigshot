@@ -243,9 +243,46 @@ public function reject()
 
 public function rejectProductSearh(Request $request)
 {    
+
+    $extraInfo=array(
+        'title'=>"Reject item",
+        'page'=>'reject'
+    ); 
+
    $sku=$request->sku;
+
    $meta_info=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->first();
-   dd($meta_info);
+   $post=Post::where('ID',$meta_info->post_id)->first();
+   $relationShips=DB::table('term_relationships')
+   ->join('term_taxonomy','term_taxonomy.term_taxonomy_id','=','term_relationships.term_taxonomy_id')
+   ->where('object_id',$post->ID)
+   ->where('taxonomy','product_cat')
+   ->get();
+  
+   return view('admin.order.reject',compact('meta_info','post','relationShips'))->with($extraInfo);
+}
+public function rejectProductUpdate(Request $request)
+{    
+
+    $extraInfo=array(
+        'title'=>"Reject item",
+        'page'=>'reject'
+    ); 
+    
+   $sku=$request->sku;
+
+   $meta_info=Postmeta::where('meta_key','qty')
+   ->where('post_id',$request->product_id)
+   ->first();
+   $newQty=$meta_info->meta_value+$request->quantity;
+
+    $relationShips=DB::table('postmeta')->where('meta_key','qty')
+   ->where('post_id',$request->product_id)
+   ->update(['meta_value'=>$newQty]);
+
+session()->flash("success","Quantity has been added Successfully");
+  
+  return view('admin.order.reject')->with($extraInfo);
 }
 public function stock()
 {    
