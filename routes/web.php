@@ -99,7 +99,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         
 
         Route::get('admin/deliveryInvoice','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
+        
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
+        Route::post('reject/product/search','OrderController@rejectProductSearh')->name('reject.search');
+
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
         Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');
         Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
@@ -149,6 +152,11 @@ Route::get('/home', 'HomeController@index')->name('home');
         //delivery invoice
         Route::get('delivery/invoice', 'OrderController@deliveryInvoiceOrder')->name('order.delivery.invoice');
         Route::get('delivered/order', 'OrderController@deliveredOrder')->name('order.deliver');
+        Route::get('delivered/edit/{id}', 'OrderController@deliveredOrderEdit')->name('order.deliver.edit');
+        Route::get('delivered/print/{id}', 'OrderController@deliveredOrderPrint')->name('order.deliver.print');
+        Route::get('delivered/cancel/{id}', 'OrderController@deliveredOrderCancel')->name('order.deliver.cancel');
+        Route::post('delivered/order/update', 'OrderController@updateDeliveryOrder')->name('order.deliver.update');
+
 
         Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled');
         Route::get('cancelled/order/print/{id}', 'OrderController@cancelledOrderPrint')->name('order.cancelled.print');

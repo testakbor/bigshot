@@ -25,6 +25,25 @@
 
     <!-- Main content -->
     <section class="content">
+
+      <div class="container">
+        <div class="card">
+
+          <div class="card-body">
+          <form role="form" class="form-inline text-center" method="POST" action="{{route('reject.search')}}" >
+              {{csrf_field()}}
+                <div class="form-group  mx-sm-3 col-sm-6">
+                  <input type="text" name="sku" style="width: 100%" class="form-control" id="sku" placeholder="Scan/search">
+                </div> 
+                <div class="form-group  mx-sm-3">
+                 <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Search</button>
+                </div>
+            </form>
+            </div>
+            </div>
+            </div>
+
+       <form role="form" method="POST" action="{{route('brand.store')}}" enctype="multipart/form-data">
       <div class="container">
         <div class="card">
 
@@ -32,28 +51,34 @@
             <div class="row mb-4">
             </div>
 
-            <div class="table-responsive-sm">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                  <th class="center">SKU</th>
-                  <th>Category</th>
-                  <th>Quantity</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                @foreach($reject_order as $order)
-                  <tr>
-                  <td class="center">1</td>
-                  <td class="left strong">Origin License</td>
-                  <td class="left">Extended License</td>         
-                </tr>
-                @endforeach 
-                </tbody>
-              </table>
-            </div>
-
+           
+              {{csrf_field()}}
+              <div class="card-body">
+                <!-- <div class="form-group">
+                  <label for="brandName">Brand Name</label>
+                  <input type="text" name="brandName" class="form-control" id="brandName" placeholder="Enter Brand Name">
+                </div>
+                <div class="form-group">
+                  <label for="image">Brand Image</label>
+                  <input type="file" name="image" class="form-control" id="image">
+                </div> -->
+                <table class="table table-striped table-bordered">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>SKU</th>
+                      <th>Category</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>sku</td>
+                      <td>categroy</td>
+                      <td><input type="text" name="quantity" class="form-control" id="quantity"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
           </div>
         </div>
       </div>
@@ -61,7 +86,6 @@
         <div class="row">
            <div class="offset-md-4 col-md-4">
                 <div class="box bg-danger">
-                  <!-- <i class="fa fa-lemon ml-1"></i> -->
                  
                   <h3 class="text-center">1</h3>
                  
@@ -77,6 +101,7 @@
         </div>       
             
       </div>
+       </form>
     </section>
         <!-- /.row -->
       </div><!-- /.container-fluid -->

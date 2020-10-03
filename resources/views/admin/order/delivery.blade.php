@@ -121,7 +121,13 @@
               </thead>
 
               <tbody>
-                @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
+                @php $first_name='';
+                $last_name='';
+                $address='';
+                $phone=''; 
+                $subtotal=0;
+                $total_amount=0;
+                @endphp
                 @foreach($order as $orders)
                 @foreach($orders->productMeta as $meta)
                 @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
@@ -143,60 +149,61 @@
                   <td class="right">{{$phone}}</td>
                   <td class="right">Quantity</td>
                   <td class="right">{{$sub=$subtotal}}</td>
-                  <td class="right">Status</td>
+                  <td class="right">{{$orders->post_status}}</td>
                   <td class="right">
-                   <a href="#" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a><br>
-                  <a href="#" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
-                  <a onclick="return confirm('are you sure??')" href="#" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
-                  </td>
-                  <!-- <td class="right">hello</td> -->
-                </tr>
-                @php $total_amount+=$sub; @endphp
-                @endforeach
-              </tbody>
-            </table>
-            {{$order->links()}}
-          </div>
+                    <a href="{{route('order.deliver.print',$orders->ID)}}" class="btn btn-success mb-2">
+                     <i class="fas fa-print"> </i> Print</a><br>
+                   <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-info mb-2">
+                    <i class="fas fa-edit"> </i>Edit</a><br>
+                  <a onclick="return confirm('Are you sure to cancel this order?')" href="{{route('order.deliver.cancel',$orders->ID)}}" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
+                 </td>
+               </tr>
+               @php $total_amount+=$sub; @endphp
+               @endforeach
+             </tbody>
+           </table>
+           {{$order->links()}}
+         </div>
 
-          <div class="row">
-            <div class="col-lg-4 col-sm-5">
-
-            </div>
+         <div class="row">
+          <div class="col-lg-4 col-sm-5">
 
           </div>
 
         </div>
+
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="offset-6 col-md-2">
-          <div class="box bg-info">
-            <!-- <i class="fa fa-lemon ml-1"></i> -->
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="offset-6 col-md-2">
+        <div class="box bg-info">
+          <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-            <h3 class="text-center">{{$total_order}}</h3>
+          <h3 class="text-center">{{$total_order}}</h3>
 
-            <p class="lead text-center font-weight-bold">Total Delivery</p>
-          </div>
-        </div>
-
-        <div class="col-md-2 ">
-          <div class="box bg-success">
-            <h3 class="text-center">{{$total_amount}}</h3>
-            <p class="lead text-center font-weight-bold">Total Quantity</p>
-          </div>
-        </div>
-        <div class="col-md-2 ">
-          <div class="box bg-primary">
-            <h3 class="text-center">{{$total_amount}}</h3>
-            <p class="lead text-center font-weight-bold">Total Amount</p>
-          </div>
+          <p class="lead text-center font-weight-bold">Total Delivery</p>
         </div>
       </div>
 
+      <div class="col-md-2 ">
+        <div class="box bg-success">
+          <h3 class="text-center">{{$total_amount}}</h3>
+          <p class="lead text-center font-weight-bold">Total Quantity</p>
+        </div>
+      </div>
+      <div class="col-md-2 ">
+        <div class="box bg-primary">
+          <h3 class="text-center">{{$total_amount}}</h3>
+          <p class="lead text-center font-weight-bold">Total Amount</p>
+        </div>
+      </div>
     </div>
-  </section>
-  <!-- /.row -->
+
+  </div>
+</section>
+<!-- /.row -->
 </div><!-- /.container-fluid -->
 
 <!-- /.content -->
