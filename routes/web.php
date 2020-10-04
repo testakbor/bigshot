@@ -160,6 +160,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
         Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled');
+        Route::post('cancelled/order/search', 'OrderController@cancelledOrderSearch')->name('order.cancelled.search');
         Route::get('cancelled/order/print/{id}', 'OrderController@cancelledOrderPrint')->name('order.cancelled.print');
 
         Route::get('processing/order/print/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print');
