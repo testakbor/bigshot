@@ -106,6 +106,12 @@ class CartController extends Controller
             'meta_key'=>'phone',
             'meta_value'=>$request->phone,
         );
+        DB::table('postmeta')->insert($order_post);
+        $order_post = array(
+            'post_id' => $order_id,
+            'meta_key' => 'email',
+            'meta_value' => $request->email,
+        );
         DB::table('postmeta')->insert($order_post); 
         $order_post=array(
             'post_id'=>$order_id,

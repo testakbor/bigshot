@@ -160,7 +160,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
         Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled');
-        Route::post('cancelled/order/search', 'OrderController@cancelledOrderSearch')->name('order.cancelled.search');
+        Route::post('cancelled/order/search', 'OrderController@cancelledOrder')->name('order.cancelled');
         Route::get('cancelled/order/print/{id}', 'OrderController@cancelledOrderPrint')->name('order.cancelled.print');
 
         Route::get('processing/order/print/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print');
@@ -179,6 +179,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('order/delivery/invoice/data', 'OrderController@deliveryInvoiceData')->name('order.delivery.invoice.data');
         Route::get('order/delivery/invoice/details/{id}', 'OrderController@deliveryInvoiceDataDetails')->name('order.delivery.invoice.data.details');
         Route::post('order/delivery/search/date', 'OrderController@deliveredSearch')->name('order.delivered.search');
+        Route::post('all/status/order/search', 'OrderController@allStatusSearch')->name('order.all.status.search');
 
 
         Route::get('testpdf/{id}', 'OrderController@testpdf');

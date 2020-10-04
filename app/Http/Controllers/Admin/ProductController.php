@@ -346,8 +346,9 @@ public function update(Request $request,$id){
 
     $postDelete=DB::table('posts')->where('ID',$id)->delete();
 
-     $oldStartStock=DB::table('postmeta')->where('post_id',$id,
-        where('meta_key'=>'start_stock')->first();
+     $oldStartStock=DB::table('postmeta')
+       ->where('post_id',$id)
+        ->where('meta_key','start_stock')->first();
 
     $postmetaDelete=DB::table('postmeta')->where('post_id',$id)->delete();
 

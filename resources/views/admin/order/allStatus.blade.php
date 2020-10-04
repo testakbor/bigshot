@@ -4,6 +4,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
+      @include('admin.includes.messages')
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1>All Status</h1>
@@ -17,26 +18,21 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form>
+      <form method="post" action="{{route('order.all.status.search')}}">
+        @csrf
         <div class="inner-form ml-5" style="width: 64.5%;">
-
-
-          <!-- <div class="input-field third-wrap">
-            <input class="datepicker" id="return" type="file" accept="image/*;capture=camera"/>
-          </div> -->
-
           <div class="input-field second-wrap">
-            <input class="datepicker" id="depart" type="text" placeholder="Order Id" />
+            <input class="datepicker" id="depart" type="text" name="order_id" placeholder="Order Id" autocomplete="off" />
           </div>
           <div class="input-field second-wrap">
-            <input class="datepicker" id="depart" type="text" placeholder="Mobile Number" />
+            <input class="datepicker" id="depart" type="text" name="mobile" placeholder="Mobile" autocomplete="off" />
           </div>
 
           <div class="input-field second-wrap">
-            <input class="datepicker" id="depart" type="email" placeholder="Email" />
+            <input class="datepicker" id="depart" type="email" name="email" placeholder="Email" autocomplete="off" />
           </div>
           <div class="input-field fifth-wrap">
-            <button class="btn-search" type="button">SEARCH</button>
+            <button type="submit" class="btn-search" type="button">SEARCH</button>
           </div>
         </div>
       </form>
@@ -71,29 +67,29 @@
                 @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
                 @foreach($order as $orders)
 
-                  @foreach($orders->productMeta as $meta)
-                    @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
-                    @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
-                    @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
-                    @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
-                  @endforeach
-                  @foreach($orders->orderItem as $info)
-                    @foreach($info->orderMeta as $value)
-                      @if($value->meta_key=='_line_subtotal')
-                        @php $subtotal=$value->meta_value; @endphp
-                      @endif
-                    @endforeach
-                  @endforeach
+                @foreach($orders->productMeta as $meta)
+                @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
+                @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
+                @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
+                @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
+                @endforeach
+                @foreach($orders->orderItem as $info)
+                @foreach($info->orderMeta as $value)
+                @if($value->meta_key=='_line_subtotal')
+                @php $subtotal=$value->meta_value; @endphp
+                @endif
+                @endforeach
+                @endforeach
                 <tr>
                   <td class="center">{{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
                   <td>{{$name}} {{$last_name}}</td>
                   <td class="right">{{$phone}}</td>
-                  <td class="right">Quantity</td>
-                  <td class="right">{{$sub=$subtotal}}</td>
+                  <td class="right">@php $qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qty}} pcs</td>
+                  <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$sub}}</td>
                   <td class="right">{{$orders->post_status}}</td>
                   <td class="right">
-                   <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
-                  <a href="#" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>                  
+                    <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
+                    <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
                   </td>
                 </tr>
                 @endforeach

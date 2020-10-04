@@ -26,21 +26,21 @@ class HomeController extends Controller
         );
         $total_sales=DB::table('posts')
         ->where('post_type','shop_order')
-        ->where('post_status','Completed')
+        ->where('post_status','delivered')
         ->whereBetween('post_date',[date('Y-m-01'),date('Y-m-t')])
         ->count();
         $total_delivered = DB::table('posts')
         ->where('post_type', 'shop_order')
-        ->where('post_status', 'Delivered')
+        ->where('post_status', 'delivered')
         ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
         ->count();
         $total_cancelled = DB::table('posts')
         ->where('post_type', 'shop_order')
-        ->where('post_status', 'Cancelled')
+        ->where('post_status', 'cancelled')
         ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
         ->count();
         $total_sale_amount=Post::where('post_type','shop_order')
-        ->where('post_status','Completed')
+        ->where('post_status','delivered')
         ->where('meta_key','_line_subtotal')
         ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
         ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
@@ -48,21 +48,21 @@ class HomeController extends Controller
         ->sum('meta_value');
         if($start=='' && $end==''){
             $total_sale_amount_date_wise = Post::where('post_type', 'shop_order')
-                ->where('post_status', 'Completed')
+                ->where('post_status', 'delivered')
                 ->where('meta_key', '_line_subtotal')
                 ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
                 ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
                 ->groupBy('order_id')
                 ->sum('meta_value');
             $total_delivery_amount_date_wise = Post::where('post_type', 'shop_order')
-                ->where('post_status', 'Delivered')
+                ->where('post_status', 'delivered')
                 ->where('meta_key', '_line_subtotal')
                 ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
                 ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
                 ->groupBy('order_id')
                 ->sum('meta_value');
             $total_cancel_amount_date_wise = Post::where('post_type', 'shop_order')
-                ->where('post_status', 'Cancelled')
+                ->where('post_status', 'cancelled')
                 ->where('meta_key', '_line_subtotal')
                 ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
                 ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
@@ -70,21 +70,21 @@ class HomeController extends Controller
                 ->sum('meta_value');
             }else{
             $total_sale_amount_date_wise= Post::where('post_type', 'shop_order')
-            ->where('post_status', 'Completed')
+            ->where('post_status', 'delivered')
             ->where('meta_key', '_line_subtotal')
             ->whereBetween('post_date', [$start,$end])
             ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
             ->groupBy('order_id')
             ->sum('meta_value');
             $total_delivery_amount_date_wise = Post::where('post_type', 'shop_order')
-            ->where('post_status', 'Delivered')
+            ->where('post_status', 'delivered')
             ->where('meta_key', '_line_subtotal')
             ->whereBetween('post_date', [$start, $end])
             ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
             ->groupBy('order_id')
             ->sum('meta_value');
             $total_cancel_amount_date_wise = Post::where('post_type', 'shop_order')
-            ->where('post_status', 'Cancelled')
+            ->where('post_status', 'cancelled')
             ->where('meta_key', '_line_subtotal')
             ->whereBetween('post_date', [$start, $end])
             ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')

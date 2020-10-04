@@ -190,11 +190,17 @@ public function allStatus()
 }
 
 public function allStatusPrint($id)
-{   
-   $orders=Post::where('ID',$id)
-   ->get();
-   $pdf = PDF::loadView('admin.order.allStatusPrint', array('order' => $orders));
-   return $pdf->download('allStatusPrint.pdf');
+{     $order = Post::where('ID', $id)->first();
+        $name = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'first_name')->first();
+        $phone = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'phone')->first();
+        $city = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'city')->first();
+        $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
+        $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+        $pdf = PDF::loadView('admin.order.allStatusPrint', array(
+            'order' => $order, 'name' => $name, 'phone' => $phone,
+            'city' => $city, 'products' => $products, 'order_info' => $order_info
+        ));
+        return $pdf->download('allStatusPrint.pdf');
 }
 public function sendParcel()
 {   
@@ -967,6 +973,41 @@ public function deliveryInvoiceDataDetails($id){
     $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
     $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
     return view('admin.order.deliveryInvoiceDataDetails', compact('order', 'products', 'id', 'order_info'));   
+}
+
+public function allStatusSearch(Request $request){
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'allStatus'
+        ); 
+        $order_id=$request->order_id;
+        $email = $request->email;
+        $mobile = $request->mobile;
+
+        if($order_id=='' && $email=='' && $mobile==''){
+            session()->flash("error", "Please enter some keyword to search");
+            return redirect()->back();
+        }
+    
+       if($order_id!=NULL){
+            $order = Post::where('posts.post_type', 'shop_order')
+                ->where('ID', '=', $order_id)
+                ->orderBy('ID', 'DESC')
+                ->paginate(20);
+        }
+        if($email!=NULL){
+            $order = Post::where(['meta_key' => 'email', 'meta_value' => $email, 'post_type' => 'shop_order'])
+                ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+                 ->orderBy('ID', 'DESC')
+                ->paginate(20);
+        }
+        if($mobile!=NULL){
+              $order = Post::where(['meta_key'=>'phone','meta_value'=>$mobile,'post_type'=>'shop_order'])
+              ->join('postmeta','posts.ID','=', 'postmeta.post_id')
+              ->orderBy('ID', 'DESC')
+              ->paginate(20);
+        }
+        return view('admin.order.search_order_id', compact('order'))->with($extraInfo);
 }
 
 }

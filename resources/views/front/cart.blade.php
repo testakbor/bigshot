@@ -1,10 +1,10 @@
 @extends('front.layouts.master')
 
 @section('content')
-@php $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; $name=''; @endphp
+@php $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; $name=''; $email=''; @endphp
 <!-- Page Content  -->
 
-@if(Auth::check()) @php $name=auth()->user()->name; @endphp @endif
+@if(Auth::check()) @php $name=auth()->user()->name; $email=auth()->user()->email; @endphp @endif
 @foreach($user_info as $in)
 @if($in->meta_key=='address_one')
 @php $address1=$in->meta_value; @endphp
@@ -129,6 +129,11 @@
                 <div class="mb-3">
                   <label for="phone">Mobile Number<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Mobile Number" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="phone">Email<span class="requiredField">*</span></label>
+                  <input type="text" class="form-control" value="{{$email}}" name="email" id="email" placeholder="Email" required>
                 </div>
 
                 <div class="row">
