@@ -510,15 +510,33 @@ public function grossProfit()
     );
     $date = \Carbon\Carbon::today()->subDays(30);
     $order = Post::where('post_type', 'shop_order')
-    ->where('post_status', 'delivery')
+    ->where('post_status', 'Delivered')
     ->where('post_modified', '>=', $date)
     ->paginate(20);
     $total_order = Post::where('post_type', 'shop_order')
-    ->where('post_status', 'delivery')
+    ->where('post_status', 'Delivered')
     ->where('post_modified', '>=', $date)
     ->count();
     return view('admin.order.delivery', compact('order','total_order'))->with($extraInfo); 
 }
+
+ public function deliveredSearch(Request $request){
+    $start=$request->start;
+    $end=$request->end;
+    $extraInfo = array(
+            'title' => "Delivery List",
+            'page' => 'processing'
+        );
+        $order = Post::where('post_type', 'shop_order')
+            ->where('post_status', 'Delivered')
+            ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
+            ->paginate(20);
+        $total_order = Post::where('post_type', 'shop_order')
+            ->where('post_status', 'Delivered')
+            ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))])
+            ->count();
+        return view('admin.order.delivery_search', compact('order', 'total_order'))->with($extraInfo); 
+ }
 
     // public function cancelledOrder()
     // {
@@ -901,9 +919,14 @@ public function updateDeliveryOrder(Request $request){
 
 public function deliveredOrderPrint($id){
     $order=Post::where('ID',$id)->first();
-    $pdf = PDF::loadView('admin.pdf.order.delivery',array('order' => $order));
-    return $pdf->download('testpdf.pdf');
-
+    $name =DB::table('postmeta')->where('post_id',$id)->where('meta_key','first_name')->first();
+    $phone = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'phone')->first();
+    $city = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'city')->first();
+    $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
+    $order_info = DB::table('postmeta')->where('post_id',$order->ID)->get();
+    $pdf = PDF::loadView('admin.pdf.order.delivery',array('order' => $order, 'name' => $name,'phone'=>$phone,
+    'city'=>$city,'products'=>$products,'order_info'=> $order_info));
+    return $pdf->download('deliveredOrder.pdf');
 }
 public function deliveredOrderCancel($id){
  

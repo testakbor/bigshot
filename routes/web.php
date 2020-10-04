@@ -177,6 +177,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('excel/dispatch/order/date/wise', 'OrderController@exceldispatchOrderdate')->name('excel.dispatch.order.date');
         Route::post('order/delivery/invoice/data', 'OrderController@deliveryInvoiceData')->name('order.delivery.invoice.data');
         Route::get('order/delivery/invoice/details/{id}', 'OrderController@deliveryInvoiceDataDetails')->name('order.delivery.invoice.data.details');
+        Route::post('order/delivery/search/date', 'OrderController@deliveredSearch')->name('order.delivered.search');
 
 
         Route::get('testpdf/{id}', 'OrderController@testpdf');

@@ -148,7 +148,7 @@
                     <tr>
                       <th scope="row">{{++$key}}</th>
                       <td>{{$items->order_item_name}} </td>
-                      <td>{{$subtotal/$qty}}</td>
+                      <td>{{$subtotal}}</td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
                       <td>{{$subtotal}}</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
