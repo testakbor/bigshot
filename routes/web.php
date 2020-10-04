@@ -182,6 +182,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::post('all/status/order/search', 'OrderController@allStatusSearch')->name('order.all.status.search');
 
 
+        Route::get('stock/deleted/{id}', 'ProductController@stockDeleted')->name('stock.deleted');
         Route::get('testpdf/{id}', 'OrderController@testpdf');
 
 

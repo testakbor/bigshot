@@ -248,7 +248,8 @@ public function edit($id)
     ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
     ->where('term_taxonomy.taxonomy','product_cat')
     ->select('term_taxonomy.*','terms.name','terms.status')
-    ->get();   
+    ->get(); 
+
 
         // tag
     $tags=DB::table('term_taxonomy')
@@ -512,6 +513,16 @@ if($request->hasFile('galleryImage'))
 
 session()->flash("success","Information saved Updated");
 return redirect(route('product.index'));
+}
+
+
+//stock delete to change product status
+public function stockDeleted($id){
+   DB::table('posts')->where('post_type','product')->where('ID',$id)->update([
+     'post_type' =>'deleted'
+   ]);
+    session()->flash("success", "Information has been deleted");
+    return back();
 }
 
 }
