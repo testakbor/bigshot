@@ -18,7 +18,7 @@
     </div><!-- /.container-fluid -->
     <div class="s002">
       <form method="post" action="{{route('order.cancelled.search')}}">
-        @csrf 
+        @csrf
         <div class="inner-form ml-5">
 
           <div class="input-field second-wrap">

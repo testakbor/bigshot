@@ -544,25 +544,7 @@ public function grossProfit()
         return view('admin.order.delivery_search', compact('order', 'total_order'))->with($extraInfo); 
  }
 
-    // public function cancelledOrder()
-    // {
-    //    $extraInfo=array(
-    //         'title'=>"Cancel List",
-    //         'page'=>'cancelled'
-    //     ); 
 
-    //     $date = \Carbon\Carbon::today()->subDays(30);
-    //     $order = Post::where('post_type', 'shop_order')
-    //     ->where('post_status', 'cancelled')
-    //     ->where('post_modified', '>=', $date)
-    //         ->paginate(20);   
-    //     $total_order = Post::where('post_type', 'shop_order')
-    //     ->where('post_status', 'cancelled')
-    //     ->where('post_modified', '>=', $date)
-    //         ->count();
-
-    //     return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
-    // } 
 
 public function cancelledOrder()
 {
