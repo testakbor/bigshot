@@ -181,4 +181,13 @@ class PageController extends Controller
       ->delete();
       return back()->with('status','Product delete from wishlist');
     }
+
+    public function tagProduct($id){
+       $product=DB::table('term_relationships')
+       ->where('term_taxonomy_id',$id)
+       ->where('posts.post_type','product')
+       ->join('posts', 'term_relationships.object_id','=','posts.ID')
+       ->get();
+        return view('front.tag_product',compact('product'));
+    }
 }

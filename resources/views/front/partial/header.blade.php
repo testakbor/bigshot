@@ -6,7 +6,7 @@
         <h1><a href="{{url('/')}}" class="logo">
             <img src="{{asset('assets/common/images/logo.png')}}" alt="" style="height: 46px;width: 70px">
           </a></h1>
-          <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button> -->
         <div class="" id="navbarSupportedContent">
@@ -127,14 +127,13 @@
 
         <div class="memu-item" id="">
           <ul class="" style="width: 80%">
+            @foreach($tags as $tag)
             <li class=" ">
-              <a class="" href="#">Women <span class="sr-only">(current)</span></a>
+              <a class="" href="{{route('tag.product.show',$tag->term_id)}}">{{$tag->name}}</span></a>
             </li>
-            <li class="">
-              <a class="" href="#">Men</a>
-            </li>
+            @endforeach
           </ul>
-          
+
           <ul class="">
             <li class=" ">
               <a class="" href="#">FAQ</a>
@@ -149,7 +148,7 @@
               <a class="" href="#">About Us</a>
             </li>
           </ul>
-           
+
         </div>
       </div>
 

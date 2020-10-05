@@ -29,6 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/brands','PageController@brands')->name('brands');
         Route::get('/popular','PageController@popular')->name('popular');
         Route::get('/categories/product/{id}','PageController@categoryProduct')->name('category.product');
+        Route::get('/tag/product/{id}', 'PageController@tagProduct')->name('tag.product.show');
         Route::get('/cart','CartController@cart')->name('cart');
         Route::get('/profile','PageController@profile')->name('profile');
 

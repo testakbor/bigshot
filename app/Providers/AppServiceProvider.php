@@ -42,6 +42,12 @@ class AppServiceProvider extends ServiceProvider
         ->join('postmeta','posts.ID','=','postmeta.post_id')
         ->first();
         view()->share('banner',$banner);
-       
+
+        $tags = DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy', 'product_tag')
+        ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+        ->get();
+        view()->share('tags', $tags);
     }
 }
