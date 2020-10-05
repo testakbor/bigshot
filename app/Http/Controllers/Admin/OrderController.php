@@ -316,9 +316,12 @@ public function oldStock(){
     $extraInfo=array(
         'title'=>"Brand List",
         'page'=>'oldstock'
-    ); 
+    );
+
     $products=Post::where('post_type','product')
-        // ->where('post_status','publish')
+            ->where('meta_key', 'qty')
+            ->where('meta_value', 0)
+            ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
     ->paginate(5); 
     return view('admin.order.stock_old',compact('products'))->with($extraInfo);
 }
