@@ -18,22 +18,19 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form>
+      <form method="post" action="{{route('stock.sku.search')}}">
+        @csrf 
         <fieldset>
           <legend>Stock List</legend>
         </fieldset>
         <div class="inner-form ml-5">
-
           <div class="input-field second-wrap">
             <div class="icon-wrap">
-
             </div>
             <input class="form-control" id="depart" name="product_sku" type="text" placeholder="Enter SKU" autocomplete="off" />
           </div>
-
-
           <div class="input-field fifth-wrap">
-            <button class="btn-search" type="button">SEARCH</button>
+            <button type="submit" class="btn-search" type="button">SEARCH</button>
           </div>
         </div>
       </form>
@@ -106,7 +103,7 @@
                   <td class="right">{{$price}}tk</td>
                   <td class="right">{{$status}}</td>
                   <td class="right">
-                    <i class="fas fa-print"><a href="#">Print</a></i><br>
+                    <i class="fas fa-print"><a href="{{route('stock.print.sticker',$item->ID)}}">Print</a></i><br>
                     <i class="fas fa-edit"><a href="{{route('product.edit',$item->ID)}}">Edit</a></i><br>
                     <i class="fas fa-trash-alt"><a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}">Delete</a></i><br>
                   </td>

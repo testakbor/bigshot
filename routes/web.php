@@ -183,6 +183,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
         Route::get('stock/deleted/{id}', 'ProductController@stockDeleted')->name('stock.deleted');
+        Route::get('stock/print/sticker/{id}', 'ProductController@stockPrintSticker')->name('stock.print.sticker');
+        Route::post('stock/sku/search/', 'ProductController@stockSkuSearch')->name('stock.sku.search');
         Route::get('testpdf/{id}', 'OrderController@testpdf');
 
 

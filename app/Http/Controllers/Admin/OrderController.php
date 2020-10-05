@@ -298,6 +298,7 @@ public function stock()
     ); 
     $products=DB::table('posts')
     ->where('post_type','product')
+    ->where('post_status','!=','deleted')
     ->paginate(10); 
     return view('admin.order.stock',compact('products'))->with($extraInfo);
 }

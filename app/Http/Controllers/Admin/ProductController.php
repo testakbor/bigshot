@@ -11,6 +11,8 @@ use Session;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductStoreRequest;
 use DataTables;
+use PDF;
+use App\Model\front\Post;
 
 
 
@@ -519,10 +521,40 @@ return redirect(route('product.index'));
 //stock delete to change product status
 public function stockDeleted($id){
    DB::table('posts')->where('post_type','product')->where('ID',$id)->update([
-     'post_type' =>'deleted'
+     'post_status' =>'deleted'
    ]);
     session()->flash("success", "Information has been deleted");
     return back();
+}
+
+//stock sticker print
+public function stockPrintSticker($id){
+        $product=DB::table('postmeta')->where('post_id',$id)->get();
+        $category = DB::table('term_relationships')
+        ->where('object_id', $id)
+            ->where('taxonomy', 'product_cat')
+            ->join('term_taxonomy', 'term_relationships.term_taxonomy_id', '=', 'term_taxonomy.term_taxonomy_id')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->select('terms.name as cat_name')
+            ->first();
+        $allAttribute = DB::table('postmeta')->where(['post_id' => $id,'meta_key' => 'default_attribute'])->first();
+        if ($allAttribute) {
+            $arributeArray = json_decode($allAttribute->meta_value);
+        } else {
+            $arributeArray = array();
+        }
+        $pdf = PDF::loadView('admin.stock.stock_sticker_print', array(
+                'product' => $product, 'category'=>$category,'arributeArray'=>$arributeArray,'id'=>$id
+        ));
+    return $pdf->download('sku_sticker.pdf');
+}
+
+public function stockSkuSearch(Request $request){
+   $sku=$request->product_sku;
+    $products=DB::table('postmeta')->where(['meta_key'=>'_sku','meta_value'=>$sku])
+   ->join('posts','postmeta.post_id','=','posts.ID')
+   ->get();
+   return view('admin.order.stock_search',compact('products'));
 }
 
 }
