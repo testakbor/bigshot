@@ -450,7 +450,7 @@ public function grossProfit()
 
     public function pending_order_cancel($id){
         DB::table('posts')->where('ID',$id)->update([
-          'post_status' =>'cancel'
+          'post_status' =>'cancelled'
       ]);
         session()->flash("success","Status has been changed Successfully");
         return back();

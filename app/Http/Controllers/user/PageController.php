@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 class PageController extends Controller
 {
      public function passwordEdit($id)
@@ -22,15 +23,10 @@ class PageController extends Controller
         ->where('id',$id)
         ->update(
             [
-                'name'=>$request->first_name,
-                'password'=>$request->n_password,
-                'status'=>$request->status
+                'password'=> Hash::make($request->n_password),
             ]
         );
-
-
         session()->flash("success","Information Update Successfully");
         return redirect(url('profile'));
-
     }
 }

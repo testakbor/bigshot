@@ -20,23 +20,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-2">
-                        <div class="card-body">
-                            <div class="media">
-                                {{-- <div class="sq align-self-center "> <img class="img-fluid my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" src="{{asset('assets/front/images/RJOW4BL.jpg')}}" width="135" height="135" /> </div> --}}
-                                <div class="media-body my-auto text-right">
-
-                                    {{-- <div class="row my-auto flex-column flex-md-row">
-                                        <div class="col my-auto">
-                                            <h6 class="mb-0"> Jack Jacs</h6>
-                                        </div>
-                                        <div class="col-auto my-auto"> <small>Golden Rim </small></div>
-                                        <div class="col my-auto"> <small>Size : M</small></div>
-                                        <div class="col my-auto"> <small>Qty : 1</small></div>
-                                        <div class="col my-auto">
-                                            <h6 class="mb-0">Tk&#8377;3,600.00</h6>
-                                        </div>
-                                    </div> --}}
+     
                                     <table class="table table-striped">
                                         <thead class="thead-light">
                                           <tr>
@@ -81,12 +65,11 @@
                                         </tbody>
                         
                                       </table>
-                                </div>
-                            </div>
+                           
+                         
                             <hr class="my-3 ">
 
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 

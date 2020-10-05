@@ -34,7 +34,7 @@
                         <header class="card-header"> My Orders List </header>
                         <div class="card-body">
                             <!-- <h6>Order ID: OD45345345435</h6> -->
-                            <article class="card">
+         
                                 <table style="width:100%">
                                     <tr>
                                         <th>#</th>
@@ -128,7 +128,6 @@
                                     @endforeach
                                     {{$shop_order->links()}}
                                 </table>
-                            </article>
                             <hr>
                         </div>
                     </article>
