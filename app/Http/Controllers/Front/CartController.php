@@ -17,7 +17,8 @@ class CartController extends Controller
      */
 
     public function cart()
-    {;
+    {
+        
         $info= Cart::getContent();
         if(Auth::check()){
             $user_info=DB::table('usermeta')
@@ -26,7 +27,27 @@ class CartController extends Controller
         }else{
             $user_info=[];
         }
-        return view('front.cart',compact('info','user_info'));
+        $district=DB::table('term_taxonomy')->where('taxonomy','district')
+        ->join('terms','terms.term_id','=', 'term_taxonomy.term_id')
+        ->select('terms.term_id','terms.name as district')
+        ->get();
+        return view('front.cart',compact('info','user_info','district'));
+    }
+
+    public function districtCityAjax($id){
+      $data=DB::table('term_taxonomy')->where(['taxonomy'=>'city','parent'=>$id])
+      ->join('terms','terms.term_id','=','term_taxonomy.term_id')
+      ->select('terms.name as city_name','terms.term_id')
+      ->get();   
+      return response()->json($data);
+    }
+
+    public function districtCityPostcode($id){
+        $data = DB::table('term_taxonomy')->where(['taxonomy' => 'postcode','parent'=>$id])
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->select('terms.name as zip')
+            ->get();
+        return response()->json($data);
     }
 
     public function addCart(Request $request){   
@@ -61,9 +82,9 @@ class CartController extends Controller
         }else{
             $id=0;
         }
-
+        $state=DB::table('terms')->where('term_id',$request->state)->select('name')->first();
+        $city = DB::table('terms')->where('term_id',$request->city)->select('name')->first();
         $info= Cart::getContent();
-      
         $post_date=date('Y-m-d 0:0:0)');
         $post_date_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
         $order=array(
@@ -122,13 +143,13 @@ class CartController extends Controller
         $order_post=array(
             'post_id'=>$order_id,
             'meta_key'=>'state',
-            'meta_value'=>$request->state,
+            'meta_value'=>$state->name,
         );
         DB::table('postmeta')->insert($order_post); 
         $order_post=array(
             'post_id'=>$order_id,
             'meta_key'=>'city',
-            'meta_value'=>$request->city,
+            'meta_value'=>$city->name,
         );
         DB::table('postmeta')->insert($order_post);   
         $order_post=array(
@@ -166,7 +187,13 @@ class CartController extends Controller
             'meta_key'=>'_billing_first_name',
             'meta_value'=>$request->firstName,
         );
-        DB::table('postmeta')->insert($order_post); 
+        DB::table('postmeta')->insert($order_post);
+        $order_post = array(
+            'post_id' => $order_id,
+            'meta_key' => 'payment_method',
+            'meta_value' => $request->paymentMethod,
+        );
+        DB::table('postmeta')->insert($order_post);
         $info= Cart::getContent();
     //     foreach ($info as  $value) {
     //        $order_item=array(

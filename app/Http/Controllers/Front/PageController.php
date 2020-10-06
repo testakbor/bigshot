@@ -30,7 +30,13 @@ class PageController extends Controller
         ->where('meta_key','gallery_file')
         ->select('meta_key','meta_value')
         ->get();
-        return view('front.product-view',compact('product','product_category','product_related','gallery_images'));
+        $allAttribute = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => 'default_attribute'])->first();
+        if ($allAttribute) {
+            $arributeArray = json_decode($allAttribute->meta_value);
+        } else {
+            $arributeArray = array();
+        }
+        return view('front.product-view',compact('product','product_category','product_related','gallery_images', 'arributeArray'));
     }
     public function cart()
     {

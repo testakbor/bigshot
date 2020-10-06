@@ -335,6 +335,7 @@ public function edit($id)
     }
 
 
+
     $attributes=attribute_taxonomie::where('status',1)->get();
     return view('admin.product.edit',compact('categories','tags','attributes',
         'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',

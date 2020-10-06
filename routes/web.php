@@ -31,6 +31,8 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('/categories/product/{id}','PageController@categoryProduct')->name('category.product');
         Route::get('/tag/product/{id}', 'PageController@tagProduct')->name('tag.product.show');
         Route::get('/cart','CartController@cart')->name('cart');
+        Route::get('/district/city/{id}', 'CartController@districtCityAjax');
+        Route::get('/district/city/postcode/{id}', 'CartController@districtCityPostcode');
         Route::get('/profile','PageController@profile')->name('profile');
 
         Route::get('/wishlist','PageController@wishlist')->middleware('auth');
@@ -63,8 +65,8 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('user/profile/chnage/{id}','PageController@passwordEdit')->name('password.edit');
         Route::post('user/profile/chnage/{id}','PageController@passwordUpdate')->name('password.update');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
-        Route::get('/customer/order/edit/{id}','OrderController@edit')->name('customer_ordere_edit');
-        Route::get('/customer/order/cancel/{id}','OrderController@cancelOrder')->name('customer_ordere_cancel');
+        Route::get('/customer/order/details/{id}','OrderController@edit')->name('customer_ordere_edit');
+        Route::get('/customer/order/cancel/{id}','OrderController@cancel_order_details')->name('customer_ordere_cancel');
     }); 
        
     Route::group(['namespace'=>'Search'],function(){

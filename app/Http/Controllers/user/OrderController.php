@@ -22,12 +22,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-       $shop_order=DB::table('posts')
-       ->where('post_type','shop_order')
+       $shop_order=Post::
+        where('post_type','shop_order')
        ->where('post_author',auth()->user()->id)
-       ->select('ID','post_date','post_status')
-       ->orderBy('post_date')
-       ->paginate(10);
+       ->select('ID','post_date','post_status','post_modified')
+       ->orderBy('ID','DESC')
+       ->paginate(2);
        return view('front.order.list',compact('shop_order'));
     }
 
@@ -104,8 +104,15 @@ class OrderController extends Controller
      session()->flash("error", "Your Can't Change the order Status because the order has already been Processing");
      return back();
      }
+    }
 
-     
+    public function cancel_order_details($id){
+        $shop_order = Post::find($id)->where('post_type', 'shop_order')
+            ->where('post_author', auth()->user()->id)
+            ->select('ID', 'post_date', 'post_status', 'post_modified')
+            ->orderBy('ID', 'DESC')
+            ->get();
+        return view('front.order.cancel_data', compact('shop_order'));
     }
 
     /**

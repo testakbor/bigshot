@@ -1,24 +1,23 @@
 <section class="footer">
 
-    <div id="target" class="d-flex justify-content-center">
-      <ul class="footNavUL">
-                <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
-                <li><a href="{{route('terms.conditions')}}">Terms & Conditions</a></li>
-                <li><a href="{{route('return.policy')}}">Return Policy</a></li>
-                <!-- <li><a href="#">Contact</a></li> -->
-                <li><a href="#">Follow us &nbsp; <i class="fab fa-facebook"></i></a></li>
+  <div id="target" class="d-flex justify-content-center">
+    <ul class="footNavUL">
+      <li><a href="{{route('privacy')}}">Privacy Policy</a></li>
+      <li><a href="{{route('terms.conditions')}}">Terms & Conditions</a></li>
+      <li><a href="{{route('return.policy')}}">Return Policy</a></li>
+      <!-- <li><a href="#">Contact</a></li> -->
+      <li><a href="#">Follow us &nbsp; <i class="fab fa-facebook"></i></a></li>
 
-                <li><a href="#">Payment option: </a></li>
-                <li><a href="#"><button class="btn btn-link">Cash</button></li>
-                <li><a href="#"><button class="btn btn-link">Bkash</button></li>
-                <li><a href="#"><button class="btn btn-link">Visa</button></li>
-                <li><a href="#"><button class="btn btn-link">Master</button></li>
-              </ul>
-    </div>
+      <li><a href="#">Payment option: </a></li>
+      <li><a href="#"><button class="btn btn-link">Cash</button></li>
+      <li><a href="#"><button class="btn btn-link">Bkash</button></li>
+      <li><a href="#"><button class="btn btn-link">Visa</button></li>
+      <li><a href="#"><button class="btn btn-link">Master</button></li>
+    </ul>
+  </div>
 
 </section>
-
-<script src="{{asset('assets/front/js/jquery.min.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="{{asset('assets/front/js/popper.js')}}"></script>
 <script src="{{asset('assets/front/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/front/js/main.js')}}"></script>
@@ -39,7 +38,7 @@
         .stop(false, true)
         .toggleClass("information")
         .removeClass("social-sharing");
-      show.preventDefault(); 
+      show.preventDefault();
     });
 
     $(".wrapper .share").click(function(share) {
@@ -85,24 +84,21 @@
   //   });
   // });
 
-$(document).ready(function() {
-    $("input[name='colorRadio']").on('change',function() {
-      var value=$(this).val();
-      if (value=='full') {
+  $(document).ready(function() {
+    $("input[name='colorRadio']").on('change', function() {
+      var value = $(this).val();
+      if (value == 'full') {
         $('#skuDiv').hide();
-      } 
-      else{
+      } else {
         $('#skuDiv').show();
       }
     });
-       });
-    // $("#f_cancel").click(function() {
-    //   $(this).is(":checked");
-    //     // $("#dvPassport").show();
-      
-    // });
+  });
+  // $("#f_cancel").click(function() {
+  //   $(this).is(":checked");
+  //     // $("#dvPassport").show();
 
-
+  // });
 </script>
 <script type="text/javascript">
   $(function() {
@@ -155,7 +151,7 @@ $(document).ready(function() {
         $("#hnf").hide();
         $("#hnf1").hide();
       } else {
-         $("#bks_num").hide();
+        $("#bks_num").hide();
         $("#bks_num").hide();
       }
     });

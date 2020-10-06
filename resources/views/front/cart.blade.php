@@ -139,11 +139,16 @@
                 <div class="row">
                   <div class="col-md-6 mb-">
                     <label for="country">Country<span class="requiredField">*</span></label>
-                    <input type="text" class="form-control" value="{{$country}}" name="country" placeholder="Country" required>
+                    <input type="text" class="form-control" value="Bangladesh" name="country" placeholder="Country" readonly required>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="state">District <span class="requiredField">*</span></label>
-                    <input type="text" class="form-control" id="state" value="{{$state}}" name="state" placeholder="District" required>
+                    <select class="form-control" name="state" id="state" required>
+                      <option value="">Select District</option>
+                      @foreach($district as $dist)
+                      <option value="{{$dist->term_id}}">{{$dist->district}}</option>
+                      @endforeach
+                    </select>
                     <div class="invalid-feedback">
                       Zip code required.
                     </div>
@@ -154,39 +159,32 @@
 
                   <div class="col-md-6 mb-3">
                     <label for="city">City/Thana<span class="requiredField">*</span></label>
-                    <input type="text" class="form-control" value="{{$city}}" id="city" name="city" placeholder="City" required>
+                    <select class="form-control" id="city" name="city" required>
+                      <option value="">Select District First</option>
+                    </select>
                     <div class="invalid-feedback">
                       .
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="zip">Postcode</label>
-                    <input type="text" class="form-control" value="{{$zip}}" name="zip" id="zip" placeholder="Postcode">
+                    <input type="text" class="form-control" value="" name="zip" id="zip" placeholder="Postcode">
                     <div class="invalid-feedback">
                       Zip code required.
                     </div>
                   </div>
-
                 </div>
-
                 <div class="row">
-
                   <div class="col-md-6 mb-3">
-
                   </div>
                   <!-- <div class="col-md-6 mb-3">
                   <button type="button" class="btn btn-light ml-1" style="width: 118px;border: 1px solid skyblue;color: skyblue;background-color: white;font-weight: 600;">Cancel</button>
                   <button type="button" class="btn btn-info ml-3">Use this Address</button>
-
                 </div> -->
-
                 </div>
                 <!-- <hr class="mb-4"> -->
-
                 <hr class="mb-4">
-
                 <h4 class="mb-3">Payment<span class="requiredField">*</span></h4>
-
                 <div class="d-block my-3">
                   <div class="custom-control custom-radio">
                     <input id="credit" name="paymentMethod" type="radio" value="cradit" class="custom-control-input" required>
@@ -222,7 +220,6 @@
                     </div>
                   </div>
                 </div>
-
                 <!-- bkash -->
                 <div class="row" id="bks_num" style="display:none">
                   <div class="col-md-6 mb-3">
@@ -241,7 +238,6 @@
                   </div>
                 </div>
                 <!-- bkash end -->
-
                 <div class="row" id="hnf1" style="display:none">
                   <div class="col-md-3 mb-3">
                     <label for="cc-expiration">Expiration<span class="requiredField">*</span></label>
@@ -267,7 +263,6 @@
                 </div>
           </form>
           @foreach ($info as $item)
-
           @php
           $image='no-image.png';
           $images=DB::table('postmeta')
@@ -330,5 +325,44 @@
 </div>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script>
+  $("#state").change(function() {
+    var district_id = $("#state").val();
+    $.ajax({
+      url: "{{url('/district/city/')}}" + '/' + district_id,
+      type: "GET",
+      success: function(response) {
+        var items = "";
+        $.each(response, function(i, item) {
+          items += "<option value=''>Select City</option>";
+          items += "<option value='" + item.term_id + "'>" + (item.city_name) + "</option>";
+        });
+        $("#city").html(items);
+      },
+      error: function(response) {
+        console.log(response);
+      },
+    });
+  });
 
+
+  $("#city").change(function() {
+    var city_id = $("#city").val();
+    $.ajax({
+      url: "{{url('/district/city/postcode/')}}" + '/' + city_id,
+      type: "GET",
+      success: function(response) {
+        var items = "";
+        $.each(response, function(i, item) {
+          items += item.zip;
+        });
+        document.getElementById('zip').value = items;
+      },
+      error: function(response) {
+        console.log(response);
+      },
+    });
+  });
+</script>
 @endsection

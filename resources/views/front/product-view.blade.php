@@ -40,7 +40,7 @@ endforeach;
                                 <div class="back-arrow" id="buy-toaster"></div>
                             </div>
                             <div class="product-image col-sm-12 col-md-12">
-                                <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}" class="img-responsive" alt="Responsive image"/>
+                                <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}" class="img-responsive" alt="Responsive image" />
                                 <ul class="product-image--list">
                                     <div class="w3-content w3-section">
                                         @foreach($gallery_images as $g)
@@ -61,7 +61,14 @@ endforeach;
                                 <div class="">
                                     <h1 class="title" style="padding: 0 !important;"></h1>
                                     <h2 class="subtitle subtitle-container">{{$product->post_title}}</h2>
-
+                                    @foreach($arributeArray as $a)
+                                    @if($a->taxonomy=='pa_color')
+                                    Color:{{$a->term}}
+                                    @endif
+                                    @if($a->taxonomy=='pa_size')
+                                    Size:{{$a->term}}
+                                    @endif
+                                    @endforeach
                                 </div>
                                 <span>
                                     <p>
@@ -111,6 +118,10 @@ endforeach;
                         <div class="tab-content">
                             <div id="home" class="tab-pane fade show active">
                                 <p>{!! $product->post_content !!}</p>
+                                <p><b>Delivery Guarantee</b> (Delivery Time and Delivery charge # Dhaka Metro 1-3 working
+                                    days, charge 60tk # Dhaka suburb area 2-5 working days, charge 100tk # Bangladesh wide 2-5 working days,
+                                    120tk.)
+                                </p>
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 <div>
@@ -177,20 +188,6 @@ endforeach;
                             <div id="menu3" class="tab-pane fade"></div>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    
                 </div>
             </div>
         </div>
