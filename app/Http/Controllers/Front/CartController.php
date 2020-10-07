@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Cart;
 use auth;
+use Mail;
 
 class CartController extends Controller
 {
@@ -306,7 +307,14 @@ class CartController extends Controller
            DB::table('order_itemmeta')->insert($order_item_details);
         }
         Cart::clear();
-        return redirect(route('order.success'));
+        $name=$request->first_name;
+        $order_id = $order_id;
+        $user_email = $request->email;
+        Mail::send('mail', ['name'=>$name,'order_id'=>$order_id], function ($m) use ($user_email) {
+            $m->from('bigshotstyle20@gmail.com', 'Bigshot');
+            $m->to($user_email)->subject('Order Confirmation');
+        });
+        return view('front.order-success',compact('name'));
    }
 
     /**

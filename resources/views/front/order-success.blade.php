@@ -48,6 +48,7 @@
         <i class="checkmark">✓</i>
       </div>
         <h1>Success</h1> 
+        <p>Dear {{$name}} Please check your mail for order confirmation</p>
         <p>We received your purchase request;<br/> we'll be in touch shortly!</p>
       </div>
   

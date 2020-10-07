@@ -274,14 +274,12 @@ public function rejectProductUpdate(Request $request)
         'title'=>"Reject item",
         'page'=>'reject'
     ); 
-    
    $sku=$request->sku;
 
    $meta_info=Postmeta::where('meta_key','qty')
    ->where('post_id',$request->product_id)
    ->first();
    $newQty=$meta_info->meta_value+$request->quantity;
-
     $relationShips=DB::table('postmeta')->where('meta_key','qty')
    ->where('post_id',$request->product_id)
    ->update(['meta_value'=>$newQty]);
@@ -603,7 +601,6 @@ public function cancelledOrderPrint($id)
 }
 
 public function updateOrderQty(Request $request){
-
     $count=count($request->qty);
 
     for($i=0;$i<$count;$i++){

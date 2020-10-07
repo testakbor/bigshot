@@ -7,10 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
-
-
 use App\Model\front\Order_item;
-
 use Auth;
 use DB;
 class OrderController extends Controller
@@ -107,13 +104,57 @@ class OrderController extends Controller
     }
 
     public function cancel_order_details($id){
-        $shop_order = Post::find($id)->where('post_type', 'shop_order')
-            ->where('post_author', auth()->user()->id)
-            ->select('ID', 'post_date', 'post_status', 'post_modified')
-            ->orderBy('ID', 'DESC')
-            ->get();
-        return view('front.order.cancel_data', compact('shop_order'));
+        $order = Post::find($id);
+        $order_item=Order_item::where('order_id',$id)->get();
+        return view('front.order.cancel_data', compact('order','order_item'));
     }
+
+
+    public function cancel_order_item(Request $request){
+        $count = count($request->submit_quantity);
+        for ($i = 0; $i < $count; $i++) {
+            $oldQty = DB::table('order_itemmeta')
+                ->where('order_id', $request->order_id)
+                ->where('order_item_id',$request->order_item_id[$i])
+                ->where('meta_key','_qty')
+                ->first();
+                $p=DB::table('postmeta')->where('post_id',$request->product_id[$i])->where('meta_key','qty')->select('post_id','meta_value')->first();
+                $stock_update_qty = $oldQty->meta_value-$request->submit_quantity[$i]+$p->meta_value;
+                $stuTotal = DB::table('order_itemmeta')
+                    ->where('order_id', $request->order_id)
+                    ->where('order_item_id', $request->order_item_id[$i])
+                    ->where('meta_key', '_line_subtotal')
+                    ->first();
+                $unitPrice = $stuTotal->meta_value / $oldQty->meta_value;
+                //    dd($unitPrice);
+                $term = DB::table('order_itemmeta')
+                    ->where('order_id',$request->order_id)
+                    ->where('order_item_id', $request->order_item_id[$i])
+                    ->where('meta_key','_qty')
+                    ->update(['meta_value' => $request->submit_quantity[$i]]);
+                $term = DB::table('order_itemmeta')
+                    ->where('order_id', $request->order_id)
+                    ->where('order_item_id', $request->order_item_id[$i])
+                    ->where('meta_key', '_line_subtotal')
+                    ->update(['meta_value' => $request->submit_quantity[$i] * $unitPrice]);
+                $term = DB::table('order_itemmeta')
+                    ->where('order_id', $request->order_id)
+                    ->where('order_item_id', $request->order_item_id[$i])
+                    ->where('meta_key', '_line_total')
+                    ->update(['meta_value' => $request->submit_quantity[$i] * $unitPrice]);
+                $postmeta = DB::table('postmeta')
+                    ->where('post_id', $request->product_id[$i])
+                    ->where('meta_key', 'qty')
+                    ->update(['meta_value' => $stock_update_qty]);
+                $status = DB::table('posts')->where('ID', $request->order_id)->update([
+                    'post_status' => 'cencelled',
+                    'post_modified' => date('Y-m-d H:i:s'),
+                ]);
+                session()->flash("success", "Quantity has been cancelled Successfully");
+                return back();
+        }
+    }
+
 
     /**
      * Update the specified resource in storage.

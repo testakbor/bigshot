@@ -25,7 +25,7 @@
                         <li>Name:{{$name}}</li>
                         <li>Address:{{$address}}</li>
                         <li>City:{{$city}}</li>
-                        <li>Payment Method: {{ucfirst($payment_method)}}</li>
+                        <li>Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </li>
                     </ul>
                 </div>
             </div>
