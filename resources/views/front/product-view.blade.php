@@ -164,7 +164,7 @@ endforeach;
                                                 <a href="{{route('product-page',$related->ID)}}">
                                                     <div class="container-prod">
                                                         <div class="image">
-                                                            <img src="{{asset('backend/products/'.$img)}}">
+                                                            <img width="100px" height="100px" src="{{asset('backend/products/'.$img)}}">
                                                         </div>
                                                         <div class="container-information">
                                                             <div class="title">

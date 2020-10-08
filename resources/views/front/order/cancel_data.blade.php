@@ -23,6 +23,7 @@
                                                 {{date('d-m-Y',strtotime($order->post_modified))}}
                                             </th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,19 +46,38 @@
                                                 {{$product_name->post_title}}
                                             </td>
                                             <td>
-                                                <input type="number" name="submit_quantity[]" value="{{$qty}}" autocomplete="off"> Qty
+                                                {{$qty}} Qty
+                                                @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
+                                                @if(isset($product_status)) @php $status=$product_status->meta_value; @endphp @else @php $status=''; @endphp {{$status}} @endif
+                                                @if($status=='cancel')
+                                                @php $id=0; $order_id=0;$item_id=0;$subtotal=0; @endphp
+                                                @else
+                                                @php $id=$id; $order_id=$order->ID;$item_id=$item->order_item_id;$subtotal=$subtotal; @endphp
+                                                @endif
                                                 <input type="hidden" name="product_id[]" value="{{$id}}">
-                                                <input type="hidden" name="order_id" value="{{$order->ID}}">
-                                                <input type="hidden" name="order_item_id[]" value="{{$item->order_item_id}}">
+                                                <input type="hidden" name="order_id" value="{{$order_id}}">
+                                                <input type="hidden" name="order_item_id[]" value="{{$item_id}}">
                                                 <input type="hidden" name="total[]" value="{{$subtotal}}">
+                                                <input type="hidden" name="default_order_id" value="{{$order->ID}}">
+                                            </td>
+                                            <td>
+                                                @if($status=='cancel')
+                                                Cancelled
+                                                @else
+                                                <a onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm" href="{{route('customer_single_item_cancel',$item->order_item_id)}}"><span style="color:white">Cancel</span></a>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                @if($order->post_content=='')
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <label>Reason for return/cancel</label>
+                                    <textarea class="form-control" name="comment" cols="5" rows="5" required></textarea>
+                                    <button onclick="return confirm('Are you sure want to cancel all item??')" type="submit" class="btn btn-primary">Full Order Cancel</button>
                                 </div>
+                                @endif 
                             </form>
                         </div>
                     </article>

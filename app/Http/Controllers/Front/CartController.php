@@ -8,6 +8,7 @@ use DB;
 use Cart;
 use auth;
 use Mail;
+use Redirect;
 
 class CartController extends Controller
 {
@@ -314,7 +315,7 @@ class CartController extends Controller
             $m->from('bigshotstyle20@gmail.com', 'Bigshot');
             $m->to($user_email)->subject('Order Confirmation');
         });
-        return view('front.order-success',compact('name'));
+        return redirect()->route('order.success');
    }
 
     /**

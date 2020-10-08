@@ -32,13 +32,16 @@
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-striped">
+                        Items In Order
                         <thead class="thead-light">
+
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Item</th>
-                                <th scope="col">Cost</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Total</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                                <!-- <th scope="col">Cost</th> -->
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,23 +50,43 @@
                             $grandTotal=0;
                             $subtotal=0;
                             $qty=0;
+                            $item_id=0;
+                            $sub=0;
+                            $total_qty=0;
                             @endphp
                             @foreach($products as $item)
                             @foreach($item->orderMeta as $value)
                             @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
                             @if($value->meta_key=='_line_subtotal') @php $subtotal=$value->meta_value; @endphp @endif
                             @endforeach
+                            @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
+                            @if(isset($product_status)) @php $status=$product_status->meta_value; @endphp @else @php $status=''; @endphp @endif
+                            @if($status=='')
                             <tr>
-                                <th scope="row">{{$i}}</th>
+                                <th scope="row">
+
+                                </th>
+                                <th>
+                                    @php
+                                    $sku=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','_sku')->first();
+                                    $image=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','attached_file')->first();
+                                    @endphp
+                                    <img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}">
+                                    Sku:{{$sku->meta_value}}
+                                </th>
                                 <td>{{$item->order_item_name}}</td>
-                                <td> @php $cost=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','product_stock')->first(); @endphp {{$cost->meta_value}}</td>
-                                <td>{{$qty}}</td>
-                                <td>{{$sub=$subtotal}}</td>
+                                <!-- <td> @php $cost=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','product_stock')->first(); @endphp {{$cost->meta_value}}</td> -->
+                                <td>{{$qty}} pcs</td>
+                                <td>{{$sub=$subtotal}} tk</td>
                             </tr>
+                            @endif
+                            @if($status=='')
                             @php
                             $i++;
                             $grandTotal+=$sub;
+                            $total_qty+=$qty;
                             @endphp
+                            @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -75,10 +98,10 @@
                 <div class="col-md-12">
                     <div class="row justify-content-between">
                         <div class="col-auto">
-                            <p class="mb-1 text-dark"><b>Order Details</b></p>
+                            <!-- <p class="mb-1 text-dark"><b>Order Details</b></p> -->
                         </div>
                         <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Total</b></p>
+                            <p class="mb-1"><b>Sub Total {{ $total_qty}} pcs </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
                             <p class="mb-1">{{$grandTotal}}</p>
@@ -97,12 +120,12 @@
                             <p class="mb-1"><b>Delivery Charges</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">Tk. 80</p>
+                            <p class="mb-1">80 tk</p>
                         </div>
                     </div>
                     <div class="row justify-content-between">
                         <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Grand Total</b></p>
+                            <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
                             <p class="mb-1">Tk. {{$grandTotal+80}}</p>

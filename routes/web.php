@@ -65,9 +65,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('user/profile/chnage/{id}','PageController@passwordEdit')->name('password.edit');
         Route::post('user/profile/chnage/{id}','PageController@passwordUpdate')->name('password.update');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
-        Route::get('/customer/order/details/{id}','OrderController@edit')->name('customer_ordere_edit');
-        Route::get('/customer/order/cancel/{id}','OrderController@cancel_order_details')->name('customer_ordere_cancel');
-        Route::post('/customer/order/cancel/item', 'OrderController@cancel_order_item')->name('customer_order_cancel_item');
+        Route::get('/customer/order/details/{id}','OrderController@edit')->name('customer_ordere_edit')->middleware('auth');;
+        Route::get('/customer/order/cancel/{id}','OrderController@cancel_order_details')->name('customer_ordere_cancel')->middleware('auth');;
+        Route::post('/customer/order/cancel/item', 'OrderController@cancel_order_item')->name('customer_order_cancel_item')->middleware('auth');;
+        Route::get('/customer/single/item/cancel/{id}', 'OrderController@single_item_cancel')->name('customer_single_item_cancel')->middleware('auth');;
     }); 
        
     Route::group(['namespace'=>'Search'],function(){

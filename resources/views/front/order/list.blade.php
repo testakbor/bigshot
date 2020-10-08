@@ -1,3 +1,6 @@
+<?php
+
+use Carbon\Carbon; ?>
 @extends('front.layouts.master')
 @section('content')
 <style>
@@ -31,11 +34,22 @@
                 <thead>
                   <tr style="background:#e7e7e7">
                     <th>Order Id:{{$order->ID}} Order placed
-                      {{date('d-M-Y',strtotime($order->post_date))}}</th>
+                      {{date('d-M-Y',strtotime($order->post_date))}}
+                      @php
+                      $date = Carbon::parse($order->post_date);
+                      $now = Carbon::now();
+                      $diff = $date->diffInDays($now);
+                      @endphp
+                    </th>
                     <th>{{$order->post_status}}
                       {{date('d-M-Y',strtotime($order->post_modified))}}
                     </th>
-                    <th><a href="{{route('customer_ordere_cancel',$order->ID)}}"><span style="color:#000000">Cancel/Return?</span></a></th>
+                    <th>
+                      @if($order->post_status=='delivered' && $diff>7)
+                      @else
+                      <a href="{{route('customer_ordere_cancel',$order->ID)}}"><span style="color:#000000">Cancel/Return?</span></a>
+                      @endif
+                    </th>
                     <th><a href="{{route('customer_ordere_edit',$order->ID)}}"><span style="color:#000000">Details</span></a></th>
                   </tr>
                 </thead>
@@ -51,6 +65,9 @@
                   @endphp
                   @endif
                   @endforeach
+                  @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
+                  @if(isset($product_status)) @php $status=$product_status->meta_value; @endphp @else @php $status=''; @endphp  @endif
+                  @if($status=='')
                   <tr>
                     <td style="border:none">
                       @php $product_img=DB::table('postmeta')->where('post_id',$id)->where('meta_key','attached_file')->first(); @endphp
@@ -66,6 +83,7 @@
                       {{$qty}} pcs
                     </td>
                   </tr>
+                  @endif 
                   @endforeach
                 </tbody>
               </table>

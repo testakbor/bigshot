@@ -19,12 +19,13 @@ class OrderController extends Controller
      */
     public function index()
     {
+
        $shop_order=Post::
         where('post_type','shop_order')
        ->where('post_author',auth()->user()->id)
        ->select('ID','post_date','post_status','post_modified')
        ->orderBy('ID','DESC')
-       ->paginate(2);
+       ->paginate(10);
        return view('front.order.list',compact('shop_order'));
     }
 
@@ -69,7 +70,7 @@ class OrderController extends Controller
     public function edit($id)
     {
         $order=Post::find($id);
-        $products=Order_item::where('order_id',$id)
+        $products=Order_item::where('order_items.order_id',$id)   
         ->whereNotNull('product_id')
         ->get();
         $extraInfo=array(
@@ -109,48 +110,123 @@ class OrderController extends Controller
         return view('front.order.cancel_data', compact('order','order_item'));
     }
 
+    public function single_item_cancel($id){
+        $orderQty=DB::table('order_itemmeta')
+            ->where('order_item_id',$id)
+            ->where('meta_key', '_qty')
+            ->first();
+        $orderDetails = DB::table('order_itemmeta')
+        ->where('order_item_id', $id)
+        ->first();
+        $find_product_id=DB::table('order_items')->where('order_item_id',$id)->first();
+        $product_qty=DB::table('postmeta')
+        ->where(['post_id'=>$find_product_id->product_id,'meta_key'=>'qty'])
+        ->first();
+        $update_qty=$orderQty->meta_value+$product_qty->meta_value;
+        DB::table('postmeta')
+        ->where(['post_id' => $find_product_id->product_id, 'meta_key' => 'qty'])
+        ->update([
+            'meta_value'=>$update_qty
+        ]);
+        DB::table('order_itemmeta')->insert([
+            'order_item_id'=>$id,
+            'meta_key'=>'product_status',
+            'meta_value'=>'cancel',
+            'order_id' => $orderDetails->order_id,
+            'order_date' => $orderDetails->order_date,
+            'customer_id' => $orderDetails->customer_id,
+        ]);
+       session()->flash("success", "Item has been Cancelled Successfully");
+       return back();
+    }
 
     public function cancel_order_item(Request $request){
-        $count = count($request->submit_quantity);
+        $count = count($request->order_item_id);
         for ($i = 0; $i < $count; $i++) {
+              $orderDetails = DB::table('order_itemmeta')
+                ->where('order_id', $request->order_id)
+                ->where('order_item_id', $request->order_item_id[$i])
+              ->first();
+              if(isset($orderDetails)){
+                $item_id= $orderDetails->order_item_id;
+                $order_id = $orderDetails->order_id;
+                $order_date = $orderDetails->order_date;
+                $customer_id = $orderDetails->customer_id;
+              }else{
+                $item_id ='';
+                $order_id ='';
+                $order_date='';
+                $customer_id='';
+              }
             $oldQty = DB::table('order_itemmeta')
                 ->where('order_id', $request->order_id)
                 ->where('order_item_id',$request->order_item_id[$i])
                 ->where('meta_key','_qty')
                 ->first();
-                $p=DB::table('postmeta')->where('post_id',$request->product_id[$i])->where('meta_key','qty')->select('post_id','meta_value')->first();
-                $stock_update_qty = $oldQty->meta_value-$request->submit_quantity[$i]+$p->meta_value;
-                $stuTotal = DB::table('order_itemmeta')
-                    ->where('order_id', $request->order_id)
-                    ->where('order_item_id', $request->order_item_id[$i])
-                    ->where('meta_key', '_line_subtotal')
-                    ->first();
-                $unitPrice = $stuTotal->meta_value / $oldQty->meta_value;
-                //    dd($unitPrice);
-                $term = DB::table('order_itemmeta')
-                    ->where('order_id',$request->order_id)
-                    ->where('order_item_id', $request->order_item_id[$i])
-                    ->where('meta_key','_qty')
-                    ->update(['meta_value' => $request->submit_quantity[$i]]);
-                $term = DB::table('order_itemmeta')
-                    ->where('order_id', $request->order_id)
-                    ->where('order_item_id', $request->order_item_id[$i])
-                    ->where('meta_key', '_line_subtotal')
-                    ->update(['meta_value' => $request->submit_quantity[$i] * $unitPrice]);
-                $term = DB::table('order_itemmeta')
-                    ->where('order_id', $request->order_id)
-                    ->where('order_item_id', $request->order_item_id[$i])
-                    ->where('meta_key', '_line_total')
-                    ->update(['meta_value' => $request->submit_quantity[$i] * $unitPrice]);
-                $postmeta = DB::table('postmeta')
-                    ->where('post_id', $request->product_id[$i])
-                    ->where('meta_key', 'qty')
-                    ->update(['meta_value' => $stock_update_qty]);
-                $status = DB::table('posts')->where('ID', $request->order_id)->update([
-                    'post_status' => 'cencelled',
-                    'post_modified' => date('Y-m-d H:i:s'),
+                $p=DB::table('postmeta')->where('post_id', $request->product_id[$i])->where('meta_key','qty')->select('post_id', 'meta_value')->first();
+                if(isset($oldQty)){
+                 $order_qty=$oldQty->meta_value;
+                }else{
+                  $order_qty=0; 
+                }
+                if (isset($p)) {
+                    $pro_qty=$p->meta_value;
+                } else {
+                  $pro_qty=0;
+                }
+                $stock_update_qty=$order_qty+$pro_qty;
+                DB::table('postmeta')->where('post_id',$request->product_id[$i])->where('meta_key','qty')->update([
+                    'meta_value'=>$stock_update_qty
                 ]);
-                session()->flash("success", "Quantity has been cancelled Successfully");
+                if($item_id!='' && $order_id!='' && $order_date!='' && $customer_id!=''){
+                    DB::table('order_itemmeta')->insert([
+                        'order_item_id' => $item_id,
+                        'meta_key' => 'product_status',
+                        'meta_value' => 'cancel',
+                        'order_id' => $order_id,
+                        'order_date' => $order_date,
+                        'customer_id' => $customer_id,
+                    ]);
+                
+                }
+            DB::table('posts')->where('ID',$request->default_order_id)->update([
+                'post_status' => 'cancelled',
+                'post_content' => $request->comment,
+            ]);
+
+                
+     
+                // $stuTotal = DB::table('order_itemmeta')
+                //     ->where('order_id', $request->order_id)
+                //     ->where('order_item_id', $request->order_item_id[$i])
+                //     ->where('meta_key', '_line_subtotal')
+                //     ->first();
+                // $unitPrice = $stuTotal->meta_value / $oldQty->meta_value;
+                // //    dd($unitPrice);
+                // $term = DB::table('order_itemmeta')
+                //     ->where('order_id',$request->order_id)
+                //     ->where('order_item_id', $request->order_item_id[$i])
+                //     ->where('meta_key','_qty')
+                //     ->update(['meta_value' => $request->submit_quantity[$i]]);
+                // $term = DB::table('order_itemmeta')
+                //     ->where('order_id', $request->order_id)
+                //     ->where('order_item_id', $request->order_item_id[$i])
+                //     ->where('meta_key', '_line_subtotal')
+                //     ->update(['meta_value' => $request->submit_quantity[$i] * $unitPrice]);
+                // $term = DB::table('order_itemmeta')
+                //     ->where('order_id', $request->order_id)
+                //     ->where('order_item_id', $request->order_item_id[$i])
+                //     ->where('meta_key', '_line_total')
+                //     ->update(['meta_value' => $request->submit_quantity[$i] * $unitPrice]);
+                // $postmeta = DB::table('postmeta')
+                //     ->where('post_id', $request->product_id[$i])
+                //     ->where('meta_key', 'qty')
+                //     ->update(['meta_value' => $stock_update_qty]);
+                // $status = DB::table('posts')->where('ID', $request->order_id)->update([
+                //     'post_status' => 'cencelled',
+                //     'post_modified' => date('Y-m-d H:i:s'),
+                // ]);
+                session()->flash("success", "Order has been cancelled Successfully");
                 return back();
         }
     }

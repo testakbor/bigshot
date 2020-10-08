@@ -10,17 +10,20 @@ class PageController extends Controller
 {
     public function productView($id)
     {
+
         $product=Post::where('post_type','product')
         ->where('ID',$id)
 		->first();
-		
-        $product_category=DB::table('term_relationships')->where('object_id',$id)->first();
-        if(isset($product_category)){
-          $cat_id=$product_category->term_taxonomy_id;
-		}
-		
+        $category = DB::table('term_relationships')
+        ->where('object_id',$id)
+        ->where('taxonomy', 'product_cat')
+        ->join('term_taxonomy', 'term_relationships.term_taxonomy_id', '=', 'term_taxonomy.term_taxonomy_id')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->select('terms.term_id as cat_id')
+        ->first();
+  
         $product_related=DB::table('term_relationships')
-        ->where('term_taxonomy_id',$cat_id)
+        ->where('term_taxonomy_id',$category->cat_id)
         ->where('posts.post_type','product')
         ->join('posts','term_relationships.object_id','=','posts.ID')
 		->get();
@@ -36,7 +39,7 @@ class PageController extends Controller
         } else {
             $arributeArray = array();
         }
-        return view('front.product-view',compact('product','product_category','product_related','gallery_images', 'arributeArray'));
+        return view('front.product-view',compact('product','product_related','gallery_images', 'arributeArray'));
     }
     public function cart()
     {
