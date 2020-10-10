@@ -235,7 +235,7 @@ public function edit($id)
 {        
     $extraInfo=array(
         'title'=>"New Product",
-        'page'=>'products'
+        'page'=>'product'
     );
         // for bands
         // $brands=DB::table('term_taxonomy')
@@ -551,11 +551,15 @@ public function stockPrintSticker($id){
 }
 
 public function stockSkuSearch(Request $request){
+        $extraInfo = array(
+            'title' => "Stock List",
+            'page' => 'stock'
+        ); 
    $sku=$request->product_sku;
     $products=DB::table('postmeta')->where(['meta_key'=>'_sku','meta_value'=>$sku])
    ->join('posts','postmeta.post_id','=','posts.ID')
    ->get();
-   return view('admin.order.stock_search',compact('products'));
+   return view('admin.order.stock_search',compact('products'))->with($extraInfo);
 }
 
 }

@@ -99,6 +99,10 @@ class OrderController extends Controller
     }
     
     public function search_pending_order(Request $request){
+        $extraInfo = array(
+            'title' => "Panding Order List",
+            'page' => 'pendingOrder'
+        );
         $start=Carbon::parse($request->start)
         ->toDateString();
         $end=Carbon::parse($request->end)
@@ -112,15 +116,15 @@ class OrderController extends Controller
         ->where('post_status','on-hold')
         ->whereBetween('post_date',array([$start,$end])) 
         ->count();  
-        return view('admin.order.searchOrder',compact('orders','total_orders'));
+        return view('admin.order.searchOrder',compact('orders','total_orders'))->with($extraInfo);
     }
 
     public function processing()
-    {   
-       $extraInfo=array(
-        'title'=>"Brand List",
-        'page'=>'processing'
-    );
+    {
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        );
        $date = \Carbon\Carbon::today()->subDays(30);
        $order=Post::where('post_type','shop_order')
        ->where('post_status','processing')
@@ -138,10 +142,10 @@ class OrderController extends Controller
 }
 public function dispat()
 {
-    $extraInfo = array(
-        'title' => "Brand List",
-        'page' => 'processing'
-    );
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        );
     $date = \Carbon\Carbon::today()->subDays(30);
     $order = Post::where('post_type', 'shop_order')
     ->where('post_status', 'dispatch')
@@ -176,11 +180,11 @@ public function cancelled()
 }
 
 public function allStatus()
-{   
-   $extraInfo=array(
-    'title'=>"Brand List",
-    'page'=>'allStatus'
-);
+{
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        );
    $date = \Carbon\Carbon::today()->subDays(30);
    $order = Post::where('posts.post_type','shop_order')
    ->where('post_date','>=', $date)
@@ -249,15 +253,16 @@ public function reject()
 
 public function rejectProductSearh(Request $request)
 {    
-
     $extraInfo=array(
         'title'=>"Reject item",
         'page'=>'reject'
     ); 
-
    $sku=$request->sku;
-
    $meta_info=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->first();
+   if($meta_info==NULL){
+    session()->flash("error", "No Sku Found");
+    return back();
+   }
    $post=Post::where('ID',$meta_info->post_id)->first();
    $relationShips=DB::table('term_relationships')
    ->join('term_taxonomy','term_taxonomy.term_taxonomy_id','=','term_relationships.term_taxonomy_id')
@@ -284,14 +289,14 @@ public function rejectProductUpdate(Request $request)
    ->where('post_id',$request->product_id)
    ->update(['meta_value'=>$newQty]);
 
-session()->flash("success","Quantity has been added Successfully");
+   session()->flash("success","Quantity has been added Successfully");
   
   return view('admin.order.reject')->with($extraInfo);
 }
 public function stock()
 {    
     $extraInfo=array(
-        'title'=>"Brand List",
+        'title'=>"Stock List",
         'page'=>'stock'
     ); 
     $products=DB::table('posts')
@@ -490,11 +495,10 @@ public function grossProfit()
 
     //excel dispatch
     public function excelDispatch(){
-       $extraInfo = array(
-        'title' => "Brand List",
-        'page' => 'processing'
-    );
-    //   $date = \Carbon\Carbon::today();
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        ); $date = \Carbon\Carbon::today();
        $order = Post::where('post_type','shop_order')
        ->where('post_status','dispatch')
        ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
@@ -508,14 +512,18 @@ public function grossProfit()
    }
 
    public function deliveryInvoiceOrder(){
-     return view('admin.order.deliveryInvoiceOrder');
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        );
+     return view('admin.order.deliveryInvoiceOrder')->with($extraInfo); 
  }
 
  public function deliveredOrder(){
-    $extraInfo = array(
-        'title' => "Delivery List",
-        'page' => 'processing'
-    );
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        );
     $date = \Carbon\Carbon::today()->subDays(30);
     $order = Post::where('post_type', 'shop_order')
     ->where('post_status','=','delivered')
@@ -550,10 +558,10 @@ public function grossProfit()
 
 public function cancelledOrder()
 {
- $extraInfo=array(
-    'title'=>"Cancel List",
-    'page'=>'cancelled'
-); 
+        $extraInfo = array(
+            'title' => "Order List",
+            'page' => 'order'
+        );
 
  $date = \Carbon\Carbon::today()->subDays(30);
  $order = Post::where('post_type', 'shop_order')
@@ -961,8 +969,8 @@ public function deliveryInvoiceDataDetails($id){
 public function allStatusSearch(Request $request){
         $extraInfo = array(
             'title' => "Order List",
-            'page' => 'allStatus'
-        ); 
+            'page' => 'order'
+        );
         $order_id=$request->order_id;
         $email = $request->email;
         $mobile = $request->mobile;

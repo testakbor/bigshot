@@ -57,13 +57,13 @@
                       <div class="form-group row">
                         <label for="regular_price" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
                         <div class="col-sm-10">
-                          <input type="text" name="regular_price" class="form-control" value="{{$regular_price->meta_value}}" id="regular_price" placeholder="Regular Price">
+                          <input type="text" name="regular_price" class="form-control" value="@if(isset($regular_price->meta_value)) {{$regular_price->meta_value}} @else 0 @endif" id="regular_price" placeholder="Regular Price">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="sale_price" class="col-sm-2 col-form-label">Sale Price (৳ )</label>
                         <div class="col-sm-10">
-                          <input type="text" name="sale_price" value="{{$sale_price->meta_value}}" class="form-control" id="sale_price" placeholder="Sale Price">
+                          <input type="text" name="sale_price" value="@if(isset($sale_price->meta_value)) {{$sale_price->meta_value}} @else 0 @endif" class="form-control" id="sale_price" placeholder="Sale Price">
                         </div>
                       </div>
 
@@ -89,14 +89,14 @@
                       <div class="form-group row" id="stockQualityDiv">
                         <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="{{$qty->meta_value}}" name="stockQuality" id="stockQuality">
+                          <input type="number" class="form-control" value="@if(isset($qty->meta_value))  {{$qty->meta_value}} @else 0 @endif" name="stockQuality" id="stockQuality">
                         </div>
                       </div>
                       <div class="form-group row" id="lowStockThresholdDiv" style="display:none">
                         <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
                         </label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="{{$alert_qty->meta_value}}" name="lowStockThreshold" id="lowStockThreshold">
+                          <input type="number" class="form-control" value="@if(isset($alert_qty->meta_value))  {{$alert_qty->meta_value}} @else 0 @endif" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                       </div>
 
@@ -115,15 +115,15 @@
                     <div class="form-group row mt-3">
                       <label for="weight" class="col-sm-2 col-form-label">Weight (kg)</label>
                       <div class="col-sm-10">
-                        <input type="text" value="{{$weight->meta_value}}" name="weight" class="form-control" id="weight">
+                        <input type="text" value="@if(isset($weight->meta_value))  {{$weight->meta_value}} @else '' @endif" name="weight" class="form-control" id="weight">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="inputEmail3" class="col-sm-2 col-form-label">Dimensions (cm)</label>
                       <div class="col-sm-10 d-flex flex-row">
-                        <input type="text" name="length" value="{{$length->meta_value}}" class="form-control" id="" placeholder="Length" style="width: 30%">
-                        <input type="text" name="width" value="{{$width->meta_value}}" class="form-control" id="" placeholder="Width" style="width: 30%">
-                        <input type="text" name="height" value="{{$height->meta_value}}" class="form-control" id="" placeholder="Height" style="width: 30%">
+                        <input type="text" name="length" value="@if(isset($length->meta_value))  {{$length->meta_value}} @else '' @endif" class="form-control" id="" placeholder="Length" style="width: 30%">
+                        <input type="text" name="width" value="@if(isset($width->meta_value))  {{$width->meta_value}} @else '' @endif" class="form-control" id="" placeholder="Width" style="width: 30%">
+                        <input type="text" name="height" value="@if(isset($height->meta_value))  {{$height->meta_value}} @else '' @endif" class="form-control" id="" placeholder="Height" style="width: 30%">
                       </div>
                     </div>
                   </div>
@@ -250,8 +250,9 @@
               </div>
               <div class="card-body" style="display: block;">
                 <input type="file" name="product_image" id="" class="form-control">
-                <img src="{{asset('backend/products/').'/'.$image->meta_value}}" style="height:100px;weight:100px" />
-                <input type="hidden" name="oldImage" value="{{$image->meta_value}}">
+                @if(isset($image->meta_value)) @php $img=$image->meta_value; @endphp @else @php $img=''; @endphp @endif
+                <img src="{{asset('backend/products/').'/'.$img}}" style="height:100px;weight:100px" />
+                <input type="hidden" name="oldImage" value="{{$img}}">
               </div>
             </div>
             {{-- product Gallary --}}

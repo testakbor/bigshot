@@ -19,7 +19,7 @@
     </div><!-- /.container-fluid -->
     <div class="s002">
       <form method="post" action="{{route('stock.sku.search')}}">
-        @csrf 
+        @csrf
         <fieldset>
           <legend>Stock List</legend>
         </fieldset>
@@ -97,7 +97,7 @@
                     ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
                     ->join('terms','terms.term_id','=','term_taxonomy.term_id')
                     ->select('terms.name as cat_name')
-                    ->first(); @endphp {{$category->cat_name}}</td>
+                    ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif</td>
                   <td class="right">{{$qty}}</td>
                   <td class="right">{{$tot=$cost}}tk</td>
                   <td class="right">{{$price}}tk</td>
