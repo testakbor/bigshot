@@ -562,4 +562,30 @@ public function stockSkuSearch(Request $request){
    return view('admin.order.stock_search',compact('products'))->with($extraInfo);
 }
 
+    public function stockSkuSearchLower(Request $request)
+    {
+        $extraInfo = array(
+            'title' => "Stock List",
+            'page' => 'stock'
+        );
+        $sku = $request->product_sku;
+        $products = DB::table('postmeta')->where(['meta_key' => '_sku', 'meta_value' => $sku])
+            ->join('posts', 'postmeta.post_id', '=', 'posts.ID')
+            ->get();
+        return view('admin.order.stock_search_lower', compact('products'))->with($extraInfo);
+    }
+
+    public function stockSkuSearchSold(Request $request)
+    {
+        $extraInfo = array(
+            'title' => "Stock List",
+            'page' => 'stock'
+        );
+        $sku = $request->product_sku;
+        $products = DB::table('postmeta')->where(['meta_key' => '_sku', 'meta_value' => $sku])
+        ->join('posts', 'postmeta.post_id', '=', 'posts.ID')
+        ->get();
+        return view('admin.order.stock_search_sold',compact('products'))->with($extraInfo);
+    }
+
 }

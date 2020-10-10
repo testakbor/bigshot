@@ -35,7 +35,40 @@
         </div>
       </form>
     </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="box bg-primary">
+            <!-- <i class="fa fa-lemon ml-1"></i> -->
 
+            <h3 class="text-center">{{$total_stock}}</h3>
+
+            <p class="lead text-center font-weight-bold">Total Stock </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="box bg-success">
+            <!-- <i class="fa fa-user ml-1"></i> -->
+
+
+            <h3 class="text-center">{{$total_cost}}</h3>
+
+            <p class="lead text-center font-weight-bold">Total Cost</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="box bg-info">
+            <!-- <i class="fa fa-handshake ml-1"></i> -->
+
+
+            <h3 class="text-center">{{$total_sale_price}}</h3>
+
+            <p class="lead text-center font-weight-bold">Total Sell Price</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   </section>
 
@@ -63,7 +96,7 @@
               </thead>
 
               <tbody>
-                @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $cost=0; @endphp
+                @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; @endphp
                 @foreach($products as $item)
                 @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
                 @endphp
@@ -99,16 +132,15 @@
                     ->select('terms.name as cat_name')
                     ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif</td>
                   <td class="right">{{$qty}}</td>
-                  <td class="right">{{$tot=$cost}}tk</td>
+                  <td class="right">{{$cost}}tk</td>
                   <td class="right">{{$price}}tk</td>
-                  <td class="right">{{$status}}</td>
+                  <td class="right">{{$status}} </br>{{date('d-M-Y',strtotime($item->post_date))}}</td>
                   <td class="right">
                     <i class="fas fa-print"><a href="{{route('stock.print.sticker',$item->ID)}}">Print</a></i><br>
                     <i class="fas fa-edit"><a href="{{route('product.edit',$item->ID)}}">Edit</a></i><br>
                     <i class="fas fa-trash-alt"><a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}">Delete</a></i><br>
                   </td>
                 </tr>
-                @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
                 @endif
                 @endforeach
               </tbody>
@@ -131,7 +163,7 @@
           <div class="box bg-primary">
             <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-            <h3 class="text-center">{{$i}}</h3>
+            <h3 class="text-center">{{$total_stock}}</h3>
 
             <p class="lead text-center font-weight-bold">Total Stock </p>
           </div>
@@ -151,7 +183,7 @@
             <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-            <h3 class="text-center">{{$total_sell_price}}</h3>
+            <h3 class="text-center">{{$total_sale_price}}</h3>
 
             <p class="lead text-center font-weight-bold">Total Sell Price</p>
           </div>

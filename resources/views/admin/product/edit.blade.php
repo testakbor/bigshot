@@ -89,7 +89,7 @@
                       <div class="form-group row" id="stockQualityDiv">
                         <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="@if(isset($qty->meta_value))  {{$qty->meta_value}} @else 0 @endif" name="stockQuality" id="stockQuality">
+                          <input type="number" class="form-control" value="@if(isset($qty->meta_value)) {{$qty->meta_value}} @else 0 @endif" name="stockQuality" id="stockQuality">
                         </div>
                       </div>
                       <div class="form-group row" id="lowStockThresholdDiv" style="display:none">
@@ -115,15 +115,15 @@
                     <div class="form-group row mt-3">
                       <label for="weight" class="col-sm-2 col-form-label">Weight (kg)</label>
                       <div class="col-sm-10">
-                        <input type="text" value="@if(isset($weight->meta_value))  {{$weight->meta_value}} @else '' @endif" name="weight" class="form-control" id="weight">
+                        <input type="text" value="@if(isset($weight->meta_value))  {{$weight->meta_value}} @else  @endif" name="weight" class="form-control" id="weight">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="inputEmail3" class="col-sm-2 col-form-label">Dimensions (cm)</label>
                       <div class="col-sm-10 d-flex flex-row">
-                        <input type="text" name="length" value="@if(isset($length->meta_value))  {{$length->meta_value}} @else '' @endif" class="form-control" id="" placeholder="Length" style="width: 30%">
-                        <input type="text" name="width" value="@if(isset($width->meta_value))  {{$width->meta_value}} @else '' @endif" class="form-control" id="" placeholder="Width" style="width: 30%">
-                        <input type="text" name="height" value="@if(isset($height->meta_value))  {{$height->meta_value}} @else '' @endif" class="form-control" id="" placeholder="Height" style="width: 30%">
+                        <input type="text" name="length" value="@if(isset($length->meta_value))  {{$length->meta_value}} @else  @endif" class="form-control" id="" placeholder="Length" style="width: 30%">
+                        <input type="text" name="width" value="@if(isset($width->meta_value))  {{$width->meta_value}} @else  @endif" class="form-control" id="" placeholder="Width" style="width: 30%">
+                        <input type="text" name="height" value="@if(isset($height->meta_value))  {{$height->meta_value}} @else  @endif" class="form-control" id="" placeholder="Height" style="width: 30%">
                       </div>
                     </div>
                   </div>
