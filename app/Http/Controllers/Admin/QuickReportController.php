@@ -73,6 +73,10 @@ class QuickReportController extends Controller
     }
     public function womenStock(Request $request)
     {
+       $extraInfo=array(
+            'title'=>"Category Wise Stock",
+            'page'=>'Report'
+        );
       $categories=DB::table('term_taxonomy')
       ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
       ->where('term_taxonomy.taxonomy','product_cat')
@@ -88,7 +92,7 @@ class QuickReportController extends Controller
          ->where('posts.post_type','product')
          ->get();
       }
-       return view('admin.quickReport.women_stock',compact('categories','cat_pro'));
+       return view('admin.quickReport.women_stock',compact('categories','cat_pro'))->with($extraInfo);
     }
     public function salesReport(Request $request)
     {
@@ -132,37 +136,49 @@ class QuickReportController extends Controller
     }
     public function bestCustomer(Request $request)
     {
+      $extraInfo=array(
+            'title'=>"Best Customer List",
+            'page'=>'Report'
+        );
+      $start=date('Y-m-01'); 
+      $end=date('Y-m-t'); 
+      $data=DB::SELECT("SELECT order_id,customer_id,SUM(meta_value) as total_qty 
+      FROM order_itemmeta 
+      where meta_key='_qty' and order_date Between '$start' and '$end' 
+      GROUP by customer_id ORDER by total_qty DESC");
+      return view('admin.quickReport.best_customer',compact('data'))->with($extraInfo);
+    }
+
+    public function bestCustomerSearch(Request $request){
+      $extraInfo=array(
+            'title'=>"Best Customer List",
+            'page'=>'Report'
+      );
       $start=$request->start; 
       $end=$request->end; 
-       $customer=DB::SELECT("SELECT SUM(order_itemmeta.meta_value) as tot_qty,customer_id,users.name 
-       FROM order_itemmeta LEFT JOIN users ON customer_id=users.id 
-       WHERE order_itemmeta.meta_key='_qty' AND order_date BETWEEN '$start' AND '$end'
-       GROUP BY order_itemmeta.customer_id
-       order by max(order_itemmeta.meta_value) desc");
-       return view('admin.quickReport.best_customer',compact('customer'));
+      $data=DB::SELECT("SELECT order_id,customer_id,SUM(meta_value) as total_qty 
+      FROM order_itemmeta 
+      where meta_key='_qty' and order_date Between '$start' and '$end' 
+      GROUP by customer_id ORDER by total_qty DESC");
+      return view('admin.quickReport.best_customer_search',compact('data'))->with($extraInfo);
     }
 
     public function grossProfit()
     {
-       return view('admin.quickReport.gross_profit');
+         $extraInfo=array(
+            'title'=>"Best Customer List",
+            'page'=>'Report'
+      );
+      $year=date('Y');
+      $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
+      return view('admin.quickReport.gross_profit',compact('order'))->with($extraInfo);
     }
   //gross profit report show
     public function grossProfitShow(Request $request)
     {
        $start=$request->start;
        $end=$request->end;
-       $order=Post::where(['post_type'=>'shop_order','post_status'=>'Completed'])->whereBetween('post_date',[$start,$end])->get();
-       $order_id=[];
-       foreach($order as $orders){
-         $order_id[]=$orders->ID;
-       }
-       $id=$order_id;
-       $id_array=implode(',', $id);
-       $cities=explode(',', $id_array);
-       $order_item=Order_item::select("*")
-       ->whereIn('order_id', $cities)
-       ->whereNotNull('product_id')
-       ->get();
-       return view('admin.quickReport.gross_profit_show',compact('order_item'));
+       $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
+       return view('admin.quickReport.gross_profit_show',compact('order','start','end'));
     }
 }

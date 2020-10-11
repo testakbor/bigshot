@@ -10,5 +10,9 @@ class Order_item extends Model
 
     public function orderMeta(){
         return $this->hasMany('\App\Model\front\Order_itemmeta','order_item_id','order_item_id');
-   }
+    }
+
+    public function postMeta(){
+        return $this->hasMany('\App\Model\front\Postmeta','post_id','product_id');
+    }
 }

@@ -47,7 +47,7 @@ class OrderController extends Controller
 
     public function pendingOrder(){
         $extraInfo=array(
-            'title'=>"Brand List",
+            'title'=>"Pending Order List",
             'page'=>'pendingOrder'
         );
         $date = \Carbon\Carbon::today()->subDays(30);
@@ -56,7 +56,6 @@ class OrderController extends Controller
         ->where('post_date','>=',$date)
         ->orderBy('ID','DESC')
         ->paginate(10); 
-        
         $total_orders=Post::where('posts.post_type','shop_order')
         ->where('post_status','on-hold')
         ->where('post_date', '>=', $date)

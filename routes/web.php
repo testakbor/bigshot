@@ -135,6 +135,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/quickReport/cancellation_items','QuickReportController@cancellationItems')->name('cancellation.items');
         Route::get('admin/quickReport/soldout_stock','QuickReportController@soldoutStock')->name('sold.stock');
         Route::get('admin/quickReport/best_customer','QuickReportController@bestCustomer')->name('best.customer');
+        Route::post('admin/quickReport/best_customer/search','QuickReportController@bestCustomerSearch')->name('best.customer.search');
         Route::get('admin/quickReport/gross_profit','QuickReportController@grossProfit')->name('gross.profit');
         Route::get('user/{id}','CustomerController@edit');
         Route::post('user/update','CustomerController@update')->name('user_update');

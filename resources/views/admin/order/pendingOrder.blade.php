@@ -53,20 +53,12 @@ use App\Model\front\Order_item;
       </div>
     </form>
   </div>
-
-
 </section>
-
 <!-- Main content -->
 <section class="content">
   <div class="container">
     <div class="card">
-
-
-
       <div class="card-body">
-
-
         <div class="table-responsive-sm">
           <table class="table table-striped">
             <thead>
@@ -74,7 +66,6 @@ use App\Model\front\Order_item;
                 <th class="center">Oder Id</th>
                 <th>Name</th>
                 <th>SKU</th>
-
                 <!-- <th class="right">Color</th> -->
                 <th class="center">Qty</th>
                 <th class="right">Item</th>
@@ -86,7 +77,6 @@ use App\Model\front\Order_item;
                 <!-- <th class="right">Comments</th> -->
               </tr>
             </thead>
-
             <tbody>
               @php $product_name=''; $qty=0; $sub=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
               @foreach($orders as $items)
@@ -95,16 +85,13 @@ use App\Model\front\Order_item;
                 if($value->meta_key=="first_name"){
                   $customer=$value->meta_value;      
                 } 
-                if($value->meta_key=="address"){
+                if($value->meta_key=="address_one"){
                   $address=$value->meta_value;                   
                 }
                 if($value->meta_key=="phone"){
                   $phone=$value->meta_value;                   
                 }
-
               }
-
-
               $count=count($items->orderItem); 
               // $count=1;
               $i=1;
@@ -112,35 +99,31 @@ use App\Model\front\Order_item;
                 $qtys=DB::table('order_itemmeta')
                 ->where('order_item_id',$orderMetas->order_item_id)
                 ->where('meta_key','_qty')
-                ->first();    
-                
+                ->first();  
+                 $sub_total=DB::table('order_itemmeta')
+                ->where('order_id',$orderMetas->order_id)
+                ->where('meta_key','_line_subtotal')
+                ->groupBy('order_id')
+                ->sum('meta_value');  
                 $sku=DB::table('postmeta')
                 ->where('post_id',$orderMetas->product_id)
                 ->where('meta_key','_sku')
                 ->first();    
-
                 $posts=DB::table('posts')
                 ->where('ID',$orderMetas->product_id)        
                 ->first();    
-                
-               
-
                 if($i==1):
                 @endphp  
-
                 <tr>
                   <td rowspan="{{$count}}" class="center">{{$items->ID}}</td>
                   <td rowspan="{{$count}}" class="left strong">{{$customer}}</td>
                   @php
                 endif;
                   if($i ==1 ):
-
                    @endphp
-
-                   <td  class="left"> {{$sku->meta_value}} </td>
-                   <td  class="left"> {{$qtys->meta_value}} </td>
-                   <td  class="left"> {{$posts->post_title}} </td>
-
+                   <td  class="left">{{$sku->meta_value}} </td>
+                   <td  class="left">{{$qtys->meta_value}} </td>
+                   <td  class="left">{{$posts->post_title}} </td>
                    @php 
                  endif;
                  @endphp
@@ -158,13 +141,13 @@ use App\Model\front\Order_item;
                  @endphp
                  <td rowspan="{{$count}}" class="right">{{$address}}</td>
                  <td rowspan="{{$count}}" class="right">{{$phone}}</td>
-                 <td rowspan="{{$count}}" class="right">{{$sub = $subtotal*11}}</td>
+                 <td rowspan="{{$count}}" class="right">{{$sub = $sub_total}}</td>
                  <td rowspan="{{$count}}" class="right">{{$items->post_status}}</td>
                  <td rowspan="{{$count}}" class="right">
-                  <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a><br>
-                  <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary" ><i class="fas fa-spinner"> </i>Processing</a><br>
-                  <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
-                  <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
+                  <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm"> <i class="fas fa-print"> </i> Print</a><br>
+                  <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary btn-sm" ><i class="fas fa-spinner"> </i>Processing</a><br>
+                  <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"> </i>Edit</a><br>
+                  <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
                 </td>
 
               </tr>

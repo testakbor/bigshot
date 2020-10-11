@@ -89,7 +89,7 @@
                   <td rowspan="" class="center">@php $total=DB::table('order_itemmeta')
                     ->where('customer_id',$item->customer_id)
                     ->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$total}}</td>
-                    <td rowspan="" class="center">
+                  <td rowspan="" class="center">
                       <a class="btn btn-success btn-sm" href="#">Send Email</a>
                       <a class="btn btn-primary btn-sm" href="#">Send Sms</a>
                     </td>

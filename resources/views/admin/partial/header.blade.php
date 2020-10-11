@@ -195,7 +195,7 @@
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+              <a href="#" class="nav-link {{isset($page) && $page=='Report'?'active':''}}">
                 <i class="nav-icon fas fa-circle"></i>
                 <p>
                   Report
