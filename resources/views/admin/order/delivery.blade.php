@@ -150,11 +150,11 @@
                 <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$sub}}</td>
                 <td class="right">{{$orders->post_status}}</td>
                 <td class="right">
-                  <a href="{{route('order.deliver.print',$orders->ID)}}" class="btn btn-success mb-2">
+                  <a href="{{route('order.deliver.print',$orders->ID)}}" class="btn btn-success btn-sm mb-2">
                     <i class="fas fa-print"> </i> Print</a><br>
-                  <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-info mb-2">
+                  <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-info btn-sm mb-2">
                     <i class="fas fa-edit"> </i>Edit</a><br>
-                  <a onclick="return confirm('Are you sure want to cancel this order?')" href="{{route('order.deliver.cancel',$orders->ID)}}" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
+                  <a onclick="return confirm('Are you sure want to cancel this order?')" href="{{route('order.deliver.cancel',$orders->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
                 </td>
               </tr>
               @php $total_amount+=$sub; $total_item+=$qty; @endphp

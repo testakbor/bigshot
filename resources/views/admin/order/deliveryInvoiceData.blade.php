@@ -67,7 +67,9 @@ use App\Model\front\Order_item;
                                     <td>{{++$key}}</td>
                                     <td>{{$item->ID}}</td>
                                     <td>{{date('Y-m-d',strtotime($item->post_date))}}</td>
-                                    <td><a class="btn btn-success btn-sm" href="{{route('order.delivery.invoice.data.details',$item->ID)}}">View Details</a>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" href="{{route('order.delivery.invoice.data.details',$item->ID)}}">Edit</a>
+                                        <a class="btn btn-success btn-sm" href="{{url('delivered/print/'.$item->ID)}}">Invoice</a>
                                     </td>
                                 </tr>
                                 @endforeach

@@ -1,171 +1,114 @@
-@extends('admin.layouts.master')
-@section('content')
-<div class="content-wrapper" style="min-height: 1203.6px;">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Delivery Invoice</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Delivery Invoice</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    
-    </section>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Delivery Invoice</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<style>
+  .col1{
+   width:50%;
+   float: left;
+  }
+  .col2{
+  width:50%;
+   float: left;
+  }
 
-    <!-- Main content -->
-    <section class="content">
+</style>
+</head>
+<body>
+
       <div class="container">
-        <div class="card">
           <h1 class="text-center">Delivery Invoice</h1>
-          <p class="text-center">House15/1, Road 4, BlockA, Section 10, Mirpur,Dhaka.<br><span>Mobile: 0000000000000</span> </p>
-          <div class="card-header">Invoice
-            <strong>01/01/01/2018</strong> 
-            <span class="float-right"> <strong>Status:</strong> Pending</span>
-          </div>
-           <div class="card-header">Delivery Company Name  
-          </div>
+         <p class="text-center">BiGshot Clothing</p>
+         <p class="text-center">House 15/1, Road 4, Block A, Section 10, Mirpur, Dhaka.</p>
+         <p class="text-center">Mobile: 0000000000000</p>
+     </div>
 
-          <div class="card-body">
-            <div class="row mb-4">
-              <div class="col-sm-6">
-                <h6 class="mb-3">From:</h6>
-                <div><strong>Webz Poland</strong></div>
-                <div>Madalinskiego 8</div>
-                <div>71-101 Szczecin, Poland</div>
-                <div>Email: info@webz.com.pl</div>
-                <div>Phone: +48 444 666 3333</div>
-              </div>
-
-              <div class="col-sm-6">
-                <h6 class="mb-3">To:</h6>
-                <div>
-                <strong>Bob Mart</strong>
-                </div>
-                <div>Attn: Daniel Marek</div>
-                <div>43-190 Mikolow, Poland</div>
-                <div>Email: marek@daniel.com</div>
-                <div>Phone: +48 123 456 789</div>
-              </div>
+     <div class="container">
+       <div class="col1">
+         <p> Invoice Number:{{$order->ID}} </p>
+         <p>Delivery Company Name </p>
+       </div>
+       <div class="col2">
+        <p> Date: {{date('d-m-Y')}}</p>
+       </div>
+     </div>
+     <br>
+     <br>
+     <br>
+     <br>
 
 
+      <table style="width:100%" class="table">
+  <tr style="background: #e7e7e7;">
+    <th>#</th>
+    <th>Order Id</th>
+    <th>Name</th>
+    <th>Mobile</th>
+    <th>Address</th>
+    <th>Items</th>
+    <th>Quantity</th>
+    <th>Amount</th>
+  </tr>
+  <tbody>
+       @php
+                                        $subtotal=0;
+                                        $qty=0;
+                                        $total_qty=0;
+                                        $total=0;
+                                        $grandTotal=0;
+                                        $grandLinetotal=0;
+                                        $total_sub=0;
+                                        @endphp
+                                        @foreach($products as $key=>$items)
+                                        @foreach($items->orderMeta as $value)
+                                        @php
+                                        if($value->meta_key=='_line_subtotal'){
+                                        $subtotal=$value->meta_value;
+                                        }
+                                        if($value->meta_key=='_qty'){
+                                        $qty=$value->meta_value;
+                                        }
+                                        if($value->meta_key=='_line_total'){
+                                        $total=$value->meta_value;
+                                        }
+                                        @endphp
+                                        @endforeach
+  <tr>
+    <td>{{++$key}}</td>
+    <th>{{$order->ID}}</th>
+    <th>{{$name->meta_value}}</th>
+    <th>{{$phone->meta_value}}</th>
+    <th>{{$address->meta_value}}</th>
+    <td>{{$items->order_item_name}}</td>
+    <td>{{$qty}}</td>
+    <td>{{$subtotal}}</td>
+  </tr>
+      @php
+                                        $grandTotal +=$subtotal;
+                                        $grandLinetotal +=$total;
+                                           $total_qty+=$qty;
+                                        @endphp
+                                        @endforeach
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>Total Parcel </td>
+      <td>{{$total_parcel}}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Total</td>
+      <td>{{$total_qty}}</td>
+      <td>{{number_format($grandTotal)}}tk</td>
+    </tr>
+  </tfoot>
+  <div class="col1">
+         <p>Receiver</p>
+         <p>Signature:</p>
+         <p>Name:</p>
+  </div>
+</table>
 
-            </div>
-
-            <div class="table-responsive-sm">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                  <th class="center">Oder Id</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Mobile</th>
-
-                  <th class="right">Items</th>
-                  <th class="center">Qty</th>
-                  <th class="right">Amount</th>
-               
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                  <td class="center">1</td>
-                  <td class="left strong">Saiful</td>
-                  <td class="left">Uttara</td>
-
-                  <td class="right">1234567890</td>
-                  <td class="center">Laptop</td>
-                  <td class="center">1</td>
-                  <td class="right">$999,00</td>
-                  
-            
-                  </tr>
-                  <tr>
-                  <td class="center">1</td>
-                  <td class="left strong">Saiful</td>
-                  <td class="left">Uttara</td>
-
-                  <td class="right">1234567890</td>
-                  <td class="center">Laptop</td>
-                  <td class="center">1</td>
-                  <td class="right">$999,00</td>
-                  
-            
-                  </tr>
-                  
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4 col-sm-5">
-
-                </div>
-
-            <div class="col-lg-4 col-sm-5 ml-auto">
-              <table class="table table-clear">
-                <tbody>
-                  <tr>
-                  <td class="left">
-                  <strong>Total Qty</strong>
-                  </td>
-                  <td class="right">8</td>
-                  </tr>
-                  <tr>
-                  <td class="left">
-                  <strong>Subtotal</strong>
-                  </td>
-                  <td class="right">$8.497,00</td>
-                  </tr>
-
-                  <tr>
-                  <td class="left">
-                  <strong>Discount (20%)</strong>
-                  </td>
-                  <td class="right">$1,699,40</td>
-                  </tr>
-
-                  <tr>
-                  <td class="left">
-                   <strong>VAT (10%)</strong>
-                  </td>
-                  <td class="right">$679,76</td>
-                  </tr>
-
-                  <tr>
-                  <td class="left">
-                  <strong>Total</strong>
-                  </td>
-                  <td class="right">
-                  <strong>$7.477,36</strong>
-                  </td>
-                  </tr>
-                </tbody>
-              </table>
-
-            </div>
-
-            </div>
-            <h1>Receiver Signature:<br>Name:</h1>
-          </div>
-        </div>
-      </div>
-    </section>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-   
-    <!-- /.content -->
- <!--  </div> -->
-@endsection
-
-@section('js')
-
-@endsection
+</body>
+</html>

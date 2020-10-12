@@ -33,7 +33,7 @@ use App\Model\front\Order_item;
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
               </svg>
             </div>
-            <input class="datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
+            <input class="datepicker" name="start" value="{{date('Y-m-01')}}" id="depart" type="date"/>
 
           </div>
           <div class="input-field third-wrap">
@@ -42,7 +42,7 @@ use App\Model\front\Order_item;
                 <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
               </svg>
             </div>
-            <input class="datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
+            <input class="datepicker" name="end" value="{{date('Y-m-t')}}" id="return" type="date"/>
           </div>
         
           <div class="input-field fifth-wrap">
@@ -88,7 +88,7 @@ use App\Model\front\Order_item;
                   <td class="left strong">{{$item->ID}}</td>
                   <td class="right">{{date('d-M-Y',strtotime($item->post_date))}}</td>
                   <!-- <td class="right">{{$item->post_status}}</td> -->
-                  <td class="right"><a class="btn btn-success btn-sm" href="">View Details</a></td>
+                  <td class="right"><a href="{{url('delivered/edit/'.$item->ID)}}" class="btn btn-success btn-sm" href="">View Details</a></td>
                   </tr>
                   @endforeach 
                 </tbody>

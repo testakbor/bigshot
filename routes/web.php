@@ -103,7 +103,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('allStatus/print/{id}', 'OrderController@allStatusPrint')->name('order.allStatus.print');
         
 
-        Route::get('admin/deliveryInvoice','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
+        Route::get('admin/deliveryInvoice/{id}','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
         
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
         Route::post('reject/product/search','OrderController@rejectProductSearh')->name('reject.search');
@@ -131,7 +131,10 @@ Route::get('/home', 'HomeController@index')->name('home');
         ->name('sales.report');
         Route::get('admin/quickReport/delivery_report','QuickReportController@deliveryReport')->name('delivery.report');
         Route::get('admin/quickReport/reject_item','QuickReportController@rejectItem')->name('reject.item');
+        Route::post('admin/quickReport/reject_item/search/','QuickReportController@rejectItemSearch')->name('reject.item.search.data');
+        Route::get('admin/quickReport/reject_item/remove/{id}','QuickReportController@rejectItemRemove')->name('reject.item.remove.data');
         Route::get('admin/quickReport/best_selling_items','QuickReportController@bestSelling')->name('best.selling');
+        Route::post('admin/quickReport/best_selling_items/search','QuickReportController@bestSellingSearch')->name('best.selling.search');
         Route::get('admin/quickReport/cancellation_items','QuickReportController@cancellationItems')->name('cancellation.items');
         Route::get('admin/quickReport/soldout_stock','QuickReportController@soldoutStock')->name('sold.stock');
         Route::get('admin/quickReport/best_customer','QuickReportController@bestCustomer')->name('best.customer');
@@ -172,11 +175,12 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('processing/order/print/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print');
         Route::get('processing/order/edit/{id}', 'OrderController@processingOrderEdit')->name('order.processing.edit');
         Route::get('processing/order/cancel/{id}', 'OrderController@processingOrderCancel')->name('order.processing.cancel');
+        Route::get('processing/order/dispatch/{id}', 'OrderController@processingOrderDispatch')->name('order.processing.dispatch');
         Route::post('processing/order/date/wise', 'OrderController@processingOrderdatewise')->name('process.order.date.wise');
         Route::post('processing/order/update', 'OrderController@processingOrderUpdate')->name('process.order.update');
 
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
-        Route::get('dispatch/order/delivered/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivered');
+        Route::get('dispatch/order/deliver/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivereds');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
         Route::post('dispatch/order/date/wise', 'OrderController@dispatchOrderdatewise')->name('dispatch.order.date.wise');
         Route::post('dispatch/order/cancel', 'OrderController@dispatchOrdercancel')->name('dispatch.order.cancel.type');

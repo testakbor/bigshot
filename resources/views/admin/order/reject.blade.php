@@ -96,7 +96,7 @@
                     <td>
                       <input type="hidden" name="product_id" value="{{$meta_info->post_id}}">
 
-                      <input type="text" name="quantity" class="form-control" id="quantity"></td>
+                     {{$qty_current->meta_value}}</td>
                   </tr>
                 </tbody>
                 @endif
@@ -110,7 +110,7 @@
           <div class="offset-md-4 col-md-4">
             <div class="box bg-danger">
 
-              <h3 class="text-center">1</h3>
+              <h3 class="text-center">  <input type="text" name="quantity" class="form-control" id="quantity" autocomplete="off" placeholder="Enter Quantity" required></h3>
 
               <p class="lead text-center font-weight-bold">Reject Qty</p>
             </div>

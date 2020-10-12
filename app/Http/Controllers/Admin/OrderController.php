@@ -258,6 +258,7 @@ public function rejectProductSearh(Request $request)
     ); 
    $sku=$request->sku;
    $meta_info=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->first();
+   $qty_current=Postmeta::where('meta_key','qty')->where('post_id',$meta_info->post_id)->first();
    if($meta_info==NULL){
     session()->flash("error", "No Sku Found");
     return back();
@@ -269,26 +270,89 @@ public function rejectProductSearh(Request $request)
    ->where('taxonomy','product_cat')
    ->get();
   
-   return view('admin.order.reject',compact('meta_info','post','relationShips'))->with($extraInfo);
+   return view('admin.order.reject',compact('meta_info','post','relationShips','qty_current'))->with($extraInfo);
 }
 public function rejectProductUpdate(Request $request)
 {    
-
     $extraInfo=array(
         'title'=>"Reject item",
         'page'=>'reject'
     ); 
    $sku=$request->sku;
-
    $meta_info=Postmeta::where('meta_key','qty')
    ->where('post_id',$request->product_id)
    ->first();
-   $newQty=$meta_info->meta_value+$request->quantity;
+   $newQty=$meta_info->meta_value-$request->quantity;
     $relationShips=DB::table('postmeta')->where('meta_key','qty')
    ->where('post_id',$request->product_id)
    ->update(['meta_value'=>$newQty]);
 
-   session()->flash("success","Quantity has been added Successfully");
+   $data_one=Postmeta::where('meta_key','reject_qty')
+   ->where('post_id',$request->product_id)
+   ->first();
+    $data_two=Postmeta::where('meta_key','product_status')
+   ->where('post_id',$request->product_id)
+   ->first();
+    $data_three=Postmeta::where('meta_key','reject_date')
+   ->where('post_id',$request->product_id)
+   ->first();
+
+   if($data_one!=null && $data_two!=null && $data_three!=null){
+         Postmeta::where('meta_key','reject_qty')
+        ->where('post_id',$request->product_id)
+        ->delete();
+        $data_two=Postmeta::where('meta_key','product_status')
+        ->where('post_id',$request->product_id)
+        ->delete();
+        $data_three=Postmeta::where('meta_key','reject_date')
+        ->where('post_id',$request->product_id)
+        ->delete();
+        $post_qty=array(
+            'post_id'=>$request->product_id,
+            'meta_key'=>'reject_qty',
+            'meta_value'=> $request->quantity
+        );
+    DB::table('postmeta')->insert($post_qty);
+
+     $post_status=array(
+            'post_id'=>$request->product_id,
+            'meta_key'=>'product_status',
+            'meta_value'=> 'reject'
+        );
+    DB::table('postmeta')->insert($post_status);
+
+     $post_date=array(
+            'post_id'=>$request->product_id,
+            'meta_key'=>'reject_date',
+            'meta_value'=> date('Y-m-d')
+        );
+    DB::table('postmeta')->insert($post_date);
+   }else{
+       $post_qty=array(
+            'post_id'=>$request->product_id,
+            'meta_key'=>'reject_qty',
+            'meta_value'=> $request->quantity
+        );
+    DB::table('postmeta')->insert($post_qty);
+
+     $post_status=array(
+            'post_id'=>$request->product_id,
+            'meta_key'=>'product_status',
+            'meta_value'=> 'reject'
+        );
+    DB::table('postmeta')->insert($post_status);
+
+     $post_date=array(
+            'post_id'=>$request->product_id,
+            'meta_key'=>'reject_date',
+            'meta_value'=> date('Y-m-d')
+        );
+    DB::table('postmeta')->insert($post_date);
+   }
+
+ 
+
+   session()->flash("success","Quantity has been reject Successfully");
   
   return view('admin.order.reject')->with($extraInfo);
 }
@@ -718,6 +782,16 @@ public function processingOrderCancel($id)
     return back();
 }
 
+public function processingOrderDispatch($id)
+{
+    DB::table('posts')->where('ID',$id)->update([
+        'post_status' => 'dispatch',
+        'post_modified' => date('Y-m-d H:i:s'),
+    ]);
+    session()->flash("success", "Order has been dispatch");
+    return back();
+}
+
 public function processingOrderUpdate(Request $request){
 
   DB::table('postmeta')->where('post_id',$request->order_id)->where('meta_key','first_name')->update([
@@ -977,14 +1051,16 @@ public function updateDeliveryOrder(Request $request){
 
 public function deliveredOrderPrint($id){
     $order=Post::where('ID',$id)->first();
+    $total_parcel=Order_item::where('order_id', $id)->count();
     $name =DB::table('postmeta')->where('post_id',$id)->where('meta_key','first_name')->first();
+    $address =DB::table('postmeta')->where('post_id',$id)->where('meta_key','address_one')->first();
     $phone = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'phone')->first();
     $city = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'city')->first();
     $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
     $order_info = DB::table('postmeta')->where('post_id',$order->ID)->get();
-    $pdf = PDF::loadView('admin.pdf.order.delivery',array('order' => $order, 'name' => $name,'phone'=>$phone,
-    'city'=>$city,'products'=>$products,'order_info'=> $order_info));
-    return $pdf->download('deliveredOrder.pdf');
+    $pdf = PDF::loadView('admin.order.deliveryInvoice',array('order' => $order, 'name' => $name,'phone'=>$phone,
+    'city'=>$city,'products'=>$products,'order_info'=> $order_info,'address'=>$address,'total_parcel'=>$total_parcel));
+    return $pdf->download('delivery_invoice.pdf');
 }
 public function deliveredOrderCancel($id){
  

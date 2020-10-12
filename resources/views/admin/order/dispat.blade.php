@@ -114,7 +114,7 @@
                 <td class="right">{{$phone}}</td>
                 <td class="right">{{$total_amount}}</td>
                 <td class="right">
-                  <a onclick="return confirm('Do you want to delivery?')" href="{{route('order.dispatch.delivered',$orders->ID)}}" class="btn btn-success">Delivered</a><br>
+                  <a onclick="return confirm('Do you want to delivery?')" href="{{route('order.dispatch.delivereds',$orders->ID)}}" class="btn btn-success">Delivered</a><br>
                   <a href="{{route('order.dispatch.edit',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 49%;">Edit</a>
                 </td>
                 <!-- <td class="right">hello</td> -->
