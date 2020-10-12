@@ -260,6 +260,14 @@
                     <p>Gross Profit</p>
                   </a>
                 </li>
+                  <!-- <li class="nav-item">
+                  <a href="{{route('gross.profit.summary')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Gross Profit Summary</p>
+                  </a>
+                </li> -->
+
+              
 
               </ul>
             </li>

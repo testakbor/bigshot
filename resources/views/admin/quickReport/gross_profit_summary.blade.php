@@ -73,26 +73,21 @@
 								<th>Gross Profit</th>
 							</tr>
 							<tbody>
-								@php $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
-								@foreach($order as $item)
+          @php $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
+          @foreach($order as $item)
+            
 								<tr>
 									<td>{{date('d-m-Y',strtotime($item->post_date))}}</td>
 									<td>{{$item->ID}}</td>
 									<td>
 										<table style="width:100%">
-                                         @foreach($item->orderItem as $meta)
+                  @foreach($item->orderItem as $meta)
+                  
 											<tr>
-												<td>
-												@php $category=DB::table('term_relationships')
-												->where('object_id',$meta->product_id)
-												->where('taxonomy','product_cat')
-												->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
-												->join('terms','terms.term_id','=','term_taxonomy.term_id')
-												->select('terms.name as cat_name')
-												->first(); @endphp 	
-												{{$meta->order_item_name}}(@if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif) </td>
-												</tr>
-											@endforeach
+												<td>{{$meta->order_item_name}}</td>
+											</tr>
+                   @endforeach
+                
 										</table>
 									</td>
 									<td>

@@ -261,9 +261,23 @@ class QuickReportController extends Controller
   //gross profit report show
     public function grossProfitShow(Request $request)
     {
+        $extraInfo=array(
+            'title'=>"Best Customer List",
+            'page'=>'Report'
+      );
        $start=$request->start;
        $end=$request->end;
        $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
-       return view('admin.quickReport.gross_profit_show',compact('order','start','end'));
+       return view('admin.quickReport.gross_profit_show',compact('order','start','end'))->with($extraInfo);
+    }
+
+    public function grossProfitSummary(){
+       $extraInfo=array(
+            'title'=>"Best Customer List",
+            'page'=>'Report'
+      );
+      $year=date('Y');
+      $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
+      return view('admin.quickReport.gross_profit_summary',compact('order'))->with($extraInfo);
     }
 }
