@@ -192,6 +192,8 @@ public function allStatus()
    return view('admin.order.allStatus',compact('order'))->with($extraInfo);
 }
 
+
+
 public function allStatusPrint($id)
 {     $order = Post::where('ID', $id)->first();
         $name = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'first_name')->first();
@@ -205,6 +207,12 @@ public function allStatusPrint($id)
         ));
         return $pdf->download('allStatusPrint.pdf');
 }
+
+public function downloadShipAddress($id){
+  dd($id);
+}
+
+
 public function sendParcel()
 {   
    $extraInfo=array(
@@ -589,8 +597,12 @@ public function grossProfit()
         $products = Order_item::where('order_id', $id)
         ->whereNotNull('product_id')
         ->get();
-        $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
-        $pdf = PDF::loadView('admin.pdf.order.shipping_address', $order_info);
+        $name = DB::table('postmeta')->where('post_id', $order->ID)->where('meta_key','first_name')->first();
+        $address = DB::table('postmeta')->where('post_id', $order->ID)->where('meta_key','address_one')->first();
+        $phone = DB::table('postmeta')->where('post_id', $order->ID)->where('meta_key','phone')->first();
+        $total_qty=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','_qty')->sum('meta_value');
+        $total_due=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','_line_subtotal')->sum('meta_value');
+        $pdf = PDF::loadView('admin.pdf.order.shipping_address',array('order'=>$order,'name'=>$name,'address'=>$address,'phone'=>$phone,'total_qty'=>$total_qty,'total_due'=>$total_due));
         return $pdf->download('shipping.pdf');
     }
 

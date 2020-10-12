@@ -90,6 +90,7 @@
                   <td class="right">
                     <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
                     <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
+                    <a href="{{route('download.shipping.address',$orders->ID)}}" class="btn btn-info btn-sm"> <i class="fas fa-edit"> </i>Shipping Address</a><br>
                   </td>
                 </tr>
                 @endforeach

@@ -1,54 +1,31 @@
+
 <!DOCTYPE html>
 <html>
-
 <head>
-   
     <style>
-        #invoice-POS {
-            box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
-            padding: 2mm;
-            margin: 0 auto;
-            width: 140mm;
-            background: #FFF;
-            min-height: 400px;
-            border: 2px solid #000000;
+        ul,li{
+            list-style: none;
         }
     </style>
 </head>
-
 <body>
-
-    <div id="invoice-POS">
-
-        <center id="top">
-            <div class="logo"></div>
-            <div class="info">
-                <h2>BiGshot</h2>
-            </div>
-            <!--End Info-->
-        </center>
-        <!--End InvoiceTop-->
-       <div style="width: 100%;">
-            <div style="float: left;width: 50%;">
-                <h4>Shipping Address</h4>
-                <p> Riaz Howlader
-                    House 15, Sector –10</br>
-                    Road –4, Uttara-Dhaka.</br>
-                    Phone : 017167474747</br>
-                </p>  
-            </div>
-            <div style="float: right;width: 50%;">
-                <h4>Total Quantity: 2</h4>
-                <p> Total Due: 2,000tk
-                </p>
-            </div>
+  <div id="invoice-POS" style="border: 1px solid #000000;width:100%;height:300px;">
+        <h2 style="text-align:center">BiGshot</h2>
+       <div style="width:50%;float:left">
+        <h4 style="margin-left:20px;">Shipping Address</h4>
+        <ul>
+         <li>{{$name->meta_value}}</li>
+          <li>{{$address->meta_value}}</li>
+            <li>Phone:{{$phone->meta_value}}</li>
+         </ul>
        </div>
-       <div style="width: 100%; float: left;">
-           <h2 style="text-align: center;">Barcode or QR code</h2>
-       </div>
-
-    </div>
-
+      <div style="width:50%;float:left">
+         <ul>
+             <li>Total Quantity: {{$total_qty}}</li>
+            <li>Total Due: {{number_format($total_due)}} tk</li>
+         </ul>
+        <?php echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG($order->ID, 'C39+',3,33,array(1,1,1)) . '" alt="barcode"   />'; ?>
+      </div>
+  </div>
 </body>
-
 </html>
