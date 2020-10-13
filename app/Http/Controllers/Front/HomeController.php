@@ -12,21 +12,20 @@ use App\Model\front\Postmeta;
 
 class HomeController extends Controller
 {
-    public function index(){
-
-        $categories=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_cat')
-        ->where('terms.status',1)
-        ->select('term_taxonomy.*','terms.name','terms.status')
-        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->get();
+    public function index(Request $request){
         // product 
-        $products=Post::where('post_type','product')
+        $products  = Post::where('post_type','product')
         ->where('post_status','publish')
         ->orderBy('ID','DESC')
-        ->get();
-  
-        return view('front.home',compact('categories','products'));
+        ->paginate(10);
+        if ($request->ajax()) {
+    		$view = view('front.product_ajax_data',compact('products'))->render();
+            return response()->json(['html'=>$view]);
+        }
+    	return view('front.home',compact('products'));
     }
+
+
+
+
 }

@@ -22,7 +22,8 @@
       <div class="card">
         <div class="card-body">
               @include('admin.includes.messages')
-          <form role="form" class="form-inline text-center" method="get" action="{{route('order.reject')}}">
+          <form role="form" class="form-inline text-center" method="post" action="{{route('reject.search')}}">
+          @csrf
             <div class="form-group  mx-sm-3 col-sm-6">
               <input type="text" name="sku" style="width: 100%" class="form-control" id="sku" placeholder="Scan/search" required>
             </div>
@@ -61,14 +62,7 @@
                 @if(isset($meta_info))
                 <tbody>
                   <tr>
-                    <td><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br>{{$meta_info->meta_value}} </br>     @foreach($arributeArray as $a)
-                                    @if($a->taxonomy=='pa_color')
-                                    Color:{{$a->term}}
-                                    @endif
-                                    @if($a->taxonomy=='pa_size')
-                                    Size:{{$a->term}}
-                                    @endif
-                                    @endforeach</td>
+                    <td>{{$meta_info->meta_value}}</td>
                     <td>
                       @php
                       $name='';
@@ -94,7 +88,6 @@
       </div>
       <div class="container">
         <div class="row">
-   
           <div class="offset-md-4 col-md-4">
             <div class="box bg-danger">
               <h3 class="text-center">  <input type="text" name="quantity" class="form-control" id="quantity" autocomplete="off" placeholder="Enter Quantity" required></h3>

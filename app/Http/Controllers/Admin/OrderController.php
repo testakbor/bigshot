@@ -248,14 +248,43 @@ public function deliveryInvoice()
 //     ->get();
 //     return view('admin.order.reject',compact('reject_order'))->with($extraInfo);
 // }
-public function reject()
+public function reject(Request $request)
 {    
     $extraInfo=array(
         'title'=>"Reject item",
         'page'=>'reject'
     ); 
-    
-    return view('admin.order.reject')->with($extraInfo);
+    $sku=$request->sku;
+    if($sku==''){
+     return view('admin.order.reject')->with($extraInfo);
+    }else{
+ $count=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->count();
+    if($count==0){
+        session()->flash("error", "No Sku Found");
+        return back();
+    }
+   $meta_info=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->first();
+   $qty_current=Postmeta::where('meta_key','qty')->where('post_id',$meta_info->post_id)->first();
+   $img=Postmeta::where('meta_key','attached_file')->where('post_id',$meta_info->post_id)->first();
+      $allAttribute = DB::table('postmeta')->where(['post_id' => $meta_info->post_id, 'meta_key' => 'default_attribute'])->first();
+        if ($allAttribute) {
+            $arributeArray = json_decode($allAttribute->meta_value);
+        } else {
+            $arributeArray = array();
+        }
+   if($meta_info==NULL){
+    session()->flash("error", "No Sku Found");
+    return back();
+   }
+   $post=Post::where('ID',$meta_info->post_id)->first();
+   $relationShips=DB::table('term_relationships')
+   ->join('term_taxonomy','term_taxonomy.term_taxonomy_id','=','term_relationships.term_taxonomy_id')
+   ->where('object_id',$post->ID)
+   ->where('taxonomy','product_cat')
+   ->get();
+   return view('admin.order.reject',compact('meta_info','post','relationShips','qty_current','img','arributeArray'))->with($extraInfo);
+    }
+  
 }
 
 public function rejectProductSearh(Request $request)
@@ -282,8 +311,7 @@ public function rejectProductSearh(Request $request)
    ->where('object_id',$post->ID)
    ->where('taxonomy','product_cat')
    ->get();
-  
-   return view('admin.order.reject',compact('meta_info','post','relationShips','qty_current'))->with($extraInfo);
+   return view('admin.order.reject_search',compact('meta_info','post','relationShips','qty_current'))->with($extraInfo);
 }
 public function rejectProductUpdate(Request $request)
 {    

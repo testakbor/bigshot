@@ -1,7 +1,21 @@
 @extends('front.layouts.master')
 
 @section('content')
-
+<style type="text/css">
+  		.ajax-load{
+  			/* background-color: #e1e1e1; */
+        /* left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        position: absolute;
+        margin: auto;
+        width: 50px;
+        height: 50px; */
+        padding: 10px 0px;
+		    width: 100%;
+  		}
+  	</style>
 
 <!-- Page Content  -->
 <div id="content" class=" p-md-5">
@@ -14,62 +28,10 @@
         @if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
         <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-responsive img-fluid" alt="Responsive image">
         @endif
-        <ul class="wrapper cf mt-3">
-          @php
-          $rprice=0;
-          $sprice=0;
-          $image='';
-          @endphp
-          @foreach($products as $item)
-          @foreach ($item->productMeta as $meta)
-          @if($meta['meta_key']=='regular_price')
-          @php
-          $rprice=$meta['meta_value'];
-          @endphp
-          @endif
-
-          @if($meta['meta_key']=='sale_price')
-          @php
-          $sprice=$meta['meta_value'];
-          @endphp
-          @endif
-
-          @if($meta['meta_key']=='attached_file')
-          @php
-          $image=$meta['meta_value'];
-          @endphp
-          @endif
-          @endforeach
-
-          <li class="product fl-l">
-            <a href="{{route('product-page',$item->ID)}}">
-              <div class="container-prod">
-                <div class="image" style="background-image:url({{asset('backend/products/'.$image)}});">
-
-
-                </div>
-                <div class="container-information">
-                  <div class="title">
-                    <p> {{$item->post_title}}
-                      <span class="text-dark ml-2">৳{{$sprice}}</span></p>
-
-                  </div>
-                </div>
-
-                <div class="buttons cf">
-                  <span style="margin-left: 3px;font-size: 12px;">
-                    <!-- <span class="add ml-2">20,000+ bought this</span> -->
-                  </span>
-
-                </div>
-              </div>
-            </a>
-          </li>
-          @endforeach
-
-        </ul>
+      <div  id="post-data">
+		    @include('front.product_ajax_data')
+	    </div>
       </section>
-
     </div>
   </div>
   <div class="col-md-2 col-sm-12 mt-4 d-none d-lg-block" style="background-color: #fff;position: fixed;
@@ -79,15 +41,47 @@ right: 10px;top:96px;">
     </div>
     <p class="text-justify mt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
-    <!-- <form>
-  <div class="form-group">
-      <div class="input-group"> <input type="text" class="form-control coupon" name="" value="xyz3gd"> <span class="input-group-append"> <button class="btn btn-light btn-apply coupon">Copy</button> </span> </div>
-  </div>
-</form> -->
 
   </div>
-
 </div>
 </div>
-
+<div class="ajax-load text-center main-loader" style="display:none">
+	<div class="loader">
+    <img src="{{asset('img/loading.gif')}}" height="100" width="120">
+  </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript">
+	var page = 1;
+	$(window).scroll(function() {
+	    if($(window).scrollTop() + $(window).height() >= $(document).height()) {
+	        page++;
+	        loadMoreData(page);
+	    }
+	});
+	function loadMoreData(page){
+	  $.ajax(
+	        {
+	            url: '?page=' + page,
+	            type: "get",
+	            beforeSend: function()
+	            {
+	                $('.ajax-load').show();
+	            }
+	        })
+	        .done(function(data)
+	        {
+	            if(data.html == " "){
+	                $('.ajax-load').html("No more records found");
+	                return;
+	            }
+	            $('.ajax-load').show();
+	            $("#post-data").append(data.html);
+	        })
+	        .fail(function(jqXHR, ajaxOptions, thrownError)
+	        {
+	              alert('server not responding...');
+	        });
+	}
+</script>
 @endsection

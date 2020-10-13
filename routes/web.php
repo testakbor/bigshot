@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
+        Route::get('posts', 'HomeController@index');
         Route::get('/product-page/{id}','PageController@productView')->name('product-page');
         Route::get('/pickup-tab','PageController@pickupTab')->name('pickup.tab');
         Route::get('/recent','PageController@recent')->name('recent');
@@ -106,7 +107,6 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/deliveryInvoice/{id}','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
         
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
-        Route::post('reject/product/search','OrderController@rejectProductSearh')->name('reject.search');
         Route::post('reject/product/update','OrderController@rejectProductUpdate')->name('reject.update');
 
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
