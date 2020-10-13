@@ -1,13 +1,10 @@
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;">
-  <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
-      @include('admin.includes.messages')
       <div class="row mb-2">
         <div class="col-sm-6">
-          <!-- <h1>Reject</h1> -->
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -16,21 +13,15 @@
           </ol>
         </div>
       </div>
-    </div><!-- /.container-fluid -->
-    <div class="s002">
-
     </div>
-
-
+    <div class="s002">
+    </div>
   </section>
-
-  <!-- Main content -->
   <section class="content">
-
     <div class="container">
       <div class="card">
-
         <div class="card-body">
+              @include('admin.includes.messages')
           <form role="form" class="form-inline text-center" method="POST" action="{{route('reject.search')}}">
             {{csrf_field()}}
             <div class="form-group  mx-sm-3 col-sm-6">
@@ -43,7 +34,6 @@
         </div>
       </div>
     </div>
-
     <form role="form" method="POST" action="{{route('reject.update')}}" enctype="multipart/form-data">
       <div class="container">
         <div class="card">
@@ -51,10 +41,7 @@
           <div class="card-body">
             <div class="row mb-4">
             </div>
-
-
             {{csrf_field()}}
-
             <div class="card-body">
               <!-- <div class="form-group">
                   <label for="brandName">Brand Name</label>
@@ -64,7 +51,6 @@
                   <label for="image">Brand Image</label>
                   <input type="file" name="image" class="form-control" id="image">
                 </div> -->
-
               <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                   <tr>
@@ -81,21 +67,16 @@
                       @php
                       $name='';
                       @endphp
-
                       @foreach($relationShips as $item)
                       @php
-
                       $category=DB::table('terms')->where('term_id',$item->term_id)->first();
                       $name .=$category->name.', ';
-
                       @endphp
                       @endforeach
                       {{substr($name,0,-2)}}
-
                     </td>
                     <td>
                       <input type="hidden" name="product_id" value="{{$meta_info->post_id}}">
-
                      {{$qty_current->meta_value}}</td>
                   </tr>
                 </tbody>
@@ -109,30 +90,20 @@
         <div class="row">
           <div class="offset-md-4 col-md-4">
             <div class="box bg-danger">
-
               <h3 class="text-center">  <input type="text" name="quantity" class="form-control" id="quantity" autocomplete="off" placeholder="Enter Quantity" required></h3>
-
               <p class="lead text-center font-weight-bold">Reject Qty</p>
             </div>
           </div>
-
           <div class="col-md-4">
             <div class="box">
               <button class="btn-primary" type="Submite" style="height: 56px;width: 80%;border-radius: 6px;">Submit</button>
             </div>
           </div>
         </div>
-
       </div>
     </form>
   </section>
-  <!-- /.row -->
-</div><!-- /.container-fluid -->
-
-<!-- /.content -->
-<!--  </div> -->
+</div>
 @endsection
-
 @section('js')
-
 @endsection
