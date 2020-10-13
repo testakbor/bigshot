@@ -34,7 +34,7 @@
           <form role="form" class="form-inline text-center" method="POST" action="{{route('reject.search')}}">
             {{csrf_field()}}
             <div class="form-group  mx-sm-3 col-sm-6">
-              <input type="text" name="sku" style="width: 100%" class="form-control" id="sku" placeholder="Scan/search">
+              <input type="text" name="sku" style="width: 100%" class="form-control" id="sku" placeholder="Scan/search" required>
             </div>
             <div class="form-group  mx-sm-3">
               <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Search</button>

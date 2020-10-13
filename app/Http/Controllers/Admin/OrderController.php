@@ -265,6 +265,11 @@ public function rejectProductSearh(Request $request)
         'page'=>'reject'
     ); 
    $sku=$request->sku;
+   $count=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->count();
+    if($count==0){
+        session()->flash("error", "No Sku Found");
+        return back();
+    }
    $meta_info=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->first();
    $qty_current=Postmeta::where('meta_key','qty')->where('post_id',$meta_info->post_id)->first();
    if($meta_info==NULL){

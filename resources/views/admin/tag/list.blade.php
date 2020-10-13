@@ -65,7 +65,7 @@
                   <div class="card-body">
                     <div class="form-group">
                       <label for="tagName">Tag Name</label>
-                      <input type="text" name="tagName" class="form-control" id="tagName" placeholder="Enter Category Name">
+                      <input type="text" name="tagName" class="form-control" id="tagName" placeholder="Enter Tag Name">
                     </div>                   
                     <div class="form-group">
                       <label for="exampleInputFile">Status</label>
