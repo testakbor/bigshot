@@ -23,26 +23,26 @@
         <fieldset>
           <legend>Best Customer List</legend>
         </fieldset>
-        <div class="inner-form ml-5">
-          <div class="input-field second-wrap">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-              </svg>
-            </div>
-            <input class="datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date" />
+        <div class="inner-form ml-5 form-group">
+
+        
+          <div class="row">
+            
+                <div class="col-md-4">
+                  <input class="datepicker form-control" name="start" value="{{date('Y-m-d')}}" id="depart" type="date" />
+                </div>
+      
+          
+                <div class="col-md-4">
+                  <input class="datepicker form-control" name="end" value="{{date('Y-m-d')}}" id="return" type="date" />
+               </div>
+               
+                <div class="col-md-4">
+                  <button type="submit" class="btn btn-success">SEARCH</button>
+                </div>
           </div>
-          <div class="input-field third-wrap">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-              </svg>
-            </div>
-            <input class="datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date" />
-          </div>
-          <div class="input-field fifth-wrap">
-            <button type="submit" class="btn-search" type="button">SEARCH</button>
-          </div>
+
+
         </div>
       </form>
     </div>
@@ -62,7 +62,7 @@
                   <th class="right">Address</th>
                   <th class="center">Quantity</th>
                   <th class="right">Amount</th>
-                  <th class="right">Action</th>
+                  <th class="right">Option</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,8 +89,13 @@
                   <td rowspan="" class="center">@php $total=DB::table('order_itemmeta')
                     ->where('customer_id',$item->customer_id)
                     ->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$total}}</td>
-                  <td rowspan="" class="center">
-                      <a class="btn btn-success btn-sm" href="#">Send Email</a>
+                    <td rowspan="" class="center">
+                       @php $email=DB::table('users')->where('id',$item->customer_id)->select('email')->first();  @endphp
+                       @if(isset($email)) @php $mail=$email->email; @endphp @endif
+                      <a class="btn btn-success btn-sm" href="{{route('best.customer.send.email',$mail)}}">
+                       
+                        Send Email
+                      </a>
                       <a class="btn btn-primary btn-sm" href="#">Send Sms</a>
                     </td>
                 </tr>

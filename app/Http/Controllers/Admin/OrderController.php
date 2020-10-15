@@ -228,6 +228,19 @@ public function sendParcel()
    return view('admin.order.sendParcel',compact('orders','total_orders'))->with($extraInfo);
 }
 
+public function sendParcelSearch(Request $request){
+ $extraInfo=array(
+    'title'=>"Brand List",
+    'page'=>'sendParcel'
+); 
+   
+   $orders=Post::where(['posts.post_type'=>'shop_order','post_status'=>'processing','ID'=>$request->order_id])
+   ->paginate(10); 
+   $total_orders=Post::where(['posts.post_type'=>'shop_order','post_status'=>'processing','ID'=>$request->order_id])
+   ->count(); 
+   return view('admin.order.send_parcel_search',compact('orders','total_orders'))->with($extraInfo);
+}
+
 public function deliveryInvoice()
 {    
     $extraInfo=array(
@@ -615,14 +628,18 @@ public function grossProfit()
         return view('admin.order.edit', compact('order', 'products', 'id', 'order_info'))->with($extraInfo);     
     }
 
-    public function sendParcelPrint(){
-        $orders=Post::where('posts.post_type','shop_order')
-        ->where('post_status','processing')
-        ->paginate(10); 
-        $total_orders=Post::where('posts.post_type','shop_order')
-        ->where('post_status','processing')
-        ->count();  
-        return view('admin.order.parcel_print',compact('orders','total_orders'));
+    public function sendParcelPrint(Request $request){
+        $current = Carbon::now()->toDateTimeString();
+        $company_name=$request->delivery_company;
+        $id=$request->order;
+        $orders = Post::where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->get();
+        DB::table('posts')->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->update([
+            'post_status'=>'dispatch',
+            'post_modified'=>$current,
+        ]);
+        $pdf = PDF::loadView('admin.order.parcel_print',array('company_name'=>$company_name,'orders'=>$orders));
+        return $pdf->download('delivery_invoice.pdf');
+        //return view('admin.order.parcel_print',compact('orders','company_name'));
     }
 
     public function downloadShippingAddress($id){

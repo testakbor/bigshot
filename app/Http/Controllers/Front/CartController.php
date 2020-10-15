@@ -308,13 +308,13 @@ class CartController extends Controller
            DB::table('order_itemmeta')->insert($order_item_details);
         }
         Cart::clear();
-        $name=$request->first_name;
-        $order_id = $order_id;
-        $user_email = $request->email;
-        Mail::send('mail', ['name'=>$name,'order_id'=>$order_id], function ($m) use ($user_email) {
-            $m->from('bigshotstyle20@gmail.com', 'Bigshot');
-            $m->to($user_email)->subject('Order Confirmation');
-        });
+        // $name=$request->first_name;
+        // $order_id = $order_id;
+        // $user_email = $request->email;
+        // Mail::send('mail', ['name'=>$name,'order_id'=>$order_id], function ($m) use ($user_email) {
+        //     $m->from('bigshotstyle20@gmail.com', 'Bigshot');
+        //     $m->to($user_email)->subject('Order Confirmation');
+        // });
         return redirect()->route('order.success');
    }
 

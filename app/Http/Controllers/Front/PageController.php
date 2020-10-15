@@ -26,7 +26,7 @@ class PageController extends Controller
         ->where('term_taxonomy_id',$category->cat_id)
         ->where('posts.post_type','product')
         ->join('posts','term_relationships.object_id','=','posts.ID')
-		->get();
+		->paginate(10);
 	
         $gallery_images=DB::table('postmeta')
         ->where('post_id',$product->ID)

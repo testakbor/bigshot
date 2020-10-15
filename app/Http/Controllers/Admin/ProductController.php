@@ -39,13 +39,27 @@ class ProductController extends Controller
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($row){
-                $btn = '<a class="btn btn-primary" title="Edit Product" href="'.route('product.edit',$row->ID).'"> <i class="fa fa-edit"></i> Edit</a>';
+                $btn = '<a class="btn btn-primary" title="Edit Product" href="'.route('product.edit',$row->ID).'"> <i class="fa fa-edit"></i> Edit</a> <a class="btn btn-warning" title="Generate Sku" href="'.route('generate.sku',$row->ID).'"> <i class="fa fa-edit"></i>Generate Sku</a>';
                 return $btn;
             })
             ->rawColumns(['action'])
             ->make(true);       
         }        
         return view('admin.product.list')->with($extraInfo);
+    }
+
+    public function generateSku($id){
+        $price=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'sale_price'])->first();
+        $name=DB::table('posts')->where(['ID'=>$id])->first();
+        $allAttribute = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => 'default_attribute'])->first();
+        if ($allAttribute) {
+            $arributeArray = json_decode($allAttribute->meta_value);
+        } else {
+            $arributeArray = array();
+        }
+        $sku=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'_sku'])->first();
+        $pdf = PDF::loadView('admin.product.sku_download',array('price' =>$price,'name'=>$name,'arributeArray'=>$arributeArray,'sku'=>$sku,'id'=>$id));
+        return $pdf->download('sku.pdf');
     }
 
     public function create()

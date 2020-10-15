@@ -96,7 +96,7 @@
               </thead>
 
               <tbody>
-                @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; @endphp
+                @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; $img=''; @endphp
                 @foreach($products as $item)
                 @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
                 @endphp
@@ -116,13 +116,16 @@
                 @if($info->meta_key=='_sku')
                 @php $sku=$info->meta_value; @endphp
                 @endif
+                @if($info->meta_key=='attached_file')
+                @php $img=$info->meta_value; @endphp
+                @endif
                 @endforeach
                 @if($qty>0)
                 @php $i++
                 @endphp
                 <tr>
                   <td class="center">{{$i}}</td>
-                  <td class="center">{{ $sku ? $sku : 'No SKU Found' }}</td>
+                  <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img)}}"></br> {{ $sku ? $sku : 'No SKU Found' }}</td>
                   <td class="left strong">{{$item->post_title}}</td>
                   <td class="left">@php $category=DB::table('term_relationships')
                     ->where('object_id',$item->ID)

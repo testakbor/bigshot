@@ -160,7 +160,7 @@ endforeach;
                                             @if($info->meta_key=='regular_price') @php $rprice=$info->meta_value @endphp @endif
                                             @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp @endif
                                             @endforeach
-                                            <li class="product fl-l">
+                                            <li class="product fl-l col-md-2">
                                                 <a href="{{route('product-page',$related->ID)}}">
                                                     <div class="container-prod">
                                                         <div class="image">
@@ -182,6 +182,7 @@ endforeach;
                                             </li>
                                             @endforeach
                                         </ul>
+                                        {{$product_related->links()}}
                                     </section>
                                 </div>
                             </div>

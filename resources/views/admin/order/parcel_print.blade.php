@@ -1,113 +1,130 @@
-<?php 
-use App\Model\front\Order_item;
-?>
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
+	<head>
+		<title>Delivery Invoice</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+			<style>
+  .col1{
+   width:50%;
+   float: left;
+  }
+  .col2{
+  width:50%;
+   float: left;
+  }
 </style>
-</head>
-<body>
-
-
-<h1>Company Name : Bigshot</h1>
-<p>Company Email: Demo@email.com</p>
-<p>Company Address : Demo Address</p>
-<table class="table table-striped">
-                <thead>
-                  <tr>
-                  <th class="center">Oder Id</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th class="right">Items</th>
-                  <th class="center">Qty</th>
-                  <th class="right">Amount</th>
-                  <th class="right">Status</th>
-                  <!-- <th class="right">Action</th> -->
-                  </tr>
-                </thead>
-
-                <tbody>
-                @php $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
-                @foreach($orders as $items)
-                 @php 
-                   $products=Order_item::where('order_id',$items->ID)->get();
-                   $order_info=DB::table('postmeta')
-                   ->where('post_id',$items->ID)
-                   ->get();
-                 @endphp
-                 @foreach($products as $item)
-                    @php $product=$item->order_item_name; @endphp
-                    @foreach($item->orderMeta as $value)
-                    @php              
-                    if($value->meta_key=='_line_subtotal'){
-                      $subtotal=$value->meta_value;
-                    }
-                    if($value->meta_key=='_qty'){
-                      $qty=$value->meta_value;
-                    }
-                    @endphp
-                    @endforeach 
-                  @endforeach 
-                  @foreach($order_info as $info)
-                    @if($info->meta_key=='_billing_phone')
+		</head>
+		<body>
+			<div class="container">
+				<h1 class="text-center">Delivery Invoice</h1>
+				<p class="text-center">BiGshot Clothing</p>
+				<p class="text-center">House 15/1, Road 4, Block A, Section 10, Mirpur, Dhaka.</p>
+				<p class="text-center">Mobile: 0000000000000</p>
+			</div>
+			<div class="container">
+				<div class="col1">
+					<p> Invoice Number:{{rand()}} </p>
+					<p>{{$company_name}}</p>
+				</div>
+				<div class="col2">
+					<p> Date: {{date('d-m-Y')}}</p>
+				</div>
+			</div>
+			<br>
+				<br>
+					<br>
+						<br>
+							<table style="width:100%" class="table">
+								<tr style="background: #e7e7e7;">
+									<th>Order Id</th>
+									<th>Name</th>
+									<th>Mobile</th>
+									<th>Address</th>
+									<th>Items</th>
+									<th>Quantity</th>
+									<th>Amount</th>
+								</tr>
+								<tbody>
+                 @php $total_parcel=0; $product=''; $qty=0; $total_qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
+                 @foreach($orders as $key=>$item)
+                     @foreach($item->productMeta as $info) 
+                     @if($info->meta_key=='phone')
                      @php $mobile_no=$info->meta_value; @endphp
                     @endif 
                     @if($info->meta_key=='address_one')
                      @php $address=$info->meta_value; @endphp
+                    @endif  
+                      @if($info->meta_key=='first_name')
+                     @php $first_name=$info->meta_value; @endphp
                     @endif 
-
-                    @if($info->meta_key=='_sku')
-                     @php $sku=$info->meta_value; @endphp
+                    @if($info->meta_key=='last_name')
+                     @php $last_name=$info->meta_value; @endphp
                     @endif 
-
-                    @if($info->meta_key=='_customer_user') 
-                      @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->get(); @endphp 
-                      @foreach($user as $users) @php $cust=$users->name; @endphp @endforeach
-                    @endif
-                  @endforeach 
-                  <tr>
-                      <td class="center">{{$items->ID}}</td>
-                      <td class="left strong">{{$cust}}</td>
-                      <td class="left">{{$address}}</td>
-                      <td class="right">{{$product}}</td>
-                      <td class="center">{{$qty}}</td>
-                      <td class="right">{{$sub = $subtotal*$qty}}</td>
-                      <td class="right">{{$items->post_status}}</td>
-                      <!-- <td class="right"></td> -->
-                  </tr>
-                  @php $grandTotal+=$sub; @endphp
-                  @endforeach 
-                </tbody>
-                <tfoot>
-  <tr>
-    <td colspan="6">Processing</td>
-    <td>{{$total_orders}}</td>
-  </tr>
-   <tr>
-    <td colspan="6">Total Percel</td>
-    <td>{{$grandTotal}}</td>
-  </tr>
-</tfoot>
-
-              </table>
-<script type="text/javascript">
-  window.print();
-</script>
-</body>
-</html>
+                @endforeach
+									<tr>
+										<th>{{$item->ID}}</th>
+										<th>{{$first_name}} {{$last_name}}</th>
+										<th>{{$address}}</th>
+										<th>{{$mobile_no}}</th>
+										<td>
+                      <table style="width:100%">
+                              @foreach($item->orderItem as $meta)
+                              <tr>
+                                <td>{{$meta->order_item_name}}</td>
+                              </tr>
+                              @php $total_parcel++; @endphp
+                              @endforeach
+                            </table>
+                    </td>
+										<td>
+                           <table style="width:100%">
+                              @foreach($item->orderItem as $meta)
+                              @foreach($meta->orderMeta as $value)
+                                 @if($value->meta_key=='_qty')
+                                    @php $qty=$value->meta_value; @endphp
+                                  @endif 
+                               @endforeach
+                              <tr>
+                                <td>{{$qty}}</td>
+                              </tr>
+                              @php $total_qty+=$qty; @endphp
+                              @endforeach
+                            </table>
+                    </td>
+										<td>
+                       <table style="width:100%">
+                              @foreach($item->orderItem as $meta)
+                              @foreach($meta->orderMeta as $value)
+                                 @if($value->meta_key=='_line_subtotal')
+                                    @php $subtotal=$value->meta_value; @endphp
+                                  @endif 
+                               @endforeach
+                              <tr>
+                                <td>{{number_format($subtotal)}}</td>
+                              </tr>
+                              @php $grandTotal+=$subtotal; @endphp
+                              @endforeach
+                            </table>
+                    </td>
+									</tr>
+                 @endforeach 
+								</tbody>
+								<tfoot>
+									<tr>
+										<td>Total Parcel </td>
+										<td>{{$total_parcel}}</td>
+										<td></td>
+										<td></td>
+										<td>Total</td>
+										<td>{{$total_qty}}</td>
+										<td>{{number_format($grandTotal)}}tk</td>
+									</tr>
+								</tfoot>
+							</table>
+							<div class="col1">
+								<p>Receiver</p>
+								<p>Signature:</p>
+								<p>Name:</p>
+							</div>
+						</body>
+					</html>

@@ -10,6 +10,8 @@ use Session;
 use App\Model\front\Post;
 use App\Model\front\Order_item;
 use App\Model\front\Postmeta;
+use App\Mail\systemMail;
+use Mail;
 
 
 class QuickReportController extends Controller
@@ -230,7 +232,7 @@ class QuickReportController extends Controller
       $data=DB::SELECT("SELECT order_id,customer_id,SUM(meta_value) as total_qty 
       FROM order_itemmeta 
       where meta_key='_qty' and order_date Between '$start' and '$end' 
-      GROUP by customer_id ORDER by total_qty DESC");
+      GROUP by customer_id ORDER by total_qty DESC LIMIT 10");
       return view('admin.quickReport.best_customer',compact('data'))->with($extraInfo);
     }
 
@@ -244,8 +246,25 @@ class QuickReportController extends Controller
       $data=DB::SELECT("SELECT order_id,customer_id,SUM(meta_value) as total_qty 
       FROM order_itemmeta 
       where meta_key='_qty' and order_date Between '$start' and '$end' 
-      GROUP by customer_id ORDER by total_qty DESC");
+      GROUP by customer_id ORDER by total_qty DESC LIMIT 10");
       return view('admin.quickReport.best_customer_search',compact('data'))->with($extraInfo);
+    }
+
+    public function bestCustomerSendEmail($email){
+      return view('emails.best_customer_email')->with(['email'=>$email]);
+    }
+
+    public function bestCustomerSendEmailData(Request $request){
+        $email=$request->email;
+        $message=$request->message;
+        $title=$request->title;
+        $details = [
+          'title' => $title,
+          'body' => $message,
+        ];
+        Mail::to($email)->send(new systemMail($details));
+        session()->flash("success", "Email has been sent successfully");
+        return back();
     }
 
     public function grossProfit()

@@ -138,6 +138,8 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('admin/quickReport/cancellation_items','QuickReportController@cancellationItems')->name('cancellation.items');
         Route::get('admin/quickReport/soldout_stock','QuickReportController@soldoutStock')->name('sold.stock');
         Route::get('admin/quickReport/best_customer','QuickReportController@bestCustomer')->name('best.customer');
+        Route::get('admin/quickReport/best_customer/email/{email}','QuickReportController@bestCustomerSendEmail')->name('best.customer.send.email');
+        Route::post('admin/quickReport/best_customer/email/data','QuickReportController@bestCustomerSendEmailData')->name('best.customer.send.email.data');
         Route::post('admin/quickReport/best_customer/search','QuickReportController@bestCustomerSearch')->name('best.customer.search');
         Route::get('admin/quickReport/gross_profit','QuickReportController@grossProfit')->name('gross.profit');
         Route::get('admin/quickReport/gross_profit/summary','QuickReportController@grossProfitSummary')->name('gross.profit.summary');
@@ -153,6 +155,7 @@ Route::get('/home', 'HomeController@index')->name('home');
         //pending order route
         //send parcel print route
          Route::post('send/parcel/print','OrderController@sendParcelPrint')->name('parcel_print');
+         Route::post('send/parcel/search','OrderController@sendParcelSearch')->name('send.parcel.search');
         //send parcel print route
 
         //download shipping address
@@ -194,6 +197,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
         Route::get('stock/deleted/{id}', 'ProductController@stockDeleted')->name('stock.deleted');
+        Route::get('sku/download/{id}', 'ProductController@generateSku')->name('generate.sku');
         Route::get('stock/print/sticker/{id}', 'ProductController@stockPrintSticker')->name('stock.print.sticker');
         Route::post('stock/sku/search/', 'ProductController@stockSkuSearch')->name('stock.sku.search');
         Route::post('stock/sku/search/lower', 'ProductController@stockSkuSearchLower')->name('stock.sku.search.lower');
