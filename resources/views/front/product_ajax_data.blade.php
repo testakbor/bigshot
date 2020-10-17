@@ -29,13 +29,11 @@
             <a href="{{route('product-page',$item->ID)}}">
               <div class="container-prod">
                 <div class="image" style="background-image:url({{asset('backend/products/'.$image)}});">
-
-
                 </div>
                 <div class="container-information">
                   <div class="title">
                     <p> {{$item->post_title}}
-                      <span class="text-dark ml-2">৳{{$sprice}}</span></p>
+                      <span class="text-dark ml-2">@if($rprice) <del>৳{{$rprice}}</del> @endif ৳{{$sprice}}</span></p>
 
                   </div>
                 </div>

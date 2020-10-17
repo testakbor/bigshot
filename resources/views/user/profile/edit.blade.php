@@ -2,8 +2,15 @@
 
 @section('content')
 
-@php $image=''; $address_one=''; $address_two=''; $phone=''; $country='';$state=''; $city=''; $zip=''; @endphp
+@php $f_name='';$l_name=''; $image=''; $address_one=''; $address_two=''; $phone=''; $country='';$state=''; $city=''; $zip=''; @endphp
 @foreach($user_info as $info)
+
+@if($info->meta_key=='first_name')
+@php $f_name=$info->meta_value; @endphp
+@endif
+@if($info->meta_key=='last_name')
+@php $l_name=$info->meta_value; @endphp
+@endif
 @if($info->meta_key=='address_one')
 @php $address_one=$info->meta_value; @endphp
 @endif
@@ -65,7 +72,7 @@
             </div>
             <div class="col-md-6 mb-3">
               <label for="lastName">Last name<span class="requiredField">*</span></label>
-              <input type="text" class="form-control" id="lastName" value="{{auth()->user()->name}}" name="last_name" placeholder="Last Name">
+              <input type="text" class="form-control" id="lastName" value="{{$l_name}}" name="last_name" placeholder="Last Name">
               <div class="invalid-feedback">
                 Valid last name is required.
               </div>
@@ -73,7 +80,7 @@
           </div>
           <div class="mb-3">
             <label for="address">Address<span class="requiredField"></span></label>
-            <input type="text" class="form-control" id="address" value="{{$address_one}}" name="address_one" placeholder="Address">
+            <input type="text" class="form-control" id="address" value="{{$address_one}}" name="address_one" placeholder="Address" autocomplete="off">
             <div class="invalid-feedback">
               Please enter your shipping address.
             </div>
@@ -124,8 +131,14 @@
             </div>
             <div class="col-md-12 mb-3">
               <select class="custom-select" id="inputGroupSelect01" name="status">
-                <option value="1">activate Account</option>
-                <option value="0">Deactivate Account</option>
+                @if(auth()->user()->status==1) 
+                   <option value="1" selected>Active</option>
+                   <option value="0">Deactive</option>
+                   @else 
+                   <option value="1">Activate</option>
+                   <option value="0" selected>Deactivate</option>
+                @endif
+             
               </select>
             <button type="submit" class="btn btn-primary float-right mb-3">Update Information</button>
           </div>

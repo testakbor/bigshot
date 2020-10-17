@@ -66,19 +66,20 @@
                 </thead>
 
                 <tbody>
-                  @php $qty=0;$price=0;$tot_qty=0;$tot_cost=0; $tot_price=0; @endphp
+                  @php $costs=0; $qty=0;$price=0;$tot_qty=0;$tot_cost=0; $tot_price=0; @endphp
                   @foreach($cat_pro as $pro)
                   @php $product_info=DB::table('postmeta')->where('post_id',$pro->ID)->get(); @endphp
                   @foreach($product_info as $info)
                    @if($info->meta_key=='qty') @php $qty=$info->meta_value; @endphp  @endif 
                    @if($info->meta_key=='sale_price') @php $price=$info->meta_value; @endphp  @endif 
+                   @if($info->meta_key=='product_stock') @php $costs=$info->meta_value; @endphp  @endif 
                   @endforeach
                       <tr>
                         <!-- <td class="center">rrr</td> -->
                         <td class="left strong">{{$pro->post_title}}</td>
                         <!-- <td class="left">Women</td> -->
                         <td class="right">{{$qty}}</td>
-                        <td class="right">TK {{$cost=$price*$qty}}</td>
+                        <td class="right">TK {{$cost=$costs}}</td>
                         <td class="right">Tk {{$price}}</td>
                         <td class="right">@if($qty>0) In stock @else Out of Stock @endif</td>
                         <!-- <td class="right">

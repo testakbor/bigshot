@@ -84,6 +84,75 @@ class CartController extends Controller
         }else{
             $id=0;
         }
+        $user_address=DB::table('usermeta')->where('user_id',$id)->where('meta_key','address_one')->count();
+        $user_district=DB::table('usermeta')->where('user_id',$id)->where('meta_key','district')->count();
+        $user_city=DB::table('usermeta')->where('user_id',$id)->where('meta_key','city')->count();
+        $user_postcode=DB::table('usermeta')->where('user_id',$id)->where('meta_key','zip')->count();
+
+
+        if($user_address==0){
+          DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'address_one',
+            'meta_value'=>$request->address_one,
+          ]);
+        }else{
+            DB::table('usermeta')->where('user_id',$id)->where('meta_key','address_one')->delete();
+            DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'address_one',
+            'meta_value'=>$request->address_one,
+          ]);
+        }
+
+
+         if($user_district==0){
+          DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'district',
+            'meta_value'=>$request->state,
+          ]);
+        }else{
+            DB::table('usermeta')->where('user_id',$id)->where('meta_key','district')->delete();
+            DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'district',
+            'meta_value'=>$request->state,
+          ]);
+        }
+
+
+        if($user_city==0){
+          DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'city',
+            'meta_value'=>$request->city,
+          ]);
+        }else{
+            DB::table('usermeta')->where('user_id',$id)->where('meta_key','city')->delete();
+            DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'city',
+            'meta_value'=>$request->city,
+          ]);
+        }
+
+        if($user_postcode==0){
+          DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'zip',
+            'meta_value'=>$request->zip,
+          ]);
+        }else{
+            DB::table('usermeta')->where('user_id',$id)->where('meta_key','zip')->delete();
+            DB::table('usermeta')->insert([
+            'user_id'=>$id,
+            'meta_key'=>'zip',
+            'meta_value'=>$request->zip,
+          ]);
+        }
+
+
         $state=DB::table('terms')->where('term_id',$request->state)->select('name')->first();
         $city = DB::table('terms')->where('term_id',$request->city)->select('name')->first();
         $info= Cart::getContent();

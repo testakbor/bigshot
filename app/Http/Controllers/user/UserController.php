@@ -89,7 +89,6 @@ class UserController extends Controller
         ->update(
             [
                 'name'=>$request->first_name,
-                'password'=>$request->n_password,
                 'status'=>$request->status
             ]
         );
@@ -98,6 +97,12 @@ class UserController extends Controller
         $user_info=array(
             'meta_key'=>'first_name',
             'meta_value'=>$request->first_name,
+            'user_id'=>$id
+        );
+        DB::table('usermeta')->insert($user_info);
+         $user_info=array(
+            'meta_key'=>'last_name',
+            'meta_value'=>$request->last_name,
             'user_id'=>$id
         );
         DB::table('usermeta')->insert($user_info);

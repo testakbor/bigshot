@@ -1,13 +1,16 @@
 @extends('front.layouts.master')
 
 @section('content')
-@php $address1=''; $address2=''; $phone='';$country='';$state=''; $city='';$zip=''; $name=''; $email=''; @endphp
+@php  $l_name=''; $address1=''; $address2=''; $phone='';$country='';$dist_rict=''; $city='';$zip=''; $name=''; $email=''; @endphp
 <!-- Page Content  -->
 
 @if(Auth::check()) @php $name=auth()->user()->name; $email=auth()->user()->email; @endphp @endif
 @foreach($user_info as $in)
 @if($in->meta_key=='address_one')
 @php $address1=$in->meta_value; @endphp
+@endif
+@if($in->meta_key=='last_name')
+@php $l_name=$in->meta_value; @endphp
 @endif
 @if($in->meta_key=='address_two')
 @php $address2=$in->meta_value; @endphp
@@ -18,8 +21,8 @@
 @if($in->meta_key=='country')
 @php $country=$in->meta_value; @endphp
 @endif
-@if($in->meta_key=='state')
-@php $state=$in->meta_value; @endphp
+@if($in->meta_key=='district')
+@php $dist_rict=$in->meta_value; @endphp
 @endif
 @if($in->meta_key=='city')
 @php $city=$in->meta_value; @endphp
@@ -100,6 +103,7 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="firstName">First name<span class="requiredField">*</span></label>
+                    @if($name=='') @php  @endphp @php $name='Guest'; @endphp @endif
                     <input type="text" class="form-control" id="firstName" value="{{$name}}" name="first_name" placeholder="First Name" required>
                     <div class="invalid-feedback">
                       Valid first name is required.
@@ -107,7 +111,8 @@
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="lastName">Last name<span class="requiredField">*</span></label>
-                    <input type="text" class="form-control" id="lastName" value="{{$name}}" name="last_name" placeholder="Last Name" required>
+                     @if($l_name=='') @php  @endphp @php $l_name='Guest'; @endphp @endif
+                    <input type="text" class="form-control" id="lastName" value="{{$l_name}}" name="last_name" placeholder="Last Name" required>
                     <div class="invalid-feedback">
                       Valid last name is required.
                     </div>
@@ -115,6 +120,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="address">Address<span class="requiredField">*</span></label>
+                      @if($address1=='') @php  @endphp @php $address1='Uttara,Dhaka'; @endphp @endif
                   <input type="text" class="form-control" id="address" value="{{$address1}}" name="address_one" placeholder="Address" required>
                   <div class="invalid-feedback">
                     Please enter your shipping address.
@@ -127,11 +133,13 @@
               </div>
  -->
                 <div class="mb-3">
+                      @if($phone=='') @php  @endphp @php $phone='0000000001'; @endphp @endif
                   <label for="phone">Mobile Number<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" value="{{$phone}}" name="phone" id="phone" placeholder="Mobile Number" required>
                 </div>
 
                 <div class="mb-3">
+                  @if($email=='') @php  @endphp @php $email='guest@email.com'; @endphp @endif
                   <label for="phone">Email<span class="requiredField">*</span></label>
                   <input type="text" class="form-control" value="{{$email}}" name="email" id="email" placeholder="Email" required>
                 </div>
@@ -146,7 +154,7 @@
                     <select class="form-control" name="state" id="state" required>
                       <option value="">Select District</option>
                       @foreach($district as $dist)
-                      <option value="{{$dist->term_id}}">{{$dist->district}}</option>
+                       <option value="{{$dist->term_id}}"@if($dist->term_id == $dist_rict) selected='selected' @endif>{{ $dist->district }}</option>
                       @endforeach
                     </select>
                     <div class="invalid-feedback">
@@ -159,16 +167,40 @@
 
                   <div class="col-md-6 mb-3">
                     <label for="city">City/Thana<span class="requiredField">*</span></label>
-                    <select class="form-control" id="city" name="city" required>
-                      <option value="">Select District First</option>
-                    </select>
+                    @if($city=='') 
+                        <select class="form-control" id="city" name="city" required>
+                          <option value="">Select District First</option>
+                        </select>
+                      @else 
+                      @php
+                       $data=DB::table('term_taxonomy')->where(['taxonomy'=>'city','parent'=>$dist_rict])
+                      ->join('terms','terms.term_id','=','term_taxonomy.term_id')
+                      ->select('terms.name as city_name','terms.term_id')
+                      ->first();
+                   
+                      @endphp
+                        <select class="form-control" id="city" name="city" required>
+                          <option value="{{$data->term_id}}">{{$data->city_name}}</option>
+                        </select>
+                      @endif
+                  
                     <div class="invalid-feedback">
                       .
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="zip">Postcode</label>
+                    @if($city=='')
                     <input type="text" class="form-control" value="" name="zip" id="zip" placeholder="Postcode">
+                    @else 
+                        @php
+                        $posts_codes = DB::table('term_taxonomy')->where(['taxonomy' => 'postcode','parent'=>$city])
+                      ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                      ->select('terms.name as zip')
+                      ->first();
+                      @endphp
+                    <input type="text" class="form-control" value="{{$posts_codes->zip}}" name="zip" id="zip" placeholder="Postcode">
+                    @endif 
                     <div class="invalid-feedback">
                       Zip code required.
                     </div>

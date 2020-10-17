@@ -1,5 +1,4 @@
 @extends('front.layouts.master')
-
 @section('content')
 <style type="text/css">
   		.ajax-load{
@@ -16,20 +15,17 @@
 		    width: 100%;
   		}
   	</style>
-
 <!-- Page Content  -->
 <div id="content" class=" p-md-5">
-
   <div class="col-md-10 ">
     <div class="container-fluid">
-
       <section class="banner-img ml-5">
         @if(isset($banner))
         @if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
         <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-responsive img-fluid" alt="Responsive image">
         @endif
       <div  id="post-data">
-		    @include('front.product_ajax_data')
+		@include('front.product_ajax_data')
 	    </div>
       </section>
     </div>
@@ -40,8 +36,6 @@ right: 10px;top:96px;">
       <img src="{{asset('assets/front/images/offer.png')}}" height="200" width="210">
     </div>
     <p class="text-justify mt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-
   </div>
 </div>
 </div>
