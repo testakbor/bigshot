@@ -136,7 +136,7 @@
 
           <ul class="">
             <li class=" ">
-              <a class="" href="#">FAQ</a>
+              <a class="" href="{{route('faq')}}">FAQ</a>
             </li>
             @guest
             @else
@@ -145,7 +145,7 @@
             </li>
             @endguest
             <li class="">
-              <a class="" href="#">About Us</a>
+              <a class="" href="{{route('about')}}">About Us</a>
             </li>
           </ul>
 

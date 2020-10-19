@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('front.home');
 });
-
+Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+
 
     Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
@@ -78,7 +80,6 @@ Route::get('/home', 'HomeController@index')->name('home');
     });
 
     Route::group(['namespace'=>'Admin'],function(){
-       
         Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');
         Route::GET('admin-login','Auth\LoginController@showLoginForm')->name('admin.login');
         Route::POST('admin-login','Auth\LoginController@login');
@@ -90,25 +91,25 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::resource('admin/product','ProductController');
         Route::resource('admin/order','OrderController');
         Route::get('admin/pendingOrder','OrderController@pendingOrder')->name('order.pendingOrder');
-
+        Route::get('admin/district/thana/postcode','SettingsController@index')->name('district.thana.postcode');
+        Route::post('admin/district/store','SettingsController@districtStore')->name('district.store');
+        Route::post('admin/thana/store','SettingsController@thanaStore')->name('thana.store');
+        Route::get('admin/district/edit/{id}','SettingsController@districtEdit')->name('district.edit');
+        Route::post('admin/district/update/{id}','SettingsController@districtUpdate')->name('district.update');
+        Route::get('admin/thana/update/{dist_id}/{thana_id}','SettingsController@thanaEdit')->name('thana.update');
+        Route::post('admin/district/thana/post_code/update/{thana_id}','SettingsController@districtThanaPostcodeUpdate')->name('district.thana.postcode.update');
         Route::get('admin/todayPendingOrder','OrderController@todayPendingOrder')->name('todayPendingOrder');
         Route::get('admin/pendingOrderByDate/{day}','OrderController@todayPendingOrder')->name('pendingOrderByDate');
-
         Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
         Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
         Route::get('admin/pendingOrder/print','OrderController@print')->name('pendingOrder.print');
         Route::get('admin/pendingOrder/cancelled','OrderController@cancelled')->name('order.cancelled');
         Route::get('admin/sendparcel','OrderController@sendParcel')->name('order.sendParcel');
-        
         Route::get('admin/allStatus','OrderController@allStatus')->name('order.allStatus');
         Route::get('allStatus/print/{id}', 'OrderController@allStatusPrint')->name('order.allStatus.print');
-        
-
         Route::get('admin/deliveryInvoice/{id}','OrderController@deliveryInvoice')->name('order.deliveryInvoice');
-        
         Route::get('admin/reject','OrderController@reject')->name('order.reject');
         Route::post('reject/product/update','OrderController@rejectProductUpdate')->name('reject.update');
-
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
         Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');
         Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
@@ -157,10 +158,8 @@ Route::get('/home', 'HomeController@index')->name('home');
          Route::post('send/parcel/print','OrderController@sendParcelPrint')->name('parcel_print');
          Route::post('send/parcel/search','OrderController@sendParcelSearch')->name('send.parcel.search');
         //send parcel print route
-
         //download shipping address
         Route::get('download/shipping/address/{id}','OrderController@downloadShippingAddress')->name('download.shipping.address');
-
         //excel dispatch
         Route::get('excel/dispatch', 'OrderController@excelDispatch')->name('order.excel.dispatch');
         //delivery invoice
@@ -170,19 +169,15 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('delivered/print/{id}', 'OrderController@deliveredOrderPrint')->name('order.deliver.print');
         Route::get('delivered/cancel/{id}', 'OrderController@deliveredOrderCancel')->name('order.deliver.cancel');
         Route::post('delivered/order/update', 'OrderController@updateDeliveryOrder')->name('order.deliver.update');
-
-
         Route::get('cancelled/order', 'OrderController@cancelledOrder')->name('order.cancelled');
         Route::post('cancelled/order/search', 'OrderController@cancelledOrderSearch')->name('order.cancelled.search');
         Route::get('cancelled/order/print/{id}', 'OrderController@cancelledOrderPrint')->name('order.cancelled.print');
-
         Route::get('processing/order/print/{id}', 'OrderController@processingOrderPrint')->name('order.processing.print');
         Route::get('processing/order/edit/{id}', 'OrderController@processingOrderEdit')->name('order.processing.edit');
         Route::get('processing/order/cancel/{id}', 'OrderController@processingOrderCancel')->name('order.processing.cancel');
         Route::get('processing/order/dispatch/{id}', 'OrderController@processingOrderDispatch')->name('order.processing.dispatch');
         Route::post('processing/order/date/wise', 'OrderController@processingOrderdatewise')->name('process.order.date.wise');
         Route::post('processing/order/update', 'OrderController@processingOrderUpdate')->name('process.order.update');
-
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
         Route::get('dispatch/order/deliver/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivereds');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
@@ -194,17 +189,14 @@ Route::get('/home', 'HomeController@index')->name('home');
         Route::get('order/delivery/invoice/details/{id}', 'OrderController@deliveryInvoiceDataDetails')->name('order.delivery.invoice.data.details');
         Route::post('order/delivery/search/date', 'OrderController@deliveredSearch')->name('order.delivered.search');
         Route::post('all/status/order/search', 'OrderController@allStatusSearch')->name('order.all.status.search');
-
-
         Route::get('stock/deleted/{id}', 'ProductController@stockDeleted')->name('stock.deleted');
         Route::get('sku/download/{id}', 'ProductController@generateSku')->name('generate.sku');
         Route::get('stock/print/sticker/{id}', 'ProductController@stockPrintSticker')->name('stock.print.sticker');
         Route::post('stock/sku/search/', 'ProductController@stockSkuSearch')->name('stock.sku.search');
         Route::post('stock/sku/search/lower', 'ProductController@stockSkuSearchLower')->name('stock.sku.search.lower');
         Route::post('stock/sku/search/sold', 'ProductController@stockSkuSearchSold')->name('stock.sku.search.sold');
-        Route::get('testpdf/{id}', 'OrderController@testpdf');
+
 
 
 
     });
-

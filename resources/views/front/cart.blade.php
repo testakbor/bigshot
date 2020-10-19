@@ -366,8 +366,9 @@
       type: "GET",
       success: function(response) {
         var items = "";
+         items += "<option value=''>Select City</option>";
         $.each(response, function(i, item) {
-          items += "<option value=''>Select City</option>";
+         
           items += "<option value='" + item.term_id + "'>" + (item.city_name) + "</option>";
         });
         $("#city").html(items);

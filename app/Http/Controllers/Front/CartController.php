@@ -46,8 +46,7 @@ class CartController extends Controller
 
     public function districtCityPostcode($id){
         $data = DB::table('term_taxonomy')->where(['taxonomy' => 'postcode','parent'=>$id])
-            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-            ->select('terms.name as zip')
+            ->select('description as zip')
             ->get();
         return response()->json($data);
     }
