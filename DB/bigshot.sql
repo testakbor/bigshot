@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 19, 2020 at 12:55 PM
+-- Generation Time: Oct 19, 2020 at 01:17 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -43,7 +43,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `phone`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Hardik Savani', 'admin@gmail.com', '$2y$10$bh.9FwtyeyU20x.wsGO.wOUIj/H3E7PPdEapLJXsxX/17P2pxeGiq', '', '', '2020-10-19 10:09:12', '2020-10-19 10:09:12');
+(1, 'Admin', 'admin@email.com', '$2y$10$fZ8unFRUB6uqzsXMs6Pt6Oi149M6ba2KDk358eeY.1JpMTmVZwIP2', '', '', '2020-10-19 10:09:12', '2020-10-19 10:09:12');
 
 -- --------------------------------------------------------
 
