@@ -16,7 +16,8 @@ class HomeController extends Controller
     {
         $this->middleware('auth:admin');
     }
-
+ 
+    
     public function index(Request $request){
         $start=$request->start;
         $end = $request->end;

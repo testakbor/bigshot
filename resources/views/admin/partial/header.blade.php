@@ -219,13 +219,13 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="{{route('roles.index')}}"
                                         class="nav-link {{isset($page) && $page=='banner_images'?'active':''}}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>role</p>
                                     </a>
-                                </li>
+                                </li> -->
 
 
                             </ul>
