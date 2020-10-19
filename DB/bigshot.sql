@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2020 at 02:05 PM
+-- Generation Time: Oct 19, 2020 at 12:55 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -43,7 +43,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `phone`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Akbor Hossain', 'admin@email.com', '$2y$10$Bn27rHbbtyo6KVbBWd97yuQ2PJJQVBbgW3YYcmNmd0YfGU2cC1tMa', '', '1', NULL, NULL);
+(1, 'Hardik Savani', 'admin@gmail.com', '$2y$10$bh.9FwtyeyU20x.wsGO.wOUIj/H3E7PPdEapLJXsxX/17P2pxeGiq', '', '', '2020-10-19 10:09:12', '2020-10-19 10:09:12');
 
 -- --------------------------------------------------------
 
@@ -354,7 +354,33 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (2, '2019_08_19_000000_create_failed_jobs_table', 1),
 (3, '2020_07_11_100407_create_admins_table', 1),
 (4, '2014_10_12_100000_create_password_resets_table', 2),
-(5, '2020_09_14_100203_create_wishlist', 2);
+(5, '2020_09_14_100203_create_wishlist', 2),
+(6, '2020_10_17_172535_create_permission_tables', 3),
+(7, '2020_10_19_153722_create_permission_tables', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -463,7 +489,106 @@ INSERT INTO `order_itemmeta` (`meta_id`, `order_item_id`, `meta_key`, `meta_valu
 (71, 8, '_line_total', '27000', '172', '2020-10-12', '5'),
 (72, 8, '_line_subtotal_tax', '', '172', '2020-10-12', '5'),
 (73, 8, '_line_tax', '', '172', '2020-10-12', '5'),
-(74, 8, '_line_tax_data', '2020-10-12 21:20:17', '172', '2020-10-12', '5');
+(74, 8, '_line_tax_data', '2020-10-12 21:20:17', '172', '2020-10-12', '5'),
+(75, 9, '_tax_class', '', '175', '2020-10-15', '5'),
+(76, 9, '_qty', '1', '175', '2020-10-15', '5'),
+(77, 9, '_product_id', '174', '175', '2020-10-15', '5'),
+(78, 9, '_variation_id', '', '175', '2020-10-15', '5'),
+(79, 9, '_line_subtotal', '3000', '175', '2020-10-15', '5'),
+(80, 9, '_line_total', '3000', '175', '2020-10-15', '5'),
+(81, 9, '_line_subtotal_tax', '', '175', '2020-10-15', '5'),
+(82, 9, '_line_tax', '', '175', '2020-10-15', '5'),
+(83, 9, '_line_tax_data', '2020-10-15 19:33:01', '175', '2020-10-15', '5'),
+(84, 10, '_tax_class', '', '176', '2020-10-15', '5'),
+(85, 10, '_qty', '1', '176', '2020-10-15', '5'),
+(86, 10, '_product_id', '122', '176', '2020-10-15', '5'),
+(87, 10, '_variation_id', '', '176', '2020-10-15', '5'),
+(88, 10, '_line_subtotal', '3000', '176', '2020-10-15', '5'),
+(89, 10, '_line_total', '3000', '176', '2020-10-15', '5'),
+(90, 10, '_line_subtotal_tax', '', '176', '2020-10-15', '5'),
+(91, 10, '_line_tax', '', '176', '2020-10-15', '5'),
+(92, 10, '_line_tax_data', '2020-10-15 23:09:14', '176', '2020-10-15', '5'),
+(93, 11, '_tax_class', '', '177', '2020-10-15', '5'),
+(94, 11, '_qty', '3', '177', '2020-10-15', '5'),
+(95, 11, '_product_id', '174', '177', '2020-10-15', '5'),
+(96, 11, '_variation_id', '', '177', '2020-10-15', '5'),
+(97, 11, '_line_subtotal', '9000', '177', '2020-10-15', '5'),
+(98, 11, '_line_total', '9000', '177', '2020-10-15', '5'),
+(99, 11, '_line_subtotal_tax', '', '177', '2020-10-15', '5'),
+(100, 11, '_line_tax', '', '177', '2020-10-15', '5'),
+(101, 11, '_line_tax_data', '2020-10-15 23:19:21', '177', '2020-10-15', '5'),
+(102, 12, '_tax_class', '', '178', '2020-10-15', '5'),
+(103, 12, '_qty', '3', '178', '2020-10-15', '5'),
+(104, 12, '_product_id', '114', '178', '2020-10-15', '5'),
+(105, 12, '_variation_id', '', '178', '2020-10-15', '5'),
+(106, 12, '_line_subtotal', '9000', '178', '2020-10-15', '5'),
+(107, 12, '_line_total', '9000', '178', '2020-10-15', '5'),
+(108, 12, '_line_subtotal_tax', '', '178', '2020-10-15', '5'),
+(109, 12, '_line_tax', '', '178', '2020-10-15', '5'),
+(110, 12, '_line_tax_data', '2020-10-15 23:20:43', '178', '2020-10-15', '5'),
+(111, 13, '_tax_class', '', '179', '2020-10-15', '5'),
+(112, 13, '_qty', '2', '179', '2020-10-15', '5'),
+(113, 13, '_product_id', '108', '179', '2020-10-15', '5'),
+(114, 13, '_variation_id', '', '179', '2020-10-15', '5'),
+(115, 13, '_line_subtotal', '6000', '179', '2020-10-15', '5'),
+(116, 13, '_line_total', '6000', '179', '2020-10-15', '5'),
+(117, 13, '_line_subtotal_tax', '', '179', '2020-10-15', '5'),
+(118, 13, '_line_tax', '', '179', '2020-10-15', '5'),
+(119, 13, '_line_tax_data', '2020-10-15 23:21:28', '179', '2020-10-15', '5'),
+(120, 14, '_tax_class', '', '180', '2020-10-15', '5'),
+(121, 14, '_qty', '3', '180', '2020-10-15', '5'),
+(122, 14, '_product_id', '118', '180', '2020-10-15', '5'),
+(123, 14, '_variation_id', '', '180', '2020-10-15', '5'),
+(124, 14, '_line_subtotal', '9000', '180', '2020-10-15', '5'),
+(125, 14, '_line_total', '9000', '180', '2020-10-15', '5'),
+(126, 14, '_line_subtotal_tax', '', '180', '2020-10-15', '5'),
+(127, 14, '_line_tax', '', '180', '2020-10-15', '5'),
+(128, 14, '_line_tax_data', '2020-10-15 23:23:54', '180', '2020-10-15', '5'),
+(129, 15, '_tax_class', '', '181', '2020-10-15', '5'),
+(130, 15, '_qty', '1', '181', '2020-10-15', '5'),
+(131, 15, '_product_id', '121', '181', '2020-10-15', '5'),
+(132, 15, '_variation_id', '', '181', '2020-10-15', '5'),
+(133, 15, '_line_subtotal', '3000', '181', '2020-10-15', '5'),
+(134, 15, '_line_total', '3000', '181', '2020-10-15', '5'),
+(135, 15, '_line_subtotal_tax', '', '181', '2020-10-15', '5'),
+(136, 15, '_line_tax', '', '181', '2020-10-15', '5'),
+(137, 15, '_line_tax_data', '2020-10-15 23:24:39', '181', '2020-10-15', '5'),
+(138, 16, '_tax_class', '', '182', '2020-10-15', '5'),
+(139, 16, '_qty', '3', '182', '2020-10-15', '5'),
+(140, 16, '_product_id', '117', '182', '2020-10-15', '5'),
+(141, 16, '_variation_id', '', '182', '2020-10-15', '5'),
+(142, 16, '_line_subtotal', '9000', '182', '2020-10-15', '5'),
+(143, 16, '_line_total', '9000', '182', '2020-10-15', '5'),
+(144, 16, '_line_subtotal_tax', '', '182', '2020-10-15', '5'),
+(145, 16, '_line_tax', '', '182', '2020-10-15', '5'),
+(146, 16, '_line_tax_data', '2020-10-15 23:25:55', '182', '2020-10-15', '5'),
+(147, 17, '_tax_class', '', '183', '2020-10-15', '5'),
+(148, 17, '_qty', '1', '183', '2020-10-15', '5'),
+(149, 17, '_product_id', '108', '183', '2020-10-15', '5'),
+(150, 17, '_variation_id', '', '183', '2020-10-15', '5'),
+(151, 17, '_line_subtotal', '3000', '183', '2020-10-15', '5'),
+(152, 17, '_line_total', '3000', '183', '2020-10-15', '5'),
+(153, 17, '_line_subtotal_tax', '', '183', '2020-10-15', '5'),
+(154, 17, '_line_tax', '', '183', '2020-10-15', '5'),
+(155, 17, '_line_tax_data', '2020-10-16 00:06:45', '183', '2020-10-15', '5'),
+(156, 18, '_tax_class', '', '183', '2020-10-15', '5'),
+(157, 18, '_qty', '1', '183', '2020-10-15', '5'),
+(158, 18, '_product_id', '174', '183', '2020-10-15', '5'),
+(159, 18, '_variation_id', '', '183', '2020-10-15', '5'),
+(160, 18, '_line_subtotal', '3000', '183', '2020-10-15', '5'),
+(161, 18, '_line_total', '3000', '183', '2020-10-15', '5'),
+(162, 18, '_line_subtotal_tax', '', '183', '2020-10-15', '5'),
+(163, 18, '_line_tax', '', '183', '2020-10-15', '5'),
+(164, 18, '_line_tax_data', '2020-10-16 00:06:45', '183', '2020-10-15', '5'),
+(165, 19, '_tax_class', '', '184', '2020-10-17', '5'),
+(166, 19, '_qty', '1', '184', '2020-10-17', '5'),
+(167, 19, '_product_id', '174', '184', '2020-10-17', '5'),
+(168, 19, '_variation_id', '', '184', '2020-10-17', '5'),
+(169, 19, '_line_subtotal', '3000', '184', '2020-10-17', '5'),
+(170, 19, '_line_total', '3000', '184', '2020-10-17', '5'),
+(171, 19, '_line_subtotal_tax', '', '184', '2020-10-17', '5'),
+(172, 19, '_line_tax', '', '184', '2020-10-17', '5'),
+(173, 19, '_line_tax_data', '2020-10-17 18:59:03', '184', '2020-10-17', '5');
 
 -- --------------------------------------------------------
 
@@ -491,7 +616,18 @@ INSERT INTO `order_items` (`order_item_id`, `order_item_name`, `order_item_type`
 (5, 'Tunic 2', 'line-item', '116', 170),
 (6, 'Tunic 1-2', 'line-item', '114', 171),
 (7, 'Tshirt 2', 'line-item', '115', 172),
-(8, 'Dresses 3', 'line-item', '102', 172);
+(8, 'Dresses 3', 'line-item', '102', 172),
+(9, 'Tunic 5-3', 'line-item', '174', 175),
+(10, 'Tunic 5', 'line-item', '122', 176),
+(11, 'Tunic 5-3', 'line-item', '174', 177),
+(12, 'Tunic 1-2', 'line-item', '114', 178),
+(13, 'Tshirt 2', 'line-item', '108', 179),
+(14, 'Tunic 3', 'line-item', '118', 180),
+(15, 'Tunic 4-2', 'line-item', '121', 181),
+(16, 'Tunic 2-2', 'line-item', '117', 182),
+(17, 'Tshirt 2', 'line-item', '108', 183),
+(18, 'Tunic 5-3', 'line-item', '174', 183),
+(19, 'Tunic 5-3', 'line-item', '174', 184);
 
 -- --------------------------------------------------------
 
@@ -536,6 +672,34 @@ CREATE TABLE `payment_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `permissions`
+--
+
+CREATE TABLE `permissions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'role-list', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(2, 'role-create', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(3, 'role-edit', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(4, 'role-delete', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(5, 'product-list', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(6, 'product-create', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(7, 'product-edit', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10'),
+(8, 'product-delete', 'admin', '2020-10-19 10:01:10', '2020-10-19 10:01:10');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `postmeta`
 --
 
@@ -568,7 +732,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (879, 74, 'start_stock', '1000'),
 (878, 74, 'product_stock', '1000'),
 (877, 74, 'alert_qty', '40'),
-(876, 74, 'qty', '22'),
+(876, 74, 'qty', '25'),
 (875, 74, 'height', NULL),
 (874, 74, 'width', NULL),
 (873, 74, 'length', NULL),
@@ -1105,11 +1269,10 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (2422, 171, 'phone', '345345345'),
 (2419, 171, 'last_name', 'Rahman'),
 (2420, 171, 'address_one', 'Uttara'),
-(2412, 74, 'reject_qty', '3'),
-(2416, 74, 'product_status', 'reject'),
-(2417, 74, 'reject_date', '2020-10-12'),
+(2625, 184, 'first_name', 'Saiful'),
+(2626, 184, 'last_name', 'Rahman'),
+(2627, 184, 'address_one', 'Uttara,Dhaka'),
 (2418, 171, 'first_name', 'Rahman'),
-(2415, 74, 'reject_qty', '1'),
 (2393, 169, 'processing_date', '2020-10-11'),
 (2392, 170, 'processing_date', '2020-10-11'),
 (2391, 170, 'payment_method', 'cash'),
@@ -1747,7 +1910,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1426, 108, 'length', NULL),
 (1427, 108, 'width', NULL),
 (1428, 108, 'height', NULL),
-(1429, 108, 'qty', '60'),
+(1429, 108, 'qty', '57'),
 (1430, 108, 'alert_qty', '10'),
 (1431, 108, 'product_stock', '1000'),
 (1432, 108, 'start_stock', '1000'),
@@ -1831,7 +1994,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1510, 114, 'length', NULL),
 (1511, 114, 'width', NULL),
 (1512, 114, 'height', NULL),
-(1513, 114, 'qty', '48'),
+(1513, 114, 'qty', '45'),
 (1514, 114, 'alert_qty', '45'),
 (1515, 114, 'product_stock', '455'),
 (1516, 114, 'start_stock', '1000'),
@@ -1880,7 +2043,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1559, 117, 'length', NULL),
 (1560, 117, 'width', NULL),
 (1561, 117, 'height', NULL),
-(1562, 117, 'qty', '67'),
+(1562, 117, 'qty', '64'),
 (1563, 117, 'alert_qty', '12'),
 (1564, 117, 'product_stock', '1000'),
 (1565, 117, 'start_stock', '1000'),
@@ -1897,7 +2060,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1576, 118, 'length', NULL),
 (1577, 118, 'width', NULL),
 (1578, 118, 'height', NULL),
-(1579, 118, 'qty', '564'),
+(1579, 118, 'qty', '561'),
 (1580, 118, 'alert_qty', '45'),
 (1581, 118, 'product_stock', '1000'),
 (1582, 118, 'start_stock', '1000'),
@@ -1947,7 +2110,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1626, 121, 'length', NULL),
 (1627, 121, 'width', NULL),
 (1628, 121, 'height', NULL),
-(1629, 121, 'qty', '455'),
+(1629, 121, 'qty', '454'),
 (1630, 121, 'alert_qty', '34'),
 (1631, 121, 'product_stock', '1000'),
 (1632, 121, 'start_stock', '1000'),
@@ -1963,7 +2126,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1642, 122, 'length', NULL),
 (1643, 122, 'width', NULL),
 (1644, 122, 'height', NULL),
-(1645, 122, 'qty', '452'),
+(1645, 122, 'qty', '451'),
 (1646, 122, 'alert_qty', '123'),
 (1647, 122, 'product_stock', '1000'),
 (1648, 122, 'start_stock', '1000'),
@@ -1996,7 +2159,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (2361, 169, 'last_name', 'Demo'),
 (2360, 169, 'first_name', 'Demo'),
 (2470, 174, 'alert_qty', '30'),
-(2469, 174, 'qty', '40'),
+(2469, 174, 'qty', '34'),
 (2468, 174, 'height', NULL),
 (2467, 174, 'width', NULL),
 (2466, 174, 'length', NULL),
@@ -2619,7 +2782,167 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (2474, 174, 'attached_file', '1602497289.jpg'),
 (2475, 174, 'gallery_file', 'Tunic 5.jpg'),
 (2476, 174, 'gallery_file', 'Tunic 5-2.jpg'),
-(2477, 174, 'gallery_file', 'Tunic 5-3.jpg');
+(2477, 174, 'gallery_file', 'Tunic 5-3.jpg'),
+(2478, 172, 'processing_date', '2020-10-13'),
+(2479, 171, 'processing_date', '2020-10-13'),
+(2480, 175, 'first_name', 'Saiful'),
+(2481, 175, 'last_name', 'Saiful'),
+(2482, 175, 'address_one', 'uttara'),
+(2483, 175, 'address_two', NULL),
+(2484, 175, 'phone', '345345345'),
+(2485, 175, 'email', 'parthokar90@gmail.com'),
+(2486, 175, 'country', 'Bangladesh'),
+(2487, 175, 'state', 'Dhaka'),
+(2488, 175, 'city', 'Uttara'),
+(2489, 175, 'zip', '1230'),
+(2490, 175, '_customer_user', '5'),
+(2491, 175, '_billing_postcode', '1230'),
+(2492, 175, '_billing_company', NULL),
+(2493, 175, '_billing_last_name', NULL),
+(2494, 175, '_billing_first_name', NULL),
+(2495, 175, 'payment_method', 'cash'),
+(2496, 175, 'processing_date', '2020-10-15'),
+(2497, 176, 'first_name', 'Saiful'),
+(2498, 176, 'last_name', 'Saiful'),
+(2499, 176, 'address_one', 'Uttara'),
+(2500, 176, 'address_two', NULL),
+(2501, 176, 'phone', '345345345'),
+(2502, 176, 'email', 'parthokar90@gmail.com'),
+(2503, 176, 'country', 'Bangladesh'),
+(2504, 176, 'state', 'Dhaka'),
+(2505, 176, 'city', 'Uttara'),
+(2506, 176, 'zip', '1230'),
+(2507, 176, '_customer_user', '5'),
+(2508, 176, '_billing_postcode', '1230'),
+(2509, 176, '_billing_company', NULL),
+(2510, 176, '_billing_last_name', NULL),
+(2511, 176, '_billing_first_name', NULL),
+(2512, 176, 'payment_method', 'cash'),
+(2513, 177, 'first_name', 'Saiful'),
+(2514, 177, 'last_name', 'Saiful'),
+(2515, 177, 'address_one', 'Uttara'),
+(2516, 177, 'address_two', NULL),
+(2517, 177, 'phone', '345345345'),
+(2518, 177, 'email', 'parthokar90@gmail.com'),
+(2519, 177, 'country', 'Bangladesh'),
+(2520, 177, 'state', 'Dhaka'),
+(2521, 177, 'city', 'Uttara'),
+(2522, 177, 'zip', '1230'),
+(2523, 177, '_customer_user', '5'),
+(2524, 177, '_billing_postcode', '1230'),
+(2525, 177, '_billing_company', NULL),
+(2526, 177, '_billing_last_name', NULL),
+(2527, 177, '_billing_first_name', NULL),
+(2528, 177, 'payment_method', 'cash'),
+(2529, 178, 'first_name', 'Saiful'),
+(2530, 178, 'last_name', 'Saiful'),
+(2531, 178, 'address_one', 'Uttara'),
+(2532, 178, 'address_two', NULL),
+(2533, 178, 'phone', '345345345'),
+(2534, 178, 'email', 'parthokar90@gmail.com'),
+(2535, 178, 'country', 'Bangladesh'),
+(2536, 178, 'state', 'Dhaka'),
+(2537, 178, 'city', 'Uttara'),
+(2538, 178, 'zip', '1230'),
+(2539, 178, '_customer_user', '5'),
+(2540, 178, '_billing_postcode', '1230'),
+(2541, 178, '_billing_company', NULL),
+(2542, 178, '_billing_last_name', NULL),
+(2543, 178, '_billing_first_name', NULL),
+(2544, 178, 'payment_method', 'cash'),
+(2545, 179, 'first_name', 'Saiful'),
+(2546, 179, 'last_name', 'Saiful'),
+(2547, 179, 'address_one', 'Uttara'),
+(2548, 179, 'address_two', NULL),
+(2549, 179, 'phone', '345345345'),
+(2550, 179, 'email', 'parthokar90@gmail.com'),
+(2551, 179, 'country', 'Bangladesh'),
+(2552, 179, 'state', 'Dhaka'),
+(2553, 179, 'city', 'Uttara'),
+(2554, 179, 'zip', '1230'),
+(2555, 179, '_customer_user', '5'),
+(2556, 179, '_billing_postcode', '1230'),
+(2557, 179, '_billing_company', NULL),
+(2558, 179, '_billing_last_name', NULL),
+(2559, 179, '_billing_first_name', NULL),
+(2560, 179, 'payment_method', 'cash'),
+(2561, 180, 'first_name', 'Saiful'),
+(2562, 180, 'last_name', 'Saiful'),
+(2563, 180, 'address_one', 'Uttara'),
+(2564, 180, 'address_two', NULL),
+(2565, 180, 'phone', '345345345'),
+(2566, 180, 'email', 'parthokar90@gmail.com'),
+(2567, 180, 'country', 'Bangladesh'),
+(2568, 180, 'state', 'Sylhet'),
+(2569, 180, 'city', 'Badda'),
+(2570, 180, 'zip', '1212'),
+(2571, 180, '_customer_user', '5'),
+(2572, 180, '_billing_postcode', '1212'),
+(2573, 180, '_billing_company', NULL),
+(2574, 180, '_billing_last_name', NULL),
+(2575, 180, '_billing_first_name', NULL),
+(2576, 180, 'payment_method', 'cash'),
+(2577, 181, 'first_name', 'Saiful'),
+(2578, 181, 'last_name', 'Saiful'),
+(2579, 181, 'address_one', 'Uttara'),
+(2580, 181, 'address_two', NULL),
+(2581, 181, 'phone', '345345345'),
+(2582, 181, 'email', 'parthokar90@gmail.com'),
+(2583, 181, 'country', 'Bangladesh'),
+(2584, 181, 'state', 'Dhaka'),
+(2585, 181, 'city', 'Uttara'),
+(2586, 181, 'zip', '1230'),
+(2587, 181, '_customer_user', '5'),
+(2588, 181, '_billing_postcode', '1230'),
+(2589, 181, '_billing_company', NULL),
+(2590, 181, '_billing_last_name', NULL),
+(2591, 181, '_billing_first_name', NULL),
+(2592, 181, 'payment_method', 'cash'),
+(2593, 182, 'first_name', 'Saiful'),
+(2594, 182, 'last_name', 'Saiful'),
+(2595, 182, 'address_one', 'Uttara'),
+(2596, 182, 'address_two', NULL),
+(2597, 182, 'phone', '345345345000'),
+(2598, 182, 'email', 'parthokar90@gmail.com'),
+(2599, 182, 'country', 'Bangladesh'),
+(2600, 182, 'state', 'Sylhet'),
+(2601, 182, 'city', 'Badda'),
+(2602, 182, 'zip', '1212'),
+(2603, 182, '_customer_user', '5'),
+(2604, 182, '_billing_postcode', '1212'),
+(2605, 182, '_billing_company', NULL),
+(2606, 182, '_billing_last_name', NULL),
+(2607, 182, '_billing_first_name', NULL),
+(2608, 182, 'payment_method', 'cash'),
+(2609, 183, 'first_name', 'Saiful'),
+(2610, 183, 'last_name', 'Saiful'),
+(2611, 183, 'address_one', 'Uttara'),
+(2612, 183, 'address_two', NULL),
+(2613, 183, 'phone', '345345345'),
+(2614, 183, 'email', 'parthokar90@gmail.com'),
+(2615, 183, 'country', 'Bangladesh'),
+(2616, 183, 'state', 'Dhaka'),
+(2617, 183, 'city', 'Uttara'),
+(2618, 183, 'zip', '1230'),
+(2619, 183, '_customer_user', '5'),
+(2620, 183, '_billing_postcode', '1230'),
+(2621, 183, '_billing_company', NULL),
+(2622, 183, '_billing_last_name', NULL),
+(2623, 183, '_billing_first_name', NULL),
+(2624, 183, 'payment_method', 'cash'),
+(2628, 184, 'address_two', NULL),
+(2629, 184, 'phone', '3453453457'),
+(2630, 184, 'email', 'parthokar90@gmail.com'),
+(2631, 184, 'country', 'Bangladesh'),
+(2632, 184, 'state', 'Dhaka'),
+(2633, 184, 'city', 'Uttara'),
+(2634, 184, 'zip', '1230'),
+(2635, 184, '_customer_user', '5'),
+(2636, 184, '_billing_postcode', '1230'),
+(2637, 184, '_billing_company', NULL),
+(2638, 184, '_billing_last_name', NULL),
+(2639, 184, '_billing_first_name', NULL),
+(2640, 184, 'payment_method', 'cash');
 
 -- --------------------------------------------------------
 
@@ -2724,12 +3047,68 @@ INSERT INTO `posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_co
 (122, 1, '2020-10-05 14:07:00', '2020-10-05 20:07:00', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>', 'Tunic 5', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>', 'publish', 'open', 'open', '', 'Tunic 5', '', '', '2020-10-05 14:08:25', '2020-10-05 14:08:25', '', 0, '', 0, 'product', '', 0),
 (123, 1, '2020-10-05 14:08:00', '2020-10-05 20:08:00', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>', 'Tunic 5-2', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>', 'publish', 'open', 'open', '', 'Tunic 5-2', '', '', '2020-10-05 14:09:39', '2020-10-05 14:09:39', '', 0, '', 0, 'product', '', 0),
 (174, 1, '2020-10-12 16:06:00', '2020-10-12 22:06:00', '<p>ccxzcxzc</p>', 'Tunic 5-3', '<p>dfsfdsf</p>', 'publish', 'open', 'open', '', 'Tunic 5-3', '', '', '2020-10-12 16:08:09', '2020-10-12 16:08:09', '', 0, '', 0, 'product', '', 0),
-(169, 2, '2020-10-10 00:00:00', '2020-10-10 23:35:00', 'some reason', 'Order2020-10-10 17:35:00', '', 'cancelled', 'open', 'open', 'order_1247', 'order-Oct-10-2020-1710', '', '', '2020-10-11 16:37:57', '2020-10-10 17:35:00', '', 0, '', 0, 'shop_order', '', 0),
-(170, 4, '2020-10-10 00:00:00', '2020-10-10 23:36:31', '', 'Order2020-10-10 17:36:31', '', 'delivered', 'open', 'open', 'order_1247', 'order-Oct-10-2020-1710', '', '', '2020-10-11 16:44:16', '2020-10-10 17:36:31', '', 0, '', 0, 'shop_order', '', 0),
-(171, 5, '2020-10-12 00:00:00', '2020-10-12 20:52:19', '', 'Order2020-10-12 14:52:19', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-12-2020-1410', '', '', '2020-10-12 14:52:19', '2020-10-12 14:52:19', '', 0, '', 0, 'shop_order', '', 0),
-(172, 5, '2020-10-12 00:00:00', '2020-10-12 21:20:17', '', 'Order2020-10-12 15:20:17', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-12-2020-1510', '', '', '2020-10-12 15:20:17', '2020-10-12 15:20:17', '', 0, '', 0, 'shop_order', '', 0),
+(175, 5, '2020-10-15 00:00:00', '2020-10-15 19:33:01', '', 'Order2020-10-15 13:33:01', '', 'dispatch', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1310', '', '', '2020-10-17 10:20:09', '2020-10-15 13:33:01', '', 0, '', 0, 'shop_order', '', 0),
+(176, 5, '2020-10-15 00:00:00', '2020-10-15 23:09:14', '', 'Order2020-10-15 17:09:14', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:09:14', '2020-10-15 17:09:14', '', 0, '', 0, 'shop_order', '', 0),
+(177, 5, '2020-10-15 00:00:00', '2020-10-15 23:19:21', '', 'Order2020-10-15 17:19:21', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:19:21', '2020-10-15 17:19:21', '', 0, '', 0, 'shop_order', '', 0),
+(178, 5, '2020-10-15 00:00:00', '2020-10-15 23:20:43', '', 'Order2020-10-15 17:20:43', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:20:43', '2020-10-15 17:20:43', '', 0, '', 0, 'shop_order', '', 0),
+(179, 5, '2020-10-15 00:00:00', '2020-10-15 23:21:28', '', 'Order2020-10-15 17:21:28', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:21:28', '2020-10-15 17:21:28', '', 0, '', 0, 'shop_order', '', 0),
+(180, 5, '2020-10-15 00:00:00', '2020-10-15 23:23:54', '', 'Order2020-10-15 17:23:54', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:23:54', '2020-10-15 17:23:54', '', 0, '', 0, 'shop_order', '', 0),
+(181, 5, '2020-10-15 00:00:00', '2020-10-15 23:24:39', '', 'Order2020-10-15 17:24:39', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:24:39', '2020-10-15 17:24:39', '', 0, '', 0, 'shop_order', '', 0),
+(182, 5, '2020-10-15 00:00:00', '2020-10-15 23:25:55', '', 'Order2020-10-15 17:25:55', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1710', '', '', '2020-10-15 17:25:55', '2020-10-15 17:25:55', '', 0, '', 0, 'shop_order', '', 0),
+(169, 2, '2020-10-10 00:00:00', '2020-10-10 23:35:00', 'some reason', 'Order2020-10-10 17:35:00', '', 'delivered', 'open', 'open', 'order_1247', 'order-Oct-10-2020-1710', '', '', '2020-10-17 10:59:17', '2020-10-10 17:35:00', '', 0, '', 0, 'shop_order', '', 0),
+(170, 4, '2020-10-10 00:00:00', '2020-10-10 23:36:31', '', 'Order2020-10-10 17:36:31', '', 'cancelled', 'open', 'open', 'order_1247', 'order-Oct-10-2020-1710', '', '', '2020-10-11 16:44:16', '2020-10-10 17:36:31', '', 0, '', 0, 'shop_order', '', 0),
+(171, 5, '2020-10-12 00:00:00', '2020-10-12 20:52:19', '', 'Order2020-10-12 14:52:19', '', 'dispatch', 'open', 'open', 'order_1247', 'order-Oct-12-2020-1410', '', '', '2020-10-14 16:23:38', '2020-10-12 14:52:19', '', 0, '', 0, 'shop_order', '', 0),
+(172, 5, '2020-10-12 00:00:00', '2020-10-12 21:20:17', '', 'Order2020-10-12 15:20:17', '', 'dispatch', 'open', 'open', 'order_1247', 'order-Oct-12-2020-1510', '', '', '2020-10-14 16:27:36', '2020-10-12 15:20:17', '', 0, '', 0, 'shop_order', '', 0),
+(183, 5, '2020-10-15 00:00:00', '2020-10-16 00:06:45', '', 'Order2020-10-15 18:06:45', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-15-2020-1810', '', '', '2020-10-15 18:06:45', '2020-10-15 18:06:45', '', 0, '', 0, 'shop_order', '', 0),
+(184, 5, '2020-10-17 00:00:00', '2020-10-17 18:59:03', '', 'Order2020-10-17 12:59:03', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-17-2020-1210', '', '', '2020-10-17 12:59:03', '2020-10-17 12:59:03', '', 0, '', 0, 'shop_order', '', 0),
 (165, 2, '2020-10-08 00:00:00', '2020-10-08 22:59:58', '', 'Order2020-10-08 16:59:58', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-08-2020-1610', '', '', '2020-10-08 16:59:58', '2020-10-08 16:59:58', '', 0, '', 0, 'shop_order', '', 0),
 (166, 0, '2020-10-10 00:00:00', '2020-10-10 16:08:12', '', 'Order2020-10-10 10:08:12', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Oct-10-2020-1010', '', '', '2020-10-10 10:08:12', '2020-10-10 10:08:12', '', 0, '', 0, 'shop_order', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', 'admin', '2020-10-19 10:07:49', '2020-10-19 10:07:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_has_permissions`
+--
+
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_has_permissions`
+--
+
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1);
 
 -- --------------------------------------------------------
 
@@ -2883,7 +3262,7 @@ INSERT INTO `terms` (`term_id`, `name`, `slug`, `term_group`, `status`, `created
 (36, '2', '2', 0, 1, '2020-09-27 13:25:42'),
 (37, '3', '3', 0, 1, '2020-09-27 13:25:45'),
 (38, '4', '4', 0, 1, '2020-09-27 13:25:47'),
-(39, 'Dhaka', 'dhaka', 0, 1, '2020-09-27 13:25:47'),
+(68, '45456', '', 0, 1, '2020-10-18 14:16:29'),
 (40, 'Panties', 'panties', 0, 1, '2020-10-05 11:55:34'),
 (41, 'Bra & Panties Sets', 'bra-panties-sets', 0, 1, '2020-10-05 11:55:41'),
 (42, 'Sleepwear', 'sleepwear', 0, 1, '2020-10-05 11:55:48'),
@@ -2901,10 +3280,40 @@ INSERT INTO `terms` (`term_id`, `name`, `slug`, `term_group`, `status`, `created
 (54, 'Belts', 'belts', 0, 1, '2020-10-05 11:57:30'),
 (55, 'Dhaka', 'dhaka', 0, 1, '2020-10-06 15:27:38'),
 (56, 'Sylhet', 'sylhet', 0, 1, '2020-10-06 15:27:38'),
-(57, 'Uttara', 'uttara', 0, 1, '2020-10-06 15:42:42'),
-(58, 'Badda', 'badda', 0, 1, '2020-10-06 15:42:42'),
+(71, 'test', 'test', 0, 1, '2020-10-18 15:02:59'),
 (59, '1230', '1230', 0, 1, '2020-10-06 16:45:36'),
-(60, '1212', '1212', 0, 1, '2020-10-06 16:45:36');
+(60, '1212', '1212', 0, 1, '2020-10-06 16:45:36'),
+(72, '5678', '', 0, 1, '2020-10-18 15:04:36'),
+(63, 'Bagerhat', 'bagerhat', 0, 1, '2020-10-18 13:40:04'),
+(73, 'test 2', 'test 2', 0, 1, '2020-10-18 15:14:56'),
+(65, '4567', '', 0, 1, '2020-10-18 14:09:12'),
+(69, '34555', '', 0, 1, '2020-10-18 14:18:59'),
+(70, '5', '', 0, 1, '2020-10-18 14:33:41'),
+(74, '234324', '', 0, 1, '2020-10-18 15:16:05'),
+(75, 'Uttara', 'uttara', 0, 1, '2020-10-18 15:17:11'),
+(76, '1234', '', 0, 1, '2020-10-18 15:17:17'),
+(77, 'khilkhet', 'khilkhet', 0, 1, '2020-10-18 16:19:36'),
+(78, 'Uttara5345', 'uttara', 0, 1, '2020-10-18 16:33:27'),
+(79, '123457', '', 0, 1, '2020-10-18 16:33:27'),
+(80, 'kk', 'kk', 0, 1, '2020-10-18 16:36:56'),
+(81, '12', '', 0, 1, '2020-10-18 16:36:56'),
+(82, '456', '', 0, 1, '2020-10-18 16:44:16'),
+(83, 'kadamtali', 'kadamtali', 0, 1, '2020-10-18 16:44:43'),
+(84, '34', '', 0, 1, '2020-10-18 16:52:18'),
+(85, '34534543', '', 0, 1, '2020-10-18 16:52:36'),
+(86, 'test4353', 'test4353', 0, 1, '2020-10-19 10:39:59'),
+(87, 'r', 'r', 0, 1, '2020-10-19 10:42:46'),
+(88, '123', '', 0, 1, '2020-10-19 10:42:46'),
+(89, 'kuril', 'kuril', 0, 1, '2020-10-19 10:48:44'),
+(90, '0000', '', 0, 1, '2020-10-19 10:48:44'),
+(91, 'b', 'b', 0, 1, '2020-10-19 10:54:06'),
+(92, '123', '', 0, 1, '2020-10-19 10:54:06'),
+(93, 'rteee', 'rteee', 0, 1, '2020-10-19 10:57:33'),
+(94, 'badda', 'badda', 0, 1, '2020-10-19 11:05:06'),
+(95, 'kuril', 'kuril', 0, 1, '2020-10-19 11:09:47'),
+(96, 'Kadamtali', 'kadamtali', 0, 1, '2020-10-19 11:11:34'),
+(97, 'Habiganj1', 'habiganj1', 0, 1, '2020-10-19 11:13:49'),
+(98, 'bagerhat police line', 'bagerhat police line', 0, 1, '2020-10-19 11:15:04');
 
 -- --------------------------------------------------------
 
@@ -3144,7 +3553,6 @@ INSERT INTO `term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `descrip
 (36, 36, 'pa_inch', '', 0, 0, '2020-09-27 13:25:42'),
 (37, 37, 'pa_inch', '', 0, 0, '2020-09-27 13:25:45'),
 (38, 38, 'pa_inch', '', 0, 0, '2020-09-27 13:25:47'),
-(39, 39, 'city', '', 0, 0, '2020-09-27 13:25:47'),
 (40, 40, 'product_cat', '', 0, 0, '2020-10-05 11:55:34'),
 (41, 41, 'product_cat', '', 0, 0, '2020-10-05 11:55:41'),
 (42, 42, 'product_cat', '', 0, 0, '2020-10-05 11:55:48'),
@@ -3162,10 +3570,17 @@ INSERT INTO `term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `descrip
 (54, 54, 'product_cat', '', 0, 0, '2020-10-05 11:57:30'),
 (55, 55, 'district', NULL, 0, 0, '2020-10-06 15:29:47'),
 (56, 56, 'district', NULL, 0, 0, '2020-10-06 15:29:47'),
-(57, 57, 'city', NULL, 55, 0, '2020-10-06 15:47:38'),
-(58, 58, 'city', NULL, 56, 0, '2020-10-06 15:47:38'),
-(59, 59, 'postcode', NULL, 57, 0, '2020-10-06 16:48:46'),
-(60, 60, 'postcode', NULL, 58, 0, '2020-10-06 16:48:46');
+(61, 63, 'district', NULL, 0, 0, '2020-10-18 13:40:04'),
+(102, 98, 'postcode', '9300', 98, 0, '2020-10-19 11:15:04'),
+(101, 98, 'city', NULL, 63, 0, '2020-10-19 11:15:04'),
+(99, 97, 'city', NULL, 56, 0, '2020-10-19 11:13:49'),
+(100, 97, 'postcode', '3330-337456', 97, 0, '2020-10-19 11:13:49'),
+(98, 96, 'postcode', '45671', 96, 0, '2020-10-19 11:11:34'),
+(97, 96, 'city', NULL, 56, 0, '2020-10-19 11:11:34'),
+(96, 95, 'postcode', '4567', 95, 0, '2020-10-19 11:09:47'),
+(95, 95, 'city', NULL, 55, 0, '2020-10-19 11:09:47'),
+(93, 94, 'city', NULL, 55, 0, '2020-10-19 11:05:06'),
+(94, 94, 'postcode', '123', 94, 0, '2020-10-19 11:05:06');
 
 -- --------------------------------------------------------
 
@@ -3185,6 +3600,8 @@ CREATE TABLE `usermeta` (
 --
 
 INSERT INTO `usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
+(277, 5, 'district', '55'),
+(275, 5, 'user_image', NULL),
 (206, 2, 'user_image', '1601189730.png'),
 (205, 2, 'zip', NULL),
 (204, 2, 'city', NULL),
@@ -3204,16 +3621,13 @@ INSERT INTO `usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (197, 2, 'first_name', 'Demo'),
 (198, 2, 'last_name', 'Demo'),
 (199, 2, 'address_one', 'Uttara'),
-(221, 5, 'country', NULL),
-(220, 5, 'phone', '345345345'),
-(219, 5, 'address_two', NULL),
-(218, 5, 'address_one', NULL),
-(217, 5, 'last_name', 'Rahman'),
-(216, 5, 'first_name', 'Saiful'),
-(222, 5, 'state', NULL),
-(223, 5, 'city', NULL),
-(224, 5, 'zip', NULL),
-(225, 5, 'user_image', NULL);
+(279, 5, 'zip', '1230'),
+(278, 5, 'city', '57'),
+(267, 5, 'last_name', 'Rahman'),
+(276, 5, 'address_one', 'Uttara,Dhaka'),
+(269, 5, 'address_two', NULL),
+(270, 5, 'phone', '3453453457'),
+(266, 5, 'first_name', 'Saiful');
 
 -- --------------------------------------------------------
 
@@ -3238,11 +3652,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'akbor Hossain1', 'admin@email.com', NULL, '$2y$10$Bn27rHbbtyo6KVbBWd97yuQ2PJJQVBbgW3YYcmNmd0YfGU2cC1tMa', NULL, 1, '2020-07-12 05:39:38', '2020-07-12 05:39:38'),
 (2, 'Demo', 'demo@email.com', NULL, '$2y$10$fZ8unFRUB6uqzsXMs6Pt6Oi149M6ba2KDk358eeY.1JpMTmVZwIP2', NULL, 1, '2020-09-13 05:06:20', '2020-09-13 05:06:20'),
 (3, 'user 2', 'user2@email.com', NULL, '$2y$10$Bn27rHbbtyo6KVbBWd97yuQ2PJJQVBbgW3YYcmNmd0YfGU2cC1tMa', NULL, 1, '2020-09-19 09:08:42', '2020-09-19 09:08:42'),
 (4, 'two', 'demo2@email.com', NULL, '$2y$10$CPpwMvysSAFba5JXSUeFjukBbpm93AEF/YSQ2fqBTJmATeUFK1I8m', NULL, 1, '2020-10-10 11:35:46', '2020-10-10 11:35:46'),
-(5, 'Saiful', 'saiful@itebd.com', NULL, '', NULL, 1, '2020-10-12 08:50:40', '2020-10-12 08:50:40');
+(5, 'Saiful', 'parthokar90@gmail.com', NULL, '$2y$10$Bn27rHbbtyo6KVbBWd97yuQ2PJJQVBbgW3YYcmNmd0YfGU2cC1tMa', NULL, 1, '2020-10-12 08:50:40', '2020-10-12 08:50:40');
 
 -- --------------------------------------------------------
 
@@ -3306,38 +3719,6 @@ CREATE TABLE `wp_users` (
   `user_status` int(11) NOT NULL DEFAULT 0,
   `display_name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `wp_yith_wcwl`
---
-
-CREATE TABLE `wp_yith_wcwl` (
-  `ID` int(11) NOT NULL,
-  `prod_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `wishlist_id` int(11) DEFAULT NULL,
-  `dateadded` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `wp_yith_wcwl_lists`
---
-
-CREATE TABLE `wp_yith_wcwl_lists` (
-  `ID` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `wishlist_slug` varchar(200) NOT NULL,
-  `wishlist_name` text DEFAULT NULL,
-  `wishlist_token` varchar(64) NOT NULL,
-  `wishlist_privacy` tinyint(1) NOT NULL DEFAULT 0,
-  `is_default` tinyint(1) NOT NULL DEFAULT 0,
-  `dateadded` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -3429,6 +3810,20 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
 -- Indexes for table `options`
 --
 ALTER TABLE `options`
@@ -3473,6 +3868,12 @@ ALTER TABLE `payment_tokens`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `postmeta`
 --
 ALTER TABLE `postmeta`
@@ -3489,6 +3890,19 @@ ALTER TABLE `posts`
   ADD KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
   ADD KEY `post_parent` (`post_parent`),
   ADD KEY `post_author` (`post_author`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
 -- Indexes for table `sessions`
@@ -3607,24 +4021,6 @@ ALTER TABLE `wp_users`
   ADD KEY `user_email` (`user_email`);
 
 --
--- Indexes for table `wp_yith_wcwl`
---
-ALTER TABLE `wp_yith_wcwl`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `prod_id` (`prod_id`),
-  ADD KEY `prod_id_2` (`prod_id`),
-  ADD KEY `prod_id_3` (`prod_id`);
-
---
--- Indexes for table `wp_yith_wcwl_lists`
---
-ALTER TABLE `wp_yith_wcwl_lists`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `wishlist_token` (`wishlist_token`),
-  ADD UNIQUE KEY `wishlist_token_2` (`wishlist_token`),
-  ADD KEY `wishlist_slug` (`wishlist_slug`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -3692,7 +4088,7 @@ ALTER TABLE `log`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `options`
@@ -3704,13 +4100,13 @@ ALTER TABLE `options`
 -- AUTO_INCREMENT for table `order_itemmeta`
 --
 ALTER TABLE `order_itemmeta`
-  MODIFY `meta_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `meta_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `order_item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `payment_tokenmeta`
@@ -3725,16 +4121,28 @@ ALTER TABLE `payment_tokens`
   MODIFY `token_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `postmeta`
 --
 ALTER TABLE `postmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2478;
+  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2641;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sessions`
@@ -3782,19 +4190,19 @@ ALTER TABLE `termmeta`
 -- AUTO_INCREMENT for table `terms`
 --
 ALTER TABLE `terms`
-  MODIFY `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `term_taxonomy`
 --
 ALTER TABLE `term_taxonomy`
-  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `usermeta`
 --
 ALTER TABLE `usermeta`
-  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -3821,16 +4229,27 @@ ALTER TABLE `wp_users`
   MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `wp_yith_wcwl`
+-- Constraints for dumped tables
 --
-ALTER TABLE `wp_yith_wcwl`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `wp_yith_wcwl_lists`
+-- Constraints for table `model_has_permissions`
 --
-ALTER TABLE `wp_yith_wcwl_lists`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
