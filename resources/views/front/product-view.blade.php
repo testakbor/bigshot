@@ -1,9 +1,9 @@
 @extends('front.layouts.master')
 @section('content')
 <style>
-    .mySlides {
-        display: none;
-    }
+.mySlides {
+    display: none;
+}
 </style>
 @php
 $rprice=0;
@@ -40,11 +40,13 @@ endforeach;
                                 <div class="back-arrow" id="buy-toaster"></div>
                             </div>
                             <div class="product-image col-sm-12 col-md-12">
-                                <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}" class="img-responsive" alt="Responsive image" />
+                                <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}"
+                                    class="img-responsive" alt="Responsive image" />
                                 <ul class="product-image--list">
                                     <div class="w3-content w3-section">
                                         @foreach($gallery_images as $g)
-                                        <img width="150px" height="150px" class="mySlides" src="{{asset('backend/products/'.$g->meta_value)}}">
+                                        <img width="150px" height="150px" class="mySlides"
+                                            src="{{asset('backend/products/'.$g->meta_value)}}">
                                         @endforeach
                                     </div>
                                 </ul>
@@ -80,7 +82,8 @@ endforeach;
                                     <div class="tm-size-color-single">
                                         <label for="quantity">Quantity:</label>
                                         <div class="quantity buttons_added">
-                                            <input type="number" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="400" inputmode="numeric">
+                                            <input type="number" class="input-text qty text" step="1" min="1" max=""
+                                                name="quantity" value="1" title="Qty" size="400" inputmode="numeric">
                                         </div>
                                     </div>
                                 </span>
@@ -92,7 +95,8 @@ endforeach;
                                         <tr>
                                             <th>
                                                 <button type="submit" class="my-btn flex-btn">
-                                                    <span id="new-board-btn" class="btn-text text-dark" style="width: 195px">Buy</span>
+                                                    <span id="new-board-btn" class="btn-text text-dark"
+                                                        style="width: 195px">Buy</span>
                                                 </button>
                                             </th>
                                             <th>
@@ -118,8 +122,10 @@ endforeach;
                         <div class="tab-content">
                             <div id="home" class="tab-pane fade show active">
                                 <p>{!! $product->post_content !!}</p>
-                                <p><b>Delivery Guarantee</b> (Delivery Time and Delivery charge # Dhaka Metro 1-3 working
-                                    days, charge 60tk # Dhaka suburb area 2-5 working days, charge 100tk # Bangladesh wide 2-5 working days,
+                                <p><b>Delivery Guarantee</b> (Delivery Time and Delivery charge # Dhaka Metro 1-3
+                                    working
+                                    days, charge 60tk # Dhaka suburb area 2-5 working days, charge 100tk # Bangladesh
+                                    wide 2-5 working days,
                                     120tk.)
                                 </p>
                             </div>
@@ -155,16 +161,21 @@ endforeach;
                                             $img='';
                                             @endphp
                                             @foreach($product_related as $related)
-                                            @php $product_info=DB::table('postmeta')->where('post_id',$related->ID)->get(); @endphp
+                                            @php
+                                            $product_info=DB::table('postmeta')->where('post_id',$related->ID)->get();
+                                            @endphp
                                             @foreach($product_info as $info)
-                                            @if($info->meta_key=='regular_price') @php $rprice=$info->meta_value @endphp @endif
-                                            @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp @endif
+                                            @if($info->meta_key=='regular_price') @php $rprice=$info->meta_value @endphp
+                                            @endif
+                                            @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp
+                                            @endif
                                             @endforeach
                                             <li class="product fl-l col-md-2">
                                                 <a href="{{route('product-page',$related->ID)}}">
                                                     <div class="container-prod">
                                                         <div class="image">
-                                                            <img width="100px" height="100px" src="{{asset('backend/products/'.$img)}}">
+                                                            <img width="100px" height="100px"
+                                                                src="{{asset('backend/products/'.$img)}}">
                                                         </div>
                                                         <div class="container-information">
                                                             <div class="title">
@@ -199,21 +210,21 @@ endforeach;
 </div>
 
 <script>
-    var myIndex = 0;
-    carousel();
+var myIndex = 0;
+carousel();
 
-    function carousel() {
-        var i;
-        var x = document.getElementsByClassName("mySlides");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        myIndex++;
-        if (myIndex > x.length) {
-            myIndex = 1
-        }
-        x[myIndex - 1].style.display = "block";
-        setTimeout(carousel, 2000); // Change image every 2 seconds
+function carousel() {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
     }
+    myIndex++;
+    if (myIndex > x.length) {
+        myIndex = 1
+    }
+    x[myIndex - 1].style.display = "block";
+    setTimeout(carousel, 2000); // Change image every 2 seconds
+}
 </script>
 @endsection

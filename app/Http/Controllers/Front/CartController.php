@@ -9,6 +9,7 @@ use Cart;
 use auth;
 use Mail;
 use Redirect;
+use App\Http\Requests\CheckoutValidateRequest;
 
 class CartController extends Controller
 {
@@ -77,7 +78,13 @@ class CartController extends Controller
         //
     }
 
-    public function checkout(Request $request){
+    public function checkout(CheckoutValidateRequest $request){
+       if($request->paymentMethod=='DeliveryChargeOnly'){
+               $dcharge=0;
+        }else{
+        $delivery_charge=DB::table('term_taxonomy')->where('term_id',$request->state)->where('taxonomy','district')->select('description')->first();
+        $dcharge=$delivery_charge->description;
+        }
         if(\Auth::check()){
              $id=auth()->user()->id;
         }else{
@@ -119,8 +126,6 @@ class CartController extends Controller
             'meta_value'=>$request->state,
           ]);
         }
-
-
         if($user_city==0){
           DB::table('usermeta')->insert([
             'user_id'=>$id,
@@ -150,8 +155,6 @@ class CartController extends Controller
             'meta_value'=>$request->zip,
           ]);
         }
-
-
         $state=DB::table('terms')->where('term_id',$request->state)->select('name')->first();
         $city = DB::table('terms')->where('term_id',$request->city)->select('name')->first();
         $info= Cart::getContent();
@@ -362,7 +365,7 @@ class CartController extends Controller
             'customer_id'=>$id,
             'order_date'=>date('Y-m-d'),
         );
-           DB::table('order_itemmeta')->insert($order_item_details);
+        DB::table('order_itemmeta')->insert($order_item_details);
         // $_line_tax_data=date('Y-m-d H:i:s');
         $_line_tax_data_gmt=date('Y-m-d H:i:s',strtotime('+6 hour'));
            $order_item_details=array(
@@ -374,6 +377,29 @@ class CartController extends Controller
             'order_date'=>date('Y-m-d'),
         );
            DB::table('order_itemmeta')->insert($order_item_details);
+            $order_item_details=array(
+            'order_item_id'=>$order_item_id,
+            'meta_key'=>'delivery_charge',
+            'meta_value'=>$dcharge,
+            'order_id'=>$order_id,
+            'customer_id'=>$id,
+            'order_date'=>date('Y-m-d'),
+        );
+        DB::table('order_itemmeta')->insert($order_item_details);
+       
+        // if($request->paymentMethod=='DeliveryChargeOnly'){
+        //    $order_item_details=array(
+        //     'order_item_id'=>$order_item_id,
+        //     'meta_key'=>'customer_pay_delivery_charge',
+        //     'meta_value'=>$dcharge,
+        //     'order_id'=>$order_id,
+        //     'customer_id'=>$id,
+        //     'order_date'=>date('Y-m-d'),
+        //   );
+        //  DB::table('order_itemmeta')->insert($order_item_details);
+        // }
+      
+
         }
         Cart::clear();
         // $name=$request->first_name;
@@ -438,17 +464,14 @@ class CartController extends Controller
      */
     public function update(Request $request)
     {
-       
-
         $qty=$request->quantity;
         $product_id=$request->product_id;
-        
          Cart::update($product_id, 
             ['quantity' => 
             ['relative' => false,
              'value' => $qty ]
             ]);
-         return back()->with('status','Item update done');
+         return back()->with('status','Item quantity has been update');
 
     }
 
@@ -466,6 +489,6 @@ class CartController extends Controller
     {
         // dd('id');
         Cart::remove($id);
-        return redirect(route('cart'))->with('status','Product delete from cart');
+        return redirect(route('cart'))->with('status','Item deleted from cart');
     }
 }

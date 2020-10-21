@@ -26,6 +26,7 @@ class SettingsController extends Controller
        $id=DB::getPdo()->lastInsertId();
        DB::table('term_taxonomy')->insert([
          'taxonomy' =>'district',
+         'description' =>$request->delivery_charge,
          'term_id' =>$id,
          'parent' =>0, 
        ]);
@@ -62,13 +63,17 @@ class SettingsController extends Controller
         ->select('terms.term_id','terms.name as district')
         ->get();
          $dist_name=DB::table('terms')->where('term_id',$id)->first();
-         return view('settings.district_edit',compact('district','dist_name'));
+         $delivery_charge=DB::table('term_taxonomy')->where('term_id',$id)->where('taxonomy','district')->first();
+         return view('settings.district_edit',compact('district','dist_name','delivery_charge'));
     }
 
     public function districtUpdate(Request $request,$id){
        DB::table('terms')->where('term_id',$id)->update([
          'name' =>$request->district,
          'slug' =>lcfirst($request->district),
+       ]);
+       DB::table('term_taxonomy')->where('term_id',$id)->where('taxonomy','district')->update([
+          'description' =>$request->delivery_charge,
        ]);
        session()->flash("success","Information update Successfully");
        return back();
@@ -82,7 +87,8 @@ class SettingsController extends Controller
          $thana=DB::table('terms')->where('term_id',$thana_id)->first();
          $postcode=DB::table('term_taxonomy')->where(['taxonomy'=>'postcode','term_id'=>$thana_id])->first();
          $dist_name=DB::table('terms')->where('term_id',$dist_id)->first();
-         return view('settings.thana_edit',compact('district','thana','postcode','dist_name'));
+         $delivery_charge=DB::table('term_taxonomy')->where('term_id',$dist_id)->where('taxonomy','district')->first();
+         return view('settings.thana_edit',compact('district','thana','postcode','dist_name','delivery_charge'));
     }
 
     public function districtThanaPostcodeUpdate(Request $request,$thana_id){

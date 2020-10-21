@@ -37,6 +37,10 @@
 									  <label for="categoryName">District</label>
 									   <input type="text" name="district" class="form-control" required autocomplete="off" placeholder="Enter District Name">
 									</div>
+									  <div class="form-group">
+									  <label for="categoryName">Delivery Charge</label>
+									   <input type="text" name="delivery_charge" class="form-control" required autocomplete="off" placeholder="Enter Delivery Charge">
+									</div>
                                 </div>
 								<!-- /.card-body -->
 								<div class="card-footer">

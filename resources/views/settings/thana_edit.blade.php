@@ -37,6 +37,11 @@
 									  <label for="categoryName">District</label>
 									   <input type="text" name="district" value="{{$dist_name->name}}" class="form-control" required autocomplete="off" placeholder="Enter District Name">
 									</div>
+									 <div class="form-group">
+									  <label for="categoryName">Delivery Charge</label>
+									  @if(isset($delivery_charge)) @php $charge=$delivery_charge->description; @endphp @else @php $charge=0; @endphp @endif
+									   <input type="text" name="delivery_charge" value="{{$charge}}" class="form-control" required autocomplete="off" placeholder="Enter Delivery Charge">
+									</div>
                                 </div>
 								<!-- /.card-body -->
 								<div class="card-footer">

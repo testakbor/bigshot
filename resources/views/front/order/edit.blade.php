@@ -53,11 +53,13 @@
                             $item_id=0;
                             $sub=0;
                             $total_qty=0;
+                            $delivery_charge=0;
                             @endphp
                             @foreach($products as $item)
                             @foreach($item->orderMeta as $value)
                             @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
                             @if($value->meta_key=='_line_subtotal') @php $subtotal=$value->meta_value; @endphp @endif
+                            @if($value->meta_key=='delivery_charge') @php $delivery_charge=$value->meta_value; @endphp @endif
                             @endforeach
                             @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
                             @if(isset($product_status)) @php $status=$product_status->meta_value; @endphp @else @php $status=''; @endphp @endif
@@ -120,7 +122,7 @@
                             <p class="mb-1"><b>Delivery Charges</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">80 tk</p>
+                            <p class="mb-1">{{$delivery_charge}} tk</p>
                         </div>
                     </div>
                     <div class="row justify-content-between">
@@ -128,7 +130,7 @@
                             <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">Tk. {{$grandTotal+80}}</p>
+                            <p class="mb-1">Tk. {{$grandTotal+$delivery_charge}}</p>
                         </div>
                     </div>
                 </div>
