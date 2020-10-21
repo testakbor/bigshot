@@ -65,99 +65,124 @@
           <div class="card-body">
             <div class="table-responsive-sm">
                
-          <table class="table">
-            <tr style="background:#e7e7e7;">
-              <th>Date</th>
-              <th>Order Id  </th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>Sales amount</th>
-              <th>Cost</th>
-              <th>Gross Profit</th>
-            </tr>
-          <tbody>
-          @php $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
-          @foreach($order as $item)
-            <tr>
-              <td>{{date('d-m-Y',strtotime($item->post_date))}}</td>
-              <td>{{$item->ID}}</td>
-              <td>
-                <table style="width:100%">
-                  @foreach($item->orderItem as $meta)
-                  <tr>
-                    <td>{{$meta->order_item_name}}</td>
-                  </tr>
-                   @endforeach
-                </table>
-              </td>
-             <td>
-              <table style="width:100%">
+         <table class="table">
+							<tr style="background:#e7e7e7;">
+								<th>Date</th>
+								<th>Order Id  </th>
+								<th>Description</th>
+								<th>Quantity</th>
+								<th>Sales amount</th>
+								<th>Cost</th>
+								<th>Gross Profit</th>
+							</tr>
+							<tbody>
+								@php $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
+								@foreach($order as $item)
+								<tr>
+									<td>{{date('d-m-Y',strtotime($item->post_date))}}</td>
+									<td>{{$item->ID}}</td>
+									<td>
+										<table style="width:100%">
+                                         @foreach($item->orderItem as $meta)
+											<tr>
+												<td>
+												@php $category=DB::table('term_relationships')
+												->where('object_id',$meta->product_id)
+												->where('taxonomy','product_cat')
+												->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
+												->join('terms','terms.term_id','=','term_taxonomy.term_id')
+												->select('terms.name as cat_name')
+												->first(); @endphp 	
+												{{$meta->order_item_name}}(@if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif) </td>
+												</tr>
+											@endforeach
+										</table>
+									</td>
+									<td>
+										<table style="width:100%">
               @foreach($item->orderItem as $meta)
                   @foreach($meta->orderMeta as $value) 
                     @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
                   @endforeach
-                <tr>
-                  <td>{{$qty}} pcs  </td>
-                </tr>
+                
+											<tr>
+												<td>{{$qty}} pcs  </td>
+											</tr>
                 @php $total_qty+=$qty; @endphp
               @endforeach
-              </table>
-              </td>
-             <td>
-              <table style="width:100%">
+              
+										</table>
+									</td>
+									<td>
+										<table style="width:100%">
                 @foreach($item->orderItem as $meta)
-                  @foreach($meta->postMeta as $value)
-                     @if($value->meta_key=='sale_price') @php $sale_price=$value->meta_value; @endphp @endif
+                  @foreach($meta->orderMeta as $value)
+                     @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; @endphp @endif
                   @endforeach
-                <tr>
-                  <td>{{number_format($sale_price)}}</td>
-                </tr>
+                
+											<tr>
+												<td>{{number_format($sale_price)}}</td>
+											</tr>
                 @php $total_sale_amount+=$sale_price; @endphp
                 @endforeach
-              </table>
-            </td>
-             <td>
-              <table style="width:100%">
+              
+										</table>
+									</td>
+									<td>
+										<table style="width:100%">
                 @foreach($item->orderItem as $meta)
                   @foreach($meta->postMeta as $value)
                      @if($value->meta_key=='product_stock') @php $cost=$value->meta_value; @endphp @endif
                   @endforeach
-                <tr>
-                  <td>{{number_format($cost)}}</td>
-                </tr>
+                
+											<tr>
+												<td>{{number_format($cost)}}</td>
+											</tr>
                  @php $total_cost+=$cost; @endphp
                 @endforeach
-              </table>
-            </td>
-              <td>
-              <table style="width:100%">
+              
+										</table>
+									</td>
+									<td>
+										<table style="width:100%">
                   @foreach($item->orderItem as $meta)
-                    @foreach($meta->postMeta as $value)
-                      @if($value->meta_key=='sale_price') @php $sale_price=$value->meta_value; @endphp @endif
+                    @foreach($meta->orderMeta as $value)
+                      @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; @endphp @endif
                       @if($value->meta_key=='product_stock') @php $cost=$value->meta_value; @endphp @endif
                     @endforeach
-                <tr>
-                  <td>@php $profit=$sale_price-$cost; @endphp {{$profit}}</td>
-                </tr>
-                 @php $total_profit+=$profit; @endphp
+                
+											<tr>
+												<td>@php $profit=$sale_price-$cost; @endphp {{$profit}}</td>
+											</tr>
                 @endforeach
-              </table>
-              </td>
-            </tr>
+              
+										</table>
+									</td>
+								</tr>
            @endforeach 
-        </tbody>
-      <tfoot>
-      <tr style="background:#e7e7e7;">
-        <td><b>Total</b></td>
-        <td></td>
-        <td></td>
-        <td><b>{{$total_qty}}</b></td>
-        <td><b>{{number_format($total_sale_amount)}}tk<b/></td>
-        <td><b>{{number_format($total_cost)}}tk</b></td>
-        <td><b>{{number_format($total_profit)}}tk</b></td>
-      </tr>
-    </tfoot>
-  </table>
+        
+							</tbody>
+							<tfoot>
+								<tr style="background:#e7e7e7;">
+									<td><b>Total</b></td>
+									<td></td>
+									<td></td>
+									<td>
+										<b>{{$total_qty}}</b>
+									</td>
+									<td>
+										<b>{{number_format($total_sale_amount)}}tk
+											<b/>
+										</td>
+										<td>
+											<b>{{number_format($total_cost)}}tk</b>
+										</td>
+										<td>
+										<b>{{number_format($total_sale_amount-$total_cost)}}tk</b>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
             </div>
           </div>
         </div>

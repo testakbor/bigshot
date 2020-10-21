@@ -423,26 +423,21 @@ public function stock()
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
     ->paginate(10);
-    $total_stock = DB::table('posts')
-        ->where('post_type', 'product')
-        ->where('post_status', '!=', 'deleted')
-        ->where('meta_key', 'qty')
-        ->where('meta_value', '>', 0)
-        ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-        ->count();
-    $total_cost = DB::table('posts')
-        ->where('post_type', 'product')
-        ->where('post_status', '!=', 'deleted')
-        ->where('meta_key', 'product_stock')
-        ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-        ->sum('meta_value');
-    $total_sale_price = DB::table('posts')
-        ->where('post_type', 'product')
-        ->where('post_status', '!=', 'deleted')
-        ->where('meta_key', 'sale_price')
-        ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-        ->sum('meta_value');
-    return view('admin.order.stock',compact('products','total_stock','total_cost','total_sale_price'))->with($extraInfo);
+
+    $data=Post::
+     where('post_type','product')
+    ->where('post_status','!=','deleted')
+    ->where('meta_key', 'qty')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->get();
+
+    $product_total_stock=DB::table('posts')
+        ->where(['post_type'=>'product','meta_key'=>'qty'])
+        ->where('meta_value','>',0)
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->sum('meta_value'); 
+    return view('admin.order.stock',compact('products','data','product_total_stock'))->with($extraInfo);
 }
 
 public function oldStock()

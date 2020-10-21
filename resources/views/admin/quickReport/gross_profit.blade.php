@@ -113,8 +113,8 @@
 									<td>
 										<table style="width:100%">
                 @foreach($item->orderItem as $meta)
-                  @foreach($meta->postMeta as $value)
-                     @if($value->meta_key=='sale_price') @php $sale_price=$value->meta_value; @endphp @endif
+                  @foreach($meta->orderMeta as $value)
+                     @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; @endphp @endif
                   @endforeach
                 
 											<tr>
@@ -143,15 +143,14 @@
 									<td>
 										<table style="width:100%">
                   @foreach($item->orderItem as $meta)
-                    @foreach($meta->postMeta as $value)
-                      @if($value->meta_key=='sale_price') @php $sale_price=$value->meta_value; @endphp @endif
+                    @foreach($meta->orderMeta as $value)
+                      @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; @endphp @endif
                       @if($value->meta_key=='product_stock') @php $cost=$value->meta_value; @endphp @endif
                     @endforeach
                 
 											<tr>
 												<td>@php $profit=$sale_price-$cost; @endphp {{$profit}}</td>
 											</tr>
-                 @php $total_profit+=$profit; @endphp
                 @endforeach
               
 										</table>
@@ -176,7 +175,7 @@
 											<b>{{number_format($total_cost)}}tk</b>
 										</td>
 										<td>
-											<b>{{number_format($total_profit)}}tk</b>
+											<b>{{number_format($total_sale_amount-$total_cost)}}tk</b>
 										</td>
 									</tr>
 								</tfoot>

@@ -63,7 +63,7 @@
                             </thead>
 
                             <tbody>
-                                @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $cost=0; @endphp
+                                @php  $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $cost=0; @endphp
                                 @foreach($products as $item)
                                 @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
                                 @endphp
@@ -131,7 +131,7 @@
                     <div class="box bg-primary">
                         <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-                        <h3 class="text-center">{{$i}}</h3>
+                        <h3 class="text-center">{{$qty}}</h3>
 
                         <p class="lead text-center font-weight-bold">Total Stock </p>
                     </div>

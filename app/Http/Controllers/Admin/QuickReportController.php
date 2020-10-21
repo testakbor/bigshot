@@ -28,40 +28,174 @@ class QuickReportController extends Controller
             'title'=>"Quick Report",
             'page'=>'quickReport'
         );
+        $current_date=date('Y-m-d');
+        $day_one_date=date('Y-m-d', strtotime('-1 day', strtotime($current_date)));
+        $day_two_date=date('Y-m-d', strtotime('-2 day', strtotime($current_date)));
+        $day_three_date=date('Y-m-d', strtotime('-3 day', strtotime($current_date)));
+        $day_four_date=date('Y-m-d', strtotime('-4 day', strtotime($current_date)));
+        $day_five_date=date('Y-m-d', strtotime('-5 day', strtotime($current_date)));
+
         $today_pending_order=DB::table('posts')
         ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-d')])
         ->count(); 
         $day_one_pending_order=DB::table('posts')
-        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-01')])
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>$day_one_date])
         ->count();  
         $day_two_pending_order=DB::table('posts')
-        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-02')])
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>$day_two_date])
         ->count();
         $day_three_pending_order=DB::table('posts')
-        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-03')])
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>$day_three_date])
         ->count();
         $day_four_pending_order=DB::table('posts')
-        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-04')])
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>$day_four_date])
+        ->count();
+        $day_five_pending_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>$day_five_date])
         ->count();
         $all_pending_order=DB::table('posts')
         ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-        ->count();  
+        ->count();
+
+
+        $today_processing_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','processing')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($current_date)),date('Y-m-d 23:59:59',strtotime($current_date))])
+        ->count();
+        $day_one_processing_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','processing')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_one_date)),date('Y-m-d 23:59:59',strtotime($day_one_date))])
+        ->count();
+
+        $day_two_processing_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','processing')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_two_date)),date('Y-m-d 23:59:59',strtotime($day_two_date))])
+        ->count();
+        
+        $day_three_processing_order=DB::table('posts')
+       ->where('post_type','shop_order')
+       ->where('post_status','processing')
+       ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_three_date)),date('Y-m-d 23:59:59',strtotime($day_three_date))])
+       ->count();
+
+        $day_four_processing_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','processing')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_four_date)),date('Y-m-d 23:59:59',strtotime($day_four_date))])
+        ->count();
+
+        $day_five_processing_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','processing')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_five_date)),date('Y-m-d 23:59:59',strtotime($day_five_date))])
+        ->count();
+
+        $all_processing_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])
+        ->count();
+
+
+          
+        $today_dispatch_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','dispatch')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($current_date)),date('Y-m-d 23:59:59',strtotime($current_date))])
+        ->count();
+        $day_one_dispatch_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','dispatch')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_one_date)),date('Y-m-d 23:59:59',strtotime($day_one_date))])
+        ->count();
+
+        $day_two_dispatch_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','dispatch')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_two_date)),date('Y-m-d 23:59:59',strtotime($day_two_date))])
+        ->count();
+        
+        $day_three_dispatch_order=DB::table('posts')
+       ->where('post_type','shop_order')
+       ->where('post_status','dispatch')
+       ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_three_date)),date('Y-m-d 23:59:59',strtotime($day_three_date))])
+       ->count();
+
+        $day_four_dispatch_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','dispatch')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_four_date)),date('Y-m-d 23:59:59',strtotime($day_four_date))])
+        ->count();
+
+        $day_five_dispatch_order=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('post_status','dispatch')
+        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_five_date)),date('Y-m-d 23:59:59',strtotime($day_five_date))])
+        ->count();
+
+        $all_dispatch_order=DB::table('posts')
+        ->where(['posts.post_type'=>'shop_order','post_status'=>'dispatch'])
+        ->count();
+
         $product_total_stock=DB::table('posts')
         ->where(['post_type'=>'product','meta_key'=>'qty'])
+        ->where('meta_value','>',0)
         ->join('postmeta','posts.ID','=','postmeta.post_id')
         ->sum('meta_value');  
+           $data=Post::
+        where('post_type','product')
+        ->where('post_status','!=','deleted')
+        ->where('meta_key', 'qty')
+        ->where('meta_value','>',0)
+        ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+        ->get();
         $product=Post::where('post_type','product')->get();   
-        $delivered_qty=DB::table('posts')->where(['post_type'=>'shop_order','post_status'=>'Delivered'])->count();     
+        $delivered_qty=DB::table('posts')->where(['post_type'=>'shop_order','post_status'=>'delivered'])->count(); 
+        $delivered_order=Post::where('post_type','shop_order')->where('post_status','delivered')
+        ->get();  
+        
+        
+        $s=date('Y-m-01');
+        $e=date('Y-m-t');
+        $year=date('Y');
+        $order_gross_profit_month=Post::where('post_type','shop_order')->whereBetween('post_date',[$s,$e])->get();
+        $order_gross_profit_yearly=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
+
+
         return view('admin.quickReport.index',
-        compact('today_pending_order',
+        compact(
+
+        'today_pending_order',
         'day_one_pending_order',
         'day_two_pending_order',
         'day_three_pending_order',
         'day_four_pending_order',
+        'day_five_pending_order',
         'all_pending_order',
+
+        'today_processing_order',
+        'day_one_processing_order',
+        'day_two_processing_order',
+        'day_three_processing_order',
+        'day_four_processing_order',
+        'day_five_processing_order',
+        'all_processing_order',
+
+        'today_dispatch_order',
+        'day_one_dispatch_order',
+        'day_two_dispatch_order',
+        'day_three_dispatch_order',
+        'day_four_dispatch_order',
+        'day_five_dispatch_order',
+        'all_dispatch_order',
         'product_total_stock',
         'product',
-        'delivered_qty'
+        'delivered_qty',
+        'delivered_order',
+        'order_gross_profit_month',
+        'order_gross_profit_yearly',
+        'data'
         ))->with($extraInfo);
     }
     public function manStock()

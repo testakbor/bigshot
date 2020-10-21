@@ -41,7 +41,7 @@
           <div class="box bg-primary">
             <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-            <h3 class="text-center">{{$total_stock}}</h3>
+            <h3 class="text-center">{{$product_total_stock}}</h3>
 
             <p class="lead text-center font-weight-bold">Total Stock </p>
           </div>
@@ -51,7 +51,15 @@
             <!-- <i class="fa fa-user ml-1"></i> -->
 
 
-            <h3 class="text-center">{{$total_cost}}</h3>
+            <h3 class="text-center">
+              @php $t_costs=0; @endphp
+              @foreach($data as $datas)
+                @foreach($datas->productMeta as $valus)
+                  @if($valus->meta_key=='product_stock') @php $t_costs+=$valus->meta_value; @endphp @endif
+                @endforeach
+              @endforeach
+              {{$t_costs}}
+            </h3>
 
             <p class="lead text-center font-weight-bold">Total Cost</p>
           </div>
@@ -61,7 +69,15 @@
             <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-            <h3 class="text-center">{{$total_sale_price}}</h3>
+            <h3 class="text-center">
+                @php $t_sell=0; @endphp
+               @foreach($data as $datas)
+                @foreach($datas->productMeta as $valus)
+                  @if($valus->meta_key=='sale_price') @php $t_sell+=$valus->meta_value; @endphp @endif
+                @endforeach
+               @endforeach
+              {{$t_sell}}
+            </h3>
 
             <p class="lead text-center font-weight-bold">Total Sell Price</p>
           </div>
@@ -166,7 +182,7 @@
           <div class="box bg-primary">
             <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-            <h3 class="text-center">{{$total_stock}}</h3>
+            <h3 class="text-center">{{$product_total_stock}}</h3>
 
             <p class="lead text-center font-weight-bold">Total Stock </p>
           </div>
@@ -176,7 +192,7 @@
             <!-- <i class="fa fa-user ml-1"></i> -->
 
 
-            <h3 class="text-center">{{$total_cost}}</h3>
+            <h3 class="text-center">{{$t_costs}}</h3>
 
             <p class="lead text-center font-weight-bold">Total Cost</p>
           </div>
@@ -186,7 +202,7 @@
             <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-            <h3 class="text-center">{{$total_sale_price}}</h3>
+            <h3 class="text-center">{{$t_sell}}</h3>
 
             <p class="lead text-center font-weight-bold">Total Sell Price</p>
           </div>
