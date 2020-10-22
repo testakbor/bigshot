@@ -131,12 +131,6 @@
       </div><!-- /.container-fluid -->
     <!-- /.content -->
  <!--  </div> -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-       $('.js-example-basic-single').select2();
-    });
-</script>
 @endsection
 
 
