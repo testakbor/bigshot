@@ -473,17 +473,19 @@ text-align: center;
                           
                             @endif 
                      @endforeach
-{{$item_weekly}}
+                   {{$item_weekly}}
                   </div>
                 </div>
             
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">
+                  <a href="{{route('b_sell_yearly')}}">
                   <div class="reportDayText"> Yearly</div>
                   <div class="reportDayValue">
                     @php $item=0; @endphp
                      @foreach($yearly_best_sell_item as $best)  @php $item+=$best->total_qty; @endphp  @endforeach
                      {{$item}}
                   </div>
+                  </a>
                 </div>
         </div> 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">

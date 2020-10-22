@@ -86,6 +86,7 @@ Auth::routes();
        
 
         Route::get('gross/profit/monthly','QuickReportController@gross_profit_monthly')->name('g_profit_monthly');
+        Route::get('best/sell/yearly','QuickReportController@best_sell_yearly')->name('b_sell_yearly');
         Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');
         Route::GET('admin-login','Auth\LoginController@showLoginForm')->name('admin.login');
         Route::POST('admin-login','Auth\LoginController@login');

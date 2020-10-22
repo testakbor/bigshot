@@ -327,7 +327,7 @@ class QuickReportController extends Controller
        where meta_key='_qty' 
        and order_date Between '$start' and '$end' 
        GROUP by product_id ORDER by total_qty DESC LIMIT 10 ");
-       return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);;
+       return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);
     }
     public function bestSellingSearch(Request $request){
         $extraInfo=array(
@@ -434,6 +434,15 @@ class QuickReportController extends Controller
        $end=date('Y-m-t');
        $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
        return view('admin.quickReport.gross_profit_show_monthly',compact('order','start','end'))->with($extraInfo);
+    }
+
+    public function best_sell_yearly(){
+         $year=date('Y');
+         $order=DB::SELECT("SELECT order_date,product_id,order_item_name,SUM(meta_value) as total_qty 
+         FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id
+         where meta_key='_qty' and YEAR(order_date)='$year' 
+         GROUP by product_id ORDER by total_qty DESC");
+          return view('admin.quickReport.best_selling_yearly',compact('order'));
     }
 
 

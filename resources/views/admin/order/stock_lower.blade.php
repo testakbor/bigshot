@@ -69,14 +69,17 @@
                 @if($info->meta_key=='stock_status')
                 @php $status=$info->meta_value; @endphp
                 @endif
+                    @if($info->meta_key=='attached_file')
+                @php $img=$info->meta_value; @endphp
+                @endif
                 @if($info->meta_key=='_sku')
                 @php $sku=$info->meta_value; @endphp
                 @endif
                 @endforeach
                 @if($qty<=$low_stock_qty) @php $i++ @endphp <tr>
                   <td class="center">{{$i}}</td>
-                  <td class="center">{{ $sku ? $sku : 'No SKU Found' }}</td>
-                  <td class="left strong">{{$item->post_title}} {{$item->post_date}}</td>
+                  <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img)}}"></br> {{ $sku ? $sku : 'No SKU Found' }}</td>
+                  <td class="left strong">{{$item->post_title}}</td>
                   <td class="left">@php $category=DB::table('term_relationships')
                     ->where('object_id',$item->ID)
                     ->where('taxonomy','product_cat')
@@ -88,7 +91,7 @@
                   <td class="right">{{$low_stock_qty}}</td>
                   <td class="right">{{$tot=$cost}}tk</td>
                   <td class="right">{{$price}}tk</td>
-                  <td class="right">{{$status}}</td>
+                  <td class="right">{{$status}} </br>{{date('d-M-Y',strtotime($item->post_date))}}</td>
                   <td class="right">
                     <i class="fas fa-print"><a href="{{route('stock.print.sticker',$item->ID)}}">Print</a></i><br>
                     <i class="fas fa-edit"><a href="{{route('product.edit',$item->ID)}}">Edit</a></i><br>

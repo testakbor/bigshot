@@ -1,5 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
+ <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <div class="content-wrapper" style="min-height: 1203.6px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -25,7 +26,7 @@
           @csrf 
         <div class="inner-form ml-5">
           <div class="input-field second-wrap">
-          <select class="form-control" name="cat_id" required>
+          <select class="form-control js-example-basic-single" name="cat_id" required>
             @foreach($categories as $cat)
               <option value="{{$cat->term_taxonomy_id}}">{{$cat->name}}</option>
             @endforeach   
@@ -92,15 +93,11 @@
                  @endforeach 
                 </tbody>
               </table>
-    
             </div>
-
             <div class="row">
                 <div class="col-lg-4 col-sm-5">
-
                 </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -109,41 +106,37 @@
            <div class="col-md-4">
                 <div class="box bg-primary">
                   <!-- <i class="fa fa-lemon ml-1"></i> -->
-                 
                   <h3 class="text-center">{{$tot_qty}}</h3>
-                 
                   <p class="lead text-center font-weight-bold">Total Stock </p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="box bg-success">
                   <!-- <i class="fa fa-user ml-1"></i> -->
-                 
-                 
                   <h3 class="text-center">{{$tot_cost}}</h3>
-                 
                   <p class="lead text-center font-weight-bold">Total Cost</p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="box bg-info">
                   <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  
-                 
                   <h3 class="text-center">{{$tot_price}}</h3>
-                  
                   <p class="lead text-center font-weight-bold">Total Sell Price</p>
                 </div>
               </div>
         </div>       
-            
       </div>
     </section>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
-   
     <!-- /.content -->
  <!--  </div> -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+       $('.js-example-basic-single').select2();
+    });
+</script>
 @endsection
 
 
