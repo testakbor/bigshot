@@ -471,10 +471,10 @@ public function lowerStock(){
         'title'=>"Brand List",
         'page'=>'lowerstock'
     ); 
-    $products=DB::table('posts')
-    ->where('post_type','product')
+    $products=Post::
+    where('post_type','product')
     ->where('post_status', '!=', 'deleted')
-    ->paginate(10); 
+    ->get(); 
     return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
 }
 

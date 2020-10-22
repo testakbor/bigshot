@@ -82,6 +82,10 @@ Auth::routes();
     });
 
     Route::group(['namespace'=>'Admin'],function(){
+
+       
+
+        Route::get('gross/profit/monthly','QuickReportController@gross_profit_monthly')->name('g_profit_monthly');
         Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');
         Route::GET('admin-login','Auth\LoginController@showLoginForm')->name('admin.login');
         Route::POST('admin-login','Auth\LoginController@login');

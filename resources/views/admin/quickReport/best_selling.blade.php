@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Best Selling Items</li>
+              <li class="breadcrumb-item active">Top 10 Best Selling Items</li>
             </ol>
           </div>
         </div>
@@ -21,7 +21,7 @@
       <form method="post" action="{{route('best.selling.search')}}">
        @csrf  
        <fieldset>
-          <legend>Best Selling Items List</legend>
+          <legend>Top 10 Best Selling Items List</legend>
         </fieldset>
         <div class="inner-form ml-5">
           <div class="input-field second-wrap">

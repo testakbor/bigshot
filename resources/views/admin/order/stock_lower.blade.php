@@ -41,6 +41,7 @@
                   <th>Items</th>
                   <th class="right">Categories</th>
                   <th class="center">Quantity</th>
+                  <th class="center">Alert Quantity</th>
                   <th class="right">Cost</th>
                   <th class="right">Sale Price</th>
                   <th class="right">Status</th>
@@ -75,7 +76,7 @@
                 @if($qty<=$low_stock_qty) @php $i++ @endphp <tr>
                   <td class="center">{{$i}}</td>
                   <td class="center">{{ $sku ? $sku : 'No SKU Found' }}</td>
-                  <td class="left strong">{{$item->post_title}}</td>
+                  <td class="left strong">{{$item->post_title}} {{$item->post_date}}</td>
                   <td class="left">@php $category=DB::table('term_relationships')
                     ->where('object_id',$item->ID)
                     ->where('taxonomy','product_cat')
@@ -84,6 +85,7 @@
                     ->select('terms.name as cat_name')
                     ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif</td>
                   <td class="right">{{$qty}}</td>
+                  <td class="right">{{$low_stock_qty}}</td>
                   <td class="right">{{$tot=$cost}}tk</td>
                   <td class="right">{{$price}}tk</td>
                   <td class="right">{{$status}}</td>
@@ -98,7 +100,7 @@
                   @endforeach
               </tbody>
             </table>
-            @if($qty<=$low_stock_qty) {{$products->links()}} @endif </div> <div class="row">
+           </div> <div class="row">
               <div class="col-lg-4 col-sm-5">
               </div>
           </div>

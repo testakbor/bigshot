@@ -12,6 +12,7 @@ use App\Model\front\Order_item;
 use App\Model\front\Postmeta;
 use App\Mail\systemMail;
 use Mail;
+use Carbon\Carbon;
 
 
 class QuickReportController extends Controller
@@ -28,13 +29,13 @@ class QuickReportController extends Controller
             'title'=>"Quick Report",
             'page'=>'quickReport'
         );
+
         $current_date=date('Y-m-d');
         $day_one_date=date('Y-m-d', strtotime('-1 day', strtotime($current_date)));
         $day_two_date=date('Y-m-d', strtotime('-2 day', strtotime($current_date)));
         $day_three_date=date('Y-m-d', strtotime('-3 day', strtotime($current_date)));
         $day_four_date=date('Y-m-d', strtotime('-4 day', strtotime($current_date)));
         $day_five_date=date('Y-m-d', strtotime('-5 day', strtotime($current_date)));
-
         $today_pending_order=DB::table('posts')
         ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold','post_date'=>date('Y-m-d')])
         ->count(); 
@@ -56,8 +57,6 @@ class QuickReportController extends Controller
         $all_pending_order=DB::table('posts')
         ->where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
         ->count();
-
-
         $today_processing_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','processing')
@@ -68,37 +67,29 @@ class QuickReportController extends Controller
         ->where('post_status','processing')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_one_date)),date('Y-m-d 23:59:59',strtotime($day_one_date))])
         ->count();
-
         $day_two_processing_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','processing')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_two_date)),date('Y-m-d 23:59:59',strtotime($day_two_date))])
         ->count();
-        
         $day_three_processing_order=DB::table('posts')
        ->where('post_type','shop_order')
        ->where('post_status','processing')
        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_three_date)),date('Y-m-d 23:59:59',strtotime($day_three_date))])
        ->count();
-
         $day_four_processing_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','processing')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_four_date)),date('Y-m-d 23:59:59',strtotime($day_four_date))])
         ->count();
-
         $day_five_processing_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','processing')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_five_date)),date('Y-m-d 23:59:59',strtotime($day_five_date))])
         ->count();
-
         $all_processing_order=DB::table('posts')
         ->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])
         ->count();
-
-
-          
         $today_dispatch_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','dispatch')
@@ -109,35 +100,29 @@ class QuickReportController extends Controller
         ->where('post_status','dispatch')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_one_date)),date('Y-m-d 23:59:59',strtotime($day_one_date))])
         ->count();
-
         $day_two_dispatch_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','dispatch')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_two_date)),date('Y-m-d 23:59:59',strtotime($day_two_date))])
         ->count();
-        
         $day_three_dispatch_order=DB::table('posts')
        ->where('post_type','shop_order')
        ->where('post_status','dispatch')
        ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_three_date)),date('Y-m-d 23:59:59',strtotime($day_three_date))])
        ->count();
-
         $day_four_dispatch_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','dispatch')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_four_date)),date('Y-m-d 23:59:59',strtotime($day_four_date))])
         ->count();
-
         $day_five_dispatch_order=DB::table('posts')
         ->where('post_type','shop_order')
         ->where('post_status','dispatch')
         ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($day_five_date)),date('Y-m-d 23:59:59',strtotime($day_five_date))])
         ->count();
-
         $all_dispatch_order=DB::table('posts')
         ->where(['posts.post_type'=>'shop_order','post_status'=>'dispatch'])
         ->count();
-
         $product_total_stock=DB::table('posts')
         ->where(['post_type'=>'product','meta_key'=>'qty'])
         ->where('meta_value','>',0)
@@ -151,21 +136,35 @@ class QuickReportController extends Controller
         ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
         ->get();
         $product=Post::where('post_type','product')->get();   
+        $pro=Post::where('post_type','product')
+            ->where('post_status', '!=', 'deleted')
+        ->get();   
         $delivered_qty=DB::table('posts')->where(['post_type'=>'shop_order','post_status'=>'delivered'])->count(); 
         $delivered_order=Post::where('post_type','shop_order')->where('post_status','delivered')
         ->get();  
-        
-        
         $s=date('Y-m-01');
         $e=date('Y-m-t');
         $year=date('Y');
         $order_gross_profit_month=Post::where('post_type','shop_order')->whereBetween('post_date',[$s,$e])->get();
         $order_gross_profit_yearly=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
+        $stock_product=Post::where(['post_type'=>'product','meta_key'=>'qty'])
+        ->where('meta_value','>',0)
+        ->select('post_date','ID','meta_value as quantity')
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->get();
+         $yearly_total_sold_out_product=Post::where(['post_type'=>'product','meta_key'=>'qty'])
+        ->where('meta_value','=',0)
+        ->whereYear('post_date',date('Y'))
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->count();
 
+        $yearly_best_sell_item=DB::SELECT("SELECT order_date,SUM(meta_value) as total_qty 
+        FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id
+        where meta_key='_qty' and YEAR(order_date)='$year' 
+        GROUP by product_id ORDER by total_qty DESC");
 
         return view('admin.quickReport.index',
         compact(
-
         'today_pending_order',
         'day_one_pending_order',
         'day_two_pending_order',
@@ -173,7 +172,6 @@ class QuickReportController extends Controller
         'day_four_pending_order',
         'day_five_pending_order',
         'all_pending_order',
-
         'today_processing_order',
         'day_one_processing_order',
         'day_two_processing_order',
@@ -181,7 +179,6 @@ class QuickReportController extends Controller
         'day_four_processing_order',
         'day_five_processing_order',
         'all_processing_order',
-
         'today_dispatch_order',
         'day_one_dispatch_order',
         'day_two_dispatch_order',
@@ -191,11 +188,15 @@ class QuickReportController extends Controller
         'all_dispatch_order',
         'product_total_stock',
         'product',
+        'pro',
         'delivered_qty',
         'delivered_order',
         'order_gross_profit_month',
         'order_gross_profit_yearly',
-        'data'
+        'data',
+        'stock_product',
+        'yearly_total_sold_out_product',
+        'yearly_best_sell_item'
         ))->with($extraInfo);
     }
     public function manStock()
@@ -325,7 +326,7 @@ class QuickReportController extends Controller
        FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id 
        where meta_key='_qty' 
        and order_date Between '$start' and '$end' 
-       GROUP by product_id ORDER by total_qty DESC");
+       GROUP by product_id ORDER by total_qty DESC LIMIT 10 ");
        return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);;
     }
     public function bestSellingSearch(Request $request){
@@ -415,7 +416,7 @@ class QuickReportController extends Controller
     public function grossProfitShow(Request $request)
     {
         $extraInfo=array(
-            'title'=>"Best Customer List",
+            'title'=>"Gross Profit List",
             'page'=>'Report'
       );
        $start=$request->start;
@@ -423,6 +424,19 @@ class QuickReportController extends Controller
        $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
        return view('admin.quickReport.gross_profit_show',compact('order','start','end'))->with($extraInfo);
     }
+
+    public function gross_profit_monthly(){
+       $extraInfo=array(
+            'title'=>"Gross Profit List",
+            'page'=>'Report'
+      );
+       $start=date('Y-m-01');
+       $end=date('Y-m-t');
+       $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
+       return view('admin.quickReport.gross_profit_show_monthly',compact('order','start','end'))->with($extraInfo);
+    }
+
+
 
     public function grossProfitSummary(){
        $extraInfo=array(

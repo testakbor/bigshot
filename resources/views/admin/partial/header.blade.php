@@ -181,7 +181,7 @@
                                 class="nav-link {{isset($page) && $page=='oldstock'?'active':''}}">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
-                                    Sold Stock List
+                                    Sold Out Stock List
                                 </p>
                             </a>
                         </li>
