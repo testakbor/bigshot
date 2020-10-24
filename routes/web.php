@@ -19,11 +19,8 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
-     Route::resource('roles','RoleController');
-
-   
-    Route::resource('users','UserController');
-
+    Route::resource('/user','UserController');
+    Route::resource('/role','RoleController');
 
     Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
@@ -85,6 +82,7 @@ Auth::routes();
 
        
 
+        Route::get('database/backup','SettingsController@databaseBackup')->name('database_backup');
         Route::get('gross/profit/monthly','QuickReportController@gross_profit_monthly')->name('g_profit_monthly');
         Route::get('best/sell/yearly','QuickReportController@best_sell_yearly')->name('b_sell_yearly');
         Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');

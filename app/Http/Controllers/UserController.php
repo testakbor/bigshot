@@ -1,28 +1,32 @@
 <?php
-    
+
 namespace App\Http\Controllers;
-    
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Model\admin\admin;
-use Spatie\Permission\Models\Role;
-use DB;
-use Hash;
-    
+use App\Model\Role;
+use Session;
+use Illuminate\Support\Facades\Hash;
+
 class UserController extends Controller
 {
+      public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $data = admin::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+  
+        $user=admin::orderBy('id','DESC')->paginate(10);
+        $role=Role::all();
+        return view('role_management.user.index',compact('user','role'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -30,10 +34,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        //
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -42,23 +45,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
-    
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-    
-        $user = admin::create($input);
-        $user->assignRole($request->input('roles'));
-    
-        return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+        $create= new admin();
+        $create->name=$request->name;
+        $create->email=$request->email;
+        $create->password=Hash::make($request->password);
+        $create->role_id=$request->role_id;
+        $create->save();
+        session()->flash("success","User has been created successfully");
+        return redirect(route('user.index'));
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -67,10 +63,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = admin::find($id);
-        return view('users.show',compact('user'));
+        //
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -79,13 +74,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = admin::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->all();
-    
-        return view('users.edit',compact('user','roles','userRole'));
+        $user=admin::find($id);
+        $data=admin::orderBy('id','DESC')->paginate(10);
+        $role=Role::all();
+        return view('role_management.user.edit',compact('user','role','data'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -95,30 +89,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+        admin::where('id',$id)->update([
+        'name'=>$request->name,
+        'password'=>Hash::make($request->password),
+        'role_id'=>$request->role_id,
         ]);
-    
-        $input = $request->all();
-        if(!empty($input['password'])){ 
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = array_except($input,array('password'));    
-        }
-    
-        $user = admin::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-    
-        $user->assignRole($request->input('roles'));
-    
-        return redirect()->route('users.index')
-                        ->with('success','User updated successfully');
+        session()->flash("success","User has been update successfully");
+        return redirect(route('user.index'));
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -127,8 +106,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        admin::find($id)->delete();
-        return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+        //
     }
 }
