@@ -104,7 +104,10 @@ Auth::routes();
         Route::get('admin/thana/update/{dist_id}/{thana_id}','SettingsController@thanaEdit')->name('thana.update');
         Route::post('admin/district/thana/post_code/update/{thana_id}','SettingsController@districtThanaPostcodeUpdate')->name('district.thana.postcode.update');
         Route::get('admin/todayPendingOrder','OrderController@todayPendingOrder')->name('todayPendingOrder');
-        Route::get('admin/pendingOrderByDate/{day}','OrderController@todayPendingOrder')->name('pendingOrderByDate');
+        Route::get('admin/pendingOrderByDate/{day}','OrderController@pendingOrderByDate')->name('pendingOrderByDate');
+        
+        Route::get('admin/processingOrderByDate/{day}','OrderController@processingOrderByDate')->name('processingOrderByDate');
+
         Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
         Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
         Route::get('admin/pendingOrder/print','OrderController@print')->name('pendingOrder.print');
