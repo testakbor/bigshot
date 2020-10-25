@@ -192,7 +192,7 @@ class OrderController extends Controller
   {
 
     $date = \Carbon\Carbon::today()->subDays($day)->toDateString();
-    
+
     $starDate=date('Y-m-d 00:00:00',strtotime($date));
     $endDate=date('Y-m-d 23:59:59',strtotime($date));
 
@@ -492,6 +492,63 @@ public function stock()
   ->join('postmeta','posts.ID','=','postmeta.post_id')
   ->sum('meta_value'); 
   return view('admin.order.stock',compact('products','data','product_total_stock'))->with($extraInfo);
+}
+
+public function stockMove($day)
+{       
+  if($day==7){    
+   $starDate = \Carbon\Carbon::today()->subDays(7)->toDateString();
+   $endDate = \Carbon\Carbon::today()->subDays(14)->toDateString();
+  }
+  if($day==15){    
+   $starDate = \Carbon\Carbon::today()->subDays(15)->toDateString();
+   $endDate = \Carbon\Carbon::today()->subDays(29)->toDateString();
+  }
+  if($day==30){    
+   $starDate = \Carbon\Carbon::today()->subDays(30)->toDateString();
+   $endDate = \Carbon\Carbon::today()->subDays(59)->toDateString();
+  } 
+  if($day==60){    
+   $starDate = \Carbon\Carbon::today()->subDays(60)->toDateString();
+   $endDate = \Carbon\Carbon::today()->subDays(90)->toDateString();
+  }
+  if($day==90){    
+   $starDate = \Carbon\Carbon::today()->subDays(90)->toDateString();
+   $endDate = \Carbon\Carbon::today()->subDays(120)->toDateString();
+  }
+
+   $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
+   $endDate=date('Y-m-d 23:59:59',strtotime($endDate));
+
+  $extraInfo=array(
+    'title'=>"Stock List",
+    'page'=>'stock'
+  ); 
+
+  $products=DB::table('posts')
+  ->where('post_type','product')
+  ->whereBetween('post_date', [$endDate,$starDate])  
+  ->where('meta_key', 'qty')
+  ->where('meta_value','>',0)
+  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+  ->paginate(10);
+
+
+  $data=Post::
+  where('post_type','product')
+  ->whereBetween('post_date', [$endDate,$starDate])  
+  ->where('meta_key', 'qty')
+  ->where('meta_value','>',0)
+  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+  ->get();
+
+  $product_total_stock=DB::table('posts')
+  ->whereBetween('post_date', [$endDate,$starDate])  
+  ->where('meta_key', 'qty')
+  ->where('meta_value','>',0)
+  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+  ->sum('meta_value'); 
+  return view('admin.order.stockMove',compact('products','data','product_total_stock'))->with($extraInfo);
 }
 
 public function oldStock()

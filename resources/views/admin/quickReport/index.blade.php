@@ -196,117 +196,42 @@ text-align: center;
                   <div class="reportText">Stock Moving</div>
                 </div>
              
-                <a class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column" href="{{route('stockMove',7)}}">
                   <div class="reportDayText">Week 1 </div>
-                  <div class="reportDayValue">
-                      @php $id=0; $stock_count=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff<=7)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_count=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_count}}
+                  <div class="reportDayValue">                      
+                     {{ $stcokMove['week1']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column" href="{{route('stockMove',15)}}">
                   <div class="reportDayText"> Week 2</div>
                   <div class="reportDayValue">
-                  
-                  @php $id=0; $stock_counts=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff<=14)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_counts=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_counts}}
-                  
-                  
+                  {{ $stcokMove['week2']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-3  dayThreeBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  dayThreeBg d-flex justify-content-center flex-column" href="{{route('stockMove',30)}}">
                   <div class="reportDayText"> Month 1</div>
                   <div class="reportDayValue">
-                      @php $id=0; $stock_countss=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff==30)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_countss=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_countss}}
+                      {{ $stcokMove['month1']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-3  dayFourBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  dayFourBg d-flex justify-content-center flex-column" href="{{route('stockMove',60)}}">
                   <div class="reportDayText"> Month 2</div>
-                  <div class="reportDayValue">
-                       @php $id=0; $stock_countsss=0; $total_move=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff==60)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_countsss=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_countsss}}
-                  </div>
+                  <div class="reportDayValue">{{ $stcokMove['month2']}}</div>
                 </a>
              
-                <a class="col-md-1 box ml-3  dayFiveBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  dayFiveBg d-flex justify-content-center flex-column" href="{{route('stockMove',90)}}">
                   <div class="reportDayText"> Month 3</div>
                   <div class="reportDayValue">
-                       @php $id=0; $stock_countssss=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff==90)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_countssss=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_countssss}}
+                       {{ $stcokMove['month3']}}
                   </div>
                 </a>
              
                 <a class="col-md-1 box ml-3  allStatus d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> All</div>
-                  <div class="reportDayValue">{{$stock_count+$stock_counts+$stock_countss+$stock_countsss+$stock_countssss}}</div>
+                  <div class="reportDayValue"> {{ $stcokMove['week1']+$stcokMove['week2']+$stcokMove['month1']+$stcokMove['month2']+$stcokMove['month3']}}</div>
                 </a>
               
         </div>

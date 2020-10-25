@@ -122,6 +122,9 @@ Auth::routes();
         Route::post('reject/product/update','OrderController@rejectProductUpdate')->name('reject.update');
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
         Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');
+
+        Route::get('admin/stockMove/{day}','OrderController@stockMove')->name('stockMove');
+
         Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
         Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
