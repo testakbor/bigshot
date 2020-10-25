@@ -155,7 +155,6 @@ class OrderController extends Controller
     $starDate=date('Y-m-d 00:00:00',strtotime($date));
     $endDate=date('Y-m-d 23:59:59',strtotime($date));
     
-
     $order=Post::where('post_type','shop_order')
     ->where('post_status','processing')
     ->whereBetween('post_modified', [$starDate, $endDate])  
@@ -170,6 +169,7 @@ class OrderController extends Controller
   {   
     return view('admin.order.pendingOrder_print');
   }
+
   public function dispat()
   {
     $extraInfo = array(
@@ -184,6 +184,29 @@ class OrderController extends Controller
     $total_order = Post::where('post_type', 'shop_order')
     ->where('post_status', 'dispatch')
     ->where('post_modified', '>=', $date)
+    ->count();
+    return view('admin.order.dispat', compact('order','total_order'))->with($extraInfo); 
+  }
+
+  public function dispatchByDate($day)
+  {
+
+    $date = \Carbon\Carbon::today()->subDays($day)->toDateString();
+    
+    $starDate=date('Y-m-d 00:00:00',strtotime($date));
+    $endDate=date('Y-m-d 23:59:59',strtotime($date));
+
+    $extraInfo = array(
+      'title' => "Order List",
+      'page' => 'order'
+    );    
+    $order = Post::where('post_type', 'shop_order')
+    ->where('post_status', 'dispatch')
+    ->whereBetween('post_modified', [$starDate, $endDate])  
+    ->paginate(20);
+    $total_order = Post::where('post_type', 'shop_order')
+    ->where('post_status', 'dispatch')
+    ->whereBetween('post_modified', [$starDate, $endDate])  
     ->count();
     return view('admin.order.dispat', compact('order','total_order'))->with($extraInfo); 
   }

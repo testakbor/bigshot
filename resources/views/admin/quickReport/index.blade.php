@@ -160,34 +160,29 @@ text-align: center;
                   <div class="reportText">Dispatch</div>
                 </div>
               
-                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',0)}}">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_dispatch_order}}</div>
-                </a>
+                </a>              
               
-                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="#">                                  
-                  <div class="reportDayText"> Day 1</div>                  
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',1)}}">  
+                  <div class="reportDayText"> Day 2</div>                  
                   <div class="reportDayValue">{{$day_one_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="#">                                   
-                  <div class="reportDayText"> Day 2</div>                  
+                <a class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',2)}}">
+                  <div class="reportDayText"> Day 3</div>                  
                   <div class="reportDayValue">{{$day_two_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column" href="#">
-                  <div class="reportDayText"> Day 3</div>                  
+                <a class="col-md-1 box ml-3 dayFourBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',3)}}">  
+                  <div class="reportDayText"> Day 4</div>                  
                   <div class="reportDayValue">{{$day_three_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-3 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
-                  <div class="reportDayText"> Day 4</div>                  
-                  <div class="reportDayValue">{{$day_four_dispatch_order}}</div>
-                </a>
-              
-                <a class="col-md-1 box ml-3 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
+                <a class="col-md-1 box ml-3 dayFiveBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',4)}}">  
                   <div class="reportDayText"> Day 5</div>                  
-                  <div class="reportDayValue">{{$day_five_dispatch_order}}</div>
+                  <div class="reportDayValue">{{$day_four_dispatch_order}}</div>
                 </a>
               
                 <a class="col-md-1 box ml-3 allStatus d-flex justify-content-center flex-column" href="{{url('admin/pendingOrder/dispat')}}">
