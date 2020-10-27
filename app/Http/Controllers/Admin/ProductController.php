@@ -565,7 +565,6 @@ public function stockPrintSticker($id){
 }
 
 public function stockSkuSearch(Request $request){
-
         $extraInfo = array(
             'title' => "Stock List",
             'page' => 'stock'

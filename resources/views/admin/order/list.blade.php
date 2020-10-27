@@ -31,7 +31,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <ul class="nav" style="background: gray;">
+              <ul class="nav" style="background: #007bff;">
                 <li class="nav-item " style="border-right: 1px solid white;">
                   <a class="nav-link" target="_blank" href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order({{$pending_order}})</a>
                 </li>

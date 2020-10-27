@@ -18,30 +18,57 @@
         </div>
       </div><!-- /.container-fluid -->
       <div class="s002">
-      <form>
-        <fieldset>
-          <legend>Search Category wise stock List</legend>
-        </fieldset>
+
+
+
+
         <form method="get" action="{{route('women.stock')}}">
           @csrf 
         <div class="inner-form ml-5">
           <div class="input-field second-wrap">
-          <select class="form-control js-example-basic-single" name="cat_id" required>
-            @foreach($categories as $cat)
-              <option value="{{$cat->term_taxonomy_id}}">{{$cat->name}}</option>
-            @endforeach   
-         </select>
+    
 
           </div>
           <div class="input-field fifth-wrap">
-            <button type="submit" class="btn-search" type="button">SEARCH</button>
+   
           </div>
           </form>
-        </div>
-      </form>
-    </div>
 
-       
+
+
+
+           
+ 
+ 
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Category wise stock List</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="get" action="{{route('women.stock')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Chose Category</label>
+               <select class="form-control js-example-basic-single" name="cat_id" required>
+                @foreach($categories as $cat)
+                  <option value="{{$cat->term_taxonomy_id}}">{{$cat->name}}</option>
+                @endforeach   
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
     </section>
 
     <!-- Main content -->

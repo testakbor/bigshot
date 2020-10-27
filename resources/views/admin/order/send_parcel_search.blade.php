@@ -15,22 +15,18 @@
         </div>
       </div>
       <div class="s002">
-      <form method="post" action="{{route('send.parcel.search')}}">
-        @csrf
-        <fieldset>
-          <legend>Send Parcel List</legend>
-        </fieldset>
-        <div class="inner-form ml-5">
-          <div class="input-field second-wrap">
-            <div class="icon-wrap">
-            </div>
-            <input class="form-control" name="order_id" type="text" placeholder="Order Id" autocomplete="off" required />
+       <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Send Parcel List</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('send.parcel.search')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Order Id</label>
+            <input required type="text" class="form-control" name="order_id" placeholder="Scanner or Order Id" />
           </div>
-          <div class="input-field fifth-wrap">
-            <button type="submit" class="btn-search" type="button">SEARCH</button>
-          </div>
-        </div>
-      </form>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
     </div>
     </section>
     <section class="content">

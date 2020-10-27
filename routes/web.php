@@ -140,7 +140,7 @@ Auth::routes();
         Route::post('admin/order/status/update','OrderController@update')->name('update.order.status');
         Route::post('admin/order/update/qty', 'OrderController@updateOrderQty')->name('update.order.quantity');
         Route::get('admin/quickReport/man_stock','QuickReportController@manStock')->name('man.stock');
-        Route::get('admin/quickReport/women_stock','QuickReportController@womenStock')->name('women.stock');
+        Route::get('admin/quickReport/search/category/wise/stock','QuickReportController@womenStock')->name('women.stock');
         Route::get('admin/quickReport/sales_report','QuickReportController@salesReport')
         ->name('sales.report');
         Route::get('admin/quickReport/delivery_report','QuickReportController@deliveryReport')->name('delivery.report');
@@ -157,7 +157,7 @@ Auth::routes();
         Route::post('admin/quickReport/best_customer/search','QuickReportController@bestCustomerSearch')->name('best.customer.search');
         Route::get('admin/quickReport/gross_profit','QuickReportController@grossProfit')->name('gross.profit');
         Route::get('admin/quickReport/gross_profit/summary','QuickReportController@grossProfitSummary')->name('gross.profit.summary');
-        Route::get('user/{id}','CustomerController@edit');
+        Route::get('customer/edit/{id}','CustomerController@edit');
         Route::post('user/update','CustomerController@update')->name('user_update');
         //banner image route for home page
         Route::resource('/banner','BannerController');

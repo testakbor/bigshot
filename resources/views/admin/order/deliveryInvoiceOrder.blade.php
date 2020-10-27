@@ -21,29 +21,23 @@ use App\Model\front\Order_item;
             </div>
         </div>
         <div class="s002">
-            <form method="post" action="{{route('order.delivery.invoice.data')}}">
-                @csrf
-                <div class="inner-form ml-5">
-                    <div class="input-field second-wrap">
-                        <div class="icon-wrap">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-                            </svg>
-                        </div>
-                        <input type="text" class="form-control" name="order_id" placeholder="Invoice No" autocomplete="off" />
-                    </div>
-                    <div class="input-field second-wrap">
-                        <div class="icon-wrap">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-                            </svg>
-                        </div>
-                        <input type="date" class="form-control" name="order_date"  placeholder="Invoice No" />
-                    </div>
-                    <div class="input-field fifth-wrap">
-                        <button type="submit" class="btn-search" type="button">SEARCH</button>
-                    </div>
-            </form>
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Delivery Invoice</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('order.delivery.invoice.data')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Order Id</label>
+            <input  type="text" class="form-control" name="order_id" placeholder="Scanner or Order Id" />
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Date</label>
+            <input  type="date" class="form-control" name="order_date" placeholder="Scanner or Order Id" />
+          </div>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
         </div>
     </section>
     <section class="content">

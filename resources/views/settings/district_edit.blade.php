@@ -87,7 +87,7 @@
 							<!-- /.card-header -->
 							<div class="card-body">
 								<table class="table table-bordered table-striped">
-									<thead class="bg-success">
+									<thead class="bg-info">
 										<tr>
                                             <th style="width: 10px">#</th>
 											<th style="width: 10px">District</th>

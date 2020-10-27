@@ -66,7 +66,7 @@
               <div class="card-body">
                 @if($all_role->count()==0) No Data Found @endif
                 <table class="table table-bordered table-striped">
-                  <thead class="bg-danger">                  
+                  <thead class="bg-info">                  
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Role</th>

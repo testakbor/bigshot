@@ -18,22 +18,19 @@
             </div>
         </div><!-- /.container-fluid -->
         <div class="s002">
-            <form method="post" action="{{route('stock.sku.search')}}">
-                @csrf
-                <fieldset>
-                    <legend>Stock List</legend>
-                </fieldset>
-                <div class="inner-form ml-5">
-                    <div class="input-field second-wrap">
-                        <div class="icon-wrap">
-                        </div>
-                        <input class="form-control" id="depart" name="product_sku" type="text" placeholder="Enter SKU" autocomplete="off" />
-                    </div>
-                    <div class="input-field fifth-wrap">
-                        <button type="submit" class="btn-search" type="button">SEARCH</button>
-                    </div>
-                </div>
-            </form>
+       
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Stock List</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('stock.sku.search')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Sku</label>
+            <input required type="text" class="form-control" name="product_sku" placeholder="Enter sku" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
         </div>
 
 
@@ -63,7 +60,7 @@
                             </thead>
 
                             <tbody>
-                                @php  $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $cost=0; @endphp
+                                @php $all_qty=0; $img=''; $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $cost=0; @endphp
                                 @foreach($products as $item)
                                 @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
                                 @endphp
@@ -83,13 +80,16 @@
                                 @if($info->meta_key=='_sku')
                                 @php $sku=$info->meta_value; @endphp
                                 @endif
+                                   @if($info->meta_key=='attached_file')
+                                    @php $img=$info->meta_value; @endphp
+                                    @endif
                                 @endforeach
                                 @if($qty>0)
                                 @php $i++
                                 @endphp
                                 <tr>
                                     <td class="center">{{$i}}</td>
-                                    <td class="center">{{ $sku ? $sku : 'No SKU Found' }}</td>
+                                                     <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img)}}"></br> {{ $sku ? $sku : 'No SKU Found' }}</td>
                                     <td class="left strong">{{$item->post_title}}</td>
                                     <td class="left">@php $category=DB::table('term_relationships')
                                         ->where('object_id',$item->ID)
@@ -103,13 +103,14 @@
                                     <td class="right">{{$price}}tk</td>
                                     <td class="right">{{$status}}</td>
                                     <td class="right">
-                                        <i class="fas fa-print"><a href="{{route('stock.print.sticker',$item->ID)}}">Print</a></i><br>
-                                        <i class="fas fa-edit"><a href="{{route('product.edit',$item->ID)}}">Edit</a></i><br>
-                                        <i class="fas fa-trash-alt"><a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}">Delete</a></i><br>
+                                        <a href="{{route('stock.print.sticker',$item->ID)}}" class="btn btn-info"> <i class="fas fa-print"></i> Print </a> <br>
+                                    <a href="{{route('product.edit',$item->ID)}}" class="btn btn-success mt-2 mb-2"> <i class="fas fa-edit"></i> Edit</a><br>
+                                        <a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}" class="btn btn-danger"> <i class="fas fa-trash-alt"></i> Delete</a><br>
                                     </td>
                                 </tr>
-                                @php $total_cost+=$tot; $total_sell_price+=$price; @endphp
+                                @php $total_cost+=$tot; $total_sell_price+=$price; $all_qty+=$qty; @endphp
                                 @endif
+
                                 @endforeach
                             </tbody>
                         </table>
@@ -131,7 +132,7 @@
                     <div class="box bg-primary">
                         <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-                        <h3 class="text-center">{{$qty}}</h3>
+                        <h3 class="text-center">{{$all_qty}}</h3>
 
                         <p class="lead text-center font-weight-bold">Total Stock </p>
                     </div>

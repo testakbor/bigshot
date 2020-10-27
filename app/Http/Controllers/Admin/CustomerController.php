@@ -39,7 +39,7 @@ class CustomerController extends Controller
               }
             })
             ->addColumn('action', function($row){
-                $btn = '<a class="btn btn-primary" title="" href="'.url('/user/'.$row->id).'"> <i class="fa fa-edit"></i> Edit</a>';
+                $btn = '<a class="btn btn-primary" title="" href="'.url('/customer/edit/'.$row->id).'"> <i class="fa fa-edit"></i> Edit</a>';
                 return $btn;
             })
             ->rawColumns(['action'])

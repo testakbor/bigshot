@@ -17,34 +17,36 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form method="post" action="{{route('order.cancelled.search')}}">
-        @csrf
-        <div class="inner-form ml-5">
 
-          <div class="input-field second-wrap">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-              </svg>
-            </div>
-            <input class="datepicker" id="depart" type="date" name="start" placeholder="29 Aug 2018" />
 
-          </div>
-          <div class="input-field third-wrap">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-              </svg>
-            </div>
-            <input class="datepicker" id="return" type="date" name="end" placeholder="30 Aug 2018" />
+
+
+
+
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Cancelled Order</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('order.cancelled.search')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">
+              Start</label>
+            <input required type="date" class="form-control" name="start" placeholder="" />
           </div>
 
-          <div class="input-field fifth-wrap">
-            <button type="submit" class="btn-search" type="button">SEARCH</button>
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">End</label>
+            <input required type="date" class="form-control" name="end" placeholder="" />
           </div>
-      </form>
-      <div class="offset-1 col-md-4">
-        <div class="box bg-danger">
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
+
+
+
+
+
+
           <!-- <i class="fa fa-lemon ml-1"></i> -->
           @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
           @foreach($order as $orders)
@@ -61,24 +63,38 @@
           @php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
           @php $total_amount+=$sub; @endphp
           @endforeach
+         
+    
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box bg-danger">
+          <!-- <i class="fa fa-lemon ml-1"></i> -->
+
           <h3 class="text-center">{{$total_order}}</h3>
+
           <p class="lead text-center font-weight-bold">Total Cancelled</p>
         </div>
-
-
-
       </div>
-      <div class="col-md-4">
+
+
+      <div class="col-md-4 ">
         <div class="box bg-info">
+          <!-- <i class="fa fa-handshake ml-1"></i> -->
+
 
           <h3 class="text-center">{{$total_amount}}</h3>
-          <p class="lead text-center font-weight-bold">Total Ammount</p>
+
+          <p class="lead text-center font-weight-bold">Total Amount</p>
         </div>
       </div>
-
     </div>
 
-</div>
+  </div>
+
+
+     
+ 
 
 
 </section>

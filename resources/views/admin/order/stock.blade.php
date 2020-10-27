@@ -18,7 +18,7 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form method="post" action="{{route('stock.sku.search')}}">
+      <!-- <form method="post" action="{{route('stock.sku.search')}}">
         @csrf
         <fieldset>
           <legend>Stock List</legend>
@@ -33,7 +33,32 @@
             <button type="submit" class="btn-search" type="button">SEARCH</button>
           </div>
         </div>
-      </form>
+      </form> -->
+
+ 
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Stock List</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('stock.sku.search')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Sku</label>
+            <input required type="text" class="form-control" name="product_sku" placeholder="Enter sku" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
     </div>
     <div class="container">
       <div class="row">

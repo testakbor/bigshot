@@ -18,29 +18,30 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form method="post" action="{{route('order.all.status.search')}}">
-        @csrf
-        <div class="inner-form ml-5" style="width: 64.5%;">
-          <div class="input-field second-wrap">
-            <input class="datepicker" id="depart" type="text" name="order_id" placeholder="Order Id" autocomplete="off" />
-          </div>
-          <div class="input-field second-wrap">
-            <input class="datepicker" id="depart" type="text" name="mobile" placeholder="Mobile" autocomplete="off" />
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">All Status</div>
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('order.all.status.search')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Order Id</label>
+            <input  type="text" class="form-control" name="order_id" placeholder="Scanner or Order Id" />
           </div>
 
-          <div class="input-field second-wrap">
-            <input class="datepicker" id="depart" type="email" name="email" placeholder="Email" autocomplete="off" />
+            <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Mobile</label>
+            <input  type="text" class="form-control" name="mobile" placeholder="Mobile" />
           </div>
-          <div class="input-field fifth-wrap">
-            <button type="submit" class="btn-search" type="button">SEARCH</button>
+
+            <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Order Id</label>
+            <input  type="email" class="form-control" name="email" placeholder="Email" />
           </div>
-        </div>
-      </form>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
     </div>
-
-
   </section>
-
   <!-- Main content -->
   <section class="content">
     <div class="container">

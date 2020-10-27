@@ -18,77 +18,27 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form method="post" action="{{route('excel.dispatch.order.date')}}">
-        @csrf
-        <div class="inner-form ml-5">
+    
 
-          <div class="input-field second-wrap">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-              </svg>
-            </div>
-            <input name="start" class="datepicker" value="{{date('Y-m-01')}}" id="depart" type="date" placeholder="29 Aug 2018" />
 
-          </div>
-          <div class="input-field third-wrap">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>
-              </svg>
-            </div>
-            <input name="end" class="datepicker" value="{{date('Y-m-t')}}" id="return" type="date" placeholder="30 Aug 2018" />
-          </div>
 
-          <div class="input-field fifth-wrap">
-            <button type="submit" class="btn-search" type="button">SEARCH</button>
-          </div>
+
+
+ <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Excel Dispatch</div>
+    <div class="d-flex justify-content-center">
+      <form class="form-inline" method="post" action="{{route('excel.dispatch.order.date')}}" >
+        @csrf() 
+        <div class="form-group mb-2">
+          <label for="depart" class="mr-2">Start Date </label>
+          <input class="form-control datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="return" class="mr-2">End Date </label>
+          <input class="form-control datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
       </form>
-      <div class="offset-3 col-md-4">
-        <div class="box bg-danger">
-          <!-- <i class="fa fa-lemon ml-1"></i> -->
-          @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $total_qty=0; @endphp
-          @foreach($order as $orders)
-          @foreach($orders->productMeta as $meta)
-          @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
-          @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
-          @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
-          @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
-          @endforeach
-          @foreach($orders->orderItem as $info)
-          @foreach($info->orderMeta as $value)
-          @if($value->meta_key=='_line_subtotal')
-          @php $subtotal=$value->meta_value; @endphp
-          @endif
-
-          @endforeach
-          @endforeach
-          @php $total_amount=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
-          @php $total_qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp
-          @endforeach
-          <h3 class="text-center">{{$total_order}}</h3>
-          <p class="lead text-center font-weight-bold">Complete</p>
-        </div>
-      </div>
-
-      <div class="col-md-4 ">
-        <div class="box bg-success">
-          <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
-          <h3 class="text-center">{{$total_qty}}</h3>
-
-          <p class="lead text-center font-weight-bold">Quantity</p>
-        </div>
-      </div>
-
     </div>
-
-</div>
-
-
-</section>
-
 <!-- Main content -->
 <section class="content">
   <div class="container">
@@ -142,7 +92,7 @@
                 <td class="right">{{$total_amount}}</td>
                 <td class="right">
                   <a href="#" class="btn btn-success">Copy</a><br>
-                  <a onclick="return confirm('are you sure??')" href="{{route('excel.dispatch.order.complete',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 49%;">Complete</a>
+                  <a onclick="return confirm('are you sure??')" href="{{route('excel.dispatch.order.complete',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 100%;">Complete</a>
                 </td>
                 <!-- <td class="right">hello</td> -->
               </tr>
