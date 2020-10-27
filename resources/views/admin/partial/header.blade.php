@@ -310,7 +310,7 @@
                             </ul>
                         </li>
                         @else 
-                          <li class="nav-item">
+                       <li class="nav-item">
                             <a href="{{route('admin.home')}}"
                                 class="nav-link {{isset($page) && $page=='home'?'active':''}}">
                                 <i class="nav-icon fas fa-th"></i>
@@ -318,6 +318,220 @@
                                     Dashboard
                                 </p>
                             </a>
+                        </li>
+                           <li class="nav-item">
+                            <a href="{{route('category.index')}}"
+                                class="nav-link {{isset($page) && $page=='category'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Category
+                                </p>
+                            </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a href="{{route('tag.index')}}"
+                                class="nav-link {{isset($page) && $page=='tag'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Tag
+                                </p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                         <a href="{{route('brand.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                        Brand                
+                       </p>
+                       </a>
+                       </li> -->
+                        <li class="nav-item">
+                            <a href="{{route('attribute.index')}}"
+                                class="nav-link {{isset($page) && $page=='attribute'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Attributes
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link {{isset($page) && $page=='product'?'active':''}}">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>
+                                    Product
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('product.index')}}"
+                                        class="nav-link {{isset($page) && $page=='product'?'active':''}}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Products</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('product.create')}}"
+                                        class="nav-link {{isset($page) && $page=='products'?'active':''}}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>New Product</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('quickReport')}}"
+                                class="nav-link {{isset($page) && $page=='quickReport'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Quick Report
+                                </p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                         <a href="{{route('order.pendingOrder')}}" class="nav-link {{isset($page) && $page=='pendingOrder'?'active':''}}">
+                         <i class="nav-icon fas fa-th"></i>
+                         <p>
+                         Pending Order
+                        </p>
+                        </a>
+                      </li> -->
+                        <li class="nav-item">
+                            <a href="{{route('order.index')}}"
+                                class="nav-link {{isset($page) && $page=='order'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Order History
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('order.sendParcel')}}"
+                                class="nav-link {{isset($page) && $page=='sendParcel'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Send Parcel
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('order.reject')}}"
+                                class="nav-link {{isset($page) && $page=='reject'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Reject
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('order.stock')}}"
+                                class="nav-link {{isset($page) && $page=='stock'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Stock
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('order.stock.lower')}}"
+                                class="nav-link {{isset($page) && $page=='lowerstock'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Lower Stock
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('order.stock.old')}}"
+                                class="nav-link {{isset($page) && $page=='oldstock'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Sold Out Stock List
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('customer.index')}}"
+                                class="nav-link {{isset($page) && $page=='customer'?'active':''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Customer List
+                                </p>
+                            </a>
+                        </li>
+                            <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link {{isset($page) && $page=='Report'?'active':''}}">
+                                <i class="nav-icon fas fa-circle"></i>
+                                <p>
+                                    Report
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="{{route('women.stock')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Category Stock</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('sales.report')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sales Report</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('delivery.report')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Delivery Report</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('reject.item')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Reject Item</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('best.selling')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Best selling items</p>
+                                    </a>
+                                </li>
+                                <!-- <li class="nav-item">
+                                <a href="{{route('cancellation.items')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Cancellation Items</p>
+                                </a>
+                                </li> -->
+                                <li class="nav-item">
+                                    <a href="{{route('sold.stock')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sold out stock</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('best.customer')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Best Customer</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('gross.profit')}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Gross Profit</p>
+                                    </a>
+                                </li>
+                                 <!-- <li class="nav-item">
+                                <a href="{{route('gross.profit.summary')}}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Gross Profit Summary</p>
+                                </a>
+                                </li> -->
+                            </ul>
                         </li>
                         @endif 
                         <li class="nav-item">
