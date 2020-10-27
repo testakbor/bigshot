@@ -23,4 +23,8 @@ class admin extends Authenticatable
     public function role(){
         return $this->belongsTo('App\Model\Role');
     }
+
+   public function permissionMeta(){
+        return $this->hasMany('App\Model\RolePermission','role_id','role_id');
+   }
 }

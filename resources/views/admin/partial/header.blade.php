@@ -1,3 +1,6 @@
+<?php 
+use App\Model\admin\admin;
+?>
 <body class="hold-transition sidebar-mini layout-fixed">
 
 
@@ -43,20 +46,12 @@
 
                 
                         <a href="#" class="d-block">
-                                   @php $id=[]; @endphp
                             @if(Auth::guard('admin')->check())
                             {{Auth::guard('admin')->user()->name}}
                                @php 
-                        
-                                $permission=DB::table('role_permissions')
-                                ->where('role_id',auth()->user()->role_id)
-                                ->join('permissions','role_permissions.permission_id','=','permissions.id')
-                                ->select('permissions.id as menu_id')
-                                ->get(); 
+                                $role=auth()->user()->role_id; 
+                                $access=admin::find($role)->permissionMeta;
                                @endphp
-                               @foreach($permission as $data) 
-                                       @php $id['menu_id']=$data->menu_id; @endphp
-                               @endforeach 
                             @endif
                         </a>
                          
@@ -77,9 +72,13 @@
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
-    
+                    @php $dashboard=0; @endphp
+                    @foreach($access as $p)
+                      @if($p->permission_id==32) @php $dashboard=$p->permission_id; @endphp @endif
+                    @endforeach 
              
+            
+                      @if($dashboard)
                         <li class="nav-item">
                             <a href="{{route('admin.home')}}"
                                 class="nav-link {{isset($page) && $page=='home'?'active':''}}">
@@ -89,11 +88,10 @@
                                 </p>
                             </a>
                         </li>
-             
-                      
-
-      
-                        <li class="nav-item">
+                       @endif 
+                  
+                  
+                           <li class="nav-item">
                             <a href="{{route('category.index')}}"
                                 class="nav-link {{isset($page) && $page=='category'?'active':''}}">
                                 <i class="nav-icon fas fa-th"></i>
@@ -102,10 +100,16 @@
                                 </p>
                             </a>
                         </li> 
+                         
+          
+                      
+
            
                      
+          
+                     
                  
-     
+      
                         <li class="nav-item">
                             <a href="{{route('tag.index')}}"
                                 class="nav-link {{isset($page) && $page=='tag'?'active':''}}">
@@ -116,7 +120,7 @@
                             </a>
                         </li>
             
-           
+             
                         <!-- <li class="nav-item">
                 <a href="{{route('brand.index')}}" class="nav-link {{isset($page) && $page=='brand'?'active':''}}">
                   <i class="nav-icon fas fa-th"></i>
@@ -125,7 +129,7 @@
                   </p>
                 </a>
               </li> -->
-             
+               
                         <li class="nav-item">
                             <a href="{{route('attribute.index')}}"
                                 class="nav-link {{isset($page) && $page=='attribute'?'active':''}}">
@@ -135,10 +139,10 @@
                                 </p>
                             </a>
                         </li>
-         
+     
 
 
-           
+        
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link {{isset($page) && $page=='product'?'active':''}}">
                                 <i class="nav-icon fas fa-circle"></i>
@@ -165,10 +169,10 @@
                                 </li>
                             </ul>
                         </li>
-                 
+                
 
 
-          
+                  
                         <li class="nav-item">
                             <a href="{{route('quickReport')}}"
                                 class="nav-link {{isset($page) && $page=='quickReport'?'active':''}}">
@@ -179,6 +183,7 @@
                             </a>
                         </li>
                 
+                
                         <!-- <li class="nav-item">
               <a href="{{route('order.pendingOrder')}}" class="nav-link {{isset($page) && $page=='pendingOrder'?'active':''}}">
                 <i class="nav-icon fas fa-th"></i>
@@ -187,7 +192,7 @@
                 </p>
               </a>
             </li> -->
-                 
+              
                         <li class="nav-item">
                             <a href="{{route('order.index')}}"
                                 class="nav-link {{isset($page) && $page=='order'?'active':''}}">
@@ -197,7 +202,7 @@
                                 </p>
                             </a>
                         </li>
-             
+                
 
 
            
@@ -210,8 +215,9 @@
                                 </p>
                             </a>
                         </li>
-            
+           
 
+              
               
                         <li class="nav-item">
                             <a href="{{route('order.reject')}}"
@@ -222,9 +228,9 @@
                                 </p>
                             </a>
                         </li>
-            
+               
 
-         
+                   
                         <li class="nav-item">
                             <a href="{{route('order.stock')}}"
                                 class="nav-link {{isset($page) && $page=='stock'?'active':''}}">
@@ -234,9 +240,9 @@
                                 </p>
                             </a>
                         </li>
-          
+               
 
-           
+       
                         <li class="nav-item">
                             <a href="{{route('order.stock.lower')}}"
                                 class="nav-link {{isset($page) && $page=='lowerstock'?'active':''}}">
@@ -246,8 +252,7 @@
                                 </p>
                             </a>
                         </li>
-           
-
+          
 
                         <li class="nav-item">
                             <a href="{{route('order.stock.old')}}"
@@ -258,10 +263,10 @@
                                 </p>
                             </a>
                         </li>
-         
+          
 
 
-        
+    
                         <li class="nav-item">
                             <a href="{{route('customer.index')}}"
                                 class="nav-link {{isset($page) && $page=='customer'?'active':''}}">
@@ -271,10 +276,10 @@
                                 </p>
                             </a>
                         </li>
-          
+         
 
 
-      
+    
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link {{isset($page) && $page=='banner_images'?'active':''}}">
                                 <i class="nav-icon fas fa-circle"></i>
@@ -324,11 +329,11 @@
                                 </li>
                             </ul>
                         </li>
-               
-
-
-
                 
+
+
+
+           
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link {{isset($page) && $page=='Report'?'active':''}}">
                                 <i class="nav-icon fas fa-circle"></i>
@@ -406,7 +411,7 @@
 
                             </ul>
                         </li>
-                 
+              
 
 
 
