@@ -241,7 +241,7 @@ text-align: center;
                 </div>
              
                 <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
-                  <a href="#">
+                  <a href="{{url('admin/stock')}}">
                   <div class="reportDayText">Pieces </div>
                   <div class="reportDayValue">{{$product_total_stock}}</div>
                   </a>
@@ -249,7 +249,7 @@ text-align: center;
              
               
                 <div class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
-                 <a href="#">
+                 <a href="{{url('admin/stock')}}">
                   <div class="reportDayText"> Amount</div>
                   <div class="text-center font-weight-div">
                   @php $t_sell=0; @endphp
@@ -320,10 +320,14 @@ text-align: center;
                           
                     @endforeach
                 </div>
-                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >                 
+
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
+                 <a href="{{route('lower.stock.weekly')}}">
                   <div class="reportDayText">Weekly </div>
                   <div class="reportDayValue">{{$j}}</div>
+                 </a>
                 </div>
+
                 <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column"> 
                   <a href="{{url('admin/stock/lower')}}">                
                   <div class="reportDayText"> All</div>

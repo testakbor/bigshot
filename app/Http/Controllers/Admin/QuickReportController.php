@@ -286,6 +286,16 @@ class QuickReportController extends Controller
         'yearly_best_sell_item'
       ))->with($extraInfo);
   }
+
+
+   public function lower_stock_weekly(){
+      $products=Post::
+      where('post_type','product')
+      ->where('post_status', '!=', 'deleted')
+      ->get(); 
+      return view('admin.stock.lower_stock_weekly',compact('products'));
+   }
+
   public function manStock()
   {
     $data=DB::table('term_relationships')

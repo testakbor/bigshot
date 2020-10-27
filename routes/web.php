@@ -208,6 +208,7 @@ Auth::routes();
         Route::post('stock/sku/search/', 'ProductController@stockSkuSearch')->name('stock.sku.search');
         Route::post('stock/sku/search/lower', 'ProductController@stockSkuSearchLower')->name('stock.sku.search.lower');
         Route::post('stock/sku/search/sold', 'ProductController@stockSkuSearchSold')->name('stock.sku.search.sold');
+        Route::get('lower/stock/weekly', 'QuickReportController@lower_stock_weekly')->name('lower.stock.weekly');
 
 
 
