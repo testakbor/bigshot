@@ -38,14 +38,7 @@
                       <label for="categoryName">Role</label>
                       <input type="text" name="name" class="form-control" value="" id="categoryName" placeholder="Enter Role Name" autocomplete="off" required>
                     </div> 
-                    <div class="form-group">
-                      <label for="categoryName">Assign Permission</label>
-                      <select class="form-control" required autocomplete="off" name="role_id[]" multiple>
-                         @foreach($role as $roles)
-                            <option value="{{$roles->id}}">{{$roles->name}}</option>
-                         @endforeach
-                      </select>
-                    </div>                 
+                                
                   </div>
                   <!-- /.card-body -->
   

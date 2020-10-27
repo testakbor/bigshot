@@ -39,30 +39,10 @@
                       <input type="text" name="name" class="form-control" value="{{$role->name}}" id="categoryName" placeholder="Enter Role Name" autocomplete="off" required>
                     </div> 
 
-                    @if($assign_permission->count()>0)
-                      <table style="width:100%">
-                        <tr>
-                          <th>Permission</th>
-                        </tr>
-                        @foreach($assign_permission as $name)
-                        <tr>
-                          <td>{{$name->name}}</td>
-                        </tr>
-                        @endforeach 
-                      </table>
-                       @else 
-                       No Permission found
-                      @endif 
+               
 
 
-                    <div class="form-group">
-                      <label for="categoryName">Assign Permission</label>
-                      <select class="form-control" required autocomplete="off" name="permission_id[]" multiple>
-                         @foreach($permission as  $permissions)
-                            <option value="{{$permissions->id}}">{{$permissions->name}}</option>
-                         @endforeach
-                      </select>
-                    </div>                 
+                              
                   </div>
                   <!-- /.card-body -->
   

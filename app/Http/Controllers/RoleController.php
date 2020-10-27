@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Model\Permission;
 use App\Model\Role;
-use App\Model\RolePermission;
 use Session;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,8 +22,7 @@ class RoleController extends Controller
     {
   
         $user=Role::orderBy('id','DESC')->paginate(10);
-        $role=Permission::all();
-        return view('role_management.role.index',compact('user','role'));
+        return view('role_management.role.index',compact('user'));
     }
 
     /**
@@ -49,15 +46,7 @@ class RoleController extends Controller
         $create= new Role();
         $create->name=$request->name;
         $create->save();
-        $id=$create->id;
-
-        for($i=0;$i<count($request->role_id);$i++){
-          $role_permission=new RolePermission();
-           $role_permission->role_id=$id;
-           $role_permission->permission_id=$request->role_id[$i];
-           $role_permission->save();
-        }
-        session()->flash("success","Role & permission has been created successfully");
+        session()->flash("success","Role has been created successfully");
         return redirect(route('role.index'));
     }
 
@@ -81,13 +70,8 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role=Role::find($id);
-        $assign_permission=RolePermission::where('role_id',$id)
-        ->join('permissions','role_permissions.permission_id','=','permissions.id')
-        ->select('permissions.name')
-        ->get();
         $all_role=Role::orderBy('id','DESC')->paginate(10);
-        $permission=Permission::all();
-        return view('role_management.role.edit',compact('role','all_role','permission','assign_permission'));
+        return view('role_management.role.edit',compact('role','all_role'));
     }
 
     /**
@@ -102,14 +86,7 @@ class RoleController extends Controller
         Role::where('id',$id)->update([
         'name'=>$request->name,
         ]);
-        RolePermission::where('role_id',$id)->delete();
-          for($i=0;$i<count($request->permission_id);$i++){
-          $role_permission=new RolePermission();
-           $role_permission->role_id=$id;
-           $role_permission->permission_id=$request->permission_id[$i];
-           $role_permission->save();
-        }
-        session()->flash("success","Role & permission has been update successfully");
+        session()->flash("success","Role has been update successfully");
         return redirect(route('role.index'));
     }
 
