@@ -296,6 +296,68 @@ class QuickReportController extends Controller
       return view('admin.stock.lower_stock_weekly',compact('products'));
    }
 
+   public function sold_out_stock_weekly(){
+    $extraInfo = array(
+    'title' => "Sold Stock List",
+    'page' => 'oldstock'
+     );
+      $products = Post::where('post_type', 'product')
+      ->where('meta_key', 'qty')
+      ->where('meta_value', 0)
+      ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+      ->paginate(10);
+      $pro = Post::where('post_type', 'product')
+      ->where('meta_key', 'qty')
+      ->where('meta_value', 0)
+      ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+      ->get();
+      $total_stock = DB::table('posts')
+      ->where('post_type', 'product')
+      ->where('post_status', '!=', 'deleted')
+      ->where('meta_key', 'qty')
+      ->where('meta_value', '=', 0)
+      ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+      ->count();
+      return view('admin.stock.sold_out_stock_weekly', compact('products', 'total_stock', 'pro'))->with($extraInfo);  
+   }
+
+   public function sold_out_stock_yearly(){
+       $extraInfo = array(
+    'title' => "Sold Stock List",
+    'page' => 'oldstock'
+     );
+      $products = Post::where('post_type', 'product')
+      ->where('meta_key', 'qty')
+      ->where('meta_value', 0)
+      ->whereYear('post_date',date('Y'))
+      ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+      ->paginate(10);
+      $pro = Post::where('post_type', 'product')
+      ->where('meta_key', 'qty')
+      ->where('meta_value', 0)
+      ->whereYear('post_date',date('Y'))
+      ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+      ->get();
+      $total_stock = DB::table('posts')
+      ->where('post_type', 'product')
+      ->where('post_status', '!=', 'deleted')
+      ->where('meta_key', 'qty')
+      ->where('meta_value', '=', 0)
+      ->whereYear('post_date',date('Y'))
+      ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+      ->count();
+      return view('admin.stock.sold_out_stock_yearly', compact('products', 'total_stock', 'pro'))->with($extraInfo);  
+   }
+
+   public function best_sell_weekly(){
+         $year=date('Y');
+         $order=DB::SELECT("SELECT order_date,product_id,order_item_name,SUM(meta_value) as total_qty 
+         FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id
+         where meta_key='_qty' and YEAR(order_date)='$year' 
+         GROUP by product_id ORDER by total_qty DESC");
+        return view('admin.quickReport.best_selling_weekly',compact('order'));
+   }
+
   public function manStock()
   {
     $data=DB::table('term_relationships')

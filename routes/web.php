@@ -125,7 +125,7 @@ Auth::routes();
 
         Route::get('admin/stockMove/{day}','OrderController@stockMove')->name('stockMove');
 
-        Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
+        Route::get('admin/stock/list/old','OrderController@soldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
         Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
         Route::resource('admin/customer','CustomerController');
@@ -209,6 +209,9 @@ Auth::routes();
         Route::post('stock/sku/search/lower', 'ProductController@stockSkuSearchLower')->name('stock.sku.search.lower');
         Route::post('stock/sku/search/sold', 'ProductController@stockSkuSearchSold')->name('stock.sku.search.sold');
         Route::get('lower/stock/weekly', 'QuickReportController@lower_stock_weekly')->name('lower.stock.weekly');
+        Route::get('sold/out/stock/weekly', 'QuickReportController@sold_out_stock_weekly')->name('sold.out.stock.weekly');
+        Route::get('sold/out/stock/yearly', 'QuickReportController@sold_out_stock_yearly')->name('sold.out.stock.yearly');
+        Route::get('best/sell/weekly', 'QuickReportController@best_sell_weekly')->name('best.sell.weekly');
 
 
 

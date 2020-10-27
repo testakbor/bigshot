@@ -342,7 +342,8 @@ text-align: center;
                 <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
                   <div class="reportText">Sold Out</div>
                 </div>
-                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
+                  <a href="{{route('sold.out.stock.weekly')}}">
                   <div class="reportDayText">Weekly</div>
                   <div class="reportDayValue">
                     @php $weekly_sold_out=0; @endphp 
@@ -364,10 +365,15 @@ text-align: center;
                     @endforeach
                  {{$weekly_sold_out}}
                   </div>
+                   </a>
+
+
                 </div>
                 <div class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
-                  <div class="reportDayText"> Yearly</div>
-                  <div class="reportDayValue">{{$yearly_total_sold_out_product}}</div>
+                    <a href="{{route('sold.out.stock.yearly')}}">
+                     <div class="reportDayText"> Yearly</div>
+                     <div class="reportDayValue">{{$yearly_total_sold_out_product}}</div>
+                   </a>
                 </div>
         </div>
          <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
@@ -377,6 +383,7 @@ text-align: center;
                 </div>
          
                 <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
+                  <a href="{{route('best.sell.weekly')}}">
                   <div class="reportDayText">Weekly</div>
                   <div class="reportDayValue">
                         @php $item_weekly=0; @endphp
@@ -393,6 +400,7 @@ text-align: center;
                      @endforeach
                    {{$item_weekly}}
                   </div>
+                  </a>
                 </div>
             
                 <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">

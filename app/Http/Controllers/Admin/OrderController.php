@@ -551,7 +551,7 @@ public function stockMove($day)
   return view('admin.order.stockMove',compact('products','data','product_total_stock'))->with($extraInfo);
 }
 
-public function oldStock()
+public function soldStock()
 {
   $extraInfo = array(
     'title' => "Sold Stock List",
@@ -574,7 +574,7 @@ public function oldStock()
   ->where('meta_value', '=', 0)
   ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
   ->count();
-  return view('admin.order.stock_old', compact('products', 'total_stock', 'pro'))->with($extraInfo);
+  return view('admin.order.stock_sold', compact('products', 'total_stock', 'pro'))->with($extraInfo);
 }
 
 public function lowerStock(){
