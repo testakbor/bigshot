@@ -68,49 +68,49 @@ text-align: center;
     </section>
         <div class="mt-5 mb-5 ml-3">
         <div class="d-flex flex-row ml-2 flex-wrap">
-                <div class="col-md-1 ml-4 reportTitleBg d-flex align-items-center box pl-3 pr-3" >
+                <div class="col-md-1 ml-3 reportTitleBg d-flex align-items-center box pl-3 pr-3" >
                  
                   <div class="reportText">Pending Order</div>
 
                 </div>
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="{{route('todayPendingOrder')}}">
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('todayPendingOrder')}}">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_pending_order}}</div>
                 </a>
              
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                 
+                <!-- <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                 
                   <div class="reportDayText"> Day 1</div>                  
                   <div class="reportDayValue">{{$day_one_pending_order}}</div>
-                </a>
+                </a> -->
            
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                    
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                    
                   <div class="reportDayText"> Day 2</div>                  
-                  <div class="reportDayValue">{{$day_two_pending_order}}</div>
+                  <div class="reportDayValue">{{$day_one_pending_order}}</div>
                 </a>
           
               
-                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#"> 
+                <a class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',2)}}"> 
                   <div class="reportDayText"> Day 3</div>                  
-                  <div class="reportDayValue">{{$day_three_pending_order}}</div>
+                  <div class="reportDayValue">{{$day_two_pending_order}}</div>
                 </a>
         
               
-                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column"  href="#">                                   
+                <a class="col-md-1 box ml-3 dayFourBg d-flex justify-content-center flex-column"  href="{{route('pendingOrderByDate',3)}}">                                   
                   <div class="reportDayText"> Day 4</div>                  
-                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
+                  <div class="reportDayValue">{{$day_three_pending_order}}</div>
                 </a>
           
               
-                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column"  href="#">                                   
+                <a class="col-md-1 box ml-3 dayFiveBg d-flex justify-content-center flex-column"  href="{{route('pendingOrderByDate',4)}}">                                   
                   <div class="reportDayText"> Day 5</div>                  
-                  <div class="reportDayValue">{{$day_five_pending_order}}</div>
+                  <div class="reportDayValue">{{$day_four_pending_order}}</div>
                 </a>
            
               
-                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column"  href="{{url('admin/pendingOrder')}}">
+                <a class="col-md-1 box ml-3 allStatus d-flex justify-content-center flex-column"  href="{{url('admin/pendingOrder')}}">
                   <div class="reportDayText"> All</div>                  
                   <div class="reportDayValue">{{$all_pending_order}}</div>
                 </a>
@@ -119,42 +119,36 @@ text-align: center;
 
            <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
            
-                <div class="col-md-1 ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3 box" >
+                <div class="col-md-1 ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3 box" >
                   <div class="reportText">Processing</div>
                 </div>
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('processingOrderByDate',0)}}">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_processing_order}}</div>
                 </a>
-              
-              
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                  
-                  <div class="reportDayText"> Day 1</div>                  
-                  <div class="reportDayValue">{{$day_one_processing_order}}</div>
-                </a>
-              
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                   
+                          
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('processingOrderByDate',1)}}">
                   <div class="reportDayText"> Day 2</div>                  
-                  <div class="reportDayValue">{{$day_two_processing_order}}</div>
+                  <div class="reportDayValue">{{$day_one_processing_order}} </div>
                 </a>
               
-                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column" href="{{route('processingOrderByDate',2)}}">
                   <div class="reportDayText"> Day 3</div>                  
-                  <div class="reportDayValue">{{$day_three_processing_order}}</div>
+                  <div class="reportDayValue">{{$day_two_processing_order}} </div>
                 </a>
               
-                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
+                <a class="col-md-1 box ml-3 dayFourBg d-flex justify-content-center flex-column" href="{{route('processingOrderByDate',3)}}">                                   
                   <div class="reportDayText"> Day 4</div>                  
+                  <div class="reportDayValue">{{$day_three_processing_order}} </div>
+                </a>
+              
+                <a class="col-md-1 box ml-3 dayFiveBg d-flex justify-content-center flex-column" href="{{route('processingOrderByDate',4)}}">                                   
+                  <div class="reportDayText"> Day 5</div>                  
                   <div class="reportDayValue">{{$day_four_processing_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
-                  <div class="reportDayText"> Day 5</div>                  
-                  <div class="reportDayValue">{{$day_five_processing_order}}</div>
-                </a>
-              
-                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" href="{{url('admin/pendingOrder/processing')}}">
+                <a class="col-md-1 box ml-3 allStatus d-flex justify-content-center flex-column" href="{{url('admin/pendingOrder/processing')}}">
                   <div class="reportDayText"> All</div>                  
                   <div class="reportDayValue">{{$all_processing_order}}</div>
                 </a>
@@ -162,171 +156,91 @@ text-align: center;
 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
         
-                <div class="ml-4 col-md-1 reportTitleBg d-flex align-items-center pl-3 pr-3 box" href="#">
+                <div class="ml-3 col-md-1 reportTitleBg d-flex align-items-center pl-3 pr-3 box" href="#">
                   <div class="reportText">Dispatch</div>
                 </div>
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',0)}}">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_dispatch_order}}</div>
-                </a>
+                </a>              
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                  
-                  <div class="reportDayText"> Day 1</div>                  
+                <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',1)}}">  
+                  <div class="reportDayText"> Day 2</div>                  
                   <div class="reportDayValue">{{$day_one_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" href="#">                                   
-                  <div class="reportDayText"> Day 2</div>                  
+                <a class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',2)}}">
+                  <div class="reportDayText"> Day 3</div>                  
                   <div class="reportDayValue">{{$day_two_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column" href="#">
-                  <div class="reportDayText"> Day 3</div>                  
+                <a class="col-md-1 box ml-3 dayFourBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',3)}}">  
+                  <div class="reportDayText"> Day 4</div>                  
                   <div class="reportDayValue">{{$day_three_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-4 dayFourBg d-flex justify-content-center flex-column" href="#">                                   
-                  <div class="reportDayText"> Day 4</div>                  
+                <a class="col-md-1 box ml-3 dayFiveBg d-flex justify-content-center flex-column" href="{{route('dispatchByDate',4)}}">  
+                  <div class="reportDayText"> Day 5</div>                  
                   <div class="reportDayValue">{{$day_four_dispatch_order}}</div>
                 </a>
               
-                <a class="col-md-1 box ml-4 dayFiveBg d-flex justify-content-center flex-column" href="#">                                   
-                  <div class="reportDayText"> Day 5</div>                  
-                  <div class="reportDayValue">{{$day_five_dispatch_order}}</div>
-                </a>
-              
-                <a class="col-md-1 box ml-4 allStatus d-flex justify-content-center flex-column" href="{{url('admin/pendingOrder/dispat')}}">
+                <a class="col-md-1 box ml-3 allStatus d-flex justify-content-center flex-column" href="{{url('admin/pendingOrder/dispat')}}">
                   <div class="reportDayText"> All</div>                  
                   <div class="reportDayValue">{{$all_dispatch_order}}</div>
                 </a>
         </div>
       
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-                <div class="col-md-1 ml-4 box reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
+                <div class="col-md-1 ml-3 box reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
                   <div class="reportText">Stock Moving</div>
                 </div>
              
-                <a class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column" href="{{route('stockMove',7)}}">
                   <div class="reportDayText">Week 1 </div>
-                  <div class="reportDayValue">
-                      @php $id=0; $stock_count=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff<=7)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_count=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_count}}
+                  <div class="reportDayValue">                      
+                     {{ $stcokMove['week1']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column" href="{{route('stockMove',15)}}">
                   <div class="reportDayText"> Week 2</div>
                   <div class="reportDayValue">
-                  
-                  @php $id=0; $stock_counts=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff<=14)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_counts=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_counts}}
-                  
-                  
+                  {{ $stcokMove['week2']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-4  dayThreeBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  dayThreeBg d-flex justify-content-center flex-column" href="{{route('stockMove',30)}}">
                   <div class="reportDayText"> Month 1</div>
                   <div class="reportDayValue">
-                      @php $id=0; $stock_countss=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff==30)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_countss=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_countss}}
+                      {{ $stcokMove['month1']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-4  dayFourBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  dayFourBg d-flex justify-content-center flex-column" href="{{route('stockMove',60)}}">
                   <div class="reportDayText"> Month 2</div>
-                  <div class="reportDayValue">
-                       @php $id=0; $stock_countsss=0; $total_move=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff==60)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_countsss=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_countsss}}
-                  </div>
+                  <div class="reportDayValue">{{ $stcokMove['month2']}}</div>
                 </a>
              
-                <a class="col-md-1 box ml-4  dayFiveBg d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  dayFiveBg d-flex justify-content-center flex-column" href="{{route('stockMove',90)}}">
                   <div class="reportDayText"> Month 3</div>
                   <div class="reportDayValue">
-                       @php $id=0; $stock_countssss=0; @endphp
-                      @foreach($stock_product as $product)
-                          @php
-                          $date = Carbon::parse($product->post_date);
-                          $now = Carbon::now();
-                          $diff = $date->diffInDays($now);
-                          @endphp
-                          @if($diff==90)
-                          @php 
-                           $id=$product->ID; 
-                           $stock_countssss=DB::table('postmeta')->where('post_id',$id)->where('meta_key','qty')->sum('meta_value');  
-                          @endphp
-                          @endif
-                      @endforeach 
-                     {{ $stock_countssss}}
+                       {{ $stcokMove['month3']}}
                   </div>
                 </a>
              
-                <a class="col-md-1 box ml-4  allStatus d-flex justify-content-center flex-column" href="#">
+                <a class="col-md-1 box ml-3  allStatus d-flex justify-content-center flex-column" href="#">
                   <div class="reportDayText"> All</div>
-                  <div class="reportDayValue">{{$stock_count+$stock_counts+$stock_countss+$stock_countsss+$stock_countssss}}</div>
+                  <div class="reportDayValue"> {{ $stcokMove['week1']+$stcokMove['week2']+$stcokMove['month1']+$stcokMove['month2']+$stcokMove['month3']}}</div>
                 </a>
               
         </div>
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-                <div class="col-md-1 ml-4 box reportTitleBg d-flex align-items-center pl-3 pr-3">
+                <div class="col-md-1 ml-3 box reportTitleBg d-flex align-items-center pl-3 pr-3">
                   <div class="reportText">Stock</div>
                 </div>
              
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
                   <a href="#">
                   <div class="reportDayText">Pieces </div>
                   <div class="reportDayValue">{{$product_total_stock}}</div>
@@ -334,7 +248,7 @@ text-align: center;
                 </div>
              
               
-                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
                  <a href="#">
                   <div class="reportDayText"> Amount</div>
                   <div class="text-center font-weight-div">
@@ -376,7 +290,7 @@ text-align: center;
                       @endif
                   @endforeach 
                  
-                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
                   <div class="reportText">Lower Stock</div>
                       @php $totals_low=0; $i=0; $j=0; $qtyy=0; $low_stock_qtyy=0; @endphp
                       @foreach($pro as $low)
@@ -406,11 +320,11 @@ text-align: center;
                           
                     @endforeach
                 </div>
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >                 
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >                 
                   <div class="reportDayText">Weekly </div>
                   <div class="reportDayValue">{{$j}}</div>
                 </div>
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column"> 
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column"> 
                   <a href="{{url('admin/stock/lower')}}">                
                   <div class="reportDayText"> All</div>
                   <div class="reportDayValue">
@@ -421,10 +335,10 @@ text-align: center;
                 </div>
         </div> 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
+                <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
                   <div class="reportText">Sold Out</div>
                 </div>
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
                   <div class="reportDayText">Weekly</div>
                   <div class="reportDayValue">
                     @php $weekly_sold_out=0; @endphp 
@@ -447,18 +361,18 @@ text-align: center;
                  {{$weekly_sold_out}}
                   </div>
                 </div>
-                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
                   <div class="reportDayText"> Yearly</div>
                   <div class="reportDayValue">{{$yearly_total_sold_out_product}}</div>
                 </div>
         </div>
          <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
            
-                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
                   <div class="reportText">Best Selling</div>
                 </div>
          
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column" >
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
                   <div class="reportDayText">Weekly</div>
                   <div class="reportDayValue">
                         @php $item_weekly=0; @endphp
@@ -477,7 +391,7 @@ text-align: center;
                   </div>
                 </div>
             
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
                   <a href="{{route('b_sell_yearly')}}">
                   <div class="reportDayText"> Yearly</div>
                   <div class="reportDayValue">
@@ -491,12 +405,12 @@ text-align: center;
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
          
          
-                <div class="col-md-1 box ml-4  reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                <div class="col-md-1 box ml-3  reportTitleBg d-flex align-items-center pl-3 pr-3" >
                   <div class="reportText">Delivered</div>
                 </div>
              
           
-                <div class="col-md-1 box ml-4  todayBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column">
                   <a  href="{{url('delivered/order')}}">
                     <div class="reportDayText">Quantity</div>
                     <div class="reportDayValue">{{$delivered_qty}}</div>
@@ -505,7 +419,7 @@ text-align: center;
       
 
            
-                <div class="col-md-1 box ml-4  dayThreeBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3  dayThreeBg d-flex justify-content-center flex-column">
                         <a  href="{{url('delivered/order')}}">
                   <div class="reportDayText"> Amount</div>
                   <div class="reportDayValue">
@@ -523,11 +437,11 @@ text-align: center;
                 </div>
         </div>   
       <div class=" d-flex flex-row ml-2 mt-2 flex-wrap">
-                <div class="col-md-1 box ml-4 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+                <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
                   <div class="reportText">Gross Profit</div>
                 </div>
               
-                <div class="col-md-1 box ml-4 todayBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
                   <a href="{{route('g_profit_monthly')}}">
                   <div class="reportDayText">Monthly</div>
                   <div class="reportDayValue">
@@ -550,7 +464,7 @@ text-align: center;
                   </div>
                   </a>
                 </div>
-                <div class="col-md-1 box ml-4 dayThreeBg d-flex justify-content-center flex-column">
+                <div class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
                       <a href="{{url('admin/quickReport/gross_profit')}}">
                   <div class="reportDayText"> Yearly</div>
                   <div class="reportDayValue">

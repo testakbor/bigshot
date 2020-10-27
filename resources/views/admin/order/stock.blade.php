@@ -155,9 +155,9 @@
                   <td class="right">{{$price}}tk</td>
                   <td class="right">{{$status}} </br>{{date('d-M-Y',strtotime($item->post_date))}}</td>
                   <td class="right">
-                    <i class="fas fa-print"><a href="{{route('stock.print.sticker',$item->ID)}}">Print</a></i><br>
-                    <i class="fas fa-edit"><a href="{{route('product.edit',$item->ID)}}">Edit</a></i><br>
-                    <i class="fas fa-trash-alt"><a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}">Delete</a></i><br>
+                    <a href="{{route('stock.print.sticker',$item->ID)}}" class="btn btn-info"> <i class="fas fa-print"></i> Print </a> <br>
+                   <a href="{{route('product.edit',$item->ID)}}" class="btn btn-success mt-2 mb-2"> <i class="fas fa-edit"></i> Edit</a><br>
+                    <a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}" class="btn btn-danger"> <i class="fas fa-trash-alt"></i> Delete</a><br>
                   </td>
                 </tr>
                 @endif

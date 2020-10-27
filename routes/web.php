@@ -104,9 +104,14 @@ Auth::routes();
         Route::get('admin/thana/update/{dist_id}/{thana_id}','SettingsController@thanaEdit')->name('thana.update');
         Route::post('admin/district/thana/post_code/update/{thana_id}','SettingsController@districtThanaPostcodeUpdate')->name('district.thana.postcode.update');
         Route::get('admin/todayPendingOrder','OrderController@todayPendingOrder')->name('todayPendingOrder');
-        Route::get('admin/pendingOrderByDate/{day}','OrderController@todayPendingOrder')->name('pendingOrderByDate');
+        Route::get('admin/pendingOrderByDate/{day}','OrderController@pendingOrderByDate')->name('pendingOrderByDate');
+
+        Route::get('admin/processingOrderByDate/{day}','OrderController@processingOrderByDate')->name('processingOrderByDate');
         Route::get('admin/pendingOrder/processing','OrderController@processing')->name('order.processing');
+
         Route::get('admin/pendingOrder/dispat','OrderController@dispat')->name('order.dispat');
+        Route::get('admin/pendingOrder/dispatchByDate/{day}','OrderController@dispatchByDate')->name('dispatchByDate');
+
         Route::get('admin/pendingOrder/print','OrderController@print')->name('pendingOrder.print');
         Route::get('admin/pendingOrder/cancelled','OrderController@cancelled')->name('order.cancelled');
         Route::get('admin/sendparcel','OrderController@sendParcel')->name('order.sendParcel');
@@ -117,6 +122,9 @@ Auth::routes();
         Route::post('reject/product/update','OrderController@rejectProductUpdate')->name('reject.update');
         Route::get('admin/stock','OrderController@stock')->name('order.stock');
         Route::get('admin/stock/lower','OrderController@lowerStock')->name('order.stock.lower');
+
+        Route::get('admin/stockMove/{day}','OrderController@stockMove')->name('stockMove');
+
         Route::get('admin/stock/list/old','OrderController@oldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
         Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
