@@ -18,33 +18,37 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <form method="post" action="{{route('best.customer.search')}}">
-        @csrf()
-        <fieldset>
-          <legend>Best Customer List</legend>
-        </fieldset>
-        <div class="inner-form ml-5 form-group">
-
-        
-          <div class="row">
-            
-                <div class="col-md-4">
-                  <input class="datepicker form-control" name="start" value="{{date('Y-m-d')}}" id="depart" type="date" />
-                </div>
-      
-          
-                <div class="col-md-4">
-                  <input class="datepicker form-control" name="end" value="{{date('Y-m-d')}}" id="return" type="date" />
-               </div>
-               
-                <div class="col-md-4">
-                  <button type="submit" class="btn btn-success">SEARCH</button>
-                </div>
-          </div>
+ 
 
 
+
+ <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Best Customer List</div>
+    <div class="d-flex justify-content-center">
+      <form class="form-inline" method="post" action="{{route('best.customer.search')}}" >
+        @csrf() 
+        <div class="form-group mb-2">
+          <label for="depart" class="mr-2">Start Date </label>
+          <input class="form-control datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
         </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label for="return" class="mr-2">End Date </label>
+          <input class="form-control datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
       </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   </section>
   <!-- Main content -->

@@ -2,16 +2,17 @@
 
 namespace App\Model\admin;
 
+
+
+use App\Traits\HasRolesAndPermissions;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
+
 
 
 class admin extends Authenticatable
 {
-       use Notifiable,HasRoles;
-       protected $guard_name='admin';      
-
+    use Notifiable,HasRolesAndPermissions;   
     protected $fillable=[
         'name','email','password','status','phone','role_id'
     ];
