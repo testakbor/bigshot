@@ -15,11 +15,15 @@ class SettingsController extends Controller
     }
 
     public function index(){
+       $extraInfo=array(
+        'title'=>"District List",
+        'page'=>'settings'
+      );
      $district=DB::table('term_taxonomy')->where('taxonomy','district')
         ->join('terms','terms.term_id','=', 'term_taxonomy.term_id')
         ->select('terms.term_id','terms.name as district')
         ->get();
-      return view('settings.district',compact('district'));  
+      return view('settings.district',compact('district'))->with($extraInfo);  
     }
 
     public function districtStore(Request $request){
@@ -64,13 +68,17 @@ class SettingsController extends Controller
     }
 
     public function districtEdit($id){
+       $extraInfo=array(
+        'title'=>"District Edit",
+        'page'=>'settings'
+      );
         $district=DB::table('term_taxonomy')->where('taxonomy','district')
         ->join('terms','terms.term_id','=', 'term_taxonomy.term_id')
         ->select('terms.term_id','terms.name as district')
         ->get();
          $dist_name=DB::table('terms')->where('term_id',$id)->first();
          $delivery_charge=DB::table('term_taxonomy')->where('term_id',$id)->where('taxonomy','district')->first();
-         return view('settings.district_edit',compact('district','dist_name','delivery_charge'));
+         return view('settings.district_edit',compact('district','dist_name','delivery_charge'))->with($extraInfo);
     }
 
     public function districtUpdate(Request $request,$id){
@@ -86,6 +94,10 @@ class SettingsController extends Controller
     }
 
     public function thanaEdit($dist_id,$thana_id){
+           $extraInfo=array(
+        'title'=>"Thana Edit",
+        'page'=>'settings'
+      );
        $district=DB::table('term_taxonomy')->where('taxonomy','district')
         ->join('terms','terms.term_id','=', 'term_taxonomy.term_id')
         ->select('terms.term_id','terms.name as district')
@@ -94,7 +106,7 @@ class SettingsController extends Controller
          $postcode=DB::table('term_taxonomy')->where(['taxonomy'=>'postcode','term_id'=>$thana_id])->first();
          $dist_name=DB::table('terms')->where('term_id',$dist_id)->first();
          $delivery_charge=DB::table('term_taxonomy')->where('term_id',$dist_id)->where('taxonomy','district')->first();
-         return view('settings.thana_edit',compact('district','thana','postcode','dist_name','delivery_charge'));
+         return view('settings.thana_edit',compact('district','thana','postcode','dist_name','delivery_charge'))->with($extraInfo);
     }
 
     public function districtThanaPostcodeUpdate(Request $request,$thana_id){

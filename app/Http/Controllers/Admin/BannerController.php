@@ -21,16 +21,16 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $extraInfo=array(
-            'title'=>"Banner Image",
-            'page'=>'banner_images'
-        );
+         $extraInfo=array(
+        'title'=>"District List",
+        'page'=>'settings'
+      );
         //banner view
         $banner=DB::table('posts')
         ->where('post_type','banner')
         ->join('postmeta','posts.ID','=','postmeta.post_id')
         ->first();
-        return view('admin.banner.index',compact('banner','extraInfo'));
+        return view('admin.banner.index',compact('banner'))->with( $extraInfo);
     }
 
     /**

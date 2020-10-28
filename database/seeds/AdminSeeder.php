@@ -1,8 +1,6 @@
 <?php
 
-use App\Role;
 use App\Model\admin\admin;
-use App\Permission;
 use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
@@ -14,26 +12,12 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        $developer = Role::where('slug','web-developer')->first();
-        $manager = Role::where('slug', 'project-manager')->first();
-        $createTasks = Permission::where('slug','create-tasks')->first();
-        $manageUsers = Permission::where('slug','manage-users')->first();
-
         $user1 = new admin();
-        $user1->name = 'Jhon Deo';
-        $user1->email = 'jhon@deo.com';
-        $user1->password = bcrypt('secret');
+        $user1->name = 'Admin';
+        $user1->email = 'admin@email.com';
+        $user1->password = bcrypt('admin123');
+        $user1->role_id = 1;
+        $user1->status = 1;
         $user1->save();
-        $user1->roles()->attach($developer);
-        $user1->permissions()->attach($createTasks);
-
-
-        $user2 = new admin();
-        $user2->name = 'Mike Thomas';
-        $user2->email = 'mike@thomas.com';
-        $user2->password = bcrypt('secret');
-        $user2->save();
-        $user2->roles()->attach($manager);
-        $user2->permissions()->attach($manageUsers);
     }
 }

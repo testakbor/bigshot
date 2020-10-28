@@ -16,8 +16,12 @@ class CreateUsersPermissionsTable extends Migration
         Schema::create('users_permissions', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('permission_id');
-            $table->foreign('user_id')->references('id')->on('admins');
-            $table->foreign('permission_id')->references('id')->on('permissions');
+
+            //FOREIGN KEY CONSTRAINTS
+            $table->foreign('user_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+ 
+            //SETTING THE PRIMARY KEYS
             $table->primary(['user_id','permission_id']);
         });
     }
@@ -29,6 +33,6 @@ class CreateUsersPermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_permissions');
+       Schema::dropIfExists('users_permissions');
     }
 }

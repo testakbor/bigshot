@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\admin\admin;
-use App\Model\Role;
+use App\Permission;
+use App\Role;
 use Session;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class UserController extends Controller
 {
@@ -23,8 +25,9 @@ class UserController extends Controller
     {
   
         $user=admin::orderBy('id','DESC')->paginate(10);
+        $permission=Permission::all();
         $role=Role::all();
-        return view('role_management.user.index',compact('user','role'));
+        return view('role_management.user.index',compact('user','permission','role'));
     }
 
     /**
@@ -50,8 +53,17 @@ class UserController extends Controller
         $create->email=$request->email;
         $create->password=Hash::make($request->password);
         $create->role_id=$request->role_id;
+        $create->status=1;
         $create->save();
-        session()->flash("success","User has been created successfully");
+
+        $count=$request->page_id;
+        for($i=0;$i<count($count);$i++){
+          DB::table('users_permissions')->insert([
+            'user_id'=>$create->id,
+            'permission_id'=>  $count[$i],
+          ]);
+        }
+        session()->flash("success","User & permission has been created successfully");
         return redirect(route('user.index'));
     }
 
