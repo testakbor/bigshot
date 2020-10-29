@@ -19,9 +19,10 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
+Route::group(['middleware' => 'role:admin-role'], function() {
     Route::resource('/user','UserController');
     Route::resource('/role','RoleController');
-
+});
     Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('posts', 'HomeController@index');

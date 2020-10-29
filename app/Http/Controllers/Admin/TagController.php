@@ -25,6 +25,7 @@ class TagController extends Controller
 
     public function index(Request $request)
     {
+     if($request->user()->can('manage-tag')) {
       $extraInfo=array(
             'title'=>"Tag List",
             'page'=>'tag'
@@ -45,9 +46,9 @@ class TagController extends Controller
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
             ->paginate(10); 
-        }
-                     
+        }            
         return view('admin.tag.list',compact('tags'))->with($extraInfo);
+      }
     }
 
     /**
@@ -68,6 +69,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+         if($request->user()->can('manage-tag')) {
        $this->validate($request,[
         'tagName'=>'required|min:3',
         ]);    
@@ -86,6 +88,7 @@ class TagController extends Controller
        $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
        session()->flash("success","Information saved Successfully");
        return redirect(route('tag.index'));
+      }
     }
 
     /**
@@ -107,6 +110,7 @@ class TagController extends Controller
      */
     public function edit($id)
     {
+         if($request->user()->can('manage-tag')) {
          $extraInfo=array(
             'title'=>"Tag Edit",
             'page'=>'tag'
@@ -122,8 +126,8 @@ class TagController extends Controller
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(10);
-                
         return view('admin.tag.list',compact('tags','tag'))->with($extraInfo);
+      }
     }
 
     /**
@@ -135,6 +139,7 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
+         if($request->user()->can('manage-tag')) {
          $this->validate($request,[
             'tagName'=>'required|min:3',
         ]);    
@@ -148,6 +153,7 @@ class TagController extends Controller
            ->update($termInfo);
            session()->flash("success","Information Update Successfully");
            return redirect(route('tag.index'));
+        }
     }
 
     /**

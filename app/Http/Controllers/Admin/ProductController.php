@@ -27,6 +27,7 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+          if($request->user()->can('manage-product')) {
         $extraInfo=array(
             'title'=>"Product List",
             'page'=>'product'
@@ -46,9 +47,11 @@ class ProductController extends Controller
             ->make(true);       
         }        
         return view('admin.product.list')->with($extraInfo);
+      }
     }
 
     public function generateSku($id){
+          if($request->user()->can('manage-product')) {
         $price=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'sale_price'])->first();
         $name=DB::table('posts')->where(['ID'=>$id])->first();
         $allAttribute = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => 'default_attribute'])->first();
@@ -61,9 +64,11 @@ class ProductController extends Controller
         $pdf = PDF::loadView('admin.product.sku_download',array('price' =>$price,'name'=>$name,'arributeArray'=>$arributeArray,'sku'=>$sku,'id'=>$id));
         return $pdf->download('sku.pdf');
     }
+    }
 
     public function create()
-    {        
+    {    
+          if($request->user()->can('manage-product')) {    
         $extraInfo=array(
             'title'=>"New Product",
             'page'=>'product'
@@ -94,8 +99,10 @@ class ProductController extends Controller
         $attributes=attribute_taxonomie::where('status',1)->get();
         return view('admin.product.create',compact('categories','tags','attributes'))->with($extraInfo);
     }
+    }
 
     public function store(ProductStoreRequest $request){
+          if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;
         $day=$request->day;
@@ -230,10 +237,12 @@ if($request->hasFile('galleryImage'))
 
 session()->flash("success","Information saved Successfully");
 return redirect(route('product.index'));
+          }
 
 }
 
-public function attributeValue($id){        
+public function attributeValue($id){   
+      if($request->user()->can('manage-product')) {     
  $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
  $attributeValues=DB::table('term_taxonomy')
  ->join('terms','terms.term_id','=','term_taxonomy.term_id')
@@ -241,12 +250,14 @@ public function attributeValue($id){
  ->get();  
 
  echo json_encode($attributeValues);
+      }
 
 }
 
 // product edit
 public function edit($id)
 {        
+      if($request->user()->can('manage-product')) {
     $extraInfo=array(
         'title'=>"New Product",
         'page'=>'product'
@@ -357,11 +368,12 @@ public function edit($id)
         'length','width','height','qty','alert_qty','arributeArray','stock',
         'sku'
     ))->with($extraInfo);
+}
 
 }
 
 public function update(Request $request,$id){
-
+  if($request->user()->can('manage-product')) {
     $postDelete=DB::table('posts')->where('ID',$id)->delete();
 
      $oldStartStock=DB::table('postmeta')
@@ -530,6 +542,7 @@ if($request->hasFile('galleryImage'))
 
 session()->flash("success","Information saved Updated");
 return redirect(route('product.index'));
+  }
 }
 
 

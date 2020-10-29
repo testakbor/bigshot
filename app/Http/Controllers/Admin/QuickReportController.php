@@ -23,8 +23,9 @@ class QuickReportController extends Controller
   }
 
 
-  public function index()
+  public function index(Request $request)
   {
+      if($request->user()->can('quick-report')) {
     $extraInfo=array(
       'title'=>"Quick Report",
       'page'=>'quickReport'
@@ -285,6 +286,7 @@ class QuickReportController extends Controller
         'yearly_total_sold_out_product',
         'yearly_best_sell_item'
       ))->with($extraInfo);
+      }
   }
 
 
@@ -370,6 +372,7 @@ class QuickReportController extends Controller
   }
   public function womenStock(Request $request)
   {
+      if($request->user()->can('manage-report')) {
    $extraInfo=array(
     'title'=>"Category Wise Stock",
     'page'=>'Report'
@@ -391,8 +394,10 @@ class QuickReportController extends Controller
  }
  return view('admin.quickReport.women_stock',compact('categories','cat_pro'))->with($extraInfo);
 }
+}
 public function salesReport(Request $request)
 {
+    if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Category Wise Stock",
     'page'=>'Report'
@@ -406,8 +411,10 @@ public function salesReport(Request $request)
   ->get();
   return view('admin.quickReport.sales_report',compact('order_item'))->with($extraInfo);
 }
+}
 public function deliveryReport(Request $request)
 {
+    if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Category Wise Stock",
     'page'=>'Report'
@@ -421,8 +428,10 @@ public function deliveryReport(Request $request)
   ->get();
   return view('admin.quickReport.delivery_report',compact('order_item'));
 }
-public function rejectItem()
+}
+public function rejectItem(Request $request)
 {
+    if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Reject Item List",
     'page'=>'Report'
@@ -432,8 +441,10 @@ public function rejectItem()
   ->get();
   return view('admin.quickReport.reject_item',compact('data'))->with($extraInfo);
 }
+}
 
 public function rejectItemRemove($id){
+   if($request->user()->can('manage-report')) {
   $meta_info=Postmeta::where('meta_key','qty')
   ->where('post_id',$id)
   ->first();
@@ -455,9 +466,11 @@ public function rejectItemRemove($id){
   ->delete();
   session()->flash("success","Quantity has been added Successfully");
   return back();
+   }
 }
 
 public function rejectItemSearch(Request $request){
+   if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Reject Item List",
     'page'=>'Report'
@@ -470,11 +483,13 @@ public function rejectItemSearch(Request $request){
   ->get();
   return view('admin.quickReport.reject_item_search',compact('data'))->with($extraInfo);
 }
+}
 
 
 
-public function bestSelling()
+public function bestSelling(Request $request)
 {
+   if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Best Sellings Items List",
     'page'=>'Report'
@@ -488,7 +503,9 @@ public function bestSelling()
    GROUP by product_id ORDER by total_qty DESC LIMIT 10 ");
   return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);
 }
+}
 public function bestSellingSearch(Request $request){
+   if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Best Sellings Items List",
     'page'=>'Report'
@@ -500,14 +517,16 @@ public function bestSellingSearch(Request $request){
    where meta_key='_qty' 
    and order_date Between '$start' and '$end' 
    GROUP by product_id ORDER by total_qty DESC");
-  return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);;
+  return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);
+}
 }
 public function cancellationItems()
 {
  return view('admin.quickReport.cancellation_items');
 }
-public function soldoutStock()
+public function soldoutStock(Request $request)
 {
+   if($request->user()->can('manage-report')) {
  $extraInfo=array(
   'title'=>"Sold Out Stock List",
   'page'=>'Report'
@@ -515,8 +534,10 @@ public function soldoutStock()
  $product=Post::where('post_type','product')->get();
  return view('admin.quickReport.soldout_stock',compact('product'))->with($extraInfo);
 }
+}
 public function bestCustomer(Request $request)
 {
+   if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Best Customer List",
     'page'=>'Report'
@@ -529,8 +550,10 @@ public function bestCustomer(Request $request)
     GROUP by customer_id ORDER by total_qty DESC LIMIT 10");
   return view('admin.quickReport.best_customer',compact('data'))->with($extraInfo);
 }
+}
 
 public function bestCustomerSearch(Request $request){
+   if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Best Customer List",
     'page'=>'Report'
@@ -542,6 +565,7 @@ public function bestCustomerSearch(Request $request){
     where meta_key='_qty' and order_date Between '$start' and '$end' 
     GROUP by customer_id ORDER by total_qty DESC LIMIT 10");
   return view('admin.quickReport.best_customer_search',compact('data'))->with($extraInfo);
+}
 }
 
 public function bestCustomerSendEmail($email){
@@ -561,8 +585,9 @@ public function bestCustomerSendEmailData(Request $request){
   return back();
 }
 
-public function grossProfit()
+public function grossProfit(Request $request)
 {
+   if($request->user()->can('manage-report')) {
  $extraInfo=array(
   'title'=>"Best Customer List",
   'page'=>'Report'
@@ -571,9 +596,11 @@ public function grossProfit()
  $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
  return view('admin.quickReport.gross_profit',compact('order'))->with($extraInfo);
 }
+}
   //gross profit report show
 public function grossProfitShow(Request $request)
 {
+   if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Gross Profit List",
     'page'=>'Report'
@@ -583,8 +610,10 @@ public function grossProfitShow(Request $request)
   $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
   return view('admin.quickReport.gross_profit_show',compact('order','start','end'))->with($extraInfo);
 }
+}
 
-public function gross_profit_monthly(){
+public function gross_profit_monthly(Request $request){
+   if($request->user()->can('manage-report')) {
  $extraInfo=array(
   'title'=>"Gross Profit List",
   'page'=>'Report'
@@ -594,14 +623,17 @@ public function gross_profit_monthly(){
  $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
  return view('admin.quickReport.gross_profit_show_monthly',compact('order','start','end'))->with($extraInfo);
 }
+}
 
-public function best_sell_yearly(){
+public function best_sell_yearly(Request $request){
+   if($request->user()->can('manage-report')) {
  $year=date('Y');
  $order=DB::SELECT("SELECT order_date,product_id,order_item_name,SUM(meta_value) as total_qty 
    FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id
    where meta_key='_qty' and YEAR(order_date)='$year' 
    GROUP by product_id ORDER by total_qty DESC");
  return view('admin.quickReport.best_selling_yearly',compact('order'));
+   }
 }
 
 

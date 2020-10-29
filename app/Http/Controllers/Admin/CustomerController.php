@@ -23,6 +23,7 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
+          if($request->user()->can('manage-customer')) {
         $extraInfo=array(
             'title'=>"Customer List",
             'page'=>'customer'
@@ -46,6 +47,7 @@ class CustomerController extends Controller
             ->make(true);       
             }               
         return view('admin.customer.list')->with($extraInfo);
+          }
     }
 
     /**

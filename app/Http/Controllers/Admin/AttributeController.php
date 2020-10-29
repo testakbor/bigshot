@@ -25,6 +25,7 @@ class AttributeController extends Controller
 
     public function index(Request $request)
     {
+          if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
             'title'=>"Attribute List",
             'page'=>'attribute'
@@ -37,6 +38,7 @@ class AttributeController extends Controller
         }
               
         return view('admin.attribute.list',compact('attributes'))->with($extraInfo);
+    }
     }
 
     /**
@@ -57,6 +59,7 @@ class AttributeController extends Controller
      */
     public function store(Request $request)
     {
+          if($request->user()->can('manage-attribute')) {
         $this->validate($request,[
             'attribute_name'=>'required|min:3',
             ]);    
@@ -69,6 +72,7 @@ class AttributeController extends Controller
            $attribute->save();
            session()->flash("success","Information saved Successfully");
            return redirect(route('attribute.index'));
+        }
     
     }
 
@@ -91,6 +95,7 @@ class AttributeController extends Controller
      */
     public function edit($id)
     {
+          if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
             'title'=>"Attribute List",
             'page'=>'attribute'
@@ -99,6 +104,7 @@ class AttributeController extends Controller
 
         $attributes=attribute_taxonomie::paginate(5);        
         return view('admin.attribute.list',compact('attributes','attribute'))->with($extraInfo);
+    }
     }
 
     /**
@@ -110,6 +116,7 @@ class AttributeController extends Controller
      */
     public function update(Request $request, $id)
     {
+          if($request->user()->can('manage-attribute')) {
         $this->validate($request,[
             'attribute_name'=>'required|min:3',
             ]);    
@@ -128,6 +135,7 @@ class AttributeController extends Controller
 
            session()->flash("success","Information saved Successfully");
            return redirect(route('attribute.index'));
+        }
     }
 
     /**
@@ -142,6 +150,7 @@ class AttributeController extends Controller
     }
 
     public function attributeValue($id){
+          if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
             'title'=>"Attribute value List",
             'page'=>'attribute'
@@ -154,9 +163,11 @@ class AttributeController extends Controller
             ->paginate(3);       
             return view('admin.attribute.valueList',compact('attribute','attributeValues'))->with($extraInfo);
     }
+    }
 
     public function attributeValueSave(Request $request)
     {
+          if($request->user()->can('manage-attribute')) {
         $attribute=attribute_taxonomie::where('attribute_id',$request->attribute_id)->first();
         $term_info=array(
             'name'=>$request->name,
@@ -173,10 +184,12 @@ class AttributeController extends Controller
        );
        $texonomy_id=DB::table('term_taxonomy')->insert($taxonomy);
        session()->flash("success","Information saved Successfully");
-       return redirect(route('attribute.attributeValue',$attribute->attribute_id));       
+       return redirect(route('attribute.attributeValue',$attribute->attribute_id));  
+    }     
     }
 
     public function attributeValueEdit($id){
+          if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
             'title'=>"Attribute value List",
             'page'=>'attribute'
@@ -197,8 +210,10 @@ class AttributeController extends Controller
 
         return view('admin.attribute.valueList',compact('attriValue','attributeValues'))->with($extraInfo);
     }
+    }
 
     public function attributeValueUpdate(Request $request, $id){
+          if($request->user()->can('manage-attribute')) {
         $term_info=array(
             'name'=>$request->name,
             'slug'=>Str::slug($request->name),
@@ -220,6 +235,7 @@ class AttributeController extends Controller
         ->where('attribute_label',$label)
         ->first();
        session()->flash("success","Information update Successfully");
-       return redirect(route('attribute.attributeValue',$attribute->attribute_id));    
+       return redirect(route('attribute.attributeValue',$attribute->attribute_id));   
+    } 
     }
 }

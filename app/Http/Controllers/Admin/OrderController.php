@@ -29,8 +29,9 @@ class OrderController extends Controller
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
+      if($request->user()->can('order-history')) {
       $extraInfo=array(
         'title'=>"Order List",
         'page'=>'order'
@@ -49,6 +50,7 @@ class OrderController extends Controller
       ->count();
       $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order;     
       return view('admin.order.list',compact('pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
+    }
     }
 
     public function pendingOrder(){
@@ -267,8 +269,9 @@ public function downloadShipAddress($id){
 }
 
 
-public function sendParcel()
+public function sendParcel(Request $request)
 {   
+    if($request->user()->can('send-parcel')) {
  $extraInfo=array(
   'title'=>"Brand List",
   'page'=>'sendParcel'
@@ -280,6 +283,7 @@ public function sendParcel()
  ->where('post_status','processing')
  ->count();  
  return view('admin.order.sendParcel',compact('orders','total_orders'))->with($extraInfo);
+}
 }
 
 public function sendParcelSearch(Request $request){
@@ -316,7 +320,8 @@ public function deliveryInvoice()
 //     return view('admin.order.reject',compact('reject_order'))->with($extraInfo);
 // }
 public function reject(Request $request)
-{    
+{   
+    if($request->user()->can('manage-reject')) { 
   $extraInfo=array(
     'title'=>"Reject item",
     'page'=>'reject'
@@ -350,6 +355,7 @@ public function reject(Request $request)
   ->where('taxonomy','product_cat')
   ->get();
   return view('admin.order.reject',compact('meta_info','post','relationShips','qty_current','img','arributeArray'))->with($extraInfo);
+}
 }
 
 }
@@ -464,8 +470,9 @@ public function rejectProductUpdate(Request $request)
 
  return view('admin.order.reject')->with($extraInfo);
 }
-public function stock()
-{    
+public function stock(Request $request)
+{
+  if($request->user()->can('manage-stock')) {     
   $extraInfo=array(
     'title'=>"Stock List",
     'page'=>'stock'
@@ -492,6 +499,7 @@ public function stock()
   ->join('postmeta','posts.ID','=','postmeta.post_id')
   ->sum('meta_value'); 
   return view('admin.order.stock',compact('products','data','product_total_stock'))->with($extraInfo);
+}
 }
 
 public function stockMove($day)
@@ -551,8 +559,9 @@ public function stockMove($day)
   return view('admin.order.stockMove',compact('products','data','product_total_stock'))->with($extraInfo);
 }
 
-public function soldStock()
+public function soldStock(Request $request)
 {
+   if($request->user()->can('manage-stock')) {  
   $extraInfo = array(
     'title' => "Sold Stock List",
     'page' => 'oldstock'
@@ -576,8 +585,10 @@ public function soldStock()
   ->count();
   return view('admin.order.stock_sold', compact('products', 'total_stock', 'pro'))->with($extraInfo);
 }
+}
 
-public function lowerStock(){
+public function lowerStock(Request $request){
+     if($request->user()->can('manage-stock')) {  
   $extraInfo=array(
     'title'=>"Brand List",
     'page'=>'lowerstock'
@@ -587,6 +598,7 @@ public function lowerStock(){
   ->where('post_status', '!=', 'deleted')
   ->get(); 
   return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
+  }
 }
 
 public function grossProfit()

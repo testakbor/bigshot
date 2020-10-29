@@ -48,19 +48,40 @@
 
                       <div class="form-group">
                       <label for="categoryName">Password</label>
-                      <input type="password" name="password" class="form-control" value="" id="categoryName" placeholder="Enter Password" autocomplete="off" required>
+                      <input type="password" name="password" class="form-control" value="" id="categoryName" placeholder="Enter Password" autocomplete="off">
                     </div> 
 
                     <div class="form-group">
                       <label for="categoryName">Role</label>
                       <select class="form-control" required autocomplete="off" name="role_id">
-                          <option value="">Select Role</option>
                          @foreach($role as $roles)
                                <option value="{{$roles->id}}" @if($roles->id == $user->role_id)
                                selected='selected' @endif>{{ $roles->name }}</option>
                          @endforeach
                       </select>
-                    </div>                 
+                    </div>   
+
+                       <div class="form-group">
+                         <label for="categoryName">Select Permission</label></br>
+                          @foreach($permission as $permissions)
+                          <label class="checkbox-inline">
+                              @php  
+                              $up=DB::table('users_permissions')
+                              ->where(['permission_id'=>$permissions->id,'user_id'=>$user->id])
+                              ->select('permission_id')
+                              ->first(); 
+                              @endphp
+                              @if(isset($up)) @php $p_id=$up->permission_id; @endphp @else @php $p_id=0; @endphp @endif
+                              @if($permissions->id==$p_id)
+                                @php $ck='checked'; @endphp
+                                @else 
+                                @php $ck=''; @endphp
+                              @endif 
+                            <input {{$ck}} style="padding: 0px 5px;" name="page_id[]" type="checkbox" value="{{$permissions->id}}"> {{$permissions->name}}
+                          </label>
+                          @endforeach 
+                     </div> 
+
                   </div>
                   <!-- /.card-body -->
   
@@ -103,7 +124,7 @@
                       <td>{{$i}}</td>
                       <td>{{$value->name}}</td>
                       <td>{{$value->email}}</td>
-                      <td>{{$value->role->name}}</td>
+                      <td>{{$value->role_name->name}}</td>
                       <td>{{$value->status==1?'Active':'Inactive'}}</td>
                       <td>
                         <a href="{{route('user.edit',$value->id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>

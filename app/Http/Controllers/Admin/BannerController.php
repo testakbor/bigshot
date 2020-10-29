@@ -19,8 +19,9 @@ class BannerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+      if($request->user()->can('manage-settings')) {
          $extraInfo=array(
         'title'=>"District List",
         'page'=>'settings'
@@ -31,6 +32,7 @@ class BannerController extends Controller
         ->join('postmeta','posts.ID','=','postmeta.post_id')
         ->first();
         return view('admin.banner.index',compact('banner'))->with( $extraInfo);
+    }
     }
 
     /**

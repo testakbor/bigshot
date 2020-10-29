@@ -24,6 +24,7 @@ class CategoryController extends Controller
     
     public function index(Request $request)
     {
+        if($request->user()->can('create-category')) {
         $q=$request->category;
         $extraInfo=array(
             'title'=>"Category List",
@@ -44,9 +45,9 @@ class CategoryController extends Controller
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
             ->paginate(10); 
-        }
-                    
+        }         
         return view('admin.category.list',compact('categories'))->with($extraInfo);
+      }
     }
 
     /**
@@ -67,6 +68,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->user()->can('create-category')) {
        $this->validate($request,[
         'categoryName'=>'required|min:3',
         ]);    
@@ -85,6 +87,7 @@ class CategoryController extends Controller
        $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
        session()->flash("success","Information saved Successfully");
        return redirect(route('category.index'));
+     }
     }
 
     /**
@@ -106,6 +109,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+         if($request->user()->can('create-category')) {
         $extraInfo=array(
             'title'=>"Category Edit",
             'page'=>'category'
@@ -120,6 +124,7 @@ class CategoryController extends Controller
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(3);
         return view('admin.category.list',compact('categories','category'))->with($extraInfo);
+      }
     }
 
     /**
@@ -130,7 +135,8 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {       
+    {  
+         if($request->user()->can('create-category')) {     
         $this->validate($request,[
             'categoryName'=>'required|min:3',
         ]);    
@@ -144,6 +150,7 @@ class CategoryController extends Controller
            ->update($termInfo);
            session()->flash("success","Information Update Successfully");
            return redirect(route('category.index'));
+        }
     }
 
     /**

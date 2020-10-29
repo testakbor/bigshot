@@ -20,6 +20,10 @@ class admin extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function role_name(){
+         return $this->hasOne('App\Role','id','role_id');
+    }
     
   
 

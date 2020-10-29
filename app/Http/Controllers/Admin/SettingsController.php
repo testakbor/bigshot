@@ -14,7 +14,8 @@ class SettingsController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function index(){
+    public function index(Request $request){
+        if($request->user()->can('manage-settings')) {
        $extraInfo=array(
         'title'=>"District List",
         'page'=>'settings'
@@ -24,6 +25,7 @@ class SettingsController extends Controller
         ->select('terms.term_id','terms.name as district')
         ->get();
       return view('settings.district',compact('district'))->with($extraInfo);  
+    }
     }
 
     public function districtStore(Request $request){

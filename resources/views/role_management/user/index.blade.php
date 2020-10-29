@@ -52,6 +52,7 @@
                     <div class="form-group">
                       <label for="categoryName">Role</label>
                       <select class="form-control" required autocomplete="off" name="role_id">
+                        <option value="">Select Role</option>
                          @foreach($role as $roles)
                           <option value="{{$roles->id}}">{{$roles->name}}</option>
                          @endforeach
@@ -61,7 +62,7 @@
                          <label for="categoryName">Select Permission</label></br>
                           @foreach($permission as $permissions)
                           <label class="checkbox-inline">
-                            <input style="padding: 0px 5px;" name="page_id[]" type="checkbox" value="{{$permissions->id}}"> {{$permissions->name}}
+                            <input type="checkbox" id="example" class="allChecked"  style="padding: 0px 5px;" name="page_id[]"  value="{{$permissions->id}}"> {{$permissions->name}}
                           </label>
                           @endforeach 
                      </div> 
@@ -106,7 +107,7 @@
                       <td>{{$i}}</td>
                       <td>{{$value->name}}</td>
                       <td>{{$value->email}}</td>
-                      <td>666</td>
+                      <td>{{$value->role_name->name}}</td>
                       <td>{{$value->status==1?'Active':'Inactive'}}</td>
                       <td>
                         <a href="{{route('user.edit',$value->id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>

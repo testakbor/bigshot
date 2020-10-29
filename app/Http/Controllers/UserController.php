@@ -89,7 +89,8 @@ class UserController extends Controller
         $user=admin::find($id);
         $data=admin::orderBy('id','DESC')->paginate(10);
         $role=Role::all();
-        return view('role_management.user.edit',compact('user','role','data'));
+        $permission=Permission::all();
+        return view('role_management.user.edit',compact('user','role','data','permission'));
     }
 
     /**
@@ -101,12 +102,26 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        admin::where('id',$id)->update([
+        if($request->password==''){
+          $pa=admin::where('id',$id)->select('password')->first();
+          $pass=$pa->password;
+        }else{
+           $pass=Hash::make($request->password);
+        }
+         admin::where('id',$id)->update([
         'name'=>$request->name,
-        'password'=>Hash::make($request->password),
+        'password'=>$pass,  
         'role_id'=>$request->role_id,
         ]);
-        session()->flash("success","User has been update successfully");
+        DB::table('users_permissions')->where('user_id',$id)->delete();
+        $count=$request->page_id;
+        for($i=0;$i<count($count);$i++){
+          DB::table('users_permissions')->insert([
+            'user_id'=>$id,
+            'permission_id'=> $count[$i],
+          ]);
+        }
+        session()->flash("success","User & permission has been update successfully");
         return redirect(route('user.index'));
     }
 
