@@ -43,8 +43,10 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+       
         $create= new Role();
         $create->name=$request->name;
+        $create->slug=strtolower($request->name);
         $create->save();
         session()->flash("success","Role has been created successfully");
         return redirect(route('role.index'));
@@ -85,6 +87,7 @@ class RoleController extends Controller
     {
         Role::where('id',$id)->update([
         'name'=>$request->name,
+         'slug'=>strtolower($request->name),
         ]);
         session()->flash("success","Role has been update successfully");
         return redirect(route('role.index'));
