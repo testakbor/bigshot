@@ -5,24 +5,24 @@
 				<div class="col-md-8">
 					<div class="row">
 						<div class="col-md-3" style="padding: 0px;">
-							<marquee behavior="scroll" direction="up" scrollamount="30">
+						
 								<img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-							</marquee>
+						
 						</div>
 						<div class="col-md-3" style="padding: 0px;">
-							<marquee behavior="scroll" direction="down" scrollamount="30">
+	
 								<img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-							</marquee>
+			
 						</div>
 						<div class="col-md-3" style="padding: 0px;">
-							<marquee behavior="scroll" direction="up" scrollamount="30">
+					
 								<img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-							</marquee>
+			
 						</div>
 						<div class="col-md-3" style="padding: 0px;">
-							<marquee behavior="scroll" direction="down" scrollamount="30">
+			
 								<img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-							</marquee>
+				
 						</div>
 					</div>
 				</div>
