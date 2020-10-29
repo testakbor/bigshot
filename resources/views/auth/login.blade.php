@@ -1,10 +1,6 @@
 
 @extends('front.layouts.master')
  @section('content')
-  
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
-	<link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
 			<div class="row">
 				<div class="col-md-8">
 					<div class="row">
