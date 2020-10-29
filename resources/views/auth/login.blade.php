@@ -1,7 +1,7 @@
 
 @extends('front.layouts.master')
  @section('content')
-			<div class="row">
+			<div class="d-flex flex-row">
 				<div class="col-md-8">
 					<div class="row">
 						<div class="col-md-3" style="padding: 0px;">
