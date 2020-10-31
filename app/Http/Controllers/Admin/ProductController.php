@@ -50,7 +50,7 @@ class ProductController extends Controller
       }
     }
 
-    public function generateSku($id){
+    public function generateSku(Request $request,$id){
           if($request->user()->can('manage-product')) {
         $price=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'sale_price'])->first();
         $name=DB::table('posts')->where(['ID'=>$id])->first();
