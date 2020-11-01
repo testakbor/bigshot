@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('front.home');
 });
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/demo', function (){
+    return view('front.demo');
+});
+
 Auth::routes();
 
 Route::group(['middleware' => 'role:admin-role'], function() {
@@ -79,9 +83,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
        
     });
 
-    Route::group(['namespace'=>'Admin'],function(){
-
-       
+    Route::group(['namespace'=>'Admin'],function(){       
 
         Route::get('database/backup','SettingsController@databaseBackup')->name('database_backup');
         Route::get('gross/profit/monthly','QuickReportController@gross_profit_monthly')->name('g_profit_monthly');
@@ -213,8 +215,4 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::get('sold/out/stock/weekly', 'QuickReportController@sold_out_stock_weekly')->name('sold.out.stock.weekly');
         Route::get('sold/out/stock/yearly', 'QuickReportController@sold_out_stock_yearly')->name('sold.out.stock.yearly');
         Route::get('best/sell/weekly', 'QuickReportController@best_sell_weekly')->name('best.sell.weekly');
-
-
-
-
     });
