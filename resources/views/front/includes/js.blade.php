@@ -1,2 +1,2 @@
-<script src="{{asset('assets/front/js/jquery.min.js')}}" ></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script src="{{asset('assets/front/js/bootstrap.min.js')}}" ></script>

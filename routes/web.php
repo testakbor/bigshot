@@ -19,15 +19,8 @@ Route::get('/', function () {
 
   Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
   Route::get('/callback/{provider}', 'SocialController@callback');
-
-
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/demo', function (){
-    return view('front.demo');
-});
-
-Auth::routes();
+  Route::get('/home', 'HomeController@index')->name('home');
+  Auth::routes();
 
 Route::group(['middleware' => 'role:admin-role'], function() {
     Route::resource('/user','UserController');
