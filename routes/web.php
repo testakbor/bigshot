@@ -23,8 +23,12 @@ Route::get('/', function () {
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/demo', function (){
     return view('front.demo');
+});
+Route::get('/product', function (){
+    return view('front.productDetails');
 });
 
 Auth::routes();
