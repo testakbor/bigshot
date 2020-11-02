@@ -443,7 +443,7 @@ public function rejectItem(Request $request)
 }
 }
 
-public function rejectItemRemove($id){
+public function rejectItemRemove($id,Request $request){
    if($request->user()->can('manage-report')) {
   $meta_info=Postmeta::where('meta_key','qty')
   ->where('post_id',$id)

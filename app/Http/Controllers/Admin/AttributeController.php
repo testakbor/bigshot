@@ -93,7 +93,7 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,Request $request)
     {
           if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
@@ -149,7 +149,7 @@ class AttributeController extends Controller
         //
     }
 
-    public function attributeValue($id){
+    public function attributeValue($id,Request $request){
           if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
             'title'=>"Attribute value List",
@@ -188,7 +188,7 @@ class AttributeController extends Controller
     }     
     }
 
-    public function attributeValueEdit($id){
+    public function attributeValueEdit($id,Request $request){
           if($request->user()->can('manage-attribute')) {
         $extraInfo=array(
             'title'=>"Attribute value List",

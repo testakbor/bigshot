@@ -32,14 +32,22 @@ endforeach;
 <div id="content" class="p-4 p-md-5">
     <div class="row">
         <div class="col-md-12 ">
+         
             <div class="container-fluid">
                 <div class="codepen-container">
                     <div class="content-container">
                         <div class="left-container">
                             <div class="triangle-topleft">
-                                <div class="back-arrow" id="buy-toaster"></div>
+                                <div class="back-arrow" id="buy-toaster">
+                                    
+                                </div>
                             </div>
                             <div class="product-image col-sm-12 col-md-12">
+                                       @if(session('status'))
+                            <div class="alert alert-success" role="alert" id="alert">
+                                {{ session('status') }}
+                            </div>
+                            @endif
                                 <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}"
                                     class="img-responsive" alt="Responsive image" />
                                 <ul class="product-image--list">
@@ -53,11 +61,7 @@ endforeach;
                             </div>
                         </div>
                         <div class="right-container col-sm-12">
-                            @if(session('status'))
-                            <div class="alert alert-success" role="alert" id="alert">
-                                {{ session('status') }}
-                            </div>
-                            @endif
+                        
                             <form action="{{route('addCart')}}" method="POST" id="addCartForm">
                                 @csrf
                                 <div class="">

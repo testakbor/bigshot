@@ -216,7 +216,7 @@ $email=auth()->user()->email;
                                                        class="img-thumbnail" alt="Responsive image" />
                                                     </td>
                                                     <td>{{$item->name}}</td>
-                                                    <td>{{$total=$item->price*$item->quantity}}</td>
+                                                    <td>{{$total=$item->price}}</td>
                                                     <td>
                                                         <form class="up"  method="POST" action="{{route('cart.update')}}"
                                                             name="Updatequantity">

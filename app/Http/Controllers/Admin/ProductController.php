@@ -66,7 +66,7 @@ class ProductController extends Controller
     }
     }
 
-    public function create()
+    public function create(Request $request)
     {    
           if($request->user()->can('manage-product')) {    
         $extraInfo=array(
@@ -241,7 +241,7 @@ return redirect(route('product.index'));
 
 }
 
-public function attributeValue($id){   
+public function attributeValue($id,Request $request){   
       if($request->user()->can('manage-product')) {     
  $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
  $attributeValues=DB::table('term_taxonomy')
@@ -255,7 +255,7 @@ public function attributeValue($id){
 }
 
 // product edit
-public function edit($id)
+public function edit($id,Request $request)
 {        
       if($request->user()->can('manage-product')) {
     $extraInfo=array(
