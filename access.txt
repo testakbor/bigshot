@@ -6,5 +6,5 @@ password: admin123
 
 user:
 url: base_url/login
-email: admin@email.com
+email: demo@email.com
 password: admin123
