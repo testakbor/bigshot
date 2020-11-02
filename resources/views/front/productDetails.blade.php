@@ -6,7 +6,7 @@
             <div class="empyt text-center border-bottom border-dark pt-3 pb-3">Product Name </div>
             <div class="d-flex flex-row mt-2">
                 <div class="proImag">
-                    <img id="featured" src="http://127.0.0.1:8000/backend/products/1601885379.jpg" class="img-fluid" alt="Responsive image" height="auto">
+                    <img id="featured" src="http://127.0.0.1:8000/backend/products/1601885379.jpg" class="img-fluid rounded" alt="Responsive image" height="auto">
                 </div>
                 <div class="d-flex flex-column pl-2">
                     <div class="pname">Tunic 5-2</div>
@@ -29,24 +29,19 @@
                 </div>
             </div>
             <div class="d-flex flex-row mt-2">
-            	<div class="col-2 ml-0 pl-0">            		
-            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="100px"  width="100%" >
+            	<div class="col-3 ml-0 pl-0">            		
+            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="150px"  width="100%" >
             	</div>
-            	<div class="col-2">            		
-            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="100px" width="100%" >
+            	<div class="col-3">            		
+            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="150px" width="100%" >
             	</div>
-            	<div class="col-2">            		
-            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="100px" width="100%" >
+            	<div class="col-3">            		
+            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="150px" width="100%" >
             	</div>
-            	<div class="col-2">            		
-            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="100px" width="100%" >
+            	<div class="col-3">            		
+            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="150px" width="100%" >
             	</div>
-            	<div class="col-2">            		
-            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="100px" width="100%" >
-            	</div>
-            	<div class="col-2">            		
-            	<img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="rounded" height="100px" width="100%" >
-            	</div>
+            	
             </div>
         </div>
         <div class="infoDiv  mt-5">
@@ -64,10 +59,10 @@
                     Delivery Guarantee (Delivery Time and Delivery charge # Dhaka Metro 1-3 working days, charge 60tk # Dhaka suburb area 2-5 working days, charge 100tk # Bangladesh wide 2-5 working days, 120tk.) 
                 </div>
                 <div class="tab-pane fade" id="profile">
-                    <div class="d-flex flex-wrap p-1">
-                        <div class="col-2 col-md-2">
+                    <div class="d-flex flex-wrap p-1 pt-2">
+                        <div class="col-3 col-md-3">
                             <div class="card">
-                                <img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" height="120px">
+                                <img src="http://127.0.0.1:8000/backend/products/1601884277.jpg" class="img-fluid rounded">
                                 <div class="card-body text-center">
                                     <p class="card-text font-weight-bold">Lorem ipsum dolor sit amet</p>
                                 </div>

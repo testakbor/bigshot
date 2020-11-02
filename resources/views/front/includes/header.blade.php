@@ -1,5 +1,5 @@
-	<div class="d-flex flex-column">
-			<div class="d-flex flex-row justify-content-between sticky-top">
+	<div class="d-flex flex-column sticky-top bg-light mb-4">
+			<div class="d-flex flex-row justify-content-between ">
 				<div>
              <a href="{{url('/')}}"><img src="{{asset('assets/common/images/logo.png')}}" class="img-fluid" alt="logo" style="height: 46px;width: 70px"></a>
 				</div>
@@ -16,7 +16,7 @@
 					<div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i class="fa fa-heart"></i></a></div>
 				</div>
 			</div>
-			<div>
+			<div class="sticky-top">
 				<div class="" style="height: 2px;background: black"></div>
 			</div>
 			<div class="d-flex flex-row justify-content-between ml-5 mr-5">

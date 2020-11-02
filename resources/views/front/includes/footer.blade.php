@@ -1,4 +1,4 @@
-	<div class="d-flex flex-row flex-wrap justify-content-center fixed-bottom mb-3 bg-light">
+	<div class="d-flex flex-row flex-wrap justify-content-center sticky-bottom mb-3 bg-light">
 			<div> <a href="{{route('privacy')}}" class="btn btn-default" >Privacy Policy</a> </div>
 			<div> <a href="{{route('terms.conditions')}}" class="btn btn-default" >Terms & Conditions</a> </div>
 			<div> <a href="{{route('return.policy')}}" class="btn btn-default" >Return Policy</a> </div>
