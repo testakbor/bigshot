@@ -175,7 +175,7 @@ endforeach;
                                             @endif
                                             @endforeach
                                             <li class="product fl-l col-md-2">
-                                                <a href="{{route('product-page',$related->ID)}}">
+                                                <a href="{{url('product/'.$related->ID.'/'.urlencode($related->post_title))}}"> 
                                                     <div class="container-prod">
                                                         <div class="image">
                                                             <img width="100px" height="100px"

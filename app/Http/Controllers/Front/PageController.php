@@ -8,12 +8,11 @@ use DB;
 use Auth;
 class PageController extends Controller
 {
-    public function productView($id)
+    public function productView($id,$title)
     {
-
         $product=Post::where('post_type','product')
         ->where('ID',$id)
-		->first();
+        ->first();
         $category = DB::table('term_relationships')
         ->where('object_id',$id)
         ->where('taxonomy', 'product_cat')

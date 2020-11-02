@@ -23,7 +23,7 @@
                         @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp @endif
                         @endforeach
                         <li class="product fl-l">
-                            <a href="{{route('product-page',$item->ID)}}">
+                            <a href="{{url('product/'.$item->ID.'/'.urlencode($item->post_title))}}">
                                 <div class="container-prod">
                                     <div class="image" style="background-image:url({{asset('backend/products/'.$img)}})"></div>
                                     <div class="container-information">

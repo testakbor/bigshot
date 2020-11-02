@@ -32,7 +32,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
     Route::group(['namespace'=>'Front'],function(){
         Route::get('/', 'HomeController@index')->name('home');
         Route::get('posts', 'HomeController@index');
-        Route::get('/product-page/{id}','PageController@productView')->name('product-page');
+        Route::get('/product/{id}/{title}','PageController@productView')->name('product-page');
         Route::get('/pickup-tab','PageController@pickupTab')->name('pickup.tab');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');

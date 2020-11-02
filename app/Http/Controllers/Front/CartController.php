@@ -67,7 +67,7 @@ class CartController extends Controller
                 )
             )
           );
-        return redirect(route('product-page',$request->id))->with('status','Product added in Cart');
+        return redirect()->back()->with('status','Product added in Cart');
      }
         
         
