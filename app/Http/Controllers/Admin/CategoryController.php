@@ -36,7 +36,7 @@ class CategoryController extends Controller
             ->where('term_taxonomy.taxonomy','product_cat')
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(5); 
+            ->paginate(50); 
         }else{
             $categories=DB::table('term_taxonomy')
             ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -44,7 +44,7 @@ class CategoryController extends Controller
             ->where('terms.name', 'like', '%' .$q. '%')
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(10); 
+            ->paginate(50); 
         }         
         return view('admin.category.list',compact('categories'))->with($extraInfo);
       }

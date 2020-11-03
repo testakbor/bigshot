@@ -12,7 +12,12 @@
                 </form>
             </div>
 					<div class="d-flex align-items-center ml-3"><a href="{{ route('login') }}"> <i class="fas fa-sign-in-alt"></i></a> </div>
-					<div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i class="fa fa-shopping-cart"></i></a> </div>
+					<div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i class="fa fa-shopping-cart"></i> @if(\Cart::getTotalQuantity()==0)@else
+						<span class="badge-view">
+						{{ \Cart::getTotalQuantity()}}
+						</span>
+						@endif
+            </a> </div>
 					<div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i class="fa fa-heart"></i></a></div>
 				</div>
 			</div>

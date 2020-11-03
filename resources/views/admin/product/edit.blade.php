@@ -78,25 +78,27 @@
                   <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                     <div class="col-md-12 mt-3">
                       <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Manage Stock</label>
+                      
                         <div class="col-sm-8">
-                          <div class="custom-control custom-checkbox">
-                            <input name="manageStock" checked type="checkbox" id="manageStock" class="custom-control-input">
-                            <label for="manageStock" class="custom-control-label"> Enable stock management at product level</label>
-                          </div>
+                        
                         </div>
                       </div>
                       <div class="form-group row" id="stockQualityDiv">
                         <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="@if(isset($qty->meta_value)) {{$qty->meta_value}} @else 0 @endif" name="stockQuality" id="stockQuality">
+                          @php $qtyy=0; @endphp
+                          @if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
+                          <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
                         </div>
                       </div>
-                      <div class="form-group row" id="lowStockThresholdDiv" style="display:none">
+
+                      <div class="form-group row" id="lowStockThresholdDiv">
                         <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
                         </label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="@if(isset($alert_qty->meta_value))  {{$alert_qty->meta_value}} @else 0 @endif" name="lowStockThreshold" id="lowStockThreshold">
+                          @php $al_qty=0; @endphp
+                          @if(isset($alert_qty)) @php $al_qty=$alert_qty->meta_value; @endphp @endif
+                          <input type="number" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                       </div>
 
@@ -148,8 +150,10 @@
                     </div>
                     <div class="form-group row mt-3">
                       <div class="col-md-12" id="finalValue">
+                    
                         @foreach($arributeArray as $value)
-                        <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="">
+                    
+                        <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$value->term_id}}">
                         <span style="margin-right:10px" class="btn btn-primary closeButton">{{$value->term}}</span>
                         @endforeach
                       </div>
@@ -260,6 +264,13 @@
               <div class="card-header">
                 <h3 class="card-title">Product Gallery</h3>
                 <div class="card-tools">
+                  <div class="row">
+                  @foreach($gallery_images as $g) 
+                    <div class="col-md-6">
+                       <img src="{{asset('backend/products/').'/'.$g->meta_value}}" style="height:100px;weight:100px" />
+                    </div>
+                  @endforeach
+                  </div>
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
                 </div>

@@ -38,7 +38,7 @@ class PageController extends Controller
         } else {
             $arributeArray = array();
         }
-        return view('front.product-view',compact('product','product_related','gallery_images', 'arributeArray'));
+        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray'));
     }
     public function cart()
     {

@@ -39,7 +39,7 @@ class BrandController extends Controller
             ->where('term_taxonomy.taxonomy','product_brand')
             ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value as image')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(5); 
+            ->paginate(50); 
         }else{
             $brands=DB::table('term_taxonomy')
             ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -49,7 +49,7 @@ class BrandController extends Controller
             ->where('terms.name', 'like', '%' .$q. '%')
             ->select('term_taxonomy.*', 'terms.name', 'terms.status', 'postmeta.meta_value as image')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(5);  
+            ->paginate(50);  
         }
         return view('admin.brand.list',compact('brands'))->with($extraInfo);
     }

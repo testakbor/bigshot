@@ -22,7 +22,6 @@ class AttributeController extends Controller
         $this->middleware('auth:admin');
     }
 
-
     public function index(Request $request)
     {
           if($request->user()->can('manage-attribute')) {
@@ -32,9 +31,9 @@ class AttributeController extends Controller
         );
         $q=$request->attribute;
         if($q==''){
-            $attributes=attribute_taxonomie::paginate(5); 
+            $attributes=attribute_taxonomie::paginate(50); 
         }else{
-            $attributes=attribute_taxonomie::where('attribute_name', 'like', '%' .$q. '%')->paginate(5);
+            $attributes=attribute_taxonomie::where('attribute_name', 'like', '%' .$q. '%')->paginate(50);
         }
               
         return view('admin.attribute.list',compact('attributes'))->with($extraInfo);

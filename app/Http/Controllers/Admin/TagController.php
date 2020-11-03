@@ -37,7 +37,7 @@ class TagController extends Controller
             ->where('term_taxonomy.taxonomy','product_tag')
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(5);  
+            ->paginate(50);  
         }else{
             $tags=DB::table('term_taxonomy')
             ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -45,7 +45,7 @@ class TagController extends Controller
             ->where('terms.name', 'like', '%' .$q. '%')
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(10); 
+            ->paginate(50); 
         }            
         return view('admin.tag.list',compact('tags'))->with($extraInfo);
       }

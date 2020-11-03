@@ -136,10 +136,12 @@ class ProductController extends Controller
                 ->first();
                 $attribute[]=array(
                     'taxonomy'=>$detailVal->taxonomy,
-                    'term'=>$detailVal->name
+                    'term'=>$detailVal->name,
+                    'term_id'=>$detailVal->term_id
                 );
             }
             $attributes=json_encode($attribute);
+
             $attributeMeta=array(
                 'post_id'=>$post_id,
                 'meta_key'=>'default_attribute',
@@ -271,6 +273,11 @@ public function edit($id,Request $request)
         // ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
         // ->get();
         // categories
+         $gallery_images=DB::table('postmeta')
+        ->where('post_id',$id) 
+        ->where('meta_key','gallery_file')
+        ->select('meta_key','meta_value')
+        ->get();
     $categories=DB::table('term_taxonomy')
     ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
     ->where('term_taxonomy.taxonomy','product_cat')
@@ -347,26 +354,24 @@ public function edit($id,Request $request)
     $length=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'length'])->first();
     $width=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'width'])->first();
     $height=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'height'])->first();
-    $qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'qty'])->first();
-    $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->first();
+    $qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'qty'])->select('meta_value')->first();
+    $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->select('meta_value')->first();
     $stock=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'product_stock'])->first();
     $sku = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => '_sku'])->first();
     $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
+    
     if($allAttribute){ 
         $arributeArray=json_decode($allAttribute->meta_value);
     }
     else{
         $arributeArray=array();
     }
-
-
-
     $attributes=attribute_taxonomie::where('status',1)->get();
     return view('admin.product.edit',compact('categories','tags','attributes',
         'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',
         'stock_status','regular_price','sale_price','weight',
         'length','width','height','qty','alert_qty','arributeArray','stock',
-        'sku'
+        'sku','gallery_images'
     ))->with($extraInfo);
 }
 
@@ -411,7 +416,9 @@ public function update(Request $request,$id){
     $post_id=DB::table('posts')->insertGetId($product);
 
 // product attributes
-    if($request->valueName  !=null ){
+
+
+    if($request->valueName  !==null ){
         $attribute=[];
         foreach($request->valueName as $value){
 
@@ -423,7 +430,9 @@ public function update(Request $request,$id){
 
             $attribute[]=array(
                 'taxonomy'=>$detailVal->taxonomy,
-                'term'=>$detailVal->name
+                'term'=>$detailVal->name,
+                'term_id'=>$detailVal->term_id
+
             );
 
         }
