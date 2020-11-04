@@ -20,9 +20,7 @@ Route::get('/', function () {
   Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
   Route::get('/callback/{provider}', 'SocialController@callback');
   Route::get('/home', 'HomeController@index')->name('home');
-  Route::get('/product', function (){
-    return view('front.productDetails');
-});
+
   Auth::routes();
 
 Route::group(['middleware' => 'role:admin-role'], function() {
@@ -40,6 +38,9 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::get('/categories/product/{id}','PageController@categoryProduct')->name('category.product');
         Route::get('/tag/product/{id}', 'PageController@tagProduct')->name('tag.product.show');
         Route::get('/cart','CartController@cart')->name('cart');
+        
+        Route::get('/cart_new','CartController@cart_new')->name('cart_new');
+
         Route::get('/district/city/{id}', 'CartController@districtCityAjax');
         Route::get('/district/city/postcode/{id}', 'CartController@districtCityPostcode');
         Route::get('/profile','PageController@profile')->name('profile');
