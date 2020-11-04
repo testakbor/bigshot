@@ -207,7 +207,6 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::get('order/delivery/invoice/details/{id}', 'OrderController@deliveryInvoiceDataDetails')->name('order.delivery.invoice.data.details');
         Route::post('order/delivery/search/date', 'OrderController@deliveredSearch')->name('order.delivered.search');
         Route::post('all/status/order/search', 'OrderController@allStatusSearch')->name('order.all.status.search');
-        Route::get('stock/deleted/{id}', 'ProductController@stockDeleted')->name('stock.deleted');
         Route::get('sku/download/{id}', 'ProductController@generateSku')->name('generate.sku');
         Route::get('stock/print/sticker/{id}', 'ProductController@stockPrintSticker')->name('stock.print.sticker');
         Route::post('stock/sku/search/', 'ProductController@stockSkuSearch')->name('stock.sku.search');

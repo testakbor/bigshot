@@ -555,15 +555,6 @@ return redirect(route('product.index'));
 }
 
 
-//stock delete to change product status
-public function stockDeleted($id){
-   DB::table('posts')->where('post_type','product')->where('ID',$id)->update([
-     'post_status' =>'deleted'
-   ]);
-    session()->flash("success", "Information has been deleted");
-    return back();
-}
-
 //stock sticker print
 public function stockPrintSticker($id){
         $product=DB::table('postmeta')->where('post_id',$id)->get();
