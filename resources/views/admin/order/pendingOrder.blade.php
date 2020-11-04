@@ -50,7 +50,7 @@ use App\Model\front\Order_item;
               <tr>
                 <th class="center">Oder Id</th>
                 <th>Name</th>
-                <th>SKU</th>
+                <th>Image</th>
                 <!-- <th class="right">Color</th> -->
                 <th class="center">Qty</th>
                 <th class="right">Item</th>
@@ -63,7 +63,7 @@ use App\Model\front\Order_item;
               </tr>
             </thead>
             <tbody>
-              @php $product_name=''; $qty=0; $sub=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
+              @php $tot_item=0; $product_name=''; $qty=0; $sub=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $cust=''; @endphp
               @foreach($orders as $items)
               @php 
               foreach ($items->productMeta as $value) {
@@ -85,6 +85,10 @@ use App\Model\front\Order_item;
       ->where('order_item_id',$orderMetas->order_item_id)
       ->where('meta_key','_qty')
       ->first();  
+        $tot_item+=DB::table('order_itemmeta')
+      ->where('order_item_id',$orderMetas->order_item_id)
+      ->where('meta_key','_qty')
+      ->sum('meta_value'); 
       $sub_total=DB::table('order_itemmeta')
       ->where('order_id',$orderMetas->order_id)
       ->where('meta_key','_line_subtotal')
@@ -96,6 +100,11 @@ use App\Model\front\Order_item;
       ->first();    
       $posts=DB::table('posts')
       ->where('ID',$orderMetas->product_id)        
+      ->first();  
+
+      $image=DB::table('postmeta')
+      ->where('post_id',$orderMetas->product_id)
+      ->where('meta_key','attached_file')        
       ->first();    
       if($i==1):
       @endphp  
@@ -106,9 +115,9 @@ use App\Model\front\Order_item;
         endif;
         if($i ==1 ):
         @endphp
-        <td  class="left">{{$sku->meta_value}} </td>
+        <td  class="left"><img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}"></td>
         <td  class="left">{{$qtys->meta_value}} </td>
-        <td  class="left">{{$posts->post_title}} </td>
+        <td  class="left">{{$posts->post_title}} <br> {{$sku->meta_value}}</td>
         @php 
         endif;
         @endphp
@@ -118,7 +127,7 @@ use App\Model\front\Order_item;
         <tr>
          <td  class="left"> {{$sku->meta_value}} </td>
          <td  class="left"> {{$qtys->meta_value}} </td>
-         <td  class="left"> {{$posts->post_title}} </td>
+         <td  class="left"> {{$posts->post_title}} <br> {{$sku->meta_value}}</td>
        </tr>
        @php 
        endif;
@@ -180,7 +189,7 @@ use App\Model\front\Order_item;
       <!-- <i class="fa fa-user ml-1"></i> -->
 
 
-      <h3 class="text-center">{{$total_orders}}</h3>
+      <h3 class="text-center">{{$tot_item}}</h3>
 
       <p class="lead text-center font-weight-bold">Total Item</p>
     </div>

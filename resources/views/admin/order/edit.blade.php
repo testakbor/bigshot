@@ -26,7 +26,7 @@
         <div class="col-md-9">
           <div class="card card-default">
             <div class="card-header">
-              @php $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
+              @php $skuu=''; $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
               @foreach($order_info as $info)
               @if($info->meta_key=='phone')
               @php $mobile_no=$info->meta_value; @endphp
@@ -34,6 +34,8 @@
               @if($info->meta_key=='address_one')
               @php $address=$info->meta_value; @endphp
               @endif
+
+
 
               @if($info->meta_key=='_sku')
               @php $sku=$info->meta_value; @endphp
@@ -116,6 +118,7 @@
                   <thead class="thead-light">
                     <tr>
                       <th scope="col">#</th>
+                      <th scope="col">Image</th>
                       <th scope="col">Item</th>
                       <th scope="col">Cost</th>
                       <th scope="col">Qty</th>
@@ -147,7 +150,23 @@
                     @endforeach
                     <tr>
                       <th scope="row">{{++$key}}</th>
-                      <td>{{$items->order_item_name}} </td>
+                      <th scope="row">
+                        @php
+                        $image=DB::table('postmeta')
+                        ->where('post_id',$items->product_id)
+                        ->where('meta_key','attached_file')        
+                        ->first(); 
+                        @endphp
+                        <img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}">
+                       </th>
+
+
+
+
+ 
+
+
+                      <td>{{$items->order_item_name}} <br> @php $skuu=DB::table('postmeta')->where('post_id',$items->product_id)->where('meta_key','_sku')->first(); @endphp {{$skuu->meta_value}}</td>
                       <td>{{$subtotal}}</td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
                       <td>{{$subtotal}}</td>

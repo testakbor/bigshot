@@ -33,28 +33,28 @@
             <div class="card-body">
               <ul class="nav" style="background: #007bff;">
                 <li class="nav-item " style="border-right: 1px solid white;">
-                  <a class="nav-link" target="_blank" href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order({{$pending_order}})</a>
+                  <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order({{$pending_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a class="nav-link" target="_blank" href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing({{$processing_order}})</a>
+                  <a class="nav-link"  href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing({{$processing_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a target="_blank" class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch({{$dispatch_order}})</a>
+                  <a  class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch({{$dispatch_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a target="_blank" class="nav-link" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
+                  <a  class="nav-link" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a target="_blank" class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
+                  <a  class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a target="_blank" class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered({{$delivered_order}})</a>
+                  <a class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered({{$delivered_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a target="_blank" class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled({{$cancelled_order}})</a>
+                  <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled({{$cancelled_order}})</a>
                 </li>
                 <li class="nav-item" style="border-right: 1px solid white;">
-                  <a target="_blank" class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_status}})</a>
+                  <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_status}})</a>
                 </li>
               </ul>
             </div>
