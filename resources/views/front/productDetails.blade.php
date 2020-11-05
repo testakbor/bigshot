@@ -24,6 +24,11 @@ endif;
 endforeach;
 @endphp
 <div class="container">
+        @if(session('status'))
+                            <div class="alert alert-success" role="alert" id="alert">
+                                {{ session('status') }}
+                            </div>
+                            @endif
     <div class="d-flex flex-column mt-5 ">
         <div class="d-flex flex-column ">
             <div class="empyt text-center border-bottom border-dark pt-3 pb-3">{{$product->post_title}} </div>
