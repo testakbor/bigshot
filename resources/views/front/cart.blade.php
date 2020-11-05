@@ -254,7 +254,7 @@ $email=auth()->user()->email;
                                                 <a onclick="return confirm('are you sure??')"
                                                     href="{{url('/remove/'.$item->id)}}">
                                                     <div class="buttons" style="margin-top:1px !important">
-                                                        <span class="btn btn-danger delete-btn"></span>
+                                                        <span class="btn btn-danger"><i class="fa fa-trash"></i></span>
                                                     </div>
                                                 </a>
                                             </td>

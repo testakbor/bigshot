@@ -1,32 +1,24 @@
 
-@extends('front.layouts.master')
+@extends('front.layouts.front_master')
+@section('title') Bigshot | Home @endsection 
 @section('content')
-    <div class="col-md-9">
-        <div class="row">
-            <div class="col-md-3" style="padding: 0px;">
-
-                <img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-
+  <div class="d-flex">
+    <div class="col-md-8 d-flex">
+          <div class="col-md-3 d-flex" style="padding: 0px;">
+                <img class="img-fluid" src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
             </div>
-            <div class="col-md-3" style="padding: 0px;">
-
-                <img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-
+            <div class="col-md-3 d-flex" style="padding: 0px;">
+                <img class="img-fluid" src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
             </div>
-            <div class="col-md-3" style="padding: 0px;">
-
-                <img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-
+            <div class="col-md-3 d-flex" style="padding: 0px;">
+                <img class="img-fluid" src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
             </div>
-            <div class="col-md-3" style="padding: 0px;">
-
-                <img src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
-
+            <div class="col-md-3 d-flex" style="padding: 0px;">
+                <img class="img-fluid" src="assets/front/images/bp.png" width="100%" height="780" alt="Natural" />
             </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <nav id="myTab" class="nav nav-tabs nav-justified">
+      </div>
+      <div class="col-md-4">
+          <nav id="myTab" class="nav nav-tabs nav-justified">
             <a class="nav-item nav-link active bg-primary"
                data-toggle="tab" href="#home">LOGIN</a>
             <a class="nav-item nav-link bg-success"
@@ -84,7 +76,7 @@
                             @csrf
 
 
-                            <div class="row">   
+                            <div class="d-flex">   
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>First Name</label>
@@ -163,17 +155,5 @@
             <div id="menu3" class="tab-pane fade"></div>
         </div>
     </div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script>
-$(document).ready(function () {
-$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-localStorage.setItem('activeTab', $(e.target).attr('href'));
-});
-var activeTab = localStorage.getItem('activeTab');
-if (activeTab) {
-$('#myTab a[href="' + activeTab + '"]').tab('show');
-}
-});
-</script>
+  </div>
 @endsection

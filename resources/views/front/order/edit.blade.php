@@ -1,4 +1,4 @@
-@extends('front.layouts.master')
+@extends('front.layouts.front_master')
 @section('content')
 <div class="container-fluid my-5 d-flex justify-content-center">
     <div class="card card-1">

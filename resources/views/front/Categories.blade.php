@@ -1,4 +1,4 @@
-@extends('front.layouts.master')
+@extends('front.layouts.front_master')
 @section('content')
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">

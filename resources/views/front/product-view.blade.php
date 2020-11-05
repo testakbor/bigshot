@@ -1,4 +1,4 @@
-@extends('front.layouts.master')
+@extends('front.layouts.front_master')
 @section('content')
 <style>
 .mySlides {
@@ -30,6 +30,11 @@ endforeach;
 @endphp
 <!-- Page Content  -->
 <div id="content" class="p-4 p-md-5">
+        @if(session('status'))
+                            <div class="alert alert-success" role="alert" id="alert">
+                                {{ session('status') }}
+                            </div>
+                            @endif
     <div class="row">
         <div class="col-md-12 ">
          
@@ -43,11 +48,7 @@ endforeach;
                                 </div>
                             </div>
                             <div class="product-image col-sm-12 col-md-12">
-                                       @if(session('status'))
-                            <div class="alert alert-success" role="alert" id="alert">
-                                {{ session('status') }}
-                            </div>
-                            @endif
+                        
                                 <img width="400" height="auto" id="featured" src="{{asset('backend/products/'.$image)}}"
                                     class="img-responsive" alt="Responsive image" />
                                 <ul class="product-image--list">
