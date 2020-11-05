@@ -12,9 +12,10 @@
             <div class="row justify-content-between mb-3">
                 <div class="col-auto">
                         <b>Oder placed: {{date('d-M-Y',strtotime($order->post_date))}}</b></br>
-                        <b>Order Number: {{$order->ID}}</b>
+                        <b>Order Number: {{$order->ID}}</b><br> 
+                        Ship To
+                        <hr> 
                     <ul>
-                        <li> Ship To</li>
                         @php $name=''; $address=''; $city=''; $payment_method=''; @endphp
                         @foreach($order_info as $info)
                         @if($info->meta_key=='first_name') @php $name=$info->meta_value; @endphp @endif
@@ -22,10 +23,10 @@
                         @if($info->meta_key=='city') @php $city=$info->meta_value; @endphp @endif
                         @if($info->meta_key=='payment_method') @php $payment_method=$info->meta_value; @endphp @endif
                         @endforeach
-                        <li>Name:{{$name}}</li>
-                        <li>Address:{{$address}}</li>
-                        <li>City:{{$city}}</li>
-                        <li>Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </li>
+                        <li style="list-style: none;">{{$name}}</li>
+                        <li style="list-style: none;">{{$address}}</li>
+                        <li style="list-style: none;">{{$city}}</li>
+                        <li style="list-style: none;">Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </li>
                     </ul>
                 </div>
             </div>
