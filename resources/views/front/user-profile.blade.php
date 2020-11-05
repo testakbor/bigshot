@@ -18,7 +18,7 @@
                   </ul>
          </div>
 
-       <div class="col-md-7">
+       <div class="col-md-7 d-flex">
          <h4 class="text-center">Wishlist</h4>
 
          @php $name=''; $image='no-image.png'; $price=''; @endphp
