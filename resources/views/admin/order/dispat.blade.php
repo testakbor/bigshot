@@ -18,7 +18,7 @@
       </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-      <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Pending Order</div>
+      <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Dispatch Order</div>
       <div class="d-flex justify-content-center mb-3">
         <form class="form-inline" method="post" action="{{route('dispatch.order.date.wise')}}" >
           @csrf() 
@@ -49,7 +49,7 @@
             @endif
             @endforeach
             @endforeach
-            @php $total_amount=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
+            @php $total_amount+=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
             @endforeach
             <h3 class="text-center">{{$total_order}}</h3>
             <p class="lead text-center font-weight-bold">Total Order</p>
@@ -104,7 +104,7 @@
                 @endif
                 @endforeach
                 @endforeach
-                @php $total_amount=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
+                @php $total_amount+=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
                 <tr>
                   <td class="center">{{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
                   <td>{{$name}} {{$last_name}}</td>
@@ -112,8 +112,8 @@
                   <td class="right">{{$phone}}</td>
                   <td class="right">{{$total_amount}}</td>
                   <td class="right">
-                    <a onclick="return confirm('Do you want to delivery?')" href="{{route('order.dispatch.delivereds',$orders->ID)}}" class="btn btn-success">Delivered</a><br>
-                    <a href="{{route('order.dispatch.edit',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 49%;">Edit</a>
+                    <a onclick="return confirm('Do you want to delivery?')" href="{{route('order_dispatch_d',$orders->ID)}}" class="btn btn-success">Delivered</a><br>
+                    <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 49%;">Edit</a>
                   </td>
                   <!-- <td class="right">hello</td> -->
                 </tr>

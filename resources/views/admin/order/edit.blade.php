@@ -159,13 +159,6 @@
                         @endphp
                         <img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}">
                        </th>
-
-
-
-
- 
-
-
                       <td>{{$items->order_item_name}} <br> @php $skuu=DB::table('postmeta')->where('post_id',$items->product_id)->where('meta_key','_sku')->first(); @endphp {{$skuu->meta_value}}</td>
                       <td>{{$subtotal}}</td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
@@ -182,7 +175,6 @@
                     @endforeach
                   </tbody>
                 </table>
-
               </div>
               <div class="card-footer ">
                 <div class="d-flex flex-column justify-content-end">
@@ -202,32 +194,21 @@
           </form>
         </div>
       </div>
-
-
-
       <!-- /.card-body -->
     </div>
-
-
-
 </div>
-
 </div>
 </form>
 <!-- /.col -->
 </div>
-
-
 <!-- /.row -->
 </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
 </div>
 @endsection
-
 @section('js')
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
 <script src="{{asset('assets/admin/js/tinymce.min.js')}}" referrerpolicy="origin"></script>
 <script type="text/javascript">
   tinymce.init({

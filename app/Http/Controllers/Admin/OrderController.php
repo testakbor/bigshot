@@ -1016,7 +1016,7 @@ public function grossProfit()
       'post_modified' => date('Y-m-d H:i:s'),
     ]);
     session()->flash("success", "Order has been delivered");
-    return back();
+    return redirect()->route('order.dispat');
   }
 
 // public function dispatchOrderEdit($id){
@@ -1046,17 +1046,6 @@ public function grossProfit()
     return view('admin.order.dispatch_date_wise', compact('order', 'total_order'))->with($extraInfo);
   }
 
-
-
-    // public function dispatchOrderDelivered($id)
-    // {
-    //     DB::table('posts')->where('ID', $id)->update([
-    //         'post_status' => 'Delivered',
-    //         'post_modified' => date('Y-m-d'),
-    //     ]);
-    //     session()->flash("success", "Order has been delivered");
-    //     return back();
-    // }
 
   public function dispatchOrderEdit($id)
   {

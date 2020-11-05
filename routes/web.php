@@ -198,7 +198,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::post('processing/order/date/wise', 'OrderController@processingOrderdatewise')->name('process.order.date.wise');
         Route::post('processing/order/update', 'OrderController@processingOrderUpdate')->name('process.order.update');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
-        Route::get('dispatch/order/deliver/{id}', 'OrderController@dispatchOrderDelivered')->name('order.dispatch.delivereds');
+        Route::get('dispatch/order/deliver/{id}', 'OrderController@dispatchOrderDelivered')->name('order_dispatch_d');
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
         Route::post('dispatch/order/date/wise', 'OrderController@dispatchOrderdatewise')->name('dispatch.order.date.wise');
         Route::post('dispatch/order/cancel', 'OrderController@dispatchOrdercancel')->name('dispatch.order.cancel.type');

@@ -102,7 +102,7 @@ class ProductController extends Controller
     }
 
     public function store(ProductStoreRequest $request){
-          if($request->user()->can('manage-product')) {
+        if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;
         $day=$request->day;
@@ -202,7 +202,12 @@ if(isset($request->product_stock) && $request->product_stock!=0){
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$request->product_stock]);
 }
 
-DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $request->product_sku]);
+if($request->product_sku==''){
+          $s_k_u=$post_id.rand().time();   
+}else{
+    $s_k_u=$post_id.$request->product_sku.rand().time();  
+} 
+DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
 
     // product image 
 $image_name=null;
@@ -499,8 +504,12 @@ DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'product_stock','meta_value'=>$request->product_stock]);
 
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$oldStartStock->meta_value]);
-
-DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $request->product_sku]);
+if($request->product_sku==''){
+          $s_k_u=$id.rand().time();   
+}else{
+    $s_k_u=$request->product_sku;  
+} 
+DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
 
 
     // product image 

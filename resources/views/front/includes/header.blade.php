@@ -26,9 +26,16 @@
 			</div>
 			<div class="d-flex flex-row justify-content-between ml-5 mr-5">
 				<div class="d-flex">
-					     @foreach($tags as $tag)
+					@php 
+					$tags = DB::table('term_taxonomy')
+                    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                    ->where('term_taxonomy.taxonomy', 'product_tag')
+                    ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+                    ->get();
+					@endphp
+					@foreach($tags as $tag)
 					        <div class="ml-2"> <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{$tag->name}}</a></div>
-					     @endforeach
+				    @endforeach
 				</div>
 				<div class="d-flex">					
 					<div> <a href="{{url('faq')}}" class="text-decoration-none text-dark"> FAQ</a></div>

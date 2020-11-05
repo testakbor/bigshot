@@ -11,9 +11,9 @@
         <div class="card-body">
             <div class="row justify-content-between mb-3">
                 <div class="col-auto">
+                        <b>Oder placed: {{date('d-M-Y',strtotime($order->post_date))}}</b></br>
+                        <b>Order Number: {{$order->ID}}</b>
                     <ul>
-                        <li> Oder placed: {{date('d-M-Y',strtotime($order->post_date))}}</li>
-                        <li>Order Number: {{$order->ID}}</li>
                         <li> Ship To</li>
                         @php $name=''; $address=''; $city=''; $payment_method=''; @endphp
                         @foreach($order_info as $info)
