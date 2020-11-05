@@ -80,7 +80,7 @@
 						</span>
 						@endif
             </a> </div>
-					<div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i class="fa fa-heart"></i></a></div>
+					<div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i class="fa fa-heart"></i>@if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp {{$wish}}  @else  @endif</a></div>
 				</div>
 			</div>
 			<div class="sticky-top">

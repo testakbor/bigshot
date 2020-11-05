@@ -89,16 +89,20 @@ class PageController extends Controller
     }
     public function wishlistProduct(Request $request)
     {
-        DB::table('wishlist')
+        $count=DB::table('wishlist')
         ->where('product_id',$request->id)
         ->where('user_id',Auth::user()->id)
-        ->delete();
-        $wishlist = array(
+        ->count();
+        if($count>0){
+          return back()->with('status','This item already exists in your wishlist');
+        }else{
+         $wishlist = array(
             'product_id' => $request->id,
             'user_id' => Auth::user()->id,
         );
         DB::table('wishlist')->insertGetId($wishlist);
         return back()->with('status','Product added in wishlist');
+        }
     }
     public function DailyLoginBonus()
     {
