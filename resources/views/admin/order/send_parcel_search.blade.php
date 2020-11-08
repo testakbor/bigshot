@@ -78,7 +78,6 @@
                               <tr>
                                 <td>{{$meta->order_item_name}}</td>
                               </tr>
-                              @php $total_parcel++; @endphp
                               @endforeach
                             </table>
                       </td>
@@ -140,7 +139,7 @@
               </div>
               <div class="col-md-3">          
                <button class="btn btn-success">            
-                  {{$total_parcel}}
+                  {{$grandTotal}}
                   Total Percel
                 </button>
               </div>

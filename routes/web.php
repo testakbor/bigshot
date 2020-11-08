@@ -13,14 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('front.home');
-});
+
 
   Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
   Route::get('/callback/{provider}', 'SocialController@callback');
-  Route::get('/home', 'HomeController@index')->name('home');
-
   Auth::routes();
 
 Route::group(['middleware' => 'role:admin-role'], function() {
@@ -43,7 +39,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
 
         Route::get('/district/city/{id}', 'CartController@districtCityAjax');
         Route::get('/district/city/postcode/{id}', 'CartController@districtCityPostcode');
-        Route::get('/profile','PageController@profile')->name('profile');
+        Route::get('/profile','PageController@profile')->middleware('auth')->name('profile');
 
         Route::get('/wishlist','PageController@wishlist')->middleware('auth');
         Route::get('/wishlist/product/{id}','PageController@wishlistProduct')->middleware('auth');
@@ -60,7 +56,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::get('/about','PageController@about')->name('about');
         Route::get('/return-policy','PageController@returnPolicy')->name('return.policy');
         Route::get('/settings','PageController@settings')->name('settings');
-        Route::get('/customer-support','PageController@customerSupport')->name('customer.support');
+        Route::get('/customer-support','PageController@customerSupport')->middleware('auth')->name('customer.support');
 
 
         Route::post('/addCart','CartController@addCart')->name('addCart');
@@ -88,7 +84,9 @@ Route::group(['middleware' => 'role:admin-role'], function() {
 
     Route::group(['namespace'=>'Admin'],function(){       
 
+        Route::get('apply/promocode/ajax/{code}','CouponController@applyPromocode');
         Route::get('database/backup','SettingsController@databaseBackup')->name('database_backup');
+        Route::resource('coupon','CouponController');
         Route::get('gross/profit/monthly','QuickReportController@gross_profit_monthly')->name('g_profit_monthly');
         Route::get('best/sell/yearly','QuickReportController@best_sell_yearly')->name('b_sell_yearly');
         Route::post('search/pending/order','OrderController@search_pending_order')->name('s_pending_order');
@@ -171,7 +169,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::get('pending/order/print/{id}','OrderController@pending_order_print')->name('pending_order_print');
         Route::get('pending/order/processing/{id}','OrderController@pending_order_processing')->name('pending_order_processing');
         Route::get('pending/order/cancel/{id}','OrderController@pending_order_cancel')->name('pending_order_cancel');
-        Route::get('pending/order/edit/{id}','OrderController@pending_order_edit')->name('pending_order_edit');
+        Route::get('order/edit/{id}','OrderController@pending_order_edit')->name('pending_order_edit');
         //pending order route
         //send parcel print route
          Route::post('send/parcel/print','OrderController@sendParcelPrint')->name('parcel_print');

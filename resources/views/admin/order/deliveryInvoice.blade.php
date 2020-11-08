@@ -94,7 +94,7 @@
   <tfoot>
     <tr>
       <td>Total Parcel </td>
-      <td>{{$total_parcel}}</td>
+      <td>{{$grandTotal }}</td>
       <td></td>
       <td></td>
       <td></td>

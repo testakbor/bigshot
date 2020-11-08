@@ -72,7 +72,6 @@
                               <tr>
                                 <td>{{$meta->order_item_name}}</td>
                               </tr>
-                              @php $total_parcel++; @endphp
                               @endforeach
                             </table>
                     </td>
@@ -112,7 +111,7 @@
 								<tfoot>
 									<tr>
 										<td>Total Parcel </td>
-										<td>{{$total_parcel}}</td>
+										<td>{{$grandTotal}}</td>
 										<td></td>
 										<td></td>
 										<td>Total</td>

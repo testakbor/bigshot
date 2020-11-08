@@ -36,14 +36,14 @@
                           <br>
                           <label class="col-sm-3 control-label">Name</label>
                           <div class="col-sm-8">
-                            <input class="form-control" type="text" name="name" ng-model="me.email" placeholder="Name">
+                            <input class="form-control" type="text" name="name" ng-model="me.email" placeholder="Name" value="{{auth()->user()->name}}">
 
                           </div>
                         </div>
                         <div class="form-group">
                           <label class="col-sm-4 control-label">Email</label>
                           <div class="col-sm-8">
-                            <input class="form-control" type="text" name="email" placeholder="Email">
+                            <input class="form-control" type="text" name="email" placeholder="Email" value="{{auth()->user()->email}}">
                           </div>
                         </div>
                         <div class="form-group">
@@ -79,13 +79,13 @@
                         <div class="form-group">
                           <label class="col-sm-3 control-label">Name</label>
                           <div class="col-sm-8">
-                            <input class="form-control" type="text" name="name" placeholder="Name">
+                            <input class="form-control" type="text" name="name" placeholder="Name" value="{{auth()->user()->name}}">
                           </div>
                         </div>
                         <div class="form-group">
                           <label class="col-sm-4 control-label">Email</label>
                           <div class="col-sm-8">
-                            <input class="form-control" type="text" name="email" placeholder="Email">
+                            <input class="form-control" type="text" name="email" placeholder="Email" value="{{auth()->user()->email}}">
                           </div>
                         </div>
                         <div class="form-group ml-3">

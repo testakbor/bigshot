@@ -4,6 +4,9 @@
 li {
     list-style: none;
 }
+.nav-tabs {
+     border-bottom: 0px solid #dee2e6; 
+}
 </style>
 @php $l_name='';
 $address1='';
@@ -31,21 +34,22 @@ $email=auth()->user()->email;
     <div class="row">
         <div class="col-md-12 ">
             <div class="container-fluid mt-2">
-                <div class="container">
+                <div class="container mb-3">
                     <div class="row">
                         <div class="col-md-8">
                             @include('admin.includes.messages')
-                            <nav id="myTab" class="nav nav-tabs nav-justified"><a class="nav-item nav-link active"
-                                    data-toggle="tab" href="#home">SHIP TO</a>
-                                <a class="nav-item nav-link" data-toggle="tab" href="#menu2">REVIEW ORDER</a>
-                                <a class="nav-item nav-link" data-toggle="tab" href="#menu1">PAYMENT</a>
+                            <nav id="myTab" class="nav nav-tabs nav-justified"><a class="nav-item nav-link btn btn-primary active one"
+                                    data-toggle="tab" href="#home"> SHIP TO</a>
+                                <a class="nav-item nav-link btn btn-success two" data-toggle="tab" href="#menu2">REVIEW ORDER</a>
+                                <a class="nav-item nav-link btn btn-primary three" data-toggle="tab" href="#menu1">PAYMENT</a>
                                 <a class="nav-item nav-link disabled" data-toggle="tab" href="#menu3"></a>
                             </nav>
-                            <form role="form" action="{{route('checkout')}}" method="POST">
+                            <form id="check_out_form" role="form" action="{{route('checkout')}}" method="POST">
                                 @csrf
                                 <div class="tab-content">
                                     <div id="home" class="tab-pane active">
                                         <h5 style="padding: 5px 5px;"><b>SHIP TO</b></h5>
+                                        <span id="message" style="color: red;"></span>
                                         <div class="row">
                                             <div class="col-md-6 mb-3">
                                                 <label for="firstName">First name<span
@@ -102,8 +106,7 @@ $email=auth()->user()->email;
                                                 <select class="form-control" name="state" id="state">
                                                     <option value="">Select District</option>
                                                     @foreach($district as $dist)
-                                                    <option value="{{$dist->term_id}}" @if($dist->term_id == $dist_rict)
-                                                        selected='selected' @endif>{{ $dist->district }}</option>
+                                                      <option value="{{$dist->term_id}}">{{ $dist->district }}</option>
                                                     @endforeach
                                                 </select>
                                                 <div class="invalid-feedback">
@@ -112,62 +115,42 @@ $email=auth()->user()->email;
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <label for="city">City/Thana<span class="requiredField">*</span></label>
-                                                @if($city=='')
                                                 <select class="form-control" id="city" name="city">
                                                     <option value="">Select District First</option>
                                                 </select>
-                                                @else
-                                                @php
-                                                $data=DB::table('term_taxonomy')->where(['taxonomy'=>'city','parent'=>$dist_rict])
-                                                ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-                                                ->select('terms.name as city_name','terms.term_id')
-                                                ->first();
-                                                @endphp
-                                                <select class="form-control" id="city" name="city">
-                                                    <option value="{{$data->term_id}}">{{$data->city_name}}</option>
-                                                </select>
-                                                @endif
                                                 <div class="invalid-feedback">
                                                 </div>
                                             </div>
                                             <div class="col-md-4 mb-3">
                                                 <label for="zip">Postcode</label>
-                                                @if($city=='')
                                                 <input type="text" class="form-control" value="" name="zip" id="zip"
                                                     placeholder="Postcode">
-                                                @else
-                                                @php
-                                                $posts_codes = DB::table('term_taxonomy')->where(['taxonomy' =>
-                                                'postcode','parent'=>$city])
-                                                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-                                                ->select('terms.name as zip')
-                                                ->first();
-                                                @endphp
-                                                <input type="text" class="form-control" value="{{$posts_codes->zip}}"
-                                                    name="zip" id="zip" placeholder="Postcode">
-                                                @endif
                                                 <div class="invalid-feedback">
                                                     Zip code required.
                                                 </div>
                                             </div>
                                         </div>
+
+                                     <button type="button" class="btn btn-success float-right" id="first_btn">Next <i class="fas fa-arrow-right"></i></button>
+
                                     </div>
 
 
                                     <div id="menu1" class="tab-pane fade">
                                         <h5 style="background: #e7e7e7;padding:10px 4px;"><b>CHOSE PAYMENT OPTION</b>
                                         </h5>
+                                         <span id="payment_msg" style="color: red;"></span>
                                         <div class="form-group">
 
 
                                           <div id="payment_option">
-                                             <input type="radio" name="paymentMethod" value="FullPayment">
-                                                <label for="male">Full Payment {{Cart::getTotal()}}</label><br>
+                                             <input id="FullPayment" type="radio" name="paymentMethod" value="FullPayment">
+                                                <label for="male">Full Payment </label> <div id="cart_get_payment"></div><br>
 
-                                                <input type="radio" name="paymentMethod" value="DeliveryChargeOnly">
+                                                <input id="DeliveryChargeOnly" type="radio" name="paymentMethod" value="DeliveryChargeOnly">
                                                 <label for="female">Delivery Charge Only</label><br>
 
-                                                <input type="radio" name="paymentMethod" name="payment_mode"
+                                                <input id="CashOnDelivery" type="radio" name="paymentMethod" name="payment_mode"
                                                     value="CashOnDelivery">
                                                 <label for="other">Cash On Delivery</label>
                                           </div>
@@ -183,7 +166,7 @@ $email=auth()->user()->email;
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-block btn-lg">Place
+                                        <button type="submit" id="order_submit" class="btn btn-primary btn-block btn-lg">Place
                                             Order</button>
                             </form>
                         </div>
@@ -191,7 +174,7 @@ $email=auth()->user()->email;
 
 
                         <div id="menu2" class="tab-pane fade">
-                            <div class="btn btn-primary btn-lg btn-block">
+                            <div class=" btn-lg btn-block">
                                 Items In Cart
                             </div>
                             <div class="table-responsive">
@@ -263,31 +246,40 @@ $email=auth()->user()->email;
                                     </tbody>
                                 </table>
                                 <ul class="list-group mb-3">
+
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                        <div>
-                                            <small class="text-muted">Quantity Total</small>
-                                        </div>
-                                        <span class="text-muted"> {{ Cart::getTotalquantity()}}</span>
+                                       <p>Sub Total:</p> <div class="float-right">{{Cart::getTotalquantity()}} pcs {{Cart::getTotal()}} tk</div>
                                     </li>
+
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                        <div>
-                                            <small class="text-muted">Order Total</small>
-                                        </div>
-                                        <span class="text-muted">{{Cart::getTotal()}}</span>
+                                       <p>Delivery Charge: <div class="float-right" id="charge"></div> <input id="deli" type="hidden" value="" class="form-control"></p>
+                                    
+                                       
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between bg-light">
-                                        <div class="text-success">
-                                            <small>*Approx</small>
-                                        </div>
-                                        <span class="text-muted">৳ {{Cart::getTotal()}} BDT</span>
+
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                       <p>Order Total:</p> <div class="float-right"> {{Cart::getTotal()}} tk</div> 
                                     </li>
+
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                       <p>Apply Promo code:</p> <div class="float-right"> <input id="promo_code" type="text" name="promo_code" class="form-control" placeholder="Enter code"> </div>
+                                    </li>
+
+                                    <div id="coupon_data_div"></div>
+
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                       <p>Order Total After Discount:</p>  <div class="float-right"> <div id="cart_get_total"></div> </div>tk 
+                                    </li>
+                                
                                 </ul>
                             </div>
+                              <button type="button" class="btn btn-primary" id="first_btn_back"><i class="fas fa-arrow-left"></i> Back</button>
+                              <button type="button" class="btn btn-success float-right" id="second_btn">Next <i class="fas fa-arrow-right"></i> </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 d-flex flex-column">
-                    <h5 style="background: #e7e7e7;padding:10px 4px;"><b>TOTAL: ৳{{Cart::getTotal()}} BDT</b></h5>
+                    <h5 style="background: #e7e7e7;padding:10px 4px;"><b> <div class="float-left" id="cart_get_payment_sidebar"></div> </b> BDT</h5>
                     </br></br>
                     <div class="row">
                         @php $order=0; @endphp
@@ -338,7 +330,79 @@ $email=auth()->user()->email;
 </script>
 
 <script>
-//cart update form submit    
+  $(document).ready(function() {
+      document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+      document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+      document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+  });
+
+//cart update form submit
+$("#first_btn").click(function(){
+    var dist=$("#state").val();
+    var ci=$("#city").val();
+    var zi=$("#zip").val();
+     if(dist=='' || ci=='' || zi==''){
+        var msg="Please Select District,Thana & Postcode"; 
+        document.getElementById("message").innerHTML=msg;
+        $('#myTab a[href="#home"]').tab('show');
+        return false;
+     }else{
+       $('#myTab a[href="#menu2"]').tab('show');
+     } 
+});
+
+$(".two").click(function(){
+    var dist=$("#state").val();
+    var ci=$("#city").val();
+    var zi=$("#zip").val();
+     if(dist=='' || ci=='' || zi==''){
+        var msg="Please Select District,Thana & Postcode"; 
+        document.getElementById("message").innerHTML=msg;
+        $('#myTab a[href="#home"]').tab('show');
+        return false;
+     }else{
+       $('#myTab a[href="#menu2"]').tab('show');
+     } 
+});
+
+$("#first_btn_back").click(function(){
+  $('#myTab a[href="#home"]').tab('show');
+});
+$("#second_btn").click(function(){
+  $('#myTab a[href="#menu1"]').tab('show');
+});
+
+
+//check order submit to some validation
+$("#order_submit").click(function(e){
+  e.preventDefault();
+     var dist=$("#state").val();
+    var ci=$("#city").val();
+    var zi=$("#zip").val();
+    var payment_one=$("#FullPayment").val();
+    var payment_two=$("#DeliveryChargeOnly").val();
+    var payment_three=$("#CashOnDelivery").val();
+     if(dist=='' || ci=='' || zi==''){
+         var msg="Please Select District,Thana & Postcode"; 
+        document.getElementById("message").innerHTML=msg;
+        $('#myTab a[href="#home"]').tab('show');
+        return false;
+     }
+     
+     if( $('#FullPayment').is(':checked') ||  $('#DeliveryChargeOnly').is(':checked') || $('#CashOnDelivery').is(':checked') ) { 
+        $('#check_out_form').delay(200).submit();
+     }else{
+          var msg="Please Select Payment Option"; 
+          document.getElementById("payment_msg").innerHTML=msg;
+     }
+    
+});
+
+
+
+
+
+//check if cart quantity is 0 then show error
 $("#cart_qty_data").change(function(){
     var val=$("#cart_qty_data").val();
     if(val==0){
@@ -357,6 +421,8 @@ $("#cart_qty_data").keyup(function(){
   $('#cart_up').delay(200).submit();
 });
 
+
+
 //radio button click wise div show hide 
 $('input:radio').on('click', function(e) {
     var value =e.currentTarget.value;
@@ -372,25 +438,37 @@ $('input:radio').on('click', function(e) {
 //state dropdown change ajax call 
 $("#state").change(function() {
     var district_id = $("#state").val();
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
     $.ajax({
         url: "{{url('/district/city/')}}" + '/' + district_id,
         type: "GET",
         success: function(response) {
-            var items = "";
+            var items = ""; 
             items += "<option value=''>Select City</option>";
-            $.each(response, function(i, item) {
-
+            $.each(response.data, function(i, item) {
                 items += "<option value='" + item.term_id + "'>" + (item
                         .city_name) +
                     "</option>";
             });
             $("#city").html(items);
-        },
-        error: function(response) {
+
+             $.each(response.charge, function(i, item) {
+                var result=parseInt(item.description) || 0;
+                document.getElementById("charge").innerHTML=result+"tk";
+                document.getElementById("deli").value=result;
+                document.getElementById('cart_get_total').innerHTML=main_amount+result;
+                document.getElementById('cart_get_payment').innerHTML=main_amount_payment+result;
+                document.getElementById('cart_get_payment_sidebar').innerHTML=main_amount_payment_sidebar+result;
+            });
+           
+           },
+           error: function(response) {
             console.log(response);
-        },
-    });
-});
+           },
+        });
+   });
 
 
 //city dropdown change ajax call  
@@ -411,6 +489,43 @@ $("#city").change(function() {
         },
     });
 });
+
+
+//promo code input keyup change ajax call  
+$("#promo_code").keyup(function() {
+    var codes = $("#promo_code").val();
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var d=$("#deli").val();
+    $.ajax({
+        url: "{{url('/apply/promocode/ajax/')}}" + '/' + codes,
+        type: "GET",
+        success: function(response) {
+              var items = ''; 
+              $.each(response, function(i, item) {
+                items+='<input type="hidden" id="coupon_amountss" name="coupon_taka" type="text" value="'+item.coupon_amount+'">'; 
+            });
+         $("#coupon_data_div").html(items);
+        //  document.getElementById('cart_get_total').innerHTML 
+            var c_amount=$("#coupon_amountss").val();
+            var result=parseInt(c_amount) || 0;
+            var main_delivery_charge=parseInt(d) || 0;
+            var discount_total=main_amount-result+main_delivery_charge;
+            var discount_total_payment=main_amount_payment-result+main_delivery_charge;
+            var discount_total_sidebar=main_amount_payment_sidebar-result+main_delivery_charge;
+            document.getElementById('cart_get_total').innerHTML=discount_total;
+            document.getElementById('cart_get_payment').innerHTML=discount_total_payment;
+            document.getElementById('cart_get_payment_sidebar').innerHTML=discount_total_sidebar;
+        },
+        error: function(response) {
+            console.log(response);
+        },
+    });
+});
+
+
+
 
 //page refresh but tab will be active 
 $(document).ready(function() {

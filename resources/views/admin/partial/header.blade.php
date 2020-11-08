@@ -265,6 +265,14 @@
                                         <p>Database Backup</p>
                                     </a>
                                 </li>
+
+                                   <li class="nav-item">
+                                    <a href="{{route('coupon.index')}}"
+                                        class="nav-link {{isset($page) && $page=='banner_images'?'active':''}}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Coupon</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                        @endif

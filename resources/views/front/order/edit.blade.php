@@ -10,6 +10,9 @@
         </div>
         <div class="card-body">
             <div class="row justify-content-between mb-3">
+                      @if($status->post_status=='cancelled')
+                       <h4 class="text-center">Order has been cancelled</h4>
+                      @else 
                 <div class="col-auto">
                         <b>Oder placed: {{date('d-M-Y',strtotime($order->post_date))}}</b></br>
                         <b>Order Number: {{$order->ID}}</b><br> 
@@ -29,6 +32,7 @@
                         <li style="list-style: none;">Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </li>
                     </ul>
                 </div>
+                @endif 
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -45,8 +49,7 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @php
+                          @php
                             $i=1;
                             $grandTotal=0;
                             $subtotal=0;
@@ -56,6 +59,9 @@
                             $total_qty=0;
                             $delivery_charge=0;
                             @endphp
+                           @if($status->post_status=='cancelled')
+                          @else 
+                        <tbody>
                             @foreach($products as $item)
                             @foreach($item->orderMeta as $value)
                             @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
@@ -63,11 +69,10 @@
                             @if($value->meta_key=='delivery_charge') @php $delivery_charge=$value->meta_value; @endphp @endif
                             @endforeach
                             @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
-                            @if(isset($product_status)) @php $status=$product_status->meta_value; @endphp @else @php $status=''; @endphp @endif
-                            @if($status=='')
+       
+                
                             <tr>
                                 <th scope="row">
-
                                 </th>
                                 <th>
                                     @php
@@ -82,21 +87,21 @@
                                 <td>{{$qty}} pcs</td>
                                 <td>{{$sub=$subtotal}} tk</td>
                             </tr>
-                            @endif
-                            @if($status=='')
                             @php
                             $i++;
                             $grandTotal+=$sub;
                             $total_qty+=$qty;
                             @endphp
-                            @endif
                             @endforeach
                         </tbody>
+                        @endif 
                     </table>
                     <hr class="my-3 ">
                 </div>
             </div>
 
+             @if($status->post_status=='cancelled')
+             @else 
             <div class="row mt-4">
                 <div class="col-md-12">
                     <div class="row justify-content-between">
@@ -136,6 +141,7 @@
                     </div>
                 </div>
             </div>
+            @endif
             <!-- <div class="row invoice ">
                 <div class="col">
                     <p class="mb-1"> Invoice Number : 788152</p>

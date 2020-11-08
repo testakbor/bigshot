@@ -57,7 +57,8 @@ class CartController extends Controller {
                 ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
                 ->select('terms.name as city_name', 'terms.term_id')
                 ->get();
-        return response()->json($data);
+        $charge=DB::table('term_taxonomy')->where('term_id',$id)->where('taxonomy','district')->get();
+        return response()->json(['data'=>$data,'charge'=>$charge]);
     }
 
     public function districtCityPostcode($id) {
@@ -91,6 +92,11 @@ class CartController extends Controller {
     }
 
     public function checkout(CheckoutValidateRequest $request) {
+        if($request->coupon_taka==null){
+           $coupon_taka=0;
+        }else{
+            $coupon_taka=$request->coupon_taka;
+        }
         if ($request->paymentMethod == 'DeliveryChargeOnly') {
             $dcharge = 0;
         } else {
@@ -398,6 +404,27 @@ class CartController extends Controller {
                 'order_date' => date('Y-m-d'),
             );
             DB::table('order_itemmeta')->insert($order_item_details);
+
+            $order_item_details = array(
+                'order_item_id' => $order_item_id,
+                'meta_key' => 'coupon_code',
+                'meta_value' => $request->promo_code,
+                'order_id' => $order_id,
+                'customer_id' => $id,
+                'order_date' => date('Y-m-d'),
+            );
+            DB::table('order_itemmeta')->insert($order_item_details);
+
+             $order_item_details = array(
+                'order_item_id' => $order_item_id,
+                'meta_key' => 'coupon_taka',
+                'meta_value' => $coupon_taka,
+                'order_id' => $order_id,
+                'customer_id' => $id,
+                'order_date' => date('Y-m-d'),
+            );
+            DB::table('order_itemmeta')->insert($order_item_details);
+
 
             // if($request->paymentMethod=='DeliveryChargeOnly'){
             //    $order_item_details=array(

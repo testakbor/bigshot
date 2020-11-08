@@ -694,11 +694,10 @@ public function grossProfit()
 
     //pending order print
     public function pending_order_print($id){
-      $orders=Post::where('posts.post_type','shop_order')
-      ->where('post_status','on-hold')
-      ->where('ID',$id)
-      ->get();
-      $pdf = PDF::loadView('admin.order.pendingOrder_print', array('orders' => $orders));
+      $total_qty=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'_qty'])->sum('meta_value');
+      $total_due=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'_line_subtotal'])->sum('meta_value');
+      $customer_info=Postmeta::where('post_id',$id)->get();
+      $pdf = PDF::loadView('admin.order.pendingOrder_print', array('total_qty' => $total_qty,'total_due'=>$total_due,'customer_info'=>$customer_info,'id'=>$id));
       return $pdf->download('shipping.pdf');
     }
 

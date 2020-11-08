@@ -32,6 +32,7 @@
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>Image</th>
                   <th>SKU</th>
                   <th>Items</th>
                   <th class="right">Categories</th>
@@ -45,6 +46,7 @@
                 @foreach($order as $key=>$item)
                 <tr>
                   <td class="center">{{++$key}}</td>
+                  <td class="center">@php $img=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','attached_file')->first(); @endphp <img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></td>
                   <td class="center">@php $sku=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','_sku')->first(); @endphp {{$sku->meta_value}}</td>
                   <td class="left strong">{{$item->order_item_name}}</td>
                   <td class="left">@php $category=DB::table('term_relationships')
@@ -63,6 +65,7 @@
                <tfoot>
                     <tr>
                     <td>Total</td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

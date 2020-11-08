@@ -80,7 +80,8 @@ class OrderController extends Controller
         $order_info=DB::table('postmeta')
         ->where('post_id',$id)
         ->get();
-         return view('front.order.edit',compact('order','products','order_info'))->with($extraInfo);
+        $status=DB::table('posts')->where('ID',$id)->select('post_status')->first();
+        return view('front.order.edit',compact('order','products','order_info','status'))->with($extraInfo);
     }
 
     //cancel order
