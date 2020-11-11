@@ -25,7 +25,7 @@ class OrderController extends Controller
        ->where('post_author',auth()->user()->id)
        ->select('ID','post_date','post_status','post_modified')
        ->orderBy('ID','DESC')
-       ->paginate(10);
+       ->paginate(20);
        return view('front.order.list',compact('shop_order'));
     }
 
@@ -83,6 +83,8 @@ class OrderController extends Controller
         $status=DB::table('posts')->where('ID',$id)->select('post_status')->first();
         return view('front.order.edit',compact('order','products','order_info','status'))->with($extraInfo);
     }
+
+ 
 
     //cancel order
     public function cancelOrder($id){

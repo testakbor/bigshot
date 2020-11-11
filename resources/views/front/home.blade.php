@@ -31,7 +31,7 @@
 					<div class="col-6 col-md-3 mt-2 ml-0 pl-0">
 						 <a style=" text-decoration: none;" href="{{url('product/'.$item->ID.'/'.urlencode($item->post_title))}}">
 						<div class="card">
-							<img src="{{asset('backend/products/'.$image)}}"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
+							<img src="{{asset('backend/products/'.$image)}}"  class="img-fluid1 rounded" style="height: 160px;" alt="...">
 							<div class="card-body text-center">
 								<p style="color:#000000" class="card-text font-weight-bold">{{$item->post_title}}</p>
 								<p class="card-text">@if($rprice) <del style="color:red">৳{{$rprice}}</del>@endif <span style="color:#000000"> ৳{{$sprice}}</span></p>

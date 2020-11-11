@@ -33,12 +33,8 @@
 				</div>
 				<div class="d-flex flex-row">
 					<div class="d-flex align-items-center">
-						<form class="form-inline" method="POST" action="http://127.0.0.1:8000/search" role="search">
-                  <input type="hidden" name="_token" value="Mm7HctMeLKOQ6jX3EDSVUJ2vwg2cDHtsnmkZNzN4">            
-                        <input type="text" name="q" class="form-control" placeholder="Search">
-                  <!-- <button type="submit" class="btn btn-success">Search</button> -->
-                </form>
-			</div>
+						<input id="search_item" type="text" name="q" class="form-control" placeholder="Search here" autocomplete="off">
+			       </div>
 			
 					<div class="d-flex align-items-center ml-3">
                         @guest
@@ -105,3 +101,7 @@
 				</div>
 			</div>
 		</div>
+
+
+
+

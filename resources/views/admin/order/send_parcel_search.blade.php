@@ -47,7 +47,7 @@
                   <th class="center">Qty</th>
                   <th class="right">Amount</th>
                   <th class="right">Status</th>
-                  <!-- <th class="right">Action</th> -->
+                  <th class="right">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -111,7 +111,7 @@
                             </table>
                       </td>
                       <td class="right">{{$item->post_status}}</td>
-                      <!-- <td class="right"></td> -->
+                      <td class="right"><a class="btn btn-danger btn-sm" href="{{route('send.parcel.search.remove',$item->ID)}}"><i class="fa fa-times"></i> Remove from here<td></td>
                   </tr>
                   @endforeach 
                 </tbody>

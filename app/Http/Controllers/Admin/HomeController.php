@@ -27,7 +27,7 @@ class HomeController extends Controller
         );
         $total_sales=DB::table('posts')
         ->where('post_type','shop_order')
-        ->where('post_status','delivered')
+        ->where('post_status','on-hold')
         ->whereBetween('post_date',[date('Y-m-01'),date('Y-m-t')])
         ->count();
         $total_delivered = DB::table('posts')

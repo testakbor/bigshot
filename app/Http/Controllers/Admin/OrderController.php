@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 use App\Model\front\Post;
 use App\Model\front\Postmeta;
 use App\Model\front\Order_item;
-
 use Carbon\Carbon;
 use DB;
 use Session;
 use App;
 use Auth;
 use PDF;
+use App\Exports\DispatchExcel;
+use Excel;
+
 class OrderController extends Controller
 {
     /**
@@ -759,6 +761,13 @@ public function grossProfit()
         //return view('admin.order.parcel_print',compact('orders','company_name'));
     }
 
+    public function sendParcelRemove($id){
+      DB::table('posts')->where('ID',$id)->update([
+        'post_status' => 'on-hold'
+      ]);
+      return redirect()->route('order.sendParcel');
+    }
+
     public function downloadShippingAddress($id){
       $order = Post::find($id);
       $products = Order_item::where('order_id', $id)
@@ -776,19 +785,27 @@ public function grossProfit()
     //excel dispatch
     public function excelDispatch(){
       $extraInfo = array(
-        'title' => "Order List",
+        'title' => "Dispatch Order List",
         'page' => 'order'
       ); $date = \Carbon\Carbon::today();
       $order = Post::where('post_type','shop_order')
       ->where('post_status','dispatch')
       ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
-      ->paginate(20);
-
-      $total_order = Post::where('post_type', 'shop_order')
-      ->where('post_status', 'dispatch')
+      ->paginate(500);
+      $total_complete=Post::where('post_type','shop_order')
+      ->where('post_status','dispatch_complete')
       ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
       ->count();
-      return view('admin.order.excelDispatch', compact('order','total_order'))->with($extraInfo); 
+      return view('admin.order.excelDispatch', compact('order','total_complete'))->with($extraInfo); 
+    }
+
+    public function excelDispatchDownload(Request $request){
+
+          DB::table('posts')->whereIn('ID',$request->check_id)->update([
+            'post_status'=>'dispatch_complete'
+          ]);
+          $data=Post::whereIn('ID',$request->check_id)->get();
+          return Excel::download(new DispatchExcel($data),'dispatch_excel.xlsx');
     }
 
     public function deliveryInvoiceOrder(){
@@ -1102,18 +1119,6 @@ public function grossProfit()
 
  }
 
-
-
-
- public function exceldispatchOrdercomplete($id){
-   DB::table('posts')->where('ID',$id)->update([
-     'post_status' =>'delivered',
-     'post_modified' =>date('Y-m-d'),
-   ]);
-   session()->flash("success", "Order has been delivered");
-   return redirect()->back();
- }
-
  public function exceldispatchOrderdate(Request $request){
   $start=$request->start;
   $end = $request->end;
@@ -1126,12 +1131,7 @@ public function grossProfit()
   ->where('post_status', 'dispatch')
   ->whereBetween('post_modified',[$start,$end])
   ->paginate(20);
-
-  $total_order = Post::where('post_type', 'shop_order')
-  ->where('post_status', 'dispatch')
-  ->whereBetween('post_modified', [$start, $end])
-  ->count();
-  return view('admin.order.excelDispatchdate', compact('order', 'total_order'))->with($extraInfo); 
+  return view('admin.order.excelDispatchdate', compact('order'))->with($extraInfo); 
 }
 
 

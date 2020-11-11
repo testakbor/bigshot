@@ -38,14 +38,32 @@
                       <label for="categoryName">Role</label>
                       <input type="text" name="name" class="form-control" value="{{$role->name}}" id="categoryName" placeholder="Enter Role Name" autocomplete="off" required>
                     </div> 
-
-               
-
-
-                              
+                       
+                         
+                    
+                       <div class="form-group">
+                         <label for="categoryName">Select Permission</label></br>
+                          @foreach($permission as $permissions)
+                          <label class="checkbox-inline">
+                              @php  
+                              $up=DB::table('roles_permissions')
+                              ->where(['permission_id'=>$permissions->id,'role_id'=>$role->id])
+                              ->select('permission_id')
+                              ->first(); 
+                              @endphp
+                              @if(isset($up)) @php $p_id=$up->permission_id; @endphp @else @php $p_id=0; @endphp @endif
+                              @if($permissions->id==$p_id)
+                                @php $ck='checked'; @endphp
+                                @else 
+                                @php $ck=''; @endphp
+                              @endif 
+                            <input {{$ck}} style="padding: 0px 5px;" name="page_id[]" type="checkbox" value="{{$permissions->id}}"> {{$permissions->name}}
+                          </label>
+                          @endforeach 
+                     </div> 
+                        
                   </div>
                   <!-- /.card-body -->
-  
                   <div class="card-footer">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
                   </div>

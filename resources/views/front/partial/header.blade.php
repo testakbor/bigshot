@@ -14,8 +14,7 @@
             <li class="nav-item d-none d-lg-block">
               <div class="form-group has-search">
                 <span class="fa fa-search form-control-feedback"></span>
-                <form class="searchform cf " method="POST" action="{{url('/search')}}" role="search">
-                  @csrf
+                
                   <input type="text" name="q" placeholder="What do you want to find?">
                   <button type="submit">Search</button>
                 </form>
@@ -159,3 +158,4 @@
 
     </div>
   </div>
+

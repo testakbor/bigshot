@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
   Route::get('/callback/{provider}', 'SocialController@callback');
   Auth::routes();
 
-Route::group(['middleware' => 'role:admin-role'], function() {
+Route::group(['middleware' => 'role:admin'], function() {
     Route::resource('/user','UserController');
     Route::resource('/role','RoleController');
 });
@@ -78,8 +78,7 @@ Route::group(['middleware' => 'role:admin-role'], function() {
     }); 
        
     Route::group(['namespace'=>'Search'],function(){
-        Route::post('/search','SearchController@nSearch')->name('search');
-       
+        Route::get('/search/{search}','SearchController@SearchItem');
     });
 
     Route::group(['namespace'=>'Admin'],function(){       
@@ -174,11 +173,13 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         //send parcel print route
          Route::post('send/parcel/print','OrderController@sendParcelPrint')->name('parcel_print');
          Route::post('send/parcel/search','OrderController@sendParcelSearch')->name('send.parcel.search');
+         Route::get('send/parcel/remove/{id}','OrderController@sendParcelRemove')->name('send.parcel.search.remove');
         //send parcel print route
         //download shipping address
         Route::get('download/shipping/address/{id}','OrderController@downloadShippingAddress')->name('download.shipping.address');
         //excel dispatch
         Route::get('excel/dispatch', 'OrderController@excelDispatch')->name('order.excel.dispatch');
+        Route::post('excel/dispatch/excel/download', 'OrderController@excelDispatchDownload')->name('order.excel.dispatch.download');
         //delivery invoice
         Route::get('delivery/invoice', 'OrderController@deliveryInvoiceOrder')->name('order.delivery.invoice');
         Route::get('delivered/order', 'OrderController@deliveredOrder')->name('order.deliver');
@@ -200,7 +201,6 @@ Route::group(['middleware' => 'role:admin-role'], function() {
         Route::get('dispatch/order/edit/{id}', 'OrderController@dispatchOrderEdit')->name('order.dispatch.edit');
         Route::post('dispatch/order/date/wise', 'OrderController@dispatchOrderdatewise')->name('dispatch.order.date.wise');
         Route::post('dispatch/order/cancel', 'OrderController@dispatchOrdercancel')->name('dispatch.order.cancel.type');
-        Route::get('excel/dispatch/order/complete/{id}', 'OrderController@exceldispatchOrdercomplete')->name('excel.dispatch.order.complete');
         Route::post('excel/dispatch/order/date/wise', 'OrderController@exceldispatchOrderdate')->name('excel.dispatch.order.date');
         Route::post('order/delivery/invoice/data', 'OrderController@deliveryInvoiceData')->name('order.delivery.invoice.data');
         Route::get('order/delivery/invoice/details/{id}', 'OrderController@deliveryInvoiceDataDetails')->name('order.delivery.invoice.data.details');

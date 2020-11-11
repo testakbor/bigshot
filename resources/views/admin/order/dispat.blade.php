@@ -49,7 +49,7 @@
             @endif
             @endforeach
             @endforeach
-            @php $total_amount+=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
+             @php $total_amount+=$subtotal; @endphp
             @endforeach
             <h3 class="text-center">{{$total_order}}</h3>
             <p class="lead text-center font-weight-bold">Total Order</p>
@@ -100,23 +100,23 @@
                 @foreach($orders->orderItem as $info)
                 @foreach($info->orderMeta as $value)
                 @if($value->meta_key=='_line_subtotal')
-                @php $subtotal=$value->meta_value; @endphp
+                  @php $subtotal=$value->meta_value;   @endphp
                 @endif
                 @endforeach
                 @endforeach
-                @php $total_amount+=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
                 <tr>
                   <td class="center">{{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
                   <td>{{$name}} {{$last_name}}</td>
                   <td class="right">{{$address_one}}</td>
                   <td class="right">{{$phone}}</td>
-                  <td class="right">{{$total_amount}}</td>
+                  <td class="right">{{$subtotal}}</td>
                   <td class="right">
                     <a onclick="return confirm('Do you want to delivery?')" href="{{route('order_dispatch_d',$orders->ID)}}" class="btn btn-success">Delivered</a><br>
                     <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 49%;">Edit</a>
                   </td>
                   <!-- <td class="right">hello</td> -->
                 </tr>
+                   @php $total_amount+=$subtotal;   @endphp
                 @endforeach
               </tbody>
             </table>

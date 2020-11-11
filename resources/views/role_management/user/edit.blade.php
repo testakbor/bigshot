@@ -59,37 +59,13 @@
                                selected='selected' @endif>{{ $roles->name }}</option>
                          @endforeach
                       </select>
-                    </div>   
-
-                       <div class="form-group">
-                         <label for="categoryName">Select Permission</label></br>
-                          @foreach($permission as $permissions)
-                          <label class="checkbox-inline">
-                              @php  
-                              $up=DB::table('users_permissions')
-                              ->where(['permission_id'=>$permissions->id,'user_id'=>$user->id])
-                              ->select('permission_id')
-                              ->first(); 
-                              @endphp
-                              @if(isset($up)) @php $p_id=$up->permission_id; @endphp @else @php $p_id=0; @endphp @endif
-                              @if($permissions->id==$p_id)
-                                @php $ck='checked'; @endphp
-                                @else 
-                                @php $ck=''; @endphp
-                              @endif 
-                            <input {{$ck}} style="padding: 0px 5px;" name="page_id[]" type="checkbox" value="{{$permissions->id}}"> {{$permissions->name}}
-                          </label>
-                          @endforeach 
-                     </div> 
-
+                    </div>  
                   </div>
                   <!-- /.card-body -->
-  
                   <div class="card-footer">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Update</button>
                   </div>
                 </form>
-      
               </div>     
         </div>  
           <div class="col-md-7">

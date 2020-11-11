@@ -58,14 +58,6 @@
                          @endforeach
                       </select>
                     </div>  
-                     <div class="form-group">
-                         <label for="categoryName">Select Permission</label></br>
-                          @foreach($permission as $permissions)
-                          <label class="checkbox-inline">
-                            <input type="checkbox" id="example" class="allChecked"  style="padding: 0px 5px;" name="page_id[]"  value="{{$permissions->id}}"> {{$permissions->name}}
-                          </label>
-                          @endforeach 
-                     </div> 
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer">

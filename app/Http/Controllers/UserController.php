@@ -48,6 +48,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $data=DB::table('roles_permissions')->where('role_id',$request->role_id)->select('permission_id')->get();
         $create= new admin();
         $create->name=$request->name;
         $create->email=$request->email;
@@ -55,15 +56,13 @@ class UserController extends Controller
         $create->role_id=$request->role_id;
         $create->status=1;
         $create->save();
-
-        $count=$request->page_id;
-        for($i=0;$i<count($count);$i++){
-          DB::table('users_permissions')->insert([
+        foreach($data as $per){
+         DB::table('users_permissions')->insert([
             'user_id'=>$create->id,
-            'permission_id'=>  $count[$i],
-          ]);
+            'permission_id'=> $per->permission_id,
+         ]);
         }
-        session()->flash("success","User & permission has been created successfully");
+        session()->flash("success","User has been created successfully");
         return redirect(route('user.index'));
     }
 
@@ -89,8 +88,7 @@ class UserController extends Controller
         $user=admin::find($id);
         $data=admin::orderBy('id','DESC')->paginate(10);
         $role=Role::all();
-        $permission=Permission::all();
-        return view('role_management.user.edit',compact('user','role','data','permission'));
+        return view('role_management.user.edit',compact('user','role','data'));
     }
 
     /**
@@ -114,14 +112,14 @@ class UserController extends Controller
         'role_id'=>$request->role_id,
         ]);
         DB::table('users_permissions')->where('user_id',$id)->delete();
-        $count=$request->page_id;
-        for($i=0;$i<count($count);$i++){
+        $data=DB::table('roles_permissions')->where('role_id',$request->role_id)->select('permission_id')->get();
+        foreach($data as $item){
           DB::table('users_permissions')->insert([
             'user_id'=>$id,
-            'permission_id'=> $count[$i],
+            'permission_id'=> $item->permission_id,
           ]);
         }
-        session()->flash("success","User & permission has been update successfully");
+        session()->flash("success","User has been update successfully");
         return redirect(route('user.index'));
     }
 

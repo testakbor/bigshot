@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Role;
+use App\Permission;
 use Session;
 use Illuminate\Support\Facades\Hash;
+use DB;
 
 class RoleController extends Controller
 {
@@ -22,7 +24,8 @@ class RoleController extends Controller
     {
   
         $user=Role::orderBy('id','DESC')->paginate(10);
-        return view('role_management.role.index',compact('user'));
+        $permission=Permission::all();
+        return view('role_management.role.index',compact('user','permission'));
     }
 
     /**
@@ -43,11 +46,16 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-       
         $create= new Role();
         $create->name=$request->name;
         $create->slug=strtolower($request->name);
         $create->save();
+        for($i=0;$i<count($request->page_id);$i++){
+          DB::table('roles_permissions')->insert([
+              'role_id' =>$create->id,
+              'permission_id' =>$request->page_id[$i],
+          ]);
+        }
         session()->flash("success","Role has been created successfully");
         return redirect(route('role.index'));
     }
@@ -73,7 +81,8 @@ class RoleController extends Controller
     {
         $role=Role::find($id);
         $all_role=Role::orderBy('id','DESC')->paginate(10);
-        return view('role_management.role.edit',compact('role','all_role'));
+        $permission=Permission::all();
+        return view('role_management.role.edit',compact('role','all_role','permission'));
     }
 
     /**
@@ -87,9 +96,15 @@ class RoleController extends Controller
     {
         Role::where('id',$id)->update([
         'name'=>$request->name,
-         'slug'=>strtolower($request->name),
         ]);
-        session()->flash("success","Role has been update successfully");
+        DB::table('roles_permissions')->where('role_id',$id)->delete();
+         for($i=0;$i<count($request->page_id);$i++){
+          DB::table('roles_permissions')->insert([
+              'role_id' =>$id,
+              'permission_id' =>$request->page_id[$i],
+          ]);
+        }
+        session()->flash("success","Role & permission has been update successfully");
         return redirect(route('role.index'));
     }
 

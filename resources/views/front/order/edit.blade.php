@@ -58,6 +58,8 @@
                             $sub=0;
                             $total_qty=0;
                             $delivery_charge=0;
+                            $coupon_amount=0;
+                            $coupon_code='';
                             @endphp
                            @if($status->post_status=='cancelled')
                           @else 
@@ -67,10 +69,10 @@
                             @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
                             @if($value->meta_key=='_line_subtotal') @php $subtotal=$value->meta_value; @endphp @endif
                             @if($value->meta_key=='delivery_charge') @php $delivery_charge=$value->meta_value; @endphp @endif
+                            @if($value->meta_key=='coupon_code') @php $coupon_code=$value->meta_value; @endphp @endif
+                            @if($value->meta_key=='coupon_taka') @php $coupon_amount=$value->meta_value; @endphp @endif
                             @endforeach
                             @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
-       
-                
                             <tr>
                                 <th scope="row">
                                 </th>
@@ -131,14 +133,50 @@
                             <p class="mb-1">{{$delivery_charge}} tk</p>
                         </div>
                     </div>
+
+                   @if($coupon_amount>0)
+                   <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Coupon Code</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{$coupon_code}}</p>
+                        </div>
+                    </div>
+
+                     <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Coupon Amount</b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">{{$coupon_amount}}</p>
+                        </div>
+                    </div>
+                    @endif 
+                  
+
+                    
+                   @if($coupon_amount>0)
                     <div class="row justify-content-between">
                         <div class="flex-sm-col text-right col">
                             <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">Tk. {{$grandTotal+$delivery_charge}}</p>
+                            <p class="mb-1">Tk. {{number_format(($grandTotal+$delivery_charge)-$coupon_amount)}}</p>
                         </div>
                     </div>
+                    @else
+                      <div class="row justify-content-between">
+                        <div class="flex-sm-col text-right col">
+                            <p class="mb-1"><b>Order Total </b></p>
+                        </div>
+                        <div class="flex-sm-col col-auto">
+                            <p class="mb-1">Tk. {{number_format($grandTotal+$delivery_charge)}}</p>
+                        </div>
+                    </div>
+                    @endif 
+
+
                 </div>
             </div>
             @endif

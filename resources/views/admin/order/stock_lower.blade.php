@@ -95,7 +95,6 @@
                   <td class="right">
                     <i class="fas fa-print"><a href="{{route('stock.print.sticker',$item->ID)}}">Print</a></i><br>
                     <i class="fas fa-edit"><a href="{{route('product.edit',$item->ID)}}">Edit</a></i><br>
-                    <i class="fas fa-trash-alt"><a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}">Delete</a></i><br>
                   </td>
                   </tr>
                   @php $total_cost+=$tot; $total_sell_price+=$price; @endphp

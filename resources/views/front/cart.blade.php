@@ -7,6 +7,49 @@ li {
 .nav-tabs {
      border-bottom: 0px solid #dee2e6; 
 }
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.loader {
+  display: none; 
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.loading {
+  border: 2px solid #ccc;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border-top-color: #1ecd97;
+  border-left-color: #1ecd97;
+  animation: spin 1s infinite ease-in;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.overlay {
+    background-color:#EFEFEF;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    top: 0px;
+    left: 0px;
+    opacity: .5; /* in FireFox */ 
+    filter: alpha(opacity=50); /* in IE */
+}
 </style>
 @php $l_name='';
 $address1='';
@@ -32,16 +75,17 @@ $email=auth()->user()->email;
 <div id="content" class="p-4 p-md-5">
     @if(Cart::getTotalquantity()>0)
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-12">
             <div class="container-fluid mt-2">
                 <div class="container mb-3">
                     <div class="row">
                         <div class="col-md-8">
                             @include('admin.includes.messages')
-                            <nav id="myTab" class="nav nav-tabs nav-justified"><a class="nav-item nav-link btn btn-primary active one"
+                            <nav id="myTab" class="nav nav-tabs nav-justified">
+                                <a class="nav-item nav-link btn btn-primary active one mr-2 mb-3"
                                     data-toggle="tab" href="#home"> SHIP TO</a>
-                                <a class="nav-item nav-link btn btn-success two" data-toggle="tab" href="#menu2">REVIEW ORDER</a>
-                                <a class="nav-item nav-link btn btn-primary three" data-toggle="tab" href="#menu1">PAYMENT</a>
+                                <a class="nav-item nav-link btn btn-success two mr-2 mb-3" data-toggle="tab" href="#menu2">REVIEW ORDER</a>
+                                <a class="nav-item nav-link btn btn-primary three mb-3" data-toggle="tab" href="#menu1">PAYMENT</a>
                                 <a class="nav-item nav-link disabled" data-toggle="tab" href="#menu3"></a>
                             </nav>
                             <form id="check_out_form" role="form" action="{{route('checkout')}}" method="POST">
@@ -246,36 +290,37 @@ $email=auth()->user()->email;
                                     </tbody>
                                 </table>
                                 <ul class="list-group mb-3">
-
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                       <p>Sub Total:</p> <div class="float-right">{{Cart::getTotalquantity()}} pcs {{Cart::getTotal()}} tk</div>
+                                       <p>Sub Total:</p> <div class="float-right">{{Cart::getTotalquantity()}} pcs {{Cart::getTotal()}}</div>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                       <p>Delivery Charge:</p> <div class="float-right" id="charge"></div> <input id="deli" type="hidden" value="" class="form-control">
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                       <p>Delivery Charge: <div class="float-right" id="charge"></div> <input id="deli" type="hidden" value="" class="form-control"></p>
-                                    
-                                       
+                                       <p>Order Total:</p> <div class="float-right"> {{Cart::getTotal()}}</div> 
                                     </li>
-
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                       <p>Order Total:</p> <div class="float-right"> {{Cart::getTotal()}} tk</div> 
+                                       <p>Apply Promo code:</p> <div class="float-right"> <input autocomplete="off" id="promo_code" type="number" step="any" name="promo_code" class="form-control" placeholder="Enter code"> </div>
                                     </li>
-
-                                    <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                       <p>Apply Promo code:</p> <div class="float-right"> <input id="promo_code" type="text" name="promo_code" class="form-control" placeholder="Enter code"> </div>
-                                    </li>
-
                                     <div id="coupon_data_div"></div>
-
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                       <p>Order Total After Discount:</p>  <div class="float-right"> <div id="cart_get_total"></div> </div>tk 
+                                       <p>Order Total After Discount:</p>  <div class="float-right"> <div id="cart_get_total"></div> </div> 
                                     </li>
-                                
                                 </ul>
                             </div>
                               <button type="button" class="btn btn-primary" id="first_btn_back"><i class="fas fa-arrow-left"></i> Back</button>
                               <button type="button" class="btn btn-success float-right" id="second_btn">Next <i class="fas fa-arrow-right"></i> </button>
                         </div>
+
+
+<div class="loader">
+  <div class="loading">
+  </div>
+</div>
+
+
+
                     </div>
                 </div>
                 <div class="col-md-4 d-flex flex-column">
@@ -329,12 +374,19 @@ $email=auth()->user()->email;
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
 </script>
 
+
+
+
 <script>
   $(document).ready(function() {
       document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
       document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
       document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
   });
+
+   function spinner() {
+        document.getElementsByClassName("loader")[0].style.display = "block";
+    }
 
 //cart update form submit
 $("#first_btn").click(function(){
@@ -389,8 +441,12 @@ $("#order_submit").click(function(e){
         return false;
      }
      
-     if( $('#FullPayment').is(':checked') ||  $('#DeliveryChargeOnly').is(':checked') || $('#CashOnDelivery').is(':checked') ) { 
+     if( $('#FullPayment').is(':checked') ||  $('#DeliveryChargeOnly').is(':checked') || $('#CashOnDelivery').is(':checked') ) {
+         $('.loader').show(); 
         $('#check_out_form').delay(200).submit();
+         var div= document.createElement("div");
+    div.className += "overlay";
+    document.body.appendChild(div);
      }else{
           var msg="Please Select Payment Option"; 
           document.getElementById("payment_msg").innerHTML=msg;
@@ -494,10 +550,23 @@ $("#city").change(function() {
 //promo code input keyup change ajax call  
 $("#promo_code").keyup(function() {
     var codes = $("#promo_code").val();
+    var d=$("#deli").val();
+    var ac_delivery_charge=parseInt(d) || 0;
+ 
      var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
      var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
      var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var d=$("#deli").val();
+
+    if(codes==''){
+            var discount_totall=main_amount+ac_delivery_charge;
+            var discount_totall_payment=main_amount_payment+ac_delivery_charge;
+            var discount_totall_sidebar=main_amount_payment_sidebar+ac_delivery_charge;
+            document.getElementById('cart_get_total').innerHTML=discount_totall;
+            document.getElementById('cart_get_payment').innerHTML=discount_totall_payment;
+            document.getElementById('cart_get_payment_sidebar').innerHTML=discount_totall_sidebar;
+            return false;
+    }
+    
     $.ajax({
         url: "{{url('/apply/promocode/ajax/')}}" + '/' + codes,
         type: "GET",
@@ -511,9 +580,9 @@ $("#promo_code").keyup(function() {
             var c_amount=$("#coupon_amountss").val();
             var result=parseInt(c_amount) || 0;
             var main_delivery_charge=parseInt(d) || 0;
-            var discount_total=main_amount-result+main_delivery_charge;
-            var discount_total_payment=main_amount_payment-result+main_delivery_charge;
-            var discount_total_sidebar=main_amount_payment_sidebar-result+main_delivery_charge;
+            var discount_total=(main_amount+main_delivery_charge)-result;
+            var discount_total_payment=(main_amount_payment+main_delivery_charge)-result;
+            var discount_total_sidebar=(main_amount_payment_sidebar+main_delivery_charge)-result;
             document.getElementById('cart_get_total').innerHTML=discount_total;
             document.getElementById('cart_get_payment').innerHTML=discount_total_payment;
             document.getElementById('cart_get_payment_sidebar').innerHTML=discount_total_sidebar;

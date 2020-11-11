@@ -39,6 +39,33 @@
         <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
       </form>
     </div>
+  <div class="container">
+    <div class="row">
+      <div class="offset-8 col-md-2">
+        <div class="box bg-danger">
+          <!-- <i class="fa fa-lemon ml-1"></i> -->
+
+          <h3 class="text-center">12</h3>
+
+          <p class="lead text-center font-weight-bold">Complete</p>
+        </div>
+      </div>
+
+      <div class="col-md-2 ">
+        <div class="box bg-success">
+          <!-- <i class="fa fa-handshake ml-1"></i> -->
+
+
+          <h3 class="text-center">12</h3>
+
+          <p class="lead text-center font-weight-bold">Quantity</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
 <!-- Main content -->
 <section class="content">
   <div class="container">
@@ -113,31 +140,7 @@
       </div>
     </div>
   </div>
-  <div class="container">
-    <div class="row">
-      <div class="offset-8 col-md-2">
-        <div class="box bg-danger">
-          <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-          <h3 class="text-center">{{$total_order}}</h3>
-
-          <p class="lead text-center font-weight-bold">Complete</p>
-        </div>
-      </div>
-
-      <div class="col-md-2 ">
-        <div class="box bg-success">
-          <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
-          <h3 class="text-center">{{$total_qty}}</h3>
-
-          <p class="lead text-center font-weight-bold">Quantity</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </section>
 <!-- /.row -->
 </div><!-- /.container-fluid -->
