@@ -7,7 +7,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="{{route('admin.home')}}" class="brand-link text-center" style="background: #ffffff;">
+            <a href="{{route('admin.home')}}" class="brand-link text-center" style="background: #e7e7e7;">
                 <img src="{{asset('assets/common/images/logo.png')}}" alt="Bigshot Logo" class=""
                     style="opacity: .8;height: 60px;width: 100px;">
                 {{-- <span class="brand-text font-weight-light">BigShot</span> --}}
