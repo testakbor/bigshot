@@ -579,6 +579,7 @@ $("#promo_code").keyup(function() {
         //  document.getElementById('cart_get_total').innerHTML 
             var c_amount=$("#coupon_amountss").val();
             var result=parseInt(c_amount) || 0;
+            console.log(result);
             var main_delivery_charge=parseInt(d) || 0;
             var discount_total=(main_amount+main_delivery_charge)-result;
             var discount_total_payment=(main_amount_payment+main_delivery_charge)-result;

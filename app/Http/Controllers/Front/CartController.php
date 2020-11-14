@@ -521,4 +521,15 @@ class CartController extends Controller {
         return redirect(route('cart'))->with('status', 'Item deleted from cart');
     }
 
+        //promo code ajax
+    public function applyPromocode($code){
+       $data=DB::table('coupons')
+       ->where('coupon_code',$code)
+       ->where('status',1)
+       ->where('expire_date','>=',date('Y-m-d'))
+       ->select('coupon_code','coupon_amount')
+       ->get(); 
+        return response()->json($data);
+    }
+
 }
