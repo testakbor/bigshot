@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2020 at 12:40 PM
+-- Generation Time: Nov 14, 2020 at 11:12 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -44,8 +44,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `phone`, `role_id`, `status`, `created_at`, `updated_at`) VALUES
-(2, 'Admin', 'admin@email.com', '$2y$10$kWxHZoXuhxBiFY/vdokU0u9REwpd7EWV7kekYFaS6Kd9ro6fLwK4S', '65756756', 1, '1', '2020-10-28 12:11:44', '2020-10-29 05:18:53'),
-(4, 'Sohel Mia', 's@email.com', '$2y$10$XVZhNo8As133cCSEK6pNF.wHx2Ipy9D1SNmxtvs.rqxQAL1gDCeXq', '', 3, '1', '2020-11-03 09:34:08', '2020-11-03 09:34:08');
+(2, 'Admin', 'admin@email.com', '$2y$10$kWxHZoXuhxBiFY/vdokU0u9REwpd7EWV7kekYFaS6Kd9ro6fLwK4S', '65756756', 1, '1', '2020-10-28 12:11:44', '2020-11-11 11:51:38'),
+(4, 'Sohel Mia', 's@email.com', '$2y$10$XVZhNo8As133cCSEK6pNF.wHx2Ipy9D1SNmxtvs.rqxQAL1gDCeXq', '', 3, '1', '2020-11-03 09:34:08', '2020-11-11 11:51:50');
 
 -- --------------------------------------------------------
 
@@ -420,175 +420,30 @@ CREATE TABLE `order_itemmeta` (
 --
 
 INSERT INTO `order_itemmeta` (`meta_id`, `order_item_id`, `meta_key`, `meta_value`, `order_id`, `order_date`, `customer_id`) VALUES
-(1, 1, '_tax_class', '', '223', '2020-11-04', '0'),
-(2, 1, '_qty', '1', '223', '2020-11-04', '0'),
-(3, 1, '_product_id', '222', '223', '2020-11-04', '0'),
-(4, 1, '_variation_id', '', '223', '2020-11-04', '0'),
-(5, 1, '_line_subtotal', '3000', '223', '2020-11-04', '0'),
-(6, 1, '_line_total', '3000', '223', '2020-11-04', '0'),
-(7, 1, '_line_subtotal_tax', '', '223', '2020-11-04', '0'),
-(8, 1, '_line_tax', '', '223', '2020-11-04', '0'),
-(9, 1, '_line_tax_data', '2020-11-04 17:14:10', '223', '2020-11-04', '0'),
-(10, 1, 'delivery_charge', '60', '223', '2020-11-04', '0'),
-(11, 2, '_tax_class', '', '224', '2020-11-04', '2'),
-(12, 2, '_qty', '5', '224', '2020-11-04', '2'),
-(13, 2, '_product_id', '222', '224', '2020-11-04', '2'),
-(14, 2, '_variation_id', '', '224', '2020-11-04', '2'),
-(15, 2, '_line_subtotal', '15000', '224', '2020-11-04', '2'),
-(16, 2, '_line_total', '15000', '224', '2020-11-04', '2'),
-(17, 2, '_line_subtotal_tax', '', '224', '2020-11-04', '2'),
-(18, 2, '_line_tax', '', '224', '2020-11-04', '2'),
-(19, 2, '_line_tax_data', '2020-11-04 17:59:31', '224', '2020-11-04', '2'),
-(20, 2, 'delivery_charge', '60', '224', '2020-11-04', '2'),
-(21, 3, '_tax_class', '', '225', '2020-11-04', '2'),
-(22, 3, '_qty', '6', '225', '2020-11-04', '2'),
-(23, 3, '_product_id', '222', '225', '2020-11-04', '2'),
-(24, 3, '_variation_id', '', '225', '2020-11-04', '2'),
-(25, 3, '_line_subtotal', '18000', '225', '2020-11-04', '2'),
-(26, 3, '_line_total', '18000', '225', '2020-11-04', '2'),
-(27, 3, '_line_subtotal_tax', '', '225', '2020-11-04', '2'),
-(28, 3, '_line_tax', '', '225', '2020-11-04', '2'),
-(29, 3, '_line_tax_data', '2020-11-04 21:27:24', '225', '2020-11-04', '2'),
-(30, 3, 'delivery_charge', '60', '225', '2020-11-04', '2'),
-(31, 3, 'product_status', 'cancel', '225', '2020-11-04', '2'),
-(32, 4, '_tax_class', '', '228', '2020-11-07', '23'),
-(33, 4, '_qty', '1', '228', '2020-11-07', '23'),
-(34, 4, '_product_id', '226', '228', '2020-11-07', '23'),
-(35, 4, '_variation_id', '', '228', '2020-11-07', '23'),
-(36, 4, '_line_subtotal', '3000', '228', '2020-11-07', '23'),
-(37, 4, '_line_total', '3000', '228', '2020-11-07', '23'),
-(38, 4, '_line_subtotal_tax', '', '228', '2020-11-07', '23'),
-(39, 4, '_line_tax', '', '228', '2020-11-07', '23'),
-(40, 4, '_line_tax_data', '2020-11-07 16:47:25', '228', '2020-11-07', '23'),
-(41, 4, 'delivery_charge', '60', '228', '2020-11-07', '23'),
-(42, 5, '_tax_class', '', '229', '2020-11-07', '23'),
-(43, 5, '_qty', '3', '229', '2020-11-07', '23'),
-(44, 5, '_product_id', '222', '229', '2020-11-07', '23'),
-(45, 5, '_variation_id', '', '229', '2020-11-07', '23'),
-(46, 5, '_line_subtotal', '9000', '229', '2020-11-07', '23'),
-(47, 5, '_line_total', '9000', '229', '2020-11-07', '23'),
-(48, 5, '_line_subtotal_tax', '', '229', '2020-11-07', '23'),
-(49, 5, '_line_tax', '', '229', '2020-11-07', '23'),
-(50, 5, '_line_tax_data', '2020-11-07 16:53:03', '229', '2020-11-07', '23'),
-(51, 5, 'delivery_charge', '60', '229', '2020-11-07', '23'),
-(52, 6, '_tax_class', '', '230', '2020-11-07', '23'),
-(53, 6, '_qty', '2', '230', '2020-11-07', '23'),
-(54, 6, '_product_id', '226', '230', '2020-11-07', '23'),
-(55, 6, '_variation_id', '', '230', '2020-11-07', '23'),
-(56, 6, '_line_subtotal', '6000', '230', '2020-11-07', '23'),
-(57, 6, '_line_total', '6000', '230', '2020-11-07', '23'),
-(58, 6, '_line_subtotal_tax', '', '230', '2020-11-07', '23'),
-(59, 6, '_line_tax', '', '230', '2020-11-07', '23'),
-(60, 6, '_line_tax_data', '2020-11-07 16:56:07', '230', '2020-11-07', '23'),
-(61, 6, 'delivery_charge', '200', '230', '2020-11-07', '23'),
-(62, 7, '_tax_class', '', '230', '2020-11-07', '23'),
-(63, 7, '_qty', '3', '230', '2020-11-07', '23'),
-(64, 7, '_product_id', '222', '230', '2020-11-07', '23'),
-(65, 7, '_variation_id', '', '230', '2020-11-07', '23'),
-(66, 7, '_line_subtotal', '9000', '230', '2020-11-07', '23'),
-(67, 7, '_line_total', '9000', '230', '2020-11-07', '23'),
-(68, 7, '_line_subtotal_tax', '', '230', '2020-11-07', '23'),
-(69, 7, '_line_tax', '', '230', '2020-11-07', '23'),
-(70, 7, '_line_tax_data', '2020-11-07 16:56:07', '230', '2020-11-07', '23'),
-(71, 7, 'delivery_charge', '200', '230', '2020-11-07', '23'),
-(72, 8, '_tax_class', '', '232', '2020-11-08', '0'),
-(73, 8, '_qty', '2', '232', '2020-11-08', '0'),
-(74, 8, '_product_id', '231', '232', '2020-11-08', '0'),
-(75, 8, '_variation_id', '', '232', '2020-11-08', '0'),
-(76, 8, '_line_subtotal', '6000', '232', '2020-11-08', '0'),
-(77, 8, '_line_total', '6000', '232', '2020-11-08', '0'),
-(78, 8, '_line_subtotal_tax', '', '232', '2020-11-08', '0'),
-(79, 8, '_line_tax', '', '232', '2020-11-08', '0'),
-(80, 8, '_line_tax_data', '2020-11-08 17:36:52', '232', '2020-11-08', '0'),
-(81, 8, 'delivery_charge', '60', '232', '2020-11-08', '0'),
-(82, 9, '_tax_class', '', '233', '2020-11-08', '0'),
-(83, 9, '_qty', '1', '233', '2020-11-08', '0'),
-(84, 9, '_product_id', '231', '233', '2020-11-08', '0'),
-(85, 9, '_variation_id', '', '233', '2020-11-08', '0'),
-(86, 9, '_line_subtotal', '3000', '233', '2020-11-08', '0'),
-(87, 9, '_line_total', '3000', '233', '2020-11-08', '0'),
-(88, 9, '_line_subtotal_tax', '', '233', '2020-11-08', '0'),
-(89, 9, '_line_tax', '', '233', '2020-11-08', '0'),
-(90, 9, '_line_tax_data', '2020-11-08 17:48:25', '233', '2020-11-08', '0'),
-(91, 9, 'delivery_charge', '60', '233', '2020-11-08', '0'),
-(92, 10, '_tax_class', '', '234', '2020-11-08', '0'),
-(93, 10, '_qty', '3', '234', '2020-11-08', '0'),
-(94, 10, '_product_id', '231', '234', '2020-11-08', '0'),
-(95, 10, '_variation_id', '', '234', '2020-11-08', '0'),
-(96, 10, '_line_subtotal', '9000', '234', '2020-11-08', '0'),
-(97, 10, '_line_total', '9000', '234', '2020-11-08', '0'),
-(98, 10, '_line_subtotal_tax', '', '234', '2020-11-08', '0'),
-(99, 10, '_line_tax', '', '234', '2020-11-08', '0'),
-(100, 10, '_line_tax_data', '2020-11-08 17:49:09', '234', '2020-11-08', '0'),
-(101, 10, 'delivery_charge', '60', '234', '2020-11-08', '0'),
-(102, 11, '_tax_class', '', '235', '2020-11-08', '2'),
-(103, 11, '_qty', '1', '235', '2020-11-08', '2'),
-(104, 11, '_product_id', '231', '235', '2020-11-08', '2'),
-(105, 11, '_variation_id', '', '235', '2020-11-08', '2'),
-(106, 11, '_line_subtotal', '3000', '235', '2020-11-08', '2'),
-(107, 11, '_line_total', '3000', '235', '2020-11-08', '2'),
-(108, 11, '_line_subtotal_tax', '', '235', '2020-11-08', '2'),
-(109, 11, '_line_tax', '', '235', '2020-11-08', '2'),
-(110, 11, '_line_tax_data', '2020-11-08 17:56:09', '235', '2020-11-08', '2'),
-(111, 11, 'delivery_charge', '0', '235', '2020-11-08', '2'),
-(112, 12, '_tax_class', '', '236', '2020-11-08', '2'),
-(113, 12, '_qty', '2', '236', '2020-11-08', '2'),
-(114, 12, '_product_id', '231', '236', '2020-11-08', '2'),
-(115, 12, '_variation_id', '', '236', '2020-11-08', '2'),
-(116, 12, '_line_subtotal', '6000', '236', '2020-11-08', '2'),
-(117, 12, '_line_total', '6000', '236', '2020-11-08', '2'),
-(118, 12, '_line_subtotal_tax', '', '236', '2020-11-08', '2'),
-(119, 12, '_line_tax', '', '236', '2020-11-08', '2'),
-(120, 12, '_line_tax_data', '2020-11-08 17:58:04', '236', '2020-11-08', '2'),
-(121, 12, 'delivery_charge', '120', '236', '2020-11-08', '2'),
-(122, 13, '_tax_class', '', '237', '2020-11-08', '2'),
-(123, 13, '_qty', '1', '237', '2020-11-08', '2'),
-(124, 13, '_product_id', '231', '237', '2020-11-08', '2'),
-(125, 13, '_variation_id', '', '237', '2020-11-08', '2'),
-(126, 13, '_line_subtotal', '3000', '237', '2020-11-08', '2'),
-(127, 13, '_line_total', '3000', '237', '2020-11-08', '2'),
-(128, 13, '_line_subtotal_tax', '', '237', '2020-11-08', '2'),
-(129, 13, '_line_tax', '', '237', '2020-11-08', '2'),
-(130, 13, '_line_tax_data', '2020-11-08 22:46:44', '237', '2020-11-08', '2'),
-(131, 13, 'delivery_charge', '600', '237', '2020-11-08', '2'),
-(132, 13, 'coupon_code', '12', '237', '2020-11-08', '2'),
-(133, 13, 'coupon_taka', '0', '237', '2020-11-08', '2'),
-(134, 14, '_tax_class', '', '238', '2020-11-08', '2'),
-(135, 14, '_qty', '1', '238', '2020-11-08', '2'),
-(136, 14, '_product_id', '231', '238', '2020-11-08', '2'),
-(137, 14, '_variation_id', '', '238', '2020-11-08', '2'),
-(138, 14, '_line_subtotal', '3000', '238', '2020-11-08', '2'),
-(139, 14, '_line_total', '3000', '238', '2020-11-08', '2'),
-(140, 14, '_line_subtotal_tax', '', '238', '2020-11-08', '2'),
-(141, 14, '_line_tax', '', '238', '2020-11-08', '2'),
-(142, 14, '_line_tax_data', '2020-11-08 22:49:37', '238', '2020-11-08', '2'),
-(143, 14, 'delivery_charge', '600', '238', '2020-11-08', '2'),
-(144, 14, 'coupon_code', '12', '238', '2020-11-08', '2'),
-(145, 14, 'coupon_taka', '300', '238', '2020-11-08', '2'),
-(146, 15, '_tax_class', '', '239', '2020-11-08', '2'),
-(147, 15, '_qty', '2', '239', '2020-11-08', '2'),
-(148, 15, '_product_id', '231', '239', '2020-11-08', '2'),
-(149, 15, '_variation_id', '', '239', '2020-11-08', '2'),
-(150, 15, '_line_subtotal', '6000', '239', '2020-11-08', '2'),
-(151, 15, '_line_total', '6000', '239', '2020-11-08', '2'),
-(152, 15, '_line_subtotal_tax', '', '239', '2020-11-08', '2'),
-(153, 15, '_line_tax', '', '239', '2020-11-08', '2'),
-(154, 15, '_line_tax_data', '2020-11-08 23:14:26', '239', '2020-11-08', '2'),
-(155, 15, 'delivery_charge', '600', '239', '2020-11-08', '2'),
-(156, 15, 'coupon_code', '5678', '239', '2020-11-08', '2'),
-(157, 15, 'coupon_taka', '0', '239', '2020-11-08', '2'),
-(204, 19, 'coupon_code', '4567', '244', '2020-11-08', '2'),
-(203, 19, 'delivery_charge', '120', '244', '2020-11-08', '2'),
-(202, 19, '_line_tax_data', '2020-11-08 23:35:19', '244', '2020-11-08', '2'),
-(201, 19, '_line_tax', '', '244', '2020-11-08', '2'),
-(200, 19, '_line_subtotal_tax', '', '244', '2020-11-08', '2'),
-(199, 19, '_line_total', '3000', '244', '2020-11-08', '2'),
-(198, 19, '_line_subtotal', '3000', '244', '2020-11-08', '2'),
-(197, 19, '_variation_id', '', '244', '2020-11-08', '2'),
-(196, 19, '_product_id', '231', '244', '2020-11-08', '2'),
-(195, 19, '_qty', '1', '244', '2020-11-08', '2'),
-(194, 19, '_tax_class', '', '244', '2020-11-08', '2'),
-(205, 19, 'coupon_taka', '500', '244', '2020-11-08', '2');
+(1, 1, '_tax_class', '', '264', '2020-11-14', '2'),
+(2, 1, '_qty', '3', '264', '2020-11-14', '2'),
+(3, 1, '_product_id', '262', '264', '2020-11-14', '2'),
+(4, 1, '_variation_id', '', '264', '2020-11-14', '2'),
+(5, 1, '_line_subtotal', '9000', '264', '2020-11-14', '2'),
+(6, 1, '_line_total', '9000', '264', '2020-11-14', '2'),
+(7, 1, '_line_subtotal_tax', '', '264', '2020-11-14', '2'),
+(8, 1, '_line_tax', '', '264', '2020-11-14', '2'),
+(9, 1, '_line_tax_data', '2020-11-14 22:04:50', '264', '2020-11-14', '2'),
+(10, 1, 'delivery_charge', '600', '264', '2020-11-14', '2'),
+(11, 1, 'coupon_code', NULL, '264', '2020-11-14', '2'),
+(12, 1, 'coupon_taka', '0', '264', '2020-11-14', '2'),
+(13, 2, '_tax_class', '', '264', '2020-11-14', '2'),
+(14, 2, '_qty', '2', '264', '2020-11-14', '2'),
+(15, 2, '_product_id', '263', '264', '2020-11-14', '2'),
+(16, 2, '_variation_id', '', '264', '2020-11-14', '2'),
+(17, 2, '_line_subtotal', '6000', '264', '2020-11-14', '2'),
+(18, 2, '_line_total', '6000', '264', '2020-11-14', '2'),
+(19, 2, '_line_subtotal_tax', '', '264', '2020-11-14', '2'),
+(20, 2, '_line_tax', '', '264', '2020-11-14', '2'),
+(21, 2, '_line_tax_data', '2020-11-14 22:04:50', '264', '2020-11-14', '2'),
+(22, 2, 'delivery_charge', '600', '264', '2020-11-14', '2'),
+(23, 2, 'coupon_code', NULL, '264', '2020-11-14', '2'),
+(24, 2, 'coupon_taka', '0', '264', '2020-11-14', '2');
 
 -- --------------------------------------------------------
 
@@ -609,25 +464,8 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`order_item_id`, `order_item_name`, `order_item_type`, `product_id`, `order_id`) VALUES
-(1, 'Demo', 'line-item', '222', 223),
-(2, 'Demo', 'line-item', '222', 224),
-(3, 'Demo', 'line-item', '222', 225),
-(4, 'Test', 'line-item', '226', 228),
-(5, 'Demo', 'line-item', '222', 229),
-(6, 'Test', 'line-item', '226', 230),
-(7, 'Demo', 'line-item', '222', 230),
-(8, 'Test', 'line-item', '231', 232),
-(9, 'Test', 'line-item', '231', 233),
-(10, 'Test', 'line-item', '231', 234),
-(11, 'Test', 'line-item', '231', 235),
-(12, 'Test', 'line-item', '231', 236),
-(13, 'Test', 'line-item', '231', 237),
-(14, 'Test', 'line-item', '231', 238),
-(15, 'Test', 'line-item', '231', 239),
-(16, 'Test', 'line-item', '231', 241),
-(17, 'Test', 'line-item', '231', 242),
-(18, 'Test', 'line-item', '231', 243),
-(19, 'Test', 'line-item', '231', 244);
+(1, 'Demo', 'line-item', '262', 264),
+(2, 'Test', 'line-item', '263', 264);
 
 -- --------------------------------------------------------
 
@@ -720,21 +558,17 @@ CREATE TABLE `postmeta` (
 --
 
 INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
-(1, 222, 'default_attribute', '[{\"taxonomy\":\"pa_color\",\"term\":\"Blue\",\"term_id\":25}]'),
-(2, 222, 'stock_status', 'instock'),
-(3, 222, 'regular_price', '5000'),
-(4, 222, 'sale_price', '3000'),
-(5, 222, 'weight', NULL),
-(6, 222, 'length', NULL),
-(7, 222, 'width', NULL),
-(8, 222, 'height', NULL),
-(9, 222, 'qty', '93'),
-(10, 222, 'alert_qty', '34'),
-(11, 222, 'product_stock', '2000'),
-(12, 222, 'start_stock', '2000'),
-(13, 222, '_sku', '100'),
-(14, 222, 'attached_file', '1604466775.jpg'),
-(15, 222, 'gallery_file', 'Belt 1.jpg'),
+(640, 262, 'alert_qty', '34'),
+(641, 262, 'product_stock', '2000'),
+(639, 262, 'qty', '61'),
+(638, 262, 'height', NULL),
+(637, 262, 'width', NULL),
+(636, 262, 'length', NULL),
+(635, 262, 'weight', NULL),
+(634, 262, 'sale_price', '3000'),
+(633, 262, 'regular_price', '5000'),
+(632, 262, 'stock_status', 'instock'),
+(631, 262, 'default_attribute', '[{\"taxonomy\":\"pa_color\",\"term\":\"Blue\",\"term_id\":25}]'),
 (16, 223, 'first_name', 'Guest'),
 (17, 223, 'last_name', 'Guest'),
 (18, 223, 'address_one', 'Uttara,Dhaka'),
@@ -786,17 +620,18 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (64, 225, 'payment_method', 'CashOnDelivery'),
 (65, 225, 'processing_date', '2020-11-05'),
 (66, 223, 'processing_date', '2020-11-05'),
-(143, 231, 'alert_qty', '40'),
-(144, 231, 'product_stock', '2000'),
-(142, 231, 'qty', '30'),
-(141, 231, 'height', NULL),
-(140, 231, 'width', NULL),
-(139, 231, 'length', NULL),
-(138, 231, 'weight', NULL),
-(137, 231, 'sale_price', '3000'),
-(136, 231, 'regular_price', '5000'),
-(135, 231, 'stock_status', 'instock'),
-(134, 231, 'default_attribute', '[{\"taxonomy\":\"pa_color\",\"term\":\"Blue\",\"term_id\":25},{\"taxonomy\":\"pa_size\",\"term\":\"Xl\",\"term_id\":26}]'),
+(657, 263, '_sku', '22612802419111604551889'),
+(656, 263, 'start_stock', '2000'),
+(655, 263, 'product_stock', '2000'),
+(654, 263, 'alert_qty', '40'),
+(653, 263, 'qty', '6'),
+(652, 263, 'height', NULL),
+(651, 263, 'width', NULL),
+(650, 263, 'length', NULL),
+(648, 263, 'sale_price', '3000'),
+(649, 263, 'weight', NULL),
+(646, 263, 'stock_status', 'instock'),
+(647, 263, 'regular_price', '5000'),
 (82, 227, 'banner_image', '1604562118.png'),
 (83, 228, 'first_name', 'Partho'),
 (84, 228, 'last_name', 'Guest'),
@@ -849,9 +684,7 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (131, 230, '_billing_first_name', NULL),
 (132, 230, 'payment_method', 'CashOnDelivery'),
 (133, 230, 'processing_date', '2020-11-07'),
-(145, 231, 'start_stock', '2000'),
-(146, 231, '_sku', '22612802419111604551889'),
-(147, 231, 'attached_file', '1604551889.jpg'),
+(645, 263, 'default_attribute', '[{\"taxonomy\":\"pa_color\",\"term\":\"Blue\",\"term_id\":25},{\"taxonomy\":\"pa_size\",\"term\":\"Xl\",\"term_id\":26}]'),
 (148, 232, 'first_name', 'Guest'),
 (149, 232, 'last_name', 'Guest'),
 (150, 232, 'address_one', 'Uttara,Dhaka'),
@@ -1022,7 +855,302 @@ INSERT INTO `postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (352, 244, '_billing_company', NULL),
 (353, 244, '_billing_last_name', NULL),
 (354, 244, '_billing_first_name', NULL),
-(355, 244, 'payment_method', 'CashOnDelivery');
+(355, 244, 'payment_method', 'CashOnDelivery'),
+(356, 245, 'first_name', 'Demo'),
+(357, 245, 'last_name', 'Demo'),
+(358, 245, 'address_one', 'Uttara'),
+(359, 245, 'address_two', NULL),
+(360, 245, 'phone', '6789'),
+(361, 245, 'email', 'demo@email.com'),
+(362, 245, 'country', 'Bangladesh'),
+(363, 245, 'state', 'Dhaka'),
+(364, 245, 'city', 'badda'),
+(365, 245, 'zip', '123'),
+(366, 245, '_customer_user', '2'),
+(367, 245, '_billing_postcode', '123'),
+(368, 245, '_billing_company', NULL),
+(369, 245, '_billing_last_name', NULL),
+(370, 245, '_billing_first_name', NULL),
+(371, 245, 'payment_method', 'CashOnDelivery'),
+(372, 246, 'first_name', 'Demo'),
+(373, 246, 'last_name', 'Demo'),
+(374, 246, 'address_one', 'Uttara'),
+(375, 246, 'address_two', NULL),
+(376, 246, 'phone', '6789'),
+(377, 246, 'email', 'demo@email.com'),
+(378, 246, 'country', 'Bangladesh'),
+(379, 246, 'state', 'Dhaka'),
+(380, 246, 'city', 'kuril'),
+(381, 246, 'zip', '4567'),
+(382, 246, '_customer_user', '2'),
+(383, 246, '_billing_postcode', '4567'),
+(384, 246, '_billing_company', NULL),
+(385, 246, '_billing_last_name', NULL),
+(386, 246, '_billing_first_name', NULL),
+(387, 246, 'payment_method', 'CashOnDelivery'),
+(388, 247, 'first_name', 'Demo'),
+(389, 247, 'last_name', 'Demo'),
+(390, 247, 'address_one', 'Uttara'),
+(391, 247, 'address_two', NULL),
+(392, 247, 'phone', '6789'),
+(393, 247, 'email', 'demo@email.com'),
+(394, 247, 'country', 'Bangladesh'),
+(395, 247, 'state', 'Dhaka'),
+(396, 247, 'city', 'badda'),
+(397, 247, 'zip', '123'),
+(398, 247, '_customer_user', '2'),
+(399, 247, '_billing_postcode', '123'),
+(400, 247, '_billing_company', NULL),
+(401, 247, '_billing_last_name', NULL),
+(402, 247, '_billing_first_name', NULL),
+(403, 247, 'payment_method', 'CashOnDelivery'),
+(404, 248, 'first_name', 'Demo'),
+(405, 248, 'last_name', 'Demo'),
+(406, 248, 'address_one', 'Uttara'),
+(407, 248, 'address_two', NULL),
+(408, 248, 'phone', '6789'),
+(409, 248, 'email', 'demo@email.com'),
+(410, 248, 'country', 'Bangladesh'),
+(411, 248, 'state', 'Dhaka'),
+(412, 248, 'city', 'kuril'),
+(413, 248, 'zip', '4567'),
+(414, 248, '_customer_user', '2'),
+(415, 248, '_billing_postcode', '4567'),
+(416, 248, '_billing_company', NULL),
+(417, 248, '_billing_last_name', NULL),
+(418, 248, '_billing_first_name', NULL),
+(419, 248, 'payment_method', 'CashOnDelivery'),
+(420, 249, 'first_name', 'Demo'),
+(421, 249, 'last_name', 'Demo'),
+(422, 249, 'address_one', 'Uttara'),
+(423, 249, 'address_two', NULL),
+(424, 249, 'phone', '6789'),
+(425, 249, 'email', 'demo@email.com'),
+(426, 249, 'country', 'Bangladesh'),
+(427, 249, 'state', 'Dhaka'),
+(428, 249, 'city', 'kuril'),
+(429, 249, 'zip', '4567'),
+(430, 249, '_customer_user', '2'),
+(431, 249, '_billing_postcode', '4567'),
+(432, 249, '_billing_company', NULL),
+(433, 249, '_billing_last_name', NULL),
+(434, 249, '_billing_first_name', NULL),
+(435, 249, 'payment_method', 'CashOnDelivery'),
+(436, 250, 'first_name', 'Demo'),
+(437, 250, 'last_name', 'Demo'),
+(438, 250, 'address_one', 'Uttara'),
+(439, 250, 'address_two', NULL),
+(440, 250, 'phone', '6789'),
+(441, 250, 'email', 'demo@email.com'),
+(442, 250, 'country', 'Bangladesh'),
+(443, 250, 'state', 'Dhaka'),
+(444, 250, 'city', 'kuril'),
+(445, 250, 'zip', '4567'),
+(446, 250, '_customer_user', '2'),
+(447, 250, '_billing_postcode', '4567'),
+(448, 250, '_billing_company', NULL),
+(449, 250, '_billing_last_name', NULL),
+(450, 250, '_billing_first_name', NULL),
+(451, 250, 'payment_method', 'CashOnDelivery'),
+(452, 251, 'first_name', 'Guest'),
+(453, 251, 'last_name', 'Guest'),
+(454, 251, 'address_one', 'Uttara,Dhaka'),
+(455, 251, 'address_two', NULL),
+(456, 251, 'phone', '0000000001'),
+(457, 251, 'email', 'guest@email.com'),
+(458, 251, 'country', 'Bangladesh'),
+(459, 251, 'state', 'Dhaka'),
+(460, 251, 'city', 'kuril'),
+(461, 251, 'zip', '4567'),
+(462, 251, '_customer_user', '0'),
+(463, 251, '_billing_postcode', '4567'),
+(464, 251, '_billing_company', NULL),
+(465, 251, '_billing_last_name', NULL),
+(466, 251, '_billing_first_name', NULL),
+(467, 251, 'payment_method', 'CashOnDelivery'),
+(468, 252, 'first_name', 'Partho'),
+(469, 252, 'last_name', 'Guest'),
+(470, 252, 'address_one', 'Uttara,Dhaka'),
+(471, 252, 'address_two', NULL),
+(472, 252, 'phone', '0000000001'),
+(473, 252, 'email', 'parthokar90@gmail.com'),
+(474, 252, 'country', 'Bangladesh'),
+(475, 252, 'state', 'Dhaka'),
+(476, 252, 'city', 'kuril'),
+(477, 252, 'zip', '4567'),
+(478, 252, '_customer_user', '23'),
+(479, 252, '_billing_postcode', '4567'),
+(480, 252, '_billing_company', NULL),
+(481, 252, '_billing_last_name', NULL),
+(482, 252, '_billing_first_name', NULL),
+(483, 252, 'payment_method', 'CashOnDelivery'),
+(484, 253, 'first_name', 'Partho'),
+(485, 253, 'last_name', 'Guest'),
+(486, 253, 'address_one', 'Uttara,Dhaka'),
+(487, 253, 'address_two', NULL),
+(488, 253, 'phone', '0000000001'),
+(489, 253, 'email', 'parthokar90@gmail.com'),
+(490, 253, 'country', 'Bangladesh'),
+(491, 253, 'state', 'Dhaka'),
+(492, 253, 'city', 'kuril'),
+(493, 253, 'zip', '4567'),
+(494, 253, '_customer_user', '23'),
+(495, 253, '_billing_postcode', '4567'),
+(496, 253, '_billing_company', NULL),
+(497, 253, '_billing_last_name', NULL),
+(498, 253, '_billing_first_name', NULL),
+(499, 253, 'payment_method', 'CashOnDelivery'),
+(500, 254, 'first_name', 'Partho'),
+(501, 254, 'last_name', 'Guest'),
+(502, 254, 'address_one', 'Uttara,Dhaka'),
+(503, 254, 'address_two', NULL),
+(504, 254, 'phone', '0000000001'),
+(505, 254, 'email', 'parthokar90@gmail.com'),
+(506, 254, 'country', 'Bangladesh'),
+(507, 254, 'state', 'Dhaka'),
+(508, 254, 'city', 'kuril'),
+(509, 254, 'zip', '4567'),
+(510, 254, '_customer_user', '23'),
+(511, 254, '_billing_postcode', '4567'),
+(512, 254, '_billing_company', NULL),
+(513, 254, '_billing_last_name', NULL),
+(514, 254, '_billing_first_name', NULL),
+(515, 254, 'payment_method', 'CashOnDelivery'),
+(516, 255, 'first_name', 'Partho'),
+(517, 255, 'last_name', 'Guest'),
+(518, 255, 'address_one', 'Uttara,Dhaka'),
+(519, 255, 'address_two', NULL),
+(520, 255, 'phone', '0000000001'),
+(521, 255, 'email', 'parthokar90@gmail.com'),
+(522, 255, 'country', 'Bangladesh'),
+(523, 255, 'state', 'Dhaka'),
+(524, 255, 'city', 'kuril'),
+(525, 255, 'zip', '4567'),
+(526, 255, '_customer_user', '23'),
+(527, 255, '_billing_postcode', '4567'),
+(528, 255, '_billing_company', NULL),
+(529, 255, '_billing_last_name', NULL),
+(530, 255, '_billing_first_name', NULL),
+(531, 255, 'payment_method', 'CashOnDelivery'),
+(532, 256, 'first_name', 'Partho'),
+(533, 256, 'last_name', 'Guest'),
+(534, 256, 'address_one', 'Uttara,Dhaka'),
+(535, 256, 'address_two', NULL),
+(536, 256, 'phone', '0000000001'),
+(537, 256, 'email', 'parthokar90@gmail.com'),
+(538, 256, 'country', 'Bangladesh'),
+(539, 256, 'state', 'Dhaka'),
+(540, 256, 'city', 'badda'),
+(541, 256, 'zip', '123'),
+(542, 256, '_customer_user', '23'),
+(543, 256, '_billing_postcode', '123'),
+(544, 256, '_billing_company', NULL),
+(545, 256, '_billing_last_name', NULL),
+(546, 256, '_billing_first_name', NULL),
+(547, 256, 'payment_method', 'CashOnDelivery'),
+(548, 257, 'first_name', 'Partho'),
+(549, 257, 'last_name', 'Guest'),
+(550, 257, 'address_one', 'Uttara,Dhaka'),
+(551, 257, 'address_two', NULL),
+(552, 257, 'phone', '0000000001'),
+(553, 257, 'email', 'parthokar90@gmail.com'),
+(554, 257, 'country', 'Bangladesh'),
+(555, 257, 'state', 'Dhaka'),
+(556, 257, 'city', 'kuril'),
+(557, 257, 'zip', '4567'),
+(558, 257, '_customer_user', '23'),
+(559, 257, '_billing_postcode', '4567'),
+(560, 257, '_billing_company', NULL),
+(561, 257, '_billing_last_name', NULL),
+(562, 257, '_billing_first_name', NULL),
+(563, 257, 'payment_method', 'CashOnDelivery'),
+(564, 257, 'processing_date', '2020-11-10'),
+(566, 256, 'processing_date', '2020-11-10'),
+(567, 258, 'first_name', 'Demo'),
+(568, 258, 'last_name', 'Demo'),
+(569, 258, 'address_one', 'Uttara'),
+(570, 258, 'address_two', NULL),
+(571, 258, 'phone', '6789'),
+(572, 258, 'email', 'demo@email.com'),
+(573, 258, 'country', 'Bangladesh'),
+(574, 258, 'state', 'Sylhet'),
+(575, 258, 'city', 'Habiganj1'),
+(576, 258, 'zip', '3330-337456'),
+(577, 258, '_customer_user', '2'),
+(578, 258, '_billing_postcode', '3330-337456'),
+(579, 258, '_billing_company', NULL),
+(580, 258, '_billing_last_name', NULL),
+(581, 258, '_billing_first_name', NULL),
+(582, 258, 'payment_method', 'CashOnDelivery'),
+(583, 259, 'first_name', 'Demo'),
+(584, 259, 'last_name', 'Demo'),
+(585, 259, 'address_one', 'Uttara'),
+(586, 259, 'address_two', NULL),
+(587, 259, 'phone', '6789'),
+(588, 259, 'email', 'demo@email.com'),
+(589, 259, 'country', 'Bangladesh'),
+(590, 259, 'state', 'Dhaka'),
+(591, 259, 'city', 'kuril'),
+(592, 259, 'zip', '4567'),
+(593, 259, '_customer_user', '2'),
+(594, 259, '_billing_postcode', '4567'),
+(595, 259, '_billing_company', NULL),
+(596, 259, '_billing_last_name', NULL),
+(597, 259, '_billing_first_name', NULL),
+(598, 259, 'payment_method', 'CashOnDelivery'),
+(599, 260, 'first_name', 'Demo'),
+(600, 260, 'last_name', 'Demo'),
+(601, 260, 'address_one', 'Uttara'),
+(602, 260, 'address_two', NULL),
+(603, 260, 'phone', '6789'),
+(604, 260, 'email', 'demo@email.com'),
+(605, 260, 'country', 'Bangladesh'),
+(606, 260, 'state', 'Dhaka'),
+(607, 260, 'city', 'kuril'),
+(608, 260, 'zip', '4567'),
+(609, 260, '_customer_user', '2'),
+(610, 260, '_billing_postcode', '4567'),
+(611, 260, '_billing_company', NULL),
+(612, 260, '_billing_last_name', NULL),
+(613, 260, '_billing_first_name', NULL),
+(614, 260, 'payment_method', 'CashOnDelivery'),
+(615, 261, 'first_name', 'Demo'),
+(616, 261, 'last_name', 'Demo'),
+(617, 261, 'address_one', 'Uttara'),
+(618, 261, 'address_two', NULL),
+(619, 261, 'phone', '6789'),
+(620, 261, 'email', 'demo@email.com'),
+(621, 261, 'country', 'Bangladesh'),
+(622, 261, 'state', 'Sylhet'),
+(623, 261, 'city', 'Habiganj1'),
+(624, 261, 'zip', '3330-337456'),
+(625, 261, '_customer_user', '2'),
+(626, 261, '_billing_postcode', '3330-337456'),
+(627, 261, '_billing_company', NULL),
+(628, 261, '_billing_last_name', NULL),
+(629, 261, '_billing_first_name', NULL),
+(630, 261, 'payment_method', 'CashOnDelivery'),
+(642, 262, 'start_stock', '2000'),
+(643, 262, '_sku', '100'),
+(644, 262, 'attached_file', '1604466775.jpg'),
+(658, 263, 'attached_file', '1604551889.jpg'),
+(659, 264, 'first_name', 'Demo'),
+(660, 264, 'last_name', 'Demo'),
+(661, 264, 'address_one', 'Uttara'),
+(662, 264, 'address_two', NULL),
+(663, 264, 'phone', '6789'),
+(664, 264, 'email', 'demo@email.com'),
+(665, 264, 'country', 'Bangladesh'),
+(666, 264, 'state', 'Dhaka'),
+(667, 264, 'city', 'kuril'),
+(668, 264, 'zip', '4567'),
+(669, 264, '_customer_user', '2'),
+(670, 264, '_billing_postcode', '4567'),
+(671, 264, '_billing_company', NULL),
+(672, 264, '_billing_last_name', NULL),
+(673, 264, '_billing_first_name', NULL),
+(674, 264, 'payment_method', 'CashOnDelivery'),
+(675, 264, 'processing_date', '2020-11-14');
 
 -- --------------------------------------------------------
 
@@ -1072,9 +1200,9 @@ INSERT INTO `posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_co
 (35, 1, '2020-09-26 17:50:00', '2020-09-26 23:50:00', '<h2>What is Lorem Ipsum?</h2>\r\n<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 'Burger', '<h2>What is Lorem Ipsum?</h2>\r\n<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>', 'deleted', 'open', 'open', '', 'Burger', '', '', '2020-09-29 00:00:00', '2020-09-29 13:47:28', '', 0, '', 0, 'deleted', '', 0),
 (39, 1, '2020-09-29 15:51:00', '2020-09-29 21:51:00', '<p>dsfdsfsdf</p>', 'Saiful', '<p>sdafdsfdsf</p>', 'deleted', 'open', 'open', '', 'Saiful', '', '', '2020-09-29 00:00:00', '2020-09-29 15:51:53', '', 0, '', 0, 'deleted', '', 0),
 (227, 2, '2020-11-05 13:41:00', '2020-11-05 19:41:00', 'Banner Image', 'Banner Image', 'Banner Image', 'publish', 'open', 'open', '', 'Banner Image', '', '', '2020-11-05 13:41:58', '2020-11-05 13:41:58', '', 0, '', 0, 'banner', '', 0),
-(244, 2, '2020-11-08 00:00:00', '2020-11-08 23:35:19', '', 'Order2020-11-08 17:35:19', '', 'on-hold', 'open', 'open', 'order_1247', 'order-Nov-08-2020-1711', '', '', '2020-11-08 17:35:19', '2020-11-08 17:35:19', '', 0, '', 0, 'shop_order', '', 0),
-(222, 2, '2020-11-04 11:11:00', '2020-11-04 17:11:00', '<p>Information</p>', 'Demo', '<p>Information</p>', 'publish', 'open', 'open', '', 'Demo', '', '', '2020-11-04 11:12:55', '2020-11-04 11:12:55', '', 0, '', 0, 'product', '', 0),
-(231, 2, '2020-11-05 10:50:00', '2020-11-05 16:50:00', '<p>dffdg</p>', 'Test', '<p>sdfdsfdsf</p>', 'publish', 'open', 'open', '', 'Test', '', '', '2020-11-07 13:34:22', '2020-11-07 13:34:22', '', 0, '', 0, 'product', '', 0);
+(264, 2, '2020-11-14 00:00:00', '2020-11-14 22:04:50', '', 'Order2020-11-14 16:04:50', '', 'dispatch', 'open', 'open', 'order_1247', 'order-Nov-14-2020-1611', '', '', '2020-11-14 16:05:59', '2020-11-14 16:04:50', '', 0, '', 0, 'shop_order', '', 0),
+(262, 2, '2020-11-04 11:11:00', '2020-11-04 17:11:00', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,&nbsp;</p>', 'Demo', '<p>Information</p>', 'publish', 'open', 'open', '', 'Demo', '', '', '2020-11-14 16:01:01', '2020-11-14 16:01:01', '', 0, '', 0, 'product', '', 0),
+(263, 2, '2020-11-05 10:50:00', '2020-11-05 16:50:00', '<p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,&nbsp;</p>', 'Test', '<p>sdfdsfdsf</p>', 'publish', 'open', 'open', '', 'Test', '', '', '2020-11-14 16:01:13', '2020-11-14 16:01:13', '', 0, '', 0, 'product', '', 0);
 
 -- --------------------------------------------------------
 
@@ -1095,8 +1223,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin-role', '2020-10-28 10:48:52', '2020-10-28 10:48:52'),
-(3, 'Editor', '', '2020-10-29 04:21:40', '2020-10-29 04:21:40');
+(1, 'Admin', 'admin', '2020-10-28 10:48:52', '2020-11-11 10:33:57'),
+(3, 'Editor', 'editor', '2020-10-29 04:21:40', '2020-11-11 11:27:51');
 
 -- --------------------------------------------------------
 
@@ -1108,6 +1236,29 @@ CREATE TABLE `roles_permissions` (
   `role_id` int(10) UNSIGNED NOT NULL,
   `permission_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles_permissions`
+--
+
+INSERT INTO `roles_permissions` (`role_id`, `permission_id`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 13),
+(1, 14),
+(3, 1),
+(3, 2),
+(3, 8),
+(3, 9);
 
 -- --------------------------------------------------------
 
@@ -1503,10 +1654,10 @@ INSERT INTO `term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`)
 (220, 7, 0),
 (221, 8, 0),
 (221, 15, 0),
-(222, 8, 0),
-(222, 15, 0),
-(231, 15, 0),
-(231, 8, 0);
+(262, 15, 0),
+(262, 8, 0),
+(263, 8, 0),
+(263, 15, 0);
 
 -- --------------------------------------------------------
 
@@ -1617,13 +1768,13 @@ CREATE TABLE `usermeta` (
 INSERT INTO `usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (277, 5, 'district', '55'),
 (275, 5, 'user_image', NULL),
-(206, 2, 'user_image', '1601189730.png'),
-(411, 2, 'zip', '3330-337456'),
-(410, 2, 'city', '97'),
-(203, 2, 'state', NULL),
-(202, 2, 'country', NULL),
-(200, 2, 'address_two', NULL),
-(201, 2, 'phone', '6789'),
+(443, 2, 'user_image', '1601189730.png'),
+(503, 2, 'zip', '4567'),
+(502, 2, 'city', '95'),
+(440, 2, 'state', NULL),
+(439, 2, 'country', NULL),
+(438, 2, 'phone', '6789'),
+(437, 2, 'address_two', NULL),
 (41, 3, 'phone', '4354354'),
 (40, 3, 'address_two', 'retretret'),
 (39, 3, 'address_one', 'retretre'),
@@ -1633,25 +1784,25 @@ INSERT INTO `usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (43, 3, 'state', 'Bangladesh'),
 (44, 3, 'city', 'Dhaka'),
 (45, 3, 'zip', '342543543'),
-(197, 2, 'first_name', 'Demo'),
-(198, 2, 'last_name', 'Demo'),
-(408, 2, 'address_one', 'Uttara'),
+(500, 2, 'address_one', 'Uttara'),
+(434, 2, 'first_name', 'Demo'),
 (279, 5, 'zip', '1230'),
 (278, 5, 'city', '57'),
-(369, 0, 'district', '55'),
-(368, 0, 'address_one', 'Uttara,Dhaka'),
+(457, 0, 'district', '55'),
+(456, 0, 'address_one', 'Uttara,Dhaka'),
 (267, 5, 'last_name', 'Rahman'),
 (276, 5, 'address_one', 'Uttara,Dhaka'),
 (269, 5, 'address_two', NULL),
 (270, 5, 'phone', '3453453457'),
 (266, 5, 'first_name', 'Saiful'),
-(371, 0, 'zip', '4567'),
-(409, 2, 'district', '56'),
-(370, 0, 'city', '95'),
-(356, 23, 'address_one', 'Uttara,Dhaka'),
-(357, 23, 'district', '63'),
-(358, 23, 'city', '98'),
-(359, 23, 'zip', '9300');
+(459, 0, 'zip', '4567'),
+(435, 2, 'last_name', 'Demo'),
+(458, 0, 'city', '95'),
+(480, 23, 'address_one', 'Uttara,Dhaka'),
+(481, 23, 'district', '55'),
+(482, 23, 'city', '95'),
+(483, 23, 'zip', '4567'),
+(501, 2, 'district', '55');
 
 -- --------------------------------------------------------
 
@@ -1680,7 +1831,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `provider`, `provider_id`, `remember_token`, `status`, `created_at`, `updated_at`) VALUES
 (2, 'Demo', 'demo@email.com', NULL, '$2y$10$fZ8unFRUB6uqzsXMs6Pt6Oi149M6ba2KDk358eeY.1JpMTmVZwIP2', NULL, NULL, NULL, 1, '2020-09-13 05:06:20', '2020-09-13 05:06:20'),
 (22, 'Demo dfgdfg', 'bigshotstyle20@gmail.com', NULL, '$2y$10$zx7B2dYyVhEzBcjDhlXmI.kjkWMl2bHQl./tZyVE6qy2HsYzO0x9a', NULL, NULL, NULL, 1, '2020-11-07 04:40:08', '2020-11-07 04:40:08'),
-(23, 'Partho', 'parthokar90@gmail.com', NULL, '$2y$10$X3hF1CrlrUwNQWaWyTDm.uii1BQL0tbYiBlABSJTs55cP6c3TgqPO', NULL, NULL, NULL, 1, '2020-11-07 04:46:58', '2020-11-07 04:46:58');
+(23, 'Partho', 'parthokar90@gmail.com', NULL, '$2y$10$fZ8unFRUB6uqzsXMs6Pt6Oi149M6ba2KDk358eeY.1JpMTmVZwIP2', NULL, NULL, NULL, 1, '2020-11-07 04:46:58', '2020-11-07 04:46:58');
 
 -- --------------------------------------------------------
 
@@ -1711,9 +1862,10 @@ INSERT INTO `users_permissions` (`user_id`, `permission_id`) VALUES
 (2, 11),
 (2, 13),
 (2, 14),
-(3, 1),
-(3, 2),
-(4, 5);
+(4, 1),
+(4, 2),
+(4, 8),
+(4, 9);
 
 -- --------------------------------------------------------
 
@@ -1769,6 +1921,13 @@ CREATE TABLE `wishlist` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
+(5, 2, 263, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2166,13 +2325,13 @@ ALTER TABLE `options`
 -- AUTO_INCREMENT for table `order_itemmeta`
 --
 ALTER TABLE `order_itemmeta`
-  MODIFY `meta_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
+  MODIFY `meta_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `order_item_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payment_tokenmeta`
@@ -2196,19 +2355,19 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `postmeta`
 --
 ALTER TABLE `postmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=356;
+  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=676;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `sessions`
@@ -2268,7 +2427,7 @@ ALTER TABLE `term_taxonomy`
 -- AUTO_INCREMENT for table `usermeta`
 --
 ALTER TABLE `usermeta`
-  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=412;
+  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=504;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -2286,7 +2445,7 @@ ALTER TABLE `webhooks`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `wp_users`

@@ -14,6 +14,7 @@
                                             </th>
                                             <th></th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -38,27 +39,26 @@
                                             <td>
                                               Order Quantity: {{$qty}} Pc's
                                             </td>
-                                            <td>
 
-                                            <div class="row">
-
-                                            </div>
-
-
-                                                @if($qty>0)
-                                                <form method="post" action="{{route('customer_order_cancel_item')}}">
-                                                    @csrf 
+                                            
+                                             <form method="post" action="{{route('customer_order_cancel_item')}}">
+                                                 @csrf 
+                                             <td> 
+                                               @if($qty>0)
                                                     <input type="text" class="form-control" name="request_qty" required placeholder="Enter no of quantity" autocomplete="off">
                                                     <input type="hidden" class="form-control" name="ac_qty" value="{{$qty}}">
                                                     <input type="hidden" class="form-control" name="cancel_order_id" value="{{$item->order_id}}">
                                                     <input type="hidden" class="form-control" name="cancel_item_id" value="{{$item->order_item_id}}">
                                                     <input type="hidden" class="form-control" name="product_id" value="{{$id}}">
-                                                    <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white">Cancel</span></button>
-                                                </form>
-                                                 @else 
+                                            </td>
+                                            <td>
+                                                <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white">Cancel</span></button>
+                                            </td>
+                                         
+                                               @else 
                                                  Cancelled
                                                 @endif
-                                            </td>
+                                                    </form>
                                         </tr>
                                         @endforeach
                                     </tbody>
