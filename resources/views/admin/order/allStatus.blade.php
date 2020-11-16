@@ -20,7 +20,7 @@
 
     <div class="card-body">
       <div class="container">
-        <ul class="nav bg-dark d-flex justify-content-around" >
+        <ul class="nav bg-dark d-flex justify-content-around">
          <li class="nav-item bg-primary" style="border-right: 1px solid white;">
           <a  class="nav-link active" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
         </li>
