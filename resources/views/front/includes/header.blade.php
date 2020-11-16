@@ -25,20 +25,31 @@
 }
 .dropdown-content a:hover {background-color: #ddd;}
 .dropdown:hover .dropdown-content {display: block;}
+
+.badge { 
+       position: relative;
+       top: -7px;
+       left: -8px;
+       border: 1px solid red;
+       border-radius: 20%;
+       background: red;
+       color: #ffffff;
+       } 
+
 </style>
 	<div class="d-flex flex-column sticky-top bg-light mb-4">
 			<div class="d-flex flex-row justify-content-between ">
 				<div>
-             <a href="{{url('/')}}"><img src="{{asset('assets/common/images/logo.png')}}" class="img-fluid" alt="logo" style="height: 46px;width: 70px"></a>
+             <a href="{{url('/')}}"><img src="{{asset('assets/common/images/logo.png')}}" class="img-fluid" alt="logo" style="height: 30px;width: 50px"></a>
 				</div>
 				<div class="d-flex flex-row">
 					<div class="d-flex align-items-center">
-						<input id="search_item" type="text" name="q" class="form-control" placeholder="Search here" autocomplete="off">
+						<input style="width: 220px;" type="text" name="q" class="form-control" placeholder="What do you want to find?" autocomplete="off">
 			       </div>
 			
 					<div class="d-flex align-items-center ml-3">
                         @guest
-						<a href="{{ route('login') }}"> <i class="fas fa-sign-in-alt"></i></a> 
+						<a href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
 						 @else 
 						   @if(isset($profile_image->meta_value))
 							<img  src="{{asset('assets/front/user/'.$profile_image->meta_value)}}" style="border-radius: 50%;height: 33px;">
@@ -52,31 +63,28 @@
 							<a class="dropbtn">Profile</a>
 							<div class="dropdown-content">
 							<a class="dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>View Profile</a>
-							<a class="dropdown-item" href="{{url('wishlist')}}"><i class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
-                            <a class="dropdown-item" href="{{url('cart')}}"><i class="demo fa fa-shopping-cart" aria-hidden="true"></i>  Cart</a>
+							<a class="dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
+                            <a class="dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
 							<a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
 							<a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
 							<a class="dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
 							   <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-                </form>
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								@csrf
+								</form>
 							</div>
 						</div>
-                     
-
-
                         @endguest
 					</div>
-
-					<div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i class="fa fa-shopping-cart"></i> @if(\Cart::getTotalQuantity()==0)@else
-						<span class="badge-view">
-						{{ \Cart::getTotalQuantity()}}
+					  <div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> @if(\Cart::getTotalQuantity()==0)@else
+						 <span class="badge badge-light">
+						   {{ \Cart::getTotalQuantity()}}
 						</span>
 						@endif
-            </a> </div>
-					<div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i class="fa fa-heart"></i>@if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp {{$wish}}  @else  @endif</a></div>
+		        	</a> 
+		          </div>
+					<div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i>@if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}}  </span> @else  @endif</a></div>
 				</div>
 			</div>
 			<div class="sticky-top">

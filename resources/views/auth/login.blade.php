@@ -60,6 +60,7 @@
 
                             </div>
                             <button style="background: #0098D3; color:#ffffff" type="submit" class="btn btn-block login-btn mb-4">LOGIN</button>
+                         
                         </form>
 
                         <a href="{{ url('/auth/redirect/facebook') }}" style="width:100%; background: #2450AF;color:#ffffff;" class="btn btn-success"><img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" width="40" height="30"> Facebook</a>
