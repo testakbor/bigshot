@@ -178,8 +178,8 @@
 
               </div>
               <div class="card-footer">
-                <button type="submit" value="draft" name="dreft" class="btn btn-warning">Draft</button>
-                <button type="submit" value="submit" name="submit" class="btn btn-primary">Publish</button>
+                <button type="submit" value="draft" name="submit" class="btn btn-warning">Draft</button>
+                <button type="submit" value="publish" name="submit" class="btn btn-primary">Publish</button>
               </div>
             </div>
             <div class="card card-default">

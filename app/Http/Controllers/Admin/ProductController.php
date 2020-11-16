@@ -115,7 +115,7 @@ class ProductController extends Controller
             'post_name'=>$request->post_title,
             'post_content'=>$request->post_content,
             'post_excerpt'=>$request->post_excerpt,
-            'post_status'=>'publish',
+            'post_status'=>$request->submit,
             'post_author'=>Auth::user()->id,
             'post_date'=>$post_date,
             'post_date_gmt'=>$post_date_gmt,
@@ -123,7 +123,8 @@ class ProductController extends Controller
             'pinged'=>'',
             'post_content_filtered'=>'',
             'post_type'=>'product',
-        );
+        );        
+
         $post_id=DB::table('posts')->insertGetId($product);
         // product attributes
         if($request->valueName  !=null ){

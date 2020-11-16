@@ -56,6 +56,23 @@ class OrderController extends Controller
     }
 
     public function pendingOrder(){
+
+
+      $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
+      ->count();
+      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
+      ->count();
+      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
+      ->count();
+      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
+      ->count();
+      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
+      ->count();
+      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
+      ->count();
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
+
+
       $extraInfo=array(
         'title'=>"Pending Order List",
         'page'=>'pendingOrder'
@@ -70,7 +87,7 @@ class OrderController extends Controller
       ->where('post_status','on-hold')
       ->where('post_date', '>=', $date)
       ->count();  
-      return view('admin.order.pendingOrder',compact('orders','total_orders'))->with($extraInfo);
+      return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
     }
     public function todayPendingOrder(){
       $extraInfo=array(
@@ -238,6 +255,20 @@ class OrderController extends Controller
 
  public function allStatus()
  {
+   $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
+      ->count();
+      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
+      ->count();
+      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
+      ->count();
+      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
+      ->count();
+      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
+      ->count();
+      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
+      ->count();
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
+
   $extraInfo = array(
     'title' => "Order List",
     'page' => 'order'
@@ -247,7 +278,7 @@ class OrderController extends Controller
   ->where('post_date','>=', $date)
   ->orderBy('ID', 'DESC')
   ->paginate(20);
-  return view('admin.order.allStatus',compact('order'))->with($extraInfo);
+  return view('admin.order.allStatus',compact('order','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
 }
 
 

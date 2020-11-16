@@ -22,6 +22,40 @@ use App\Model\front\Order_item;
       </div>
     </div><!-- /.container-fluid -->
 
+    <div class="card-body">
+      <div class="container">
+        <ul class="nav bg-dark" >
+         <li class="nav-item " style="border-right: 1px solid white;">
+          <a  class="nav-link active" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
+        </li>
+
+     
+        <li class="nav-item bg-primary" style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing ({{$processing_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch ({{$dispatch_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered ({{$delivered_order}})</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled ({{$cancelled_order}})</a>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+
     <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Pending Order</div>
     <div class="d-flex justify-content-center">
       <form class="form-inline" method="post" action="{{route('s_pending_order')}}" >
@@ -138,9 +172,9 @@ use App\Model\front\Order_item;
        <td rowspan="{{$count}}" class="right">{{$sub = $sub_total}}</td>
        <td rowspan="{{$count}}" class="right">{{$items->post_status}}</td>
        <td rowspan="{{$count}}" class="right">
-        <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm"> <i class="fas fa-print"> </i> Print</a><br>
-        <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary btn-sm" ><i class="fas fa-spinner"> </i>Processing</a><br>
-        <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning btn-sm"> <i class="fas fa-edit"> </i>Edit</a><br>
+        <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm mb-1"> <i class="fas fa-print"> </i> Print</a><br>
+        <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary btn-sm  mb-1" ><i class="fas fa-spinner"> </i> Processing</a><br>
+        <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning btn-sm  mb-1"> <i class="fas fa-edit"> </i> Edit</a><br>
         <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
       </td>
 
