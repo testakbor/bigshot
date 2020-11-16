@@ -3,6 +3,7 @@
 @section('content')
 <!-- Page Content  -->
 <div class="container">
+      @include('admin.includes.messages')
    <h4 class="text-center">My Orders List</h4>
 
     <div class="table-responsive">
@@ -75,7 +76,10 @@
                      <td>{{$order->post_status}}</td>
                      <td>
                         <a title="view invoice" class="btn btn-success btn-sm" href="{{route('customer_ordere_edit',$order->ID)}}"><i class="fa fa-eye"></i></a>
+                        @if($order->post_status=='cancel')
+                          @else 
                         <a title="cancel or return order" class="btn btn-danger btn-sm" href="{{route('customer_ordere_cancel',$order->ID)}}"><i class="fa fa-times"></i></a>
+                        @endif 
                      </td>
                    </tr>  
                   @endforeach

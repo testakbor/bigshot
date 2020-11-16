@@ -3,8 +3,9 @@
   <div class="container">
       @include('admin.includes.messages')
         <h4 class="text-center">Select item you want to cancel or return</h4>
+
                    <div class="table-responsive">
-                    <table class="table" style="border: 1px solid #000000;">
+                    <table class="table">
                                     <thead>
                                         <tr style="background:#e7e7e7">
                                             <th>Order placed
@@ -39,8 +40,6 @@
                                             <td>
                                               Order Quantity: {{$qty}} Pc's
                                             </td>
-
-                                            
                                              <form method="post" action="{{route('customer_order_cancel_item')}}">
                                                  @csrf 
                                              <td> 
@@ -54,15 +53,36 @@
                                             <td>
                                                 <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white">Cancel</span></button>
                                             </td>
-                                         
                                                @else 
                                                  Cancelled
                                                 @endif
-                                                    </form>
+                                                </form>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                              </div>
-                         </div>
+
+
+                             <form method="post" action="{{route('customer_order_cancel_item_full')}}">
+                                 @csrf 
+                                 <div class="form-group">
+                                  <label>Reason for return/cancel</label>
+                                  <textarea cols="5" rows="5" class="form-control" name="reason" autocomplete="off" required></textarea>
+                                 </div>
+                                        @php $quantity=0; $product_id=0; @endphp
+                                        @foreach($order_item as $item)
+                                        @foreach($item->orderMeta as $value)
+                                          @if($value->meta_key=='_product_id')@php $product_id=$value->meta_value;@endphp @endif
+                                          @if($value->meta_key=='_qty') @php $quantity=$value->meta_value; @endphp @endif
+                                        @endforeach
+                                           <input type="hidden" class="form-control" name="order_id" value="{{$item->order_id}}">
+                                           <input type="hidden" class="form-control" name="item_id[]" value="{{$item->order_item_id}}">
+                                           <input type="hidden" class="form-control" name="product_id[]" value="{{$product_id}}">
+                                           <input type="hidden" class="form-control" name="pro_id[]" value="{{$product_id}}">
+                                           <input type="hidden" class="form-control" name="quantity[]" value="{{$quantity}}">
+                                        @endforeach
+                                <button onclick="return confirm('Are you sure want to cancel full order??')" class="btn btn-danger btn-sm mb-3"><span style="color:white">Cancel Full Order</span></button>
+                             </form>  
+            </div>
 @endsection

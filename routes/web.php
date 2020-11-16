@@ -14,6 +14,42 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+//Clear Cache facade value:
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return '<h1>Cache cleared</h1>';
+});
+
+//Reoptimized class loader:
+Route::get('/optimize', function() {
+    $exitCode = Artisan::call('optimize');
+    return '<h1>Reoptimized class loader</h1>';
+});
+
+//Route cache:
+Route::get('/route-cache', function() {
+    $exitCode = Artisan::call('route:cache');
+    return '<h1>Routes cached</h1>';
+});
+
+//Clear Route cache:
+Route::get('/route-clear', function() {
+    $exitCode = Artisan::call('route:clear');
+    return '<h1>Route cache cleared</h1>';
+});
+
+//Clear View cache:
+Route::get('/view-clear', function() {
+    $exitCode = Artisan::call('view:clear');
+    return '<h1>View cache cleared</h1>';
+});
+
+//Clear Config cache:
+Route::get('/config-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    return '<h1>Clear Config cleared</h1>';
+});
+
 
   Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
   Route::get('/callback/{provider}', 'SocialController@callback');
@@ -66,7 +102,7 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('/remove/{id}','CartController@remove')->name('remove');     
     });
 
-    Route::group(['namespace'=>'User'],function(){
+    Route::group(['namespace'=>'user'],function(){
         Route::resource('/order-list','OrderController')->middleware('auth');
         Route::resource('user/profile','UserController');
         Route::get('user/profile/chnage/{id}','PageController@passwordEdit')->name('password.edit');
@@ -75,6 +111,7 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('/customer/order/details/{id}','OrderController@edit')->name('customer_ordere_edit')->middleware('auth');
         Route::get('/customer/order/cancel/{id}','OrderController@cancel_order_details')->name('customer_ordere_cancel')->middleware('auth');
         Route::post('/customer/order/cancel/item', 'OrderController@cancel_order_item')->name('customer_order_cancel_item')->middleware('auth');
+        Route::post('/customer/order/cancel/item/full', 'OrderController@cancel_order_item_full')->name('customer_order_cancel_item_full')->middleware('auth');
     });
        
     Route::group(['namespace'=>'Search'],function(){

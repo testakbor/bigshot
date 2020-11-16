@@ -150,9 +150,8 @@
                     </div>
                     <div class="form-group row mt-3">
                       <div class="col-md-12" id="finalValue">
-                    
+             
                         @foreach($arributeArray as $value)
-                    
                         <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$value->term_id}}">
                         <span style="margin-right:10px" class="btn btn-primary closeButton">{{$value->term}}</span>
                         @endforeach

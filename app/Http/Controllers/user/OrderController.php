@@ -149,6 +149,10 @@ class OrderController extends Controller
        session()->flash("error", "Your cancel quantity must be less than or equal your order quantity");
        return back();
       }
+       if($request->request_qty==0){
+       session()->flash("error", "Quantity must be greater than zero");
+       return back();
+      }
       $cancel_qty=$request->request_qty;
 
       //stock increase
@@ -216,6 +220,60 @@ class OrderController extends Controller
     }
 
 
+    public function cancel_order_item_full(Request $request){
+       DB::table('posts')
+       ->where('post_type','shop_order')
+       ->where('ID',$request->order_id)
+       ->update([
+          'post_status' =>'cancel',
+          'post_content' =>$request->reason,
+          'post_modified' =>date('Y-m-d H:i:s'),
+       ]);
+       $count_product_id=$request->pro_id;
+       for($i=0;$i<count($count_product_id);$i++){
+         $q=$request->quantity[$i];
+         $pro_id=$count_product_id[$i];
+         $pro_qty=DB::table('postmeta')
+         ->where('post_id',$pro_id)
+         ->where('meta_key','qty')
+         ->first();
+         $update_qty=$pro_qty->meta_value+$q;
+         DB::table('postmeta')
+         ->where('post_id',$pro_id)
+         ->where('meta_key','qty')
+         ->update([
+             'meta_value' => $update_qty
+         ]);
+       }
+       DB::table('order_itemmeta')
+      ->whereIn('order_item_id',$request->item_id)
+      ->where('meta_key','_qty')
+      ->update([
+          'meta_value' =>0
+       ]);
+
+       DB::table('order_itemmeta')
+      ->whereIn('order_item_id',$request->item_id)
+      ->where('meta_key','_line_subtotal')
+      ->update([
+          'meta_value' =>0
+       ]);
+
+      DB::table('order_itemmeta')
+      ->whereIn('order_item_id',$request->item_id)
+      ->where('meta_key','_line_total')
+      ->update([
+          'meta_value' =>0
+       ]);
+       DB::table('order_itemmeta')
+      ->whereIn('order_item_id',$request->item_id)
+      ->where('meta_key','delivery_charge')
+      ->update([
+          'meta_value' =>0
+       ]);
+       session()->flash("success", "Order has been cancelled Successfully");
+       return redirect()->route('order-list.index');
+    }
     /**
      * Update the specified resource in storage.
      *
