@@ -1,7 +1,7 @@
 @extends('front.layouts.front_master')
 @section('title') Bigshot | Home @endsection 
 @section('content')
-		<div class="container">
+		<div class="container mb-3">
 			<div class="d-flex flex-column">
 			   @include('front.includes.banner')
 				<div class="d-flex flex-wrap mt-3">
@@ -33,7 +33,7 @@
 						<div class="card">
 							<img src="{{asset('backend/products/'.$image)}}"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
 							<div class="card-body text-center">
-								<p style="color:#000000" class="card-text font-weight-bold">{{$item->post_title}}</p>
+								<span style="color:#000000" class="card-text font-weight-bold">{{$item->post_title}}</span>
 								<p class="card-text">@if($rprice) <del style="color:red">৳{{$rprice}}</del>@endif <span style="color:#000000"> ৳{{$sprice}}</span></p>
 							</div>
 						</div>
