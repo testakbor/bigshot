@@ -73,7 +73,7 @@
                 	height: 33px
                 }
             </style>
-            <div class="mt-3 mb-2">
+            <div class="mt-0 mb-2 sticky-top bg-light">
 
                 <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-sm-none">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,7 +130,7 @@
                     </div>
                 </nav>
                 <!-------- display on large ----------->
-                <div class="d-none d-sm-block">
+                <div class="d-none d-sm-block sticky-top">
                     <div class="d-flex flex-column ">
                         <div class="d-flex justify-content-between ml-5 mr-5 mt-3">
                             <div>

@@ -74,6 +74,9 @@
                 .sm-menus div{
                 	height: 33px
                 }
+                .product-title{
+                    font-size: calc(0.5vw + 0.7vh);
+                }
             </style>
 		 <div class="container-fluid">
    <!-- body part start -->	
@@ -120,7 +123,7 @@
                                 <div class="card">
                                     <img src="{{asset('backend/products/'.$image)}}"  class="img-fluid rounded" style="" alt="...">
                                     <div class="text-center">
-                                        <span style="color:#000000" class="card-text font-weight-bold">{{$item->post_title}}</span>
+                                        <span style="color:#000000" class="card-text product-title font-weight-bold">{{$item->post_title}}</span>
                                         <p class="card-text"> <del style="color:red">৳{{$rprice}}</del> <span style="color:#000000">৳{{$sprice}}</span></p>
                                     </div>
                                 </div>
