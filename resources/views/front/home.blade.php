@@ -201,8 +201,8 @@
                         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
                             <a style=" text-decoration: none;" href="http://127.0.0.1:8000/product/212/Long+Tunic">
                                 <div class="card">
-                                    <img src="http://127.0.0.1:8000/backend/products/1605007980.jpg"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
-                                    <div class="card-body text-center">
+                                    <img src="http://127.0.0.1:8000/backend/products/test.jpg"  class="img-fluid rounded" style="" alt="...">
+                                    <div class="text-center">
                                         <span style="color:#000000" class="card-text font-weight-bold">Long Tunic</span>
                                         <p class="card-text"> <del style="color:red">৳1000</del> <span style="color:#000000"> ৳800</span></p>
                                     </div>
@@ -213,8 +213,8 @@
                         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
                             <a style=" text-decoration: none;" href="http://127.0.0.1:8000/product/202/Tunic+2-2">
                                 <div class="card">
-                                    <img src="http://127.0.0.1:8000/backend/products/1604397235.jpg"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
-                                    <div class="card-body text-center">
+                                    <img src="http://127.0.0.1:8000/backend/products/test.jpg"  class="img-fluid rounded" style="" alt="...">
+                                    <div class="text-center">
                                         <span style="color:#000000" class="card-text font-weight-bold">Tunic 2-2</span>
                                         <p class="card-text"> <del style="color:red">৳5000</del> <span style="color:#000000"> ৳4500</span></p>
                                     </div>
@@ -225,8 +225,8 @@
                         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
                             <a style=" text-decoration: none;" href="http://127.0.0.1:8000/product/201/Bracelet+1">
                                 <div class="card">
-                                    <img src="http://127.0.0.1:8000/backend/products/1604397079.jpg"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
-                                    <div class="card-body text-center">
+                                    <img src="http://127.0.0.1:8000/backend/products/test.jpg"  class="img-fluid rounded" style="" alt="...">
+                                    <div class="text-center">
                                         <span style="color:#000000" class="card-text font-weight-bold">Bracelet 1</span>
                                         <p class="card-text"> <del style="color:red">৳20000</del> <span style="color:#000000"> ৳18000</span></p>
                                     </div>
@@ -237,8 +237,8 @@
                         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
                             <a style=" text-decoration: none;" href="http://127.0.0.1:8000/product/200/Jeans+1">
                                 <div class="card">
-                                    <img src="http://127.0.0.1:8000/backend/products/1604396896.jpg"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
-                                    <div class="card-body text-center">
+                                    <img src="http://127.0.0.1:8000/backend/products/test.jpg"  class="img-fluid rounded" style="" alt="...">
+                                    <div class="text-center">
                                         <span style="color:#000000" class="card-text font-weight-bold">Jeans 1</span>
                                         <p class="card-text"> <del style="color:red">৳3210</del> <span style="color:#000000"> ৳2300</span></p>
                                     </div>
@@ -249,8 +249,8 @@
                         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
                             <a style=" text-decoration: none;" href="http://127.0.0.1:8000/product/199/Crossbody+bag+1">
                                 <div class="card">
-                                    <img src="http://127.0.0.1:8000/backend/products/1604396738.jpg"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
-                                    <div class="card-body text-center">
+                                    <img src="http://127.0.0.1:8000/backend/products/test.jpg"  class="img-fluid rounded" style="" alt="...">
+                                    <div class="text-center">
                                         <span style="color:#000000" class="card-text font-weight-bold">Crossbody bag 1</span>
                                         <p class="card-text"> <del style="color:red">৳3400</del> <span style="color:#000000"> ৳2600</span></p>
                                     </div>
@@ -261,8 +261,8 @@
                         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
                             <a style=" text-decoration: none;" href="http://127.0.0.1:8000/product/198/Belt+1">
                                 <div class="card">
-                                    <img src="http://127.0.0.1:8000/backend/products/1604396543.jpg"  class="img-fluid1 rounded" style="height: 260px;" alt="...">
-                                    <div class="card-body text-center">
+                                    <img src="http://127.0.0.1:8000/backend/products/test.jpg"  class="img-fluid rounded" style="" alt="...">
+                                    <div class="text-center">
                                         <span style="color:#000000" class="card-text font-weight-bold">Belt 1</span>
                                         <p class="card-text"> <del style="color:red">৳5000</del> <span style="color:#000000"> ৳3000</span></p>
                                     </div>
