@@ -142,8 +142,8 @@
   <div class="container">
     <div class="card">
 
-      <div class="card-header">Invoice
-        <strong>{{date('Y-m-d')}}</strong>
+      <div class="card-header">
+        <strong>Current Month Cancelled Order List</strong>
         <span class="float-right"> <strong>Status:</strong> Cancelled order</span>
       </div>
 
@@ -188,7 +188,7 @@
                 <!-- <td class="right">Comment</td> -->
                 <td class="right">
                   <a href="{{route('order.cancelled.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
-                  <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
+                  <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
 
                 </td>
                 <!-- <td class="right">hello</td> -->

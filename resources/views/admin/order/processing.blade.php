@@ -75,14 +75,14 @@
     <div class="container">
       <div class="card">
 
-        <div class="card-header">Invoice
-          <strong>{{date('d-m-Y')}}</strong>
+        <div class="card-header">
+           <h5 class="text-center">Current Month Order List</h5>
           <!-- <span class="float-right"> <strong>Status:</strong> Pending</span> -->
         </div>
 
         <div class="card-body">
 
-
+       
           <div class="table-responsive-sm">
             <table class="table table-striped">
               <thead>

@@ -203,10 +203,14 @@ if(isset($request->product_stock) && $request->product_stock!=0){
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$request->product_stock]);
 }
 
-if($request->product_sku==''){
-          $s_k_u=$post_id.rand().time();   
+if($request->product_sku==''){  
+          $digits = 3;
+          $rand=rand(pow(10, $digits-1), pow(10, $digits)-1);
+          $s_k_u=$post_id.$rand.time(); 
 }else{
-    $s_k_u=$post_id.$request->product_sku.rand().time();  
+    $digits = 3;
+    $rand=rand(pow(10, $digits-1), pow(10, $digits)-1); 
+    $s_k_u=$post_id.$request->product_sku.$rand.time(); 
 } 
 DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
 

@@ -23,46 +23,7 @@
 
     <div class="s002">
     
- <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Excel Dispatch</div>
-
-
-
-
-    <div class="card-body">
-      <div class="container">
-        <ul class="nav bg-dark d-flex justify-content-around">
-         <li class="nav-item " style="border-right: 1px solid white;">
-          <a  class="nav-link active" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
-        </li>
-
-     
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link"  href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing ({{$processing_order}})</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a  class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch ({{$dispatch_order}})</a>
-        </li>
-        <li class="nav-item bg-primary" style="border-right: 1px solid white;">
-          <a  class="nav-link" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a  class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
-        </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
-          <a class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered ({{$delivered_order}})</a>
-        </li>
-        <li class="nav-item">
-          <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled ({{$cancelled_order}})</a>
-        </li>
-        
-      </ul>
-    </div>
-  </div>
-
-
+ <div class="d-flex font-weight-bold justify-content-center h2 mb-3">All Complete Excel Dispatch</div>
 
     <div class="d-flex justify-content-center">
       <form class="form-inline" method="post" action="{{route('excel.dispatch.order.date')}}" >
@@ -116,11 +77,6 @@
 
       <div class="card-body">
         {{$order->links()}}
-        @if($order->count()>0)
-        <button id="selectAll" class="btn btn-info" type="button">Copy</button>
-        <button id="download_excel" class="btn btn-success" type="button">Download</button>
-        <button style="display: none;" id="refresh_excel" class="btn btn-success" type="button">Refresh</button>
-        @endif 
 <div class="loader">
   <div class="loading">
   </div>
@@ -138,8 +94,6 @@
                 <th class="right">Status</th>
               </tr>
             </thead>
-            <form id="copy_form" class="form-inline" method="post" action="{{route('order.excel.dispatch.download')}}" >
-             @csrf() 
             <tbody>
               @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $total_qty=0; @endphp
               @foreach($order as $orders)
@@ -159,7 +113,7 @@
               @endforeach
               @endforeach
               <tr>
-                <td class="center"><input type="checkbox" name="check_id[]" value="{{$orders->ID}}"> {{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
+                <td class="center"> {{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
                 <td>{{$name}} {{$last_name}}</td>
                 <td class="right">{{$phone}}</td>
                 <td class="right">{{$address_one}}</td>
@@ -169,9 +123,7 @@
               @php $total_amount=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
               @endforeach
             </tbody>
-              </form>
           </table>
-     
         </div>
             
         <div class="row">
@@ -196,25 +148,5 @@
 @endsection
 
 @section('js')
-<script>
-$(document).ready(function () {
-  $('body').on('click', '#selectAll', function () {
-        $('input[type="checkbox"]', '#example').prop('checked', true);
-    $(this).toggleClass('allChecked');
-  })
 
-  $("#download_excel").click(function(){
-    $('#copy_form').delay(200).submit();
-    $("#refresh_excel").show();
-    $("#download_excel").hide();
-  });
-
-  $("#refresh_excel").click(function(){
-    location.reload();
-  });
-
-
-
-});
-</script>
 @endsection

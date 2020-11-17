@@ -152,6 +152,7 @@
 
 
         <div class="table-responsive-sm">
+          <h5 class="text-center">Current Month Order List</h5>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -197,7 +198,7 @@
                 <td class="right">
                   <a href="{{route('order.deliver.print',$orders->ID)}}" class="btn btn-success btn-sm mb-2">
                     <i class="fas fa-print"> </i> Print</a><br>
-                  <a href="{{route('order.deliver.edit',$orders->ID)}}" class="btn btn-info btn-sm mb-2">
+                  <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-info btn-sm mb-2">
                     <i class="fas fa-edit"> </i>Edit</a><br>
                   <a onclick="return confirm('Are you sure want to cancel this order?')" href="{{route('order.deliver.cancel',$orders->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
                 </td>

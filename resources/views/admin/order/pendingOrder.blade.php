@@ -79,6 +79,7 @@ use App\Model\front\Order_item;
     <div class="card">
       <div class="card-body">
         <div class="table-responsive-sm">
+          <h5 class="text-center">Current Month Order List</h5>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -193,8 +194,8 @@ use App\Model\front\Order_item;
   @endforeach 
 
 </tbody>
-{{$orders->links()}}
 </table>
+{{$orders->links()}}
 </div>
 
 <div class="row">

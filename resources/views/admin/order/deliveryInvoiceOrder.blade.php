@@ -82,6 +82,7 @@ use App\Model\front\Order_item;
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive-sm">
+                      <h5 class="text-center">Current Month Order List</h5>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -93,7 +94,18 @@ use App\Model\front\Order_item;
                                 </tr>
                             </thead>
                             <tbody>
-
+                             @foreach($order as $key=>$item)
+                             <tr>
+                               <td>{{++$key}}</td>
+                               <td>{{$item->ID}}</td>
+                               <td>{{date('d-m-Y',strtotime($item->post_modified))}}</td>
+                               <td>
+                                 <a class="btn btn-success" href="{{url('order/edit'.'/'.$item->ID)}}">Edit</a>
+                                 <a class="btn btn-primary" href="{{url('delivered/print'.'/'.$item->ID)}}">Invoice</a>
+                  
+                                </td>
+                             </tr>
+                             @endforeach 
                             </tbody>
                         </table>
                     </div>

@@ -120,6 +120,7 @@ Route::group(['middleware' => 'role:admin'], function() {
 
     Route::group(['namespace'=>'Admin'],function(){       
         Route::get('database/backup','SettingsController@databaseBackup')->name('database_backup');
+        Route::get('all/dispatch/complete/order','OrderController@allDispatchcomplete')->name('all_dispatch_complete');
         Route::resource('coupon','CouponController');
         Route::get('gross/profit/monthly','QuickReportController@gross_profit_monthly')->name('g_profit_monthly');
         Route::get('best/sell/yearly','QuickReportController@best_sell_yearly')->name('b_sell_yearly');

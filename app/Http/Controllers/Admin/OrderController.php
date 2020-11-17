@@ -56,8 +56,10 @@ class OrderController extends Controller
     }
 
     public function pendingOrder(){
-
-
+      $extraInfo=array(
+        'title'=>"Pending Order List",
+        'page'=>'pendingOrder'
+      );
       $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
       ->count();
       $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
@@ -68,24 +70,17 @@ class OrderController extends Controller
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
       ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
+  
 
-
-      $extraInfo=array(
-        'title'=>"Pending Order List",
-        'page'=>'pendingOrder'
-      );
-      $date = \Carbon\Carbon::today()->subDays(30);
       $orders=Post::where('posts.post_type','shop_order')
       ->where('post_status','on-hold')
-      ->where('post_date','>=',$date)
+      ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
       ->orderBy('ID','DESC')
       ->paginate(10); 
       $total_orders=Post::where('posts.post_type','shop_order')
       ->where('post_status','on-hold')
-      ->where('post_date', '>=', $date)
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();  
       return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
     }
@@ -164,19 +159,16 @@ class OrderController extends Controller
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
       ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
-    $date = \Carbon\Carbon::today()->subDays(30);
-    $order=Post::where('post_type','shop_order')
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
+     $order=Post::where('post_type','shop_order')
     ->where('post_status','processing')
-    ->where('post_modified','>=',$date) 
+     ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')]) 
     ->paginate(20);
     $total_order=Post::where('post_type', 'shop_order')
     ->where('post_status', 'processing')
-    ->where('post_modified', '>=', $date)
+    ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->count();
-    return view('admin.order.processing',compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo);
+    return view('admin.order.processing',compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo);
   }
 
   public function processingOrderByDate($day)
@@ -220,19 +212,33 @@ class OrderController extends Controller
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
       ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
-    $date = \Carbon\Carbon::today()->subDays(30);
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
     $order = Post::where('post_type', 'shop_order')
     ->where('post_status', 'dispatch')
-    ->where('post_modified', '>=', $date)
+    ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->paginate(20);
     $total_order = Post::where('post_type', 'shop_order')
     ->where('post_status', 'dispatch')
-    ->where('post_modified', '>=', $date)
+    ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->count();
-    return view('admin.order.dispat', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
+    return view('admin.order.dispat', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo); 
+  }
+
+  public function allDispatchcomplete(){
+      $extraInfo = array(
+      'title' => "Order List",
+      'page' => 'order'
+    );
+     $order = Post::where('post_type', 'shop_order')
+    ->where('post_status', 'dispatch_complete')
+    ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
+    ->paginate(20);
+
+      $total_complete=Post::where('post_type','shop_order')
+      ->where('post_status','dispatch_complete')
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
+      ->count();
+      return view('admin.order.all_complete_dispatch', compact('order','total_complete'))->with($extraInfo); 
   }
 
   public function dispatchByDate($day)
@@ -265,15 +271,14 @@ class OrderController extends Controller
     'page'=>'cancelled'
   ); 
 
-   $date = \Carbon\Carbon::today()->subDays(30);
    $order = Post::where('post_type', 'shop_order')
    ->where('post_status', 'cancelled')
-   ->where('post_modified', '>=', $date)
+   ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
    ->paginate(20);
 
    $total_order = Post::where('post_type', 'shop_order')
    ->where('post_status', 'cancelled')
-   ->where('post_modified', '>=', $date)
+   ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
    ->count();
 
    return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
@@ -281,7 +286,11 @@ class OrderController extends Controller
 
  public function allStatus()
  {
-   $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
+     $extraInfo = array(
+    'title' => "Order List",
+    'page' => 'order'
+  );
+      $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
       ->count();
       $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
       ->count();
@@ -291,19 +300,11 @@ class OrderController extends Controller
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
       ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
-
-  $extraInfo = array(
-    'title' => "Order List",
-    'page' => 'order'
-  );
-  $date = \Carbon\Carbon::today()->subDays(30);
-  $order = Post::where('posts.post_type','shop_order')
-  ->where('post_date','>=', $date)
-  ->orderBy('ID', 'DESC')
-  ->paginate(20);
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order;
+      $order = Post::where('posts.post_type','shop_order')
+       ->whereBetween('post_modified', [date('Y-m-01'), date('Y-m-t')])
+      ->orderBy('ID', 'DESC')
+      ->paginate(20);
   return view('admin.order.allStatus',compact('order','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
 }
 
@@ -858,14 +859,13 @@ public function grossProfit()
       $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
       ->count();
       $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
-      $date = \Carbon\Carbon::today();
       $order = Post::where('post_type','shop_order')
       ->where('post_status','dispatch')
-      ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->paginate(500);
       $total_complete=Post::where('post_type','shop_order')
       ->where('post_status','dispatch_complete')
-      ->whereBetween('post_modified', [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->count();
       return view('admin.order.excelDispatch', compact('order','total_complete','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
     }
@@ -896,8 +896,11 @@ public function grossProfit()
       ->count();
       $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
       ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
-      return view('admin.order.deliveryInvoiceOrder',compact('pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order;
+      $order=Post::where(['post_type'=>'shop_order','post_status'=>'delivered'])
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
+      ->get();
+      return view('admin.order.deliveryInvoiceOrder',compact('order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
     }
 
     public function deliveredOrder(){
@@ -915,19 +918,16 @@ public function grossProfit()
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
       ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
-      $date = \Carbon\Carbon::today()->subDays(30);
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
       $order = Post::where('post_type', 'shop_order')
       ->where('post_status','=','delivered')
-      ->where('post_modified', '>=', $date)
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->paginate(20);
       $total_order = Post::where('post_type', 'shop_order')
       ->where('post_status','=','delivered')
-      ->where('post_modified', '>=', $date)
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->count();
-      return view('admin.order.delivery', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
+      return view('admin.order.delivery', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo); 
     }
 
     public function deliveredSearch(Request $request){
@@ -966,10 +966,8 @@ public function grossProfit()
       $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
+      ->count();;
+      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
 
       $date = \Carbon\Carbon::today()->subDays(30);
       $order = Post::where('post_type', 'shop_order')
@@ -980,7 +978,7 @@ public function grossProfit()
       ->where('post_status', 'cancelled')
       ->where('post_modified', '>=', $date)
       ->count();
-      return view('admin.order.cancelled', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo);
+      return view('admin.order.cancelled', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo);
     } 
 
     public function cancelledOrderSearch(Request $request){
