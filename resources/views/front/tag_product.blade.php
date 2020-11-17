@@ -3,7 +3,19 @@
 @section('content')
 		<div class="container">
 			<div class="d-flex flex-column">
-			   @include('front.includes.banner')
+			   <div class="banner">
+                             @php
+                        $banner=DB::table('posts')
+                        ->where('post_type','banner')
+                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                        ->first();
+                        @endphp
+                        @if(isset($banner))
+                  @if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
+                    <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-responsive img-fluid" alt="Responsive image" width="1267">
+                 @endif
+                      
+                    </div>
 				<div class="d-flex flex-wrap mt-3">
                 @if($product->count()>0)
                     @php
