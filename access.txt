@@ -8,3 +8,8 @@ user:
 url: base_url/login
 email: demo@email.com
 password: admin123
+
+
+wish
+akbor1@itebd.com
+12345678
