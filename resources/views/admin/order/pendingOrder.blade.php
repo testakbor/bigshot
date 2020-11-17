@@ -24,16 +24,16 @@ use App\Model\front\Order_item;
 
     <div class="card-body">
       <div class="container">
-        <ul class="nav bg-dark" >
+        <ul class="nav bg-dark d-flex justify-content-around">
          <li class="nav-item " style="border-right: 1px solid white;">
-          <a  class="nav-link active" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
+          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
         </li>
 
      
         <li class="nav-item bg-primary" style="border-right: 1px solid white;">
           <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
         </li>
-        <li class="nav-item" style="border-right: 1px solid white;">
+        <li class="nav-item " style="border-right: 1px solid white;">
           <a class="nav-link"  href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing ({{$processing_order}})</a>
         </li>
         <li class="nav-item" style="border-right: 1px solid white;">
@@ -56,7 +56,7 @@ use App\Model\front\Order_item;
     </div>
   </div>
 
-    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Pending Order</div>
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Sales Order</div>
     <div class="d-flex justify-content-center">
       <form class="form-inline" method="post" action="{{route('s_pending_order')}}" >
         @csrf() 
