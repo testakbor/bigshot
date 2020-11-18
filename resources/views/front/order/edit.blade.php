@@ -18,7 +18,7 @@
                         <b>Order Number: {{$order->ID}}</b><br> 
                         Ship To
                         <hr> 
-                    <ul>
+                    <div>
                         @php $name=''; $address=''; $city=''; $payment_method=''; @endphp
                         @foreach($order_info as $info)
                         @if($info->meta_key=='first_name') @php $name=$info->meta_value; @endphp @endif
@@ -26,11 +26,10 @@
                         @if($info->meta_key=='city') @php $city=$info->meta_value; @endphp @endif
                         @if($info->meta_key=='payment_method') @php $payment_method=$info->meta_value; @endphp @endif
                         @endforeach
-                        <li style="list-style: none;">{{$name}}</li>
-                        <li style="list-style: none;">{{$address}}</li>
-                        <li style="list-style: none;">{{$city}}</li>
-                        <li style="list-style: none;">Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </li>
-                    </ul>
+                        <div >{{$name}}</div>
+                        <div >{{$address}},{{$city}}</div>
+                        <div >Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </div>
+                    </div>
                 </div>
                 @endif 
             </div>

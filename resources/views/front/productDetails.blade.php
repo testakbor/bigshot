@@ -24,18 +24,18 @@ endif;
 endforeach;
 @endphp
 <div class="container">
-        @if(session('status'))
-                            <div class="alert alert-success" role="alert" id="alert">
-                                {{ session('status') }}
-                            </div>
-                            @endif
+    @if(session('status'))
+    <div class="alert alert-success" role="alert" id="alert">
+        {{ session('status') }}
+    </div>
+    @endif
     <div class="d-flex flex-column mt-5 ">
         <div class="d-flex flex-column ">
             <div class="empyt text-center border-bottom border-dark pt-3 pb-3">{{$product->post_title}} </div>
             <div class="d-flex flex-row mt-2">
                 <div class="proImag">
                     <img id="featured" src="{{asset('backend/products/'.$image)}}" class="img-fluid rounded"
-                        alt="Responsive image" height="auto">
+                         alt="Responsive image" height="auto">
                 </div>
                 <div class="d-flex flex-column pl-2">
                     <div class="pname"></div>
@@ -81,7 +81,7 @@ endforeach;
                     </div>
                 </div>
             </div>
-            <div class="row text-center text-lg-left">
+            <div class="row text-center text-lg-left mt-2">
                 @foreach($gallery_images as $g)
                 <div class="col-lg-3 col-md-4 col-6">
                     <a href="#" class="d-block mb-4 h-100">
@@ -131,18 +131,18 @@ endforeach;
                         @php $img=$info->meta_value @endphp
                         @endif
                         @endforeach
-                        <div class="col-lg-3 col-md-4 col-6">
+                        <div class="col-lg-3 col-md-4 col-6 mt-3">
                             <a href="{{url('product/'.$related->ID.'/'.urlencode($related->post_title))}}"
-                                class="d-block mb-4 h-100">
+                               class="d-block mb-4 h-100 text-decoration-none">
                                 <div class="card">
                                     <img style="height:200px" src="{{asset('backend/products/'.$img)}}"
-                                        class="img-fluid">
-                                    <div class="card-body text-center">
-                                        <p class="card-text font-weight-bold">{{$related->post_title}}</p>
-                                        <p class="card-text">@if($rprice)
+                                         class="img-fluid">
+                                    <div class="text-center">
+                                        <span class="card-text font-weight-bold">{{$related->post_title}}</span>
+                                        <span class="card-text">@if($rprice)
                                             <del style="color:red">৳{{$rprice}}</del>@endif
                                             <span style="color:#000000"> ৳{{$sprice}}</span>
-                                        </p>
+                                        </span>
                                     </div>
                                 </div>
                             </a>
