@@ -19,10 +19,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $qty=0; $id=0; $subtotal=0; @endphp
+                                        @php $qty=0; $id=0; $subtotal=0; $cancel_qty=0; @endphp
                                         @foreach($order_item as $item)
                                         @foreach($item->orderMeta as $value)
                                         @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
+                                        @if($value->meta_key=='cancel_quantity') @php $cancel_qty=$value->meta_value; @endphp @endif
                                         @if($value->meta_key=='_product_id')@php $id=$value->meta_value;@endphp @endif
                                         @if($value->meta_key=='_line_subtotal')@php $subtotal=$value->meta_value;@endphp @endif
                                         @endforeach
@@ -43,7 +44,8 @@
                                              <form method="post" action="{{route('customer_order_cancel_item')}}">
                                                  @csrf 
                                              <td> 
-                                               @if($qty>0)
+                                               @php $total_qtyy=$qty-$cancel_qty; @endphp  
+                                               @if($total_qtyy<0)
                                                     <input type="text" class="form-control" name="request_qty" required placeholder="Enter no of quantity" autocomplete="off">
                                                     <input type="hidden" class="form-control" name="ac_qty" value="{{$qty}}">
                                                     <input type="hidden" class="form-control" name="cancel_order_id" value="{{$item->order_id}}">

@@ -73,15 +73,18 @@
                 	height: 33px
                 }
             </style>
-            <div class="mt-3 mb-2">
+            <div class="mt-0 mb-2 sticky-top bg-light">
 
                 <nav class="navbar navbar-expand-lg navbar-light bg-light d-block d-sm-none">
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <a href="{{url('/')}}" class="ml-3"><img src="{{asset('assets/common/images/logo.png')}}" class="img-fluid" alt="logo" style="height: 30px;width: 80px"></a>  
-                    
+                     @guest
                      <a href="{{ route('login') }}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-user"></i></a> 
+                     @else 
+                     <a href="{{url('profile')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-user"></i></a> 
+                     @endguest 
 
 					<a href="{{url('cart')}}" class="float-right mr-4 mt-2"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
 					@if(\Cart::getTotalQuantity()==0)@else
@@ -121,8 +124,15 @@
                             <div class="d-flex align-items-center ">
                                 <a href="{{url('privacy')}}" class="text-decoration-none text-dark"> Policies</a> 
                             </div>
+
+
+<div class="d-flex align-items-center ">
+                                <a href="{{url('privacy')}}" class="text-decoration-none text-dark"> Profile </a> 
+                            </div>
+
+
                             <div class=""> 
-<img src="http://127.0.0.1:8000/assets/front/payment/bkash.jpg" style="vertical-align: top;" width="35px" height="25px">
+<img src="{{asset('assets/front/payment/bkash.jpg')}}" style="vertical-align: top;" width="35px" height="25px">
 <i style="font-size: 30px;" class="fab fa-cc-visa"></i>
 <i style="font-size: 30px;" class="fab fa-cc-mastercard"></i>
                             </div>
@@ -130,7 +140,7 @@
                     </div>
                 </nav>
                 <!-------- display on large ----------->
-                <div class="d-none d-sm-block">
+                <div class="d-none d-sm-block sticky-top">
                     <div class="d-flex flex-column ">
                         <div class="d-flex justify-content-between ml-5 mr-5 mt-3">
                             <div>
