@@ -154,7 +154,6 @@ class OrderController extends Controller
        return back();
       }
       $cancel_qty=$request->request_qty;
-
       //stock increase
       $product_current_qty=DB::table('postmeta')
       ->where('post_id',$request->product_id)
@@ -168,15 +167,14 @@ class OrderController extends Controller
          'meta_value' => $product_update_stock
        ]);
 
-      //order item cancel quantity update with price
+     $order_date=DB::table('order_itemmeta')
+      ->where('order_id',$request->cancel_order_id)
+      ->first();
         $cancel_quantity=DB::table('order_itemmeta')
       ->where('order_id',$request->cancel_order_id)
       ->where('order_item_id',$request->cancel_item_id)
       ->where('meta_key','cancel_quantity')
       ->count();
-      $order_date=DB::table('order_itemmeta')
-      ->where('order_id',$request->cancel_order_id)
-      ->first();
       if($cancel_quantity==0){
         DB::table('order_itemmeta')->insert([
             'order_item_id' =>$request->cancel_item_id,
@@ -184,14 +182,14 @@ class OrderController extends Controller
             'meta_key' =>'cancel_quantity',
             'meta_value' =>$request->request_qty,
             'customer_id' =>auth()->user()->id,
-            'order_date' =>$order_date->meta_value
+            'order_date' =>$order_date->order_date
         ]);
       }else{
         $ac_cancel_quantity=DB::table('order_itemmeta')
       ->where('order_id',$request->cancel_order_id)
       ->where('order_item_id',$request->cancel_item_id)
       ->where('meta_key','cancel_quantity')
-      ->count()+$request->request_qty;
+      ->sum('meta_value')+$request->request_qty;
        DB::table('order_itemmeta')
       ->where('order_id',$request->cancel_order_id)
       ->where('order_item_id',$request->cancel_item_id)
@@ -200,6 +198,11 @@ class OrderController extends Controller
           'meta_value' =>$ac_cancel_quantity
        ]);
       }
+
+
+
+
+
        session()->flash("success", "Order has been cancelled Successfully");
        return back();
         

@@ -9,6 +9,7 @@
             </div>
         </div>
         <div class="card-body">
+            <h4 class="text-center"></h4>
             <div class="row justify-content-between mb-3">
                       @if($status->post_status=='cancelled')
                        <h4 class="text-center">Order has been cancelled</h4>
@@ -36,6 +37,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
+                    <div class="table-responsive">
                     <table class="table table-striped">
                         Items In Order
                         <thead class="thead-light">
@@ -60,6 +62,7 @@
                             $delivery_charge=0;
                             $coupon_amount=0;
                             $coupon_code='';
+                            $item_id=0;
                             @endphp
                            @if($status->post_status=='cancelled')
                           @else 
@@ -71,6 +74,7 @@
                             @if($value->meta_key=='delivery_charge') @php $delivery_charge=$value->meta_value; @endphp @endif
                             @if($value->meta_key=='coupon_code') @php $coupon_code=$value->meta_value; @endphp @endif
                             @if($value->meta_key=='coupon_taka') @php $coupon_amount=$value->meta_value; @endphp @endif
+                            @if($value->order_item_id) @php $item_id=$value->order_item_id; @endphp @endif
                             @endforeach
                             @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
                             <tr>
@@ -81,10 +85,10 @@
                                     $sku=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','_sku')->first();
                                     $image=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','attached_file')->first();
                                     @endphp
-                                    <img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}">
+                                    <img width="30px" height="30px" src="{{asset('backend/products/'.$image->meta_value)}}"><br>
                                     Sku:{{$sku->meta_value}}
                                 </th>
-                                <td>{{$item->order_item_name}}</td>
+                                <td>{{$item->order_item_name}} {{ $item_id}}</td>
                                 <!-- <td> @php $cost=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','product_stock')->first(); @endphp {{$cost->meta_value}}</td> -->
                                 <td>{{$qty}} pcs</td>
                                 <td>{{$sub=$subtotal}} tk</td>
@@ -98,6 +102,7 @@
                         </tbody>
                         @endif 
                     </table>
+                    </div>
                     <hr class="my-3 ">
                 </div>
             </div>

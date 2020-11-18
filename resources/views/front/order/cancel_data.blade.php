@@ -19,11 +19,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $qty=0; $id=0; $subtotal=0; $cancel_qty=0; @endphp
+                                        @php $qty=0; $id=0; $subtotal=0; @endphp
                                         @foreach($order_item as $item)
                                         @foreach($item->orderMeta as $value)
                                         @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
-                                        @if($value->meta_key=='cancel_quantity') @php $cancel_qty=$value->meta_value; @endphp @endif
                                         @if($value->meta_key=='_product_id')@php $id=$value->meta_value;@endphp @endif
                                         @if($value->meta_key=='_line_subtotal')@php $subtotal=$value->meta_value;@endphp @endif
                                         @endforeach
@@ -39,26 +38,44 @@
                                                 {{$product_name->post_title}}
                                             </td>
                                             <td>
-                                              Order Quantity: {{$qty}} Pc's
+                                               
+                                              @php 
+                                               $cancel_qty=DB::table('order_itemmeta')
+                                              ->where('order_item_id',$item->order_item_id)
+                                              ->where('meta_key','cancel_quantity')
+                                              ->sum('meta_value');
+                                               @endphp
+                                              Order Quantity: {{$qty-$cancel_qty}} Pc's 
                                             </td>
+
+
                                              <form method="post" action="{{route('customer_order_cancel_item')}}">
                                                  @csrf 
                                              <td> 
-                                               @php $total_qtyy=$qty-$cancel_qty; @endphp  
-                                               @if($total_qtyy<0)
+                                              
+                                              @php $acq=$qty-$cancel_qty @endphp 
+
+                                              @if($acq>0)
+                                        
                                                     <input type="text" class="form-control" name="request_qty" required placeholder="Enter no of quantity" autocomplete="off">
-                                                    <input type="hidden" class="form-control" name="ac_qty" value="{{$qty}}">
+                                                    <input type="hidden" class="form-control" name="ac_qty" value="{{$acq}}">
                                                     <input type="hidden" class="form-control" name="cancel_order_id" value="{{$item->order_id}}">
                                                     <input type="hidden" class="form-control" name="cancel_item_id" value="{{$item->order_item_id}}">
                                                     <input type="hidden" class="form-control" name="product_id" value="{{$id}}">
+                                              @else
+                                              Cancel 
+                                              @endif       
                                             </td>
+                                             @if($acq>0)
                                             <td>
                                                 <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white">Cancel</span></button>
                                             </td>
-                                               @else 
-                                                 Cancelled
-                                                @endif
-                                                </form>
+                                            @endif 
+                                         
+                                            </form>
+
+
+
                                         </tr>
                                         @endforeach
                                     </tbody>

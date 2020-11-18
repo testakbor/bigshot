@@ -106,41 +106,102 @@
                             <div class="mt-2"> 
 								<a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{$tag->name}}</a>
 							</div>
-                           @endforeach
+                             @endforeach
+
+                             @guest 
                             <div class="d-flex align-items-center ">
                             	<a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
                             </div>
-                             <div class="d-flex align-items-center ">
-                             	<a href="{{url('cart')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 		  Shopping Bag      	
-                             	</a> 
-                                </div>
+
+                            <div class="d-flex align-items-center ">
+                             	<a href="{{url('cart')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fas fa-shopping-bag"></i> Shopping Bag </a> 
+                            </div>
+
                             <div> 
-                            	<a href="{{url('faq')}}" class="text-decoration-none text-dark"> FAQ ?</a>
+                            	<a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
                             </div>
 
                             <div>
-                             <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> Customer Support</a>
-                         </div>
+                               <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
+                            </div>
+
                             <div class="d-flex align-items-center ">
-                                <a href="{{url('privacy')}}" class="text-decoration-none text-dark"> Policies</a> 
+                                <a href="{{url('privacy')}}" class="text-decoration-none text-dark"><i class="fas fa-user-secret"></i> Policies</a> 
                             </div>
-
-
-<div class="d-flex align-items-center ">
-                                <a href="{{url('privacy')}}" class="text-decoration-none text-dark"> Profile </a> 
-                            </div>
-
 
                             <div class=""> 
-<img src="{{asset('assets/front/payment/bkash.jpg')}}" style="vertical-align: top;" width="35px" height="25px">
-<i style="font-size: 30px;" class="fab fa-cc-visa"></i>
-<i style="font-size: 30px;" class="fab fa-cc-mastercard"></i>
+                                <img src="{{asset('assets/front/payment/bkash.jpg')}}" style="vertical-align: top;" width="35px" height="25px">
+                                <i style="font-size: 30px;" class="fab fa-cc-visa"></i>
+                                <i style="font-size: 30px;" class="fab fa-cc-mastercard"></i>
                             </div>
+
+                             @else 
+                             <a href="{{url('profile')}}">
+                            <div style="background: #ffffff; color:#000000">
+                               <div class="float-left mb-2">
+                                   @php 
+                                    $img=DB::table('usermeta')
+                                    ->where('user_id',auth()->user()->id)
+                                    ->where('meta_key','user_image')
+                                    ->first(); 
+                                    @endphp
+                                   	@if(isset($img))
+                                    <img  src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 30%;height: 33px;">
+                                    @else
+                                    <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
+                                    @endif
+                                    {{auth()->user()->name}}
+                                </div>
+                               <div  class="float-right mb-2">
+                                    View Profile    
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                            </div>
+                             </a>
+
+                            <div class="d-flex align-items-center ">
+                            	<a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
+                            </div>
+
+                            <div class="d-flex align-items-center ">
+                             	<a href="{{url('cart')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fas fa-shopping-bag"></i> Shopping Bag </a> 
+                            </div>
+
+                            <div class="d-flex align-items-center ">
+                            	<a href="{{url('order-list')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Order list </a>
+                            </div>
+
+                            <div> 
+                            	<a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
+                            </div>
+
+                            <div>
+                               <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
+                            </div>
+
+                            <div class="d-flex align-items-center ">
+                                <a href="{{url('privacy')}}" class="text-decoration-none text-dark"><i class="fas fa-user-secret"></i> Policies</a> 
+                            </div>
+
+                            <div class="d-flex align-items-center ">
+                                <a style="color: #000000;" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								@csrf
+								</form> 
+                            </div>
+                            <div class=""> 
+                                <img src="{{asset('assets/front/payment/bkash.jpg')}}" style="vertical-align: top;" width="35px" height="25px">
+                                <i style="font-size: 30px;" class="fab fa-cc-visa"></i>
+                                <i style="font-size: 30px;" class="fab fa-cc-mastercard"></i>
+                            </div>
+                            @endguest
                         </div>
                     </div>
                 </nav>
                 <!-------- display on large ----------->
                 <div class="d-none d-sm-block sticky-top">
+
                     <div class="d-flex flex-column ">
                         <div class="d-flex justify-content-between ml-5 mr-5 mt-3">
                             <div>
@@ -169,9 +230,15 @@
                                 <div class="d-flex align-items-center ml-3">
                                          @guest
 						<a href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
-						 @else 
-						   @if(isset($profile_image->meta_value))
-							<img  src="{{asset('assets/front/user/'.$profile_image->meta_value)}}" style="border-radius: 50%;height: 33px;">
+                         @else 
+                            @php 
+                                    $imgg=DB::table('usermeta')
+                                    ->where('user_id',auth()->user()->id)
+                                    ->where('meta_key','user_image')
+                                    ->first(); 
+                                    @endphp
+						   @if(isset($imgg->meta_value))
+							<img  src="{{asset('assets/front/user/'.$imgg->meta_value)}}" style="border-radius: 50%;height: 33px;">
 						    </br>
 							@else
 							<img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
