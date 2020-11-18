@@ -206,11 +206,11 @@ if(isset($request->product_stock) && $request->product_stock!=0){
 if($request->product_sku==''){  
           $digits = 3;
           $rand=rand(pow(10, $digits-1), pow(10, $digits)-1);
-          $s_k_u=$post_id.$rand.time(); 
+          $s_k_u=$rand; 
 }else{
     $digits = 3;
     $rand=rand(pow(10, $digits-1), pow(10, $digits)-1); 
-    $s_k_u=$post_id.$request->product_sku.$rand.time(); 
+    $s_k_u=$request->product_sku.$rand; 
 } 
 DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
 
@@ -509,10 +509,14 @@ DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'product_stock','meta_value'=>$request->product_stock]);
 
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$oldStartStock->meta_value]);
-if($request->product_sku==''){
-          $s_k_u=$id.rand().time();   
+if($request->product_sku==''){  
+          $digits = 3;
+          $rand=rand(pow(10, $digits-1), pow(10, $digits)-1);
+          $s_k_u=$rand; 
 }else{
-    $s_k_u=$request->product_sku;  
+    $digits = 3;
+    $rand=rand(pow(10, $digits-1), pow(10, $digits)-1); 
+    $s_k_u=$request->product_sku.$rand; 
 } 
 DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
 
