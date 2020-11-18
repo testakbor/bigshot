@@ -106,7 +106,7 @@
                             <div class="orDiv">Or</div>
                         </div>
                         <a class=" facbook btn btn-info text-center font-weight-bold text-decoration-none text-white" href="{{ url('/auth/redirect/facebook') }}">
-                            <div class=""> <img src="{{asset('assets/common/images/fb.png')}}" class="img float-left"> Facbook</div></a>
+                            <div class=""> <img src="{{asset('assets/common/images/fb.png')}}" class="img float-left" style="height: 33px;width: 40px"> Facbook</div></a>
                             <a href="{{ url('/auth/redirect/google') }}" class="btn btn-outline-dark mt-3 text-center font-weight-bold text-decoration-none">
                                 <div class="google "><img src="{{asset('assets/common/images/google-logo.png')}}" class="float-left" width="40" height="30"> Google</div>
                             </a>
@@ -200,7 +200,8 @@
                             <div class="orDiv">Or</div>
                         </div>
                         <a class=" facbook btn btn-info text-center font-weight-bold text-decoration-none text-white" href="{{ url('/auth/redirect/facebook') }}">
-                            <div class=""> <img src="https://img.icons8.com/fluent/48/000000/facebook-new.png" class="float-left" width="40" height="30"> Facbook</div></a>
+                             <div class=""> <img src="{{asset('assets/common/images/fb.png')}}" class="img float-left" style="height: 33px;width: 40px"> Facbook</div></a>
+                        </a>
                             <a href="{{ url('/auth/redirect/google') }}" class="btn btn-outline-dark mt-3 text-center font-weight-bold text-decoration-none">
                                 <div class="google "><img src="https://img.icons8.com/color/48/000000/google-logo.png" class="float-left" width="40" height="30"> Google</div>
                             </a>
