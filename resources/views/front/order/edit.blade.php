@@ -3,13 +3,13 @@
 <div class="container-fluid my-5 d-flex justify-content-center">
     <div class="card card-1">
         <div class="card-header bg-white">
+                 <h4 class="text-center">INVOICE</h4>
             <div class="media flex-sm-row flex-column-reverse justify-content-between ">
                 <div class="col my-auto">
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <h4 class="text-center"></h4>
             <div class="row justify-content-between mb-3">
                       @if($status->post_status=='cancelled')
                        <h4 class="text-center">Order has been cancelled</h4>
@@ -83,20 +83,38 @@
                                 <th>
                                     @php
                                     $sku=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','_sku')->first();
+                                    $p_price=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','sale_price')->first();
                                     $image=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','attached_file')->first();
                                     @endphp
                                     <img width="30px" height="30px" src="{{asset('backend/products/'.$image->meta_value)}}"><br>
                                     Sku:{{$sku->meta_value}}
                                 </th>
-                                <td>{{$item->order_item_name}} {{ $item_id}}</td>
+                                <td>{{$item->order_item_name}}</td>
                                 <!-- <td> @php $cost=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','product_stock')->first(); @endphp {{$cost->meta_value}}</td> -->
-                                <td>{{$qty}} pcs</td>
-                                <td>{{$sub=$subtotal}} tk</td>
+                                <td>           
+                                    @php 
+                                    $cancel_qty=DB::table('order_itemmeta')
+                                    ->where('order_item_id',$item_id)
+                                    ->where('meta_key','cancel_quantity')
+                                    ->sum('meta_value');
+                                    @endphp
+                                    {{$qty-$cancel_qty}} pcs
+                                </td>
+                                <td>
+                                    @php
+                                     $a_qty=$qty-$cancel_qty; 
+                                    @endphp
+                                    @if($a_qty>0)
+                                    {{$sub=$p_price->meta_value*$a_qty}} tk
+                                    @else 
+                                    0 tk 
+                                    @endif 
+                                </td>
                             </tr>
                             @php
                             $i++;
                             $grandTotal+=$sub;
-                            $total_qty+=$qty;
+                            $total_qty+=$a_qty;
                             @endphp
                             @endforeach
                         </tbody>
@@ -119,7 +137,7 @@
                             <p class="mb-1"><b>Sub Total {{ $total_qty}} pcs </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">{{$grandTotal}}</p>
+                            <p class="mb-1">{{$grandTotal}} tk</p>
                         </div>
                     </div>
                     <!-- <div class="row justify-content-between">
@@ -135,7 +153,7 @@
                             <p class="mb-1"><b>Delivery Charges</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">{{$delivery_charge}} tk</p>
+                            <p class="mb-1">@if($total_qty>0) {{$delivery_charge}} tk @else  0 tk @endif</p>
                         </div>
                     </div>
 
@@ -145,7 +163,7 @@
                             <p class="mb-1"><b>Coupon Code</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">{{$coupon_code}}</p>
+                            <p class="mb-1">@if($total_qty>0){{$coupon_code}} @else 0 @endif</p>
                         </div>
                     </div>
 
@@ -154,7 +172,7 @@
                             <p class="mb-1"><b>Coupon Amount</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">{{$coupon_amount}}</p>
+                            <p class="mb-1">@if($total_qty>0) {{$coupon_amount}} tk @else 0 tk @endif </p>
                         </div>
                     </div>
                     @endif 
@@ -167,7 +185,7 @@
                             <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">Tk. {{number_format(($grandTotal+$delivery_charge)-$coupon_amount)}}</p>
+                            <p class="mb-1">@if($total_qty>0) Tk. {{number_format(($grandTotal+$delivery_charge)-$coupon_amount)}} @else 0 tk @endif</p>
                         </div>
                     </div>
                     @else
@@ -176,7 +194,7 @@
                             <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">Tk. {{number_format($grandTotal+$delivery_charge)}}</p>
+                            <p class="mb-1">@if($total_qty>0) Tk. {{number_format($grandTotal+$delivery_charge)}} @else 0 tk @endif</p>
                         </div>
                     </div>
                     @endif 
