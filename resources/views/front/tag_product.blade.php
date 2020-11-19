@@ -16,19 +16,7 @@
 </style>
 <div class="container p-0 mb-2">
  <div class="d-flex flex-column">
-  <div class="banner">
-   @php
-   $banner=DB::table('posts')
-   ->where('post_type','banner')
-   ->join('postmeta','posts.ID','=','postmeta.post_id')
-   ->first();
-   @endphp
-   @if(isset($banner))
-   @if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
-   <img src="{{asset('backend/banner/'.$img)}}" class="img-fluid" alt="Responsive image">
-   @endif
-
-</div>
+ @include('front.includes.banner')
 <div class="d-flex flex-wrap mt-3 poductDiv">
     @if($product->count()>0)
     @php

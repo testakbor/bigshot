@@ -179,6 +179,11 @@
                                <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
                             </div>
 
+                             <div>
+                               <a href="{{url('about')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> About Us</a>
+                            </div>
+
+
                             <div class="d-flex align-items-center ">
                                 <a href="{{url('privacy')}}" class="text-decoration-none text-dark"><i class="fas fa-user-secret"></i> Policies</a> 
                             </div>
@@ -255,7 +260,7 @@
 							<a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
 							<a class="dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
 							   <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                                     document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
 								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 								@csrf
 								</form>
