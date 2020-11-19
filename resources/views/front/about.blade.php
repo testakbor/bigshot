@@ -3,16 +3,11 @@
 @section('content')
 
 <!-- Page Content  -->
-<div id="content" class="p-4 p-md-5">
-    <div class="row">
-        <div class="col-md-12">
-                             
-        <article class="card ml-5">
-       		
-          <div class="container">
-            <h3 class="ml-3 mt-3">
-            <b>About BiGshot</b>
-          </h3>
+<div id="content" class="container p-0">
+   
+            <div class="text-center mt-3 font-weight-bold h4">
+            About BiGshot
+          </div>
           <p class="ml-3">
           Founded in 2020, within short time became an icon on fashion industries.
 
@@ -25,10 +20,7 @@
           <p class="ml-3">Our vision is to be the dominant value fashion 
             Brand globally.
           </p>
-          </div>
-        
-        </article>
-</div>
+          
 </div>
 
 @endsection

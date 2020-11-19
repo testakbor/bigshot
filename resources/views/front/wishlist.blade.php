@@ -1,15 +1,27 @@
 @extends('front.layouts.front_master')
 @section('title') Bigshot | Home @endsection 
 @section('content')
+<style>
+@media (max-width: 767px) {
+  .poductDiv div:nth-child(even){
+     padding-right: 0px !important;
+     padding-left: 5px !important;
+ }
+ .poductDiv > div:nth-child(odd){
+     padding-right: 5px !important;     
+ }
+}
+</style>
+
  <!-- Page Content  -->
-<div class="container">
+<div class="container p-0 mb-2">
          <h3 class="text-center">WishList</h3>
               @if (session('status'))
                   <div class="alert alert-success" role="alert" id="alert">
                             {{ session('status') }}
                   </div>
                @endif
-			<div class="row">
+			<div class="d-flex flex-wrap mt-3 poductDiv">
           @php $name=''; $price=''; $image='no-image.png'; $qty=0; @endphp
                  @foreach($wishProduct as $item)
                  @php
@@ -41,12 +53,12 @@
                         @endphp
                     @endif
                   @endforeach 
-                <div class="col-md-3">
+                <div class="col-md-3 col-6 pl-0 ml-0">
                     <div class="card">
-                        <img src="{{asset('backend/products/'.$image)}}"  class="img-fluid1 rounded" style="height: 160px;" alt="...">
-                        <div class="card-body">
-                          <h5 class="card-title">{{$name}}</h5>
-                          <p class="card-text">৳ {{ $price}}</p>
+                        <img src="{{asset('backend/products/'.$image)}}"  class="img-fluid rounded" alt="...">
+                        <div class="m-2">
+                          <div class="">{{$name}}</div>
+                          <div class="">৳ {{ $price}}</div>
                      <form action="{{route('addCart')}}" method="POST" id="addCartForm" class="float-left">
                       @csrf
                       <input type="hidden" name="id" value="{{$item->product_id}}">  
@@ -59,7 +71,7 @@
                       <a class="float-right" onclick="return confirm('are you sure??')"
                                href="{{route('wishlist_delete',base64_encode($item->product_id))}}">
                                <div class="buttons" style="margin-top:1px !important">
-                               <span class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></span>
+                               <span class="text-danger"><i class="fa fa-trash"></i></span>
                            </div>
                        </a>
 

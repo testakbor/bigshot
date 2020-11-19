@@ -278,9 +278,9 @@
 								    <div class="mr-4"> <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{$tag->name}}</a></div>
 								    @endforeach
                             </div>
-                            <div class="d-flex col-md-2 justify-content-between">					
+                            <div class="d-flex col-md-5 justify-content-end p-0">					
                                 <div> <a href="{{url('faq')}}" class="text-decoration-none text-dark"> FAQ</a></div>
-                                <div> <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> Customer Support</a></div>
+                                <div class="ml-2"> <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> Customer Support</a></div>
                                 <div class="ml-2"> <a href="{{url('about')}}" class="text-decoration-none text-dark"> About Us</a></div>
                             </div>
                         </div>

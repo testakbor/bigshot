@@ -6,14 +6,9 @@
 
 
 <!-- Page Content  -->
-<div id="content" class="p-4 p-md-5">
-	<div class="row">
-		<div class="col-md-12">
-			<article class="card ml-5">
-				<div class="container">
-					<h5 class="ml-3 mt-3">
-						<b>FREQUENTLY ASKED QUESTIONS</b>
-					</h5>
+<div id="content" class="container p-0">
+	
+					 <div class="text-center mt-3 font-weight-bold h4">FREQUENTLY ASKED QUESTIONS</div>
 					<b>#SHIPPING AND DELIVERY?</b>
 					<p>It’s important to us that you receive your purchase as quickly as possible. 
             All online orders will be processed within 12 hours and dispatched on the next business day.
@@ -56,9 +51,7 @@ Please allow 5-7 working days from the receipt of your return, you will be advis
 We currently deliver to Bangladesh Wide only.
 
 				</p>
-			</div>
-		</article>
-	</div>
+			
 </div>
 
 @endsection

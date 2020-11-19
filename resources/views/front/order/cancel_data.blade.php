@@ -10,6 +10,12 @@
     ::placeholder{
         font-size: 12px;
     }
+    @media (max-width: 767px) {
+    .productChanQty{
+        padding: 0px;
+        min-width: 20px;
+    }
+}
 </style>
 <div class="container p-0">
     @include('admin.includes.messages')
@@ -61,9 +67,9 @@
                 <td> 
                     @if($acq>0)
                  
-                    <select name="request_qty" id="request_qty" class="form-control">
+                    <select name="request_qty" id="request_qty" class="form-control productChanQty">
                         @for($i=1;$i<=$acq;$i++)
-                        <option value="{{$i}}">{{$i}}</option>
+                        <option value="{{$i}}" class="p-0">{{$i}}</option>
                         @endfor
                     </select>
                     <input type="hidden" class="form-control" name="ac_qty" value="{{$qty}}">
