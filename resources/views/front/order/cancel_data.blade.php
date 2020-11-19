@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                @php $qty=0; $id=0; $subtotal=0; @endphp
+                @php $qty=0; $id=0; $subtotal=0; $all_qty_cancel=0; @endphp
                 @foreach($order_item as $item)
                 @foreach($item->orderMeta as $value)
                 @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
@@ -61,6 +61,7 @@
                                               ->sum('meta_value');
                                                @endphp
                                               Order Quantity: {{$acq=$qty-$cancel_qty}} Pc's 
+                                              @php $all_qty_cancel+=$acq; @endphp
                     </td>
             <form method="post" action="{{route('customer_order_cancel_item')}}">
                 @csrf 
@@ -77,12 +78,14 @@
                     <input type="hidden" class="form-control" name="cancel_item_id" value="{{$item->order_item_id}}">
                     <input type="hidden" class="form-control" name="product_id" value="{{$id}}">
                 </td>
-                <td>
+                <td> 
+                    
                     <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white"> <i class="fa fa-times"></i> </span></button>
                 </td>
                 @else 
                 Cancelled
                 @endif
+                <input type="hidden" name="stock_order_qty" value="{{$all_qty_cancel}}">
             </form>
             </tr>
             @endforeach

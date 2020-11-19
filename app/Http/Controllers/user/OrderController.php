@@ -145,14 +145,6 @@ class OrderController extends Controller
     }
 
     public function cancel_order_item(Request $request){
-      if($request->request_qty>$request->ac_qty){
-       session()->flash("error", "Your cancel quantity must be less than or equal your order quantity");
-       return back();
-      }
-       if($request->request_qty==0){
-       session()->flash("error", "Quantity must be greater than zero");
-       return back();
-      }
       $cancel_qty=$request->request_qty;
       //stock increase
       $product_current_qty=DB::table('postmeta')
@@ -167,7 +159,7 @@ class OrderController extends Controller
          'meta_value' => $product_update_stock
        ]);
 
-     $order_date=DB::table('order_itemmeta')
+       $order_date=DB::table('order_itemmeta')
       ->where('order_id',$request->cancel_order_id)
       ->first();
         $cancel_quantity=DB::table('order_itemmeta')
@@ -197,12 +189,17 @@ class OrderController extends Controller
       ->update([
           'meta_value' =>$ac_cancel_quantity
        ]);
+       //check customer cancel all quantity then update order status to cancelled
+       if($request->stock_order_qty==0){
+         DB::table('posts')
+         ->where('post_type','shop_order')
+         ->where('ID',$request->cancel_order_id)
+         ->update([
+            'post_status' =>'cancelled',
+            'post_modified' =>date('Y-m-d H:i:00'),
+         ]);
+       }
       }
-
-
-
-
-
        session()->flash("success", "Order has been cancelled Successfully");
        return back();
         
@@ -234,32 +231,12 @@ class OrderController extends Controller
              'meta_value' => $update_qty
          ]);
        }
-       DB::table('order_itemmeta')
-      ->whereIn('order_item_id',$request->item_id)
-      ->where('meta_key','_qty')
-      ->update([
-          'meta_value' =>0
-       ]);
+    
 
-       DB::table('order_itemmeta')
-      ->whereIn('order_item_id',$request->item_id)
-      ->where('meta_key','_line_subtotal')
-      ->update([
-          'meta_value' =>0
-       ]);
 
-      DB::table('order_itemmeta')
-      ->whereIn('order_item_id',$request->item_id)
-      ->where('meta_key','_line_total')
-      ->update([
-          'meta_value' =>0
-       ]);
-       DB::table('order_itemmeta')
-      ->whereIn('order_item_id',$request->item_id)
-      ->where('meta_key','delivery_charge')
-      ->update([
-          'meta_value' =>0
-       ]);
+
+
+
        session()->flash("success", "Order has been cancelled Successfully");
        return redirect()->route('order-list.index');
     }
