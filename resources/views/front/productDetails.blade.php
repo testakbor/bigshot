@@ -23,19 +23,19 @@ $image=$meta['meta_value'];
 endif;
 endforeach;
 @endphp
-<div class="container">
+<div class="container p-0">
     @if(session('status'))
     <div class="alert alert-success" role="alert" id="alert">
         {{ session('status') }}
     </div>
     @endif
-    <div class="d-flex flex-column mt-5 ">
+    <div class="d-flex flex-column mt-2 ">
         <div class="d-flex flex-column ">
             <div class="empyt text-center border-bottom border-dark pt-3 pb-3">{{$product->post_title}} </div>
             <div class="d-flex flex-row mt-2">
                 <div class="proImag">
                     <img id="featured" src="{{asset('backend/products/'.$image)}}" class="img-fluid rounded"
-                         alt="Responsive image" height="auto">
+                         alt="Responsive image" >
                 </div>
                 <div class="d-flex flex-column pl-2">
                     <div class="pname"></div>
@@ -135,14 +135,14 @@ endforeach;
                             <a href="{{url('product/'.$related->ID.'/'.urlencode($related->post_title))}}"
                                class="d-block mb-4 h-100 text-decoration-none">
                                 <div class="card">
-                                    <img style="height:200px" src="{{asset('backend/products/'.$img)}}"
+                                    <img src="{{asset('backend/products/'.$img)}}"
                                          class="img-fluid">
                                     <div class="text-center">
-                                        <span class="card-text font-weight-bold">{{$related->post_title}}</span>
-                                        <span class="card-text">@if($rprice)
+                                        <div class=" font-weight-bold">{{$related->post_title}}</div>
+                                        <div class="">@if($rprice)
                                             <del style="color:red">৳{{$rprice}}</del>@endif
                                             <span style="color:#000000"> ৳{{$sprice}}</span>
-                                        </span>
+                                        </div>
                                     </div>
                                 </div>
                             </a>
