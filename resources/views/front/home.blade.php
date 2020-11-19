@@ -75,7 +75,7 @@
        height: 33px
    }
    .product-title{
-    font-size: calc(0.5vw + 0.7vh);
+    /*font-size: calc(0.5vw + 0.7vh);*/
 }
 
 @media (max-width: 767px) {
@@ -133,9 +133,9 @@
          <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
             <a style=" text-decoration: none;" href="{{url('product/'.$item->ID.'/'.urlencode($item->post_title))}}">
                 <div class="card">
-                    <img src="{{asset('backend/products/'.$image)}}"  class="rounded" style="" alt="...">
+                    <img src="{{asset('backend/products/'.$image)}}"  class="rounded img-fluid" style="" alt="...">
                     <div class="text-center">
-                        <span style="color:#000000" class="card-text product-title font-weight-bold">{{$item->post_title}}</span>
+                        <span style="color:#000000" class="card-text product-title">{{$item->post_title}}</span>
                         <p class="card-text"> <del style="color:red">৳{{$rprice}}</del> <span style="color:#000000">৳{{$sprice}}</span></p>
                     </div>
                 </div>
