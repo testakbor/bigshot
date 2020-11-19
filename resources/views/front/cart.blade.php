@@ -201,7 +201,7 @@ $email=auth()->user()->email;
 
                                         <div id="payment_option">
                                             <input id="FullPayment" type="radio" name="paymentMethod" value="FullPayment">
-                                            <label for="FullPayment">Full Payment </label> <div id="cart_get_payment"></div><br>
+                                            <label for="FullPayment">Full Payment </label> <span id="cart_get_payment"></span> tk<br>
 
                                             <input id="DeliveryChargeOnly" type="radio" name="paymentMethod" value="DeliveryChargeOnly">
                                             <label for="DeliveryChargeOnly">Delivery Charge Only</label><br>
@@ -304,21 +304,21 @@ $email=auth()->user()->email;
                             </table>
                             <ul class="list-group mb-3">
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <p>Sub Total:</p> <div class="float-right">{{Cart::getTotalquantity()}} pcs {{Cart::getTotal()}}</div>
+                                    <p>Sub Total:</p> <div class="float-right">{{Cart::getTotalquantity()}} pcs {{Cart::getTotal()}} tk</div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <p>Delivery Charge:</p> <div class="float-right" id="charge"></div> <input id="deli" type="hidden" value="" class="form-control">
                                 </li>
 
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <p>Order Total:</p> <div class="float-right"> {{Cart::getTotal()}}</div> 
+                                    <p>Order Total:</p> <div class="float-right"> {{Cart::getTotal()}} tk</div> 
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <p>Apply Promo code:</p> <div class="float-right"> <input autocomplete="off" id="promo_code" type="number" step="any" name="promo_code" class="form-control" placeholder="Enter code"> </div>
                                 </li>
                                 <div id="coupon_data_div"></div>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <p>Order Total After Discount:</p>  <div class="float-right"> <div id="cart_get_total"></div> </div> 
+                                    <p>Order Total After Discount:</p>  <div class="float-right"> <span id="cart_get_total"></span> tk </div> 
                                 </li>
                             </ul>
                         </div>
@@ -383,7 +383,7 @@ $email=auth()->user()->email;
                             </div>
                                 <div class="bg-success btn d-flex justify-content-between pl-2 pr-2 text-white font-weight-bold">
                                     <div>Price: </div>
-                                    <div>{{number_format(Cart::getTotal())}} tk</div>
+                                    <div><span id="cart_get_payment_sidebar"></span> tk</div>
                                 
                             </div>
                         </div>
@@ -391,257 +391,282 @@ $email=auth()->user()->email;
 
                     </div>
                     @else
-                    <h1 class="text-center">Opp's You have no product in your shopping cart</h1>
+                    <h4 class="text-center">Opp's You have no product in your shopping cart</h4>
                     <div class="text-center"><a href="{{url('/')}}"><span style="color:orange;fornt-size:14px;">SHOP NOW</span></a>
                     </div>
+                    </div>
                     @endif
-
-
-
-                    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"
                     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
-                </script>
+ </script>
+<script>
+  $(document).ready(function() {
+      document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+      document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+      document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+  });
+  function spinner() {
+        document.getElementsByClassName("loader")[0].style.display = "block";
+  }
+//cart update form submit
+$("#first_btn").click(function(){
+    var dist=$("#state").val();
+    var ci=$("#city").val();
+    var zi=$("#zip").val();
+     if(dist=='' || ci=='' || zi==''){
+        var msg="Please Select District,Thana & Postcode"; 
+        document.getElementById("message").innerHTML=msg;
+        $('#myTab a[href="#home"]').tab('show');
+        return false;
+     }else{
+       $('#myTab a[href="#menu2"]').tab('show');
+     } 
+});
+
+$(".two").click(function(){
+    var dist=$("#state").val();
+    var ci=$("#city").val();
+    var zi=$("#zip").val();
+     if(dist=='' || ci=='' || zi==''){
+        var msg="Please Select District,Thana & Postcode"; 
+        document.getElementById("message").innerHTML=msg;
+        $('#myTab a[href="#home"]').tab('show');
+        return false;
+     }else{
+       $('#myTab a[href="#menu2"]').tab('show');
+     } 
+});
+
+$("#first_btn_back").click(function(){
+  $('#myTab a[href="#home"]').tab('show');
+});
+$("#second_btn").click(function(){
+  $('#myTab a[href="#menu1"]').tab('show');
+});
+//check order submit to some validation
+$("#order_submit").click(function(e){
+  e.preventDefault();
+     var dist=$("#state").val();
+    var ci=$("#city").val();
+    var zi=$("#zip").val();
+    var payment_one=$("#FullPayment").val();
+    var payment_two=$("#DeliveryChargeOnly").val();
+    var payment_three=$("#CashOnDelivery").val();
+     if(dist=='' || ci=='' || zi==''){
+         var msg="Please Select District,Thana & Postcode"; 
+        document.getElementById("message").innerHTML=msg;
+        $('#myTab a[href="#home"]').tab('show');
+        return false;
+     }
+     
+     if( $('#FullPayment').is(':checked') ||  $('#DeliveryChargeOnly').is(':checked') || $('#CashOnDelivery').is(':checked') ) {
+         $('.loader').show(); 
+        $('#check_out_form').delay(200).submit();
+         var div= document.createElement("div");
+    div.className += "overlay";
+    document.body.appendChild(div);
+     }else{
+          var msg="Please Select Payment Option"; 
+          document.getElementById("payment_msg").innerHTML=msg;
+     }
+});
+
+//check if cart quantity is 0 then show error
+$("#cart_qty_data").change(function(){
+    var val=$("#cart_qty_data").val();
+    if(val==0){
+      alert('Opp"s Error')
+      return false;
+    }
+  $('#cart_up').delay(200).submit();
+});
+
+$("#cart_qty_data").keyup(function(){
+    var val=$("#cart_qty_data").val();
+    if(val==0){
+      alert('Opp"s Error')
+      return false;
+    }
+  $('#cart_up').delay(200).submit();
+});
 
 
 
+//radio button click wise div show hide 
+$('input:radio').on('click', function(e) {
+    var value =e.currentTarget.value;
+    if (value == 'FullPayment') {
+        $("#payment_div").show();
+    } else if (value == 'DeliveryChargeOnly') {
 
-                <script>
+    } else {
+        $("#payment_div").hide();
+    }
+});
 
-
-                    $(document).ready(function () {
-                        document.getElementById('cart_get_total').innerHTML =<?php echo Cart::getTotal(); ?>
-                        document.getElementById('cart_get_payment').innerHTML =<?php echo Cart::getTotal(); ?>
-                        document.getElementById('cart_get_payment_sidebar').innerHTML =<?php echo Cart::getTotal(); ?>
-                    });
-
-                    function spinner() {
-                        document.getElementsByClassName("loader")[0].style.display = "block";
-                    }
-
-        //cart update form submit
-        $("#first_btn").click(function () {
-            var dist = $("#state").val();
-            var ci = $("#city").val();
-            var zi = $("#zip").val();
-            if (dist == '' || ci == '' || zi == '') {
-                var msg = "Please Select District,Thana & Postcode";
-                document.getElementById("message").innerHTML = msg;
-                $('#myTab a[href="#home"]').tab('show');
-                return false;
-            } else {
-                $('#myTab a[href="#menu2"]').tab('show');
-            }
-        });
-
-        $(".two").click(function () {
-            var dist = $("#state").val();
-            var ci = $("#city").val();
-            var zi = $("#zip").val();
-            if (dist == '' || ci == '' || zi == '') {
-                var msg = "Please Select District,Thana & Postcode";
-                document.getElementById("message").innerHTML = msg;
-                $('#myTab a[href="#home"]').tab('show');
-                return false;
-            } else {
-                $('#myTab a[href="#menu2"]').tab('show');
-            }
-        });
-
-        $("#first_btn_back").click(function () {
-            $('#myTab a[href="#home"]').tab('show');
-        });
-        $("#second_btn").click(function () {
-            $('#myTab a[href="#menu1"]').tab('show');
-        });
-
-
-        //check order submit to some validation
-        $("#order_submit").click(function (e) {
-            e.preventDefault();
-            var dist = $("#state").val();
-            var ci = $("#city").val();
-            var zi = $("#zip").val();
-            var payment_one = $("#FullPayment").val();
-            var payment_two = $("#DeliveryChargeOnly").val();
-            var payment_three = $("#CashOnDelivery").val();
-            if (dist == '' || ci == '' || zi == '') {
-                var msg = "Please Select District,Thana & Postcode";
-                document.getElementById("message").innerHTML = msg;
-                $('#myTab a[href="#home"]').tab('show');
-                return false;
-            }
-
-            if ($('#FullPayment').is(':checked') || $('#DeliveryChargeOnly').is(':checked') || $('#CashOnDelivery').is(':checked')) {
-                $('.loader').show();
-                $('#check_out_form').delay(200).submit();
-                var div = document.createElement("div");
-                div.className += "overlay";
-                document.body.appendChild(div);
-            } else {
-                var msg = "Please Select Payment Option";
-                document.getElementById("payment_msg").innerHTML = msg;
-            }
-
-        });
-
-
-
-
-
-        //check if cart quantity is 0 then show error
-        $("#cart_qty_data").change(function () {
-            var val = $("#cart_qty_data").val();
-
-            if (val == 0) {
-                alert('Opp"s Error')
-                return false;
-            }
-            $('#cart_up').delay(200).submit();
-        });
-
-        $("#cart_qty_data").keyup(function () {
-
-            var val = $("#cart_qty_data").val();
-              console.log(val);
-            if (val == 0) {
-                alert('Opp"s Error')
-                return false;
-            }
-            $('#cart_up').delay(200).submit();
-        });
-
-
-
-        //radio button click wise div show hide 
-        $('input:radio').on('click', function (e) {
-
-            var value = e.currentTarget.value;
-            if (value == 'FullPayment') {
-                $("#payment_div").show();
-            } else if (value == 'DeliveryChargeOnly') {
-
-            } else {
-                $("#payment_div").hide();
-            }
-        });
-
-        //state dropdown change ajax call 
-        $("#state").change(function () {
-            var district_id = $("#state").val();
-            var main_amount = document.getElementById('cart_get_total').innerHTML =<?php echo Cart::getTotal(); ?>
-            var main_amount_payment = document.getElementById('cart_get_payment').innerHTML =<?php echo Cart::getTotal(); ?>
-            var main_amount_payment_sidebar = document.getElementById('cart_get_payment_sidebar').innerHTML =<?php echo Cart::getTotal(); ?>
-            $.ajax({
-                url: "{{url('/district/city/')}}" + '/' + district_id,
-                type: "GET",
-                success: function (response) {
-                    var items = "";
-                    items += "<option value=''>Select City</option>";
-                    $.each(response.data, function (i, item) {
-                        items += "<option value='" + item.term_id + "'>" + (item
-                            .city_name) +
-                        "</option>";
-                    });
-                    $("#city").html(items);
-
-                    $.each(response.charge, function (i, item) {
-                        var result = parseInt(item.description) || 0;
-                        document.getElementById("charge").innerHTML = result + "tk";
-                        document.getElementById("deli").value = result;
-                        document.getElementById('cart_get_total').innerHTML = main_amount + result;
-                        document.getElementById('cart_get_payment').innerHTML = main_amount_payment + result;
-                        document.getElementById('cart_get_payment_sidebar').innerHTML = main_amount_payment_sidebar + result;
-                    });
-
-                },
-                error: function (response) {
-                    console.log(response);
-                },
+//state dropdown change ajax call 
+$("#state").change(function() {
+    var district_id = $("#state").val();
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+    $.ajax({
+        url: "{{url('/district/city/')}}" + '/' + district_id,
+        type: "GET",
+        success: function(response) {
+            var items = ""; 
+            items += "<option value=''>Select City</option>";
+            $.each(response.data, function(i, item) {
+                items += "<option value='" + item.term_id + "'>" + (item
+                        .city_name) +
+                    "</option>";
             });
-        });
+            $("#city").html(items);
 
-
-        //city dropdown change ajax call  
-        $("#city").change(function () {
-            var city_id = $("#city").val();
-            $.ajax({
-                url: "{{url('/district/city/postcode/')}}" + '/' + city_id,
-                type: "GET",
-                success: function (response) {
-                    var items = "";
-                    $.each(response, function (i, item) {
-                        items += item.zip;
-                    });
-                    document.getElementById('zip').value = items;
-                },
-                error: function (response) {
-                    console.log(response);
-                },
+             $.each(response.charge, function(i, item) {
+                var result=parseInt(item.description) || 0;
+                document.getElementById("charge").innerHTML=result+"tk";
+                document.getElementById("deli").value=result;
+                document.getElementById('cart_get_total').innerHTML=main_amount+result;
+                document.getElementById('cart_get_payment').innerHTML=main_amount_payment+result;
+                document.getElementById('cart_get_payment_sidebar').innerHTML=main_amount_payment_sidebar+result;
             });
+           
+           },
+           error: function(response) {
+            console.log(response);
+           },
         });
+   });
 
 
-        //promo code input keyup change ajax call  
-        $("#promo_code").keyup(function () {
-            var codes = $("#promo_code").val();
-            var d = $("#deli").val();
-            var ac_delivery_charge = parseInt(d) || 0;
-
-            var main_amount = document.getElementById('cart_get_total').innerHTML =<?php echo Cart::getTotal(); ?>
-            var main_amount_payment = document.getElementById('cart_get_payment').innerHTML =<?php echo Cart::getTotal(); ?>
-            var main_amount_payment_sidebar = document.getElementById('cart_get_payment_sidebar').innerHTML =<?php echo Cart::getTotal(); ?>
-
-            if (codes == '') {
-                var discount_totall = main_amount + ac_delivery_charge;
-                var discount_totall_payment = main_amount_payment + ac_delivery_charge;
-                var discount_totall_sidebar = main_amount_payment_sidebar + ac_delivery_charge;
-                document.getElementById('cart_get_total').innerHTML = discount_totall;
-                document.getElementById('cart_get_payment').innerHTML = discount_totall_payment;
-                document.getElementById('cart_get_payment_sidebar').innerHTML = discount_totall_sidebar;
-                return false;
-            }
-
-            $.ajax({
-                url: "{{url('/apply/promocode/ajax/')}}" + '/' + codes,
-                type: "GET",
-                success: function (response) {
-                    var items = '';
-                    $.each(response, function (i, item) {
-                        items += '<input type="hidden" id="coupon_amountss" name="coupon_taka" type="text" value="' + item.coupon_amount + '">';
-                    });
-                    $("#coupon_data_div").html(items);
-                    //  document.getElementById('cart_get_total').innerHTML 
-                    var c_amount = $("#coupon_amountss").val();
-                    var result = parseInt(c_amount) || 0;
-                    console.log(result);
-                    var main_delivery_charge = parseInt(d) || 0;
-                    var discount_total = (main_amount + main_delivery_charge) - result;
-                    var discount_total_payment = (main_amount_payment + main_delivery_charge) - result;
-                    var discount_total_sidebar = (main_amount_payment_sidebar + main_delivery_charge) - result;
-                    document.getElementById('cart_get_total').innerHTML = discount_total;
-                    document.getElementById('cart_get_payment').innerHTML = discount_total_payment;
-                    document.getElementById('cart_get_payment_sidebar').innerHTML = discount_total_sidebar;
-                },
-                error: function (response) {
-                    console.log(response);
-                },
+//city dropdown change ajax call  
+$("#city").change(function() {
+    var city_id = $("#city").val();
+    $.ajax({
+        url: "{{url('/district/city/postcode/')}}" + '/' + city_id,
+        type: "GET",
+        success: function(response) {
+            var items = "";
+            $.each(response, function(i, item) {
+                items += item.zip;
             });
-        });
+            document.getElementById('zip').value = items;
+        },
+        error: function(response) {
+            console.log(response);
+        },
+    });
+});
 
 
+//promo code input keyup change ajax call  
+$("#promo_code").keyup(function() {
+    var codes = $("#promo_code").val();
+    var d=$("#deli").val();
+    var ac_delivery_charge=parseInt(d) || 0;
+ 
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
 
-
-        //page refresh but tab will be active 
-        $(document).ready(function () {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
+    if(codes==''){
+            var discount_totall=main_amount+ac_delivery_charge;
+            var discount_totall_payment=main_amount_payment+ac_delivery_charge;
+            var discount_totall_sidebar=main_amount_payment_sidebar+ac_delivery_charge;
+            document.getElementById('cart_get_total').innerHTML=discount_totall;
+            document.getElementById('cart_get_payment').innerHTML=discount_totall_payment;
+            document.getElementById('cart_get_payment_sidebar').innerHTML=discount_totall_sidebar;
+            return false;
+    }
+    
+    $.ajax({
+        url: "{{url('/apply/promocode/ajax/')}}" + '/' + codes,
+        type: "GET",
+        success: function(response) {
+              var items = ''; 
+              $.each(response, function(i, item) {
+                items+='<input type="hidden" id="coupon_amountss" name="coupon_taka" type="text" value="'+item.coupon_amount+'">'; 
             });
-            var activeTab = localStorage.getItem('activeTab');
-            if (activeTab) {
-                $('#myTab a[href="' + activeTab + '"]').tab('show');
-            }
-        });
+         $("#coupon_data_div").html(items);
+        //  document.getElementById('cart_get_total').innerHTML 
+            var c_amount=$("#coupon_amountss").val();
+            var result=parseInt(c_amount) || 0;
+            var main_delivery_charge=parseInt(d) || 0;
+            var discount_total=(main_amount+main_delivery_charge)-result;
+            var discount_total_payment=(main_amount_payment+main_delivery_charge)-result;
+            var discount_total_sidebar=(main_amount_payment_sidebar+main_delivery_charge)-result;
+            document.getElementById('cart_get_total').innerHTML=discount_total;
+            document.getElementById('cart_get_payment').innerHTML=discount_total_payment;
+            document.getElementById('cart_get_payment_sidebar').innerHTML=discount_total_sidebar;
+        },
+        error: function(response) {
+            console.log(response);
+        },
+    });
+});
 
 
-    </script>
+$("#promo_code").change(function() {
+    
+      var codes = $("#promo_code").val();
+    var d=$("#deli").val();
+    var ac_delivery_charge=parseInt(d) || 0;
+ 
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+
+    if(codes==''){
+            var discount_totall=main_amount+ac_delivery_charge;
+            var discount_totall_payment=main_amount_payment+ac_delivery_charge;
+            var discount_totall_sidebar=main_amount_payment_sidebar+ac_delivery_charge;
+            document.getElementById('cart_get_total').innerHTML=discount_totall;
+            document.getElementById('cart_get_payment').innerHTML=discount_totall_payment;
+            document.getElementById('cart_get_payment_sidebar').innerHTML=discount_totall_sidebar;
+            return false;
+    }
+    
+    $.ajax({
+        url: "{{url('/apply/promocode/ajax/')}}" + '/' + codes,
+        type: "GET",
+        success: function(response) {
+              var items = ''; 
+              $.each(response, function(i, item) {
+                items+='<input type="hidden" id="coupon_amountss" name="coupon_taka" type="text" value="'+item.coupon_amount+'">'; 
+            });
+         $("#coupon_data_div").html(items);
+        //  document.getElementById('cart_get_total').innerHTML 
+            var c_amount=$("#coupon_amountss").val();
+            var result=parseInt(c_amount) || 0;
+            var main_delivery_charge=parseInt(d) || 0;
+            var discount_total=(main_amount+main_delivery_charge)-result;
+            var discount_total_payment=(main_amount_payment+main_delivery_charge)-result;
+            var discount_total_sidebar=(main_amount_payment_sidebar+main_delivery_charge)-result;
+            document.getElementById('cart_get_total').innerHTML=discount_total;
+            document.getElementById('cart_get_payment').innerHTML=discount_total_payment;
+            document.getElementById('cart_get_payment_sidebar').innerHTML=discount_total_sidebar;
+        },
+        error: function(response) {
+            console.log(response);
+        },
+    });
+});
+
+
+
+
+//page refresh but tab will be active 
+$(document).ready(function() {
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+});
+
+
+</script>
     @endsection
