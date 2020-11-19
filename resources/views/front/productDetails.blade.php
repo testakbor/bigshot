@@ -1,5 +1,12 @@
 @extends('front.layouts.front_master')
 @section('content')
+
+<style>
+    #featured{
+        height: 380px;
+        width: 100%;
+    }
+</style>
 @php
 $rprice=0;
 $sprice=0;
@@ -32,12 +39,21 @@ endforeach;
     <div class="d-flex flex-column mt-2 ">
         <div class="d-flex flex-column ">
             <div class="empyt text-center border-bottom border-dark pt-3 pb-3">{{$product->post_title}} </div>
-            <div class="d-flex flex-row mt-2">
-                <div class="proImag">
-                    <img id="featured" src="{{asset('backend/products/'.$image)}}" class="img-fluid rounded"
+            <div class="d-flex flex-row flex-wrap mt-2">
+                <div class="d-flex flex-column col-md-1 col-2 pr-0 pl-0">
+                    @foreach($gallery_images as $g)
+                    <div class="mb-2">
+                       
+                            <img class="img-fluid rounded" src="{{asset('backend/products/'.$g->meta_value)}}" style="height: 70px;width: 100%" alt="" >
+                       
+                    </div>
+                    @endforeach
+                </div>
+                <div class="proImag col-md-7 col-10">
+                    <img id="featured" src="{{asset('backend/products/'.$image)}}" class="rounded"
                          alt="Responsive image" >
                 </div>
-                <div class="d-flex flex-column pl-2">
+                <div class="d-flex flex-column col-md-4 p-0 col-12">
                     <div class="pname"></div>
                     <div class="attri">
                         @foreach($arributeArray as $a)
@@ -49,16 +65,34 @@ endforeach;
                         @endif
                         @endforeach
                     </div>
-                    <div class="price">Price:
-                        <span class="text-danger">tk. {{number_format($sprice)}}</span>
+                    <div class="d-flex flex-row mb-2">
+                           <div class="col-4">Price: </div>
+                    
+                        <div class="h5 font-weight-bold col-8">tk. {{number_format($sprice)}}</div>
                     </div>
                     <div class="qty">
                         <form class="" action="{{route('addCart')}}" method="POST">
                             @csrf
-                            <div class="d-flex flex-row">
-                                <div>Quantity: </div>
-                                <div class="ml-2">
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="col-4 ">Quantity: </div>
+                                <div class="col-8 mt-2">
                                     <input type="number" name="quantity" class="form-control" id="" value="1">
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="col-4">Color: </div>
+                                <div class="col-8 mt-2">
+                                   <select name="" class="form-control" id="">
+                                       <option value="1">1</option>
+                                   </select>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="col-4">Size: </div>
+                                <div class="col-8 mt-2">
+                                     <select name="" class="form-control" id="">
+                                       <option value="1">1</option>
+                                   </select>
                                 </div>
                             </div>
                             <div class="mt-3">
@@ -66,12 +100,15 @@ endforeach;
                                 Out of stock
                                 @else
 
-                                <button type="submit" class="btn btn-primary mb-2 btn-large w-50">Buy</button>
+                                <button type="submit" class="btn btn-primary mb-2 btn-large btn-block">Buy</button>
                                 @endif
-
+                                <div class="text-center">
+                                    
+                                
                                 <a href="{{url('/wishlist/product/'.$product->ID)}}">
-                                    <i class="far fa-heart ml-2 h4"></i>
-                                </a>
+                                   Add to wishlist <i class="far fa-heart ml-2 h4"></i>
+                                </a></div>
+                                
                             </div>
                             <input type="hidden" name="id" value="{{$product->ID}}">
                             <input type="hidden" name="name" value="{{$product->post_title}}">
@@ -81,28 +118,11 @@ endforeach;
                     </div>
                 </div>
             </div>
-            <div class="row text-center text-lg-left mt-2">
-                @foreach($gallery_images as $g)
-                <div class="col-lg-3 col-md-4 col-6">
-                    <a href="#" class="d-block mb-4 h-100">
-                        <img class="img-fluid" src="{{asset('backend/products/'.$g->meta_value)}}" alt="">
-                    </a>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        <div class="infoDiv  mt-5">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link active" data-toggle="tab">Description</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#profile" class="nav-link" data-toggle="tab">Related</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active p-3" id="home">
-                    {!! $product->post_content !!}
+
+            <div>
+                <div class="font-weight-bold mt-3 mb-3 h3">Description</div>
+                <div>
+                {!! $product->post_content !!}
                     <p>
                         <b>Delivery Guarantee</b> (Delivery Time and Delivery charge # Dhaka Metro 1-3
                         working
@@ -110,9 +130,11 @@ endforeach;
                         wide 2-5 working days,
                         120tk.)
                     </p>
-                </div>
-                <div class="tab-pane fade" id="profile">
-                    <div class="row text-center text-lg-left">
+            </div>
+            </div>
+            <div class="">
+                <div class="font-weight-bold mt-3 mb-3 h3">Related Product</div>
+                 <div class="row text-center text-lg-left">
                         @php
                         $rprice=0;
                         $sprice=0;
@@ -149,8 +171,9 @@ endforeach;
                         </div>
                         @endforeach
                     </div>
-                </div>
             </div>
+
         </div>
+        
     </div>
     @endsection
