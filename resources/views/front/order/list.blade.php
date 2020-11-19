@@ -2,7 +2,7 @@
 @extends('front.layouts.front_master')
 @section('content')
 <style>
-    table tr td{
+    table tr td, th{
         font-size: 0.8em;
     }
 </style>

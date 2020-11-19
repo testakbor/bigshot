@@ -62,8 +62,6 @@
                   </div>
 
 
-
-
                   <div class="tab-pane fade" id="return" role="tabpanel">
                     <div class="col-sm-12 p-0">
                       <form method="POST" action="{{route('genarelQuiry')}}">
