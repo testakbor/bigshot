@@ -1,107 +1,109 @@
 @extends('front.layouts.front_master')
 @section('content')
-  <div class="container">
-      @include('admin.includes.messages')
-        <h4 class="text-center">Select item you want to cancel or return</h4>
+<style>
+    table tr td{
+        font-size: 0.8em;
+    }
+    .table td, .table th{
+        padding: 10px 5px
+    }
+    ::placeholder{
+        font-size: 12px;
+    }
+</style>
+<div class="container p-0">
+    @include('admin.includes.messages')
+    <h4 class="text-center">Select item you want to cancel or return</h4>
 
-                   <div class="table-responsive">
-                    <table class="table">
-                                    <thead>
-                                        <tr style="background:#e7e7e7">
-                                            <th>Order placed
-                                                {{date('d-m-Y',strtotime($order->post_date))}}</th>
-                                            <th>{{$order->post_status}}
-                                                {{date('d-m-Y',strtotime($order->post_modified))}}
-                                            </th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $qty=0; $id=0; $subtotal=0; @endphp
-                                        @foreach($order_item as $item)
-                                        @foreach($item->orderMeta as $value)
-                                        @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
-                                        @if($value->meta_key=='_product_id')@php $id=$value->meta_value;@endphp @endif
-                                        @if($value->meta_key=='_line_subtotal')@php $subtotal=$value->meta_value;@endphp @endif
-                                        @endforeach
-                                        <tr>
-                                            <td style="border:none">
-                                                @php $product_img=DB::table('postmeta')->where('post_id',$id)->where('meta_key','attached_file')->first(); @endphp
-                                                @php $product_sku=DB::table('postmeta')->where('post_id',$id)->where('meta_key','_sku')->first(); @endphp
-                                                <img width="50px" height="50px" src="{{asset('backend/products/'.$product_img->meta_value)}}"></br> 
-                                                Sku:{{$product_sku->meta_value}}
-                                            </td>
-                                            <td>
-                                                @php $product_name=DB::table('posts')->where('ID',$id)->select('post_title')->first(); @endphp
-                                                {{$product_name->post_title}}
-                                            </td>
-                                            <td>
-                                               
-                                              @php 
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr style="background:#e7e7e7">
+                    <td>Order placed
+                        {{date('d-m-Y',strtotime($order->post_date))}}</td>
+                    <td>{{$order->post_status}}
+                        {{date('d-m-Y',strtotime($order->post_modified))}}
+                    </td>
+                 
+                    <td></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @php $qty=0; $id=0; $subtotal=0; @endphp
+                @foreach($order_item as $item)
+                @foreach($item->orderMeta as $value)
+                @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
+                @if($value->meta_key=='_product_id')@php $id=$value->meta_value;@endphp @endif
+                @if($value->meta_key=='_line_subtotal')@php $subtotal=$value->meta_value;@endphp @endif
+                @endforeach
+                <tr>
+                    <td style="border:none">
+                        @php $product_img=DB::table('postmeta')->where('post_id',$id)->where('meta_key','attached_file')->first(); @endphp
+                        @php $product_sku=DB::table('postmeta')->where('post_id',$id)->where('meta_key','_sku')->first(); @endphp
+                          @php $product_name=DB::table('posts')->where('ID',$id)->select('post_title')->first(); @endphp
+                        {{$product_name->post_title}} <br>
+                        <img width="50px" height="50px" src="{{asset('backend/products/'.$product_img->meta_value)}}"></br> 
+                        Sku:{{$product_sku->meta_value}}
+                    </td>
+                   
+                    <td>
+                       @php 
                                                $cancel_qty=DB::table('order_itemmeta')
                                               ->where('order_item_id',$item->order_item_id)
                                               ->where('meta_key','cancel_quantity')
                                               ->sum('meta_value');
                                                @endphp
-                                              Order Quantity: {{$qty-$cancel_qty}} Pc's 
-                                            </td>
+                                              Order Quantity: {{$acq=$qty-$cancel_qty}} Pc's 
+                    </td>
+            <form method="post" action="{{route('customer_order_cancel_item')}}">
+                @csrf 
+                <td> 
+                    @if($acq>0)
+                 
+                    <select name="request_qty" id="request_qty" class="form-control">
+                        @for($i=1;$i<=$acq;$i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                    </select>
+                    <input type="hidden" class="form-control" name="ac_qty" value="{{$qty}}">
+                    <input type="hidden" class="form-control" name="cancel_order_id" value="{{$item->order_id}}">
+                    <input type="hidden" class="form-control" name="cancel_item_id" value="{{$item->order_item_id}}">
+                    <input type="hidden" class="form-control" name="product_id" value="{{$id}}">
+                </td>
+                <td>
+                    <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white"> <i class="fa fa-times"></i> </span></button>
+                </td>
+                @else 
+                Cancelled
+                @endif
+            </form>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 
 
-                                             <form method="post" action="{{route('customer_order_cancel_item')}}">
-                                                 @csrf 
-                                             <td> 
-                                              
-                                              @php $acq=$qty-$cancel_qty @endphp 
-
-                                              @if($acq>0)
-                                        
-                                                    <input type="text" class="form-control" name="request_qty" required placeholder="Enter no of quantity" autocomplete="off">
-                                                    <input type="hidden" class="form-control" name="ac_qty" value="{{$acq}}">
-                                                    <input type="hidden" class="form-control" name="cancel_order_id" value="{{$item->order_id}}">
-                                                    <input type="hidden" class="form-control" name="cancel_item_id" value="{{$item->order_item_id}}">
-                                                    <input type="hidden" class="form-control" name="product_id" value="{{$id}}">
-                                              @else
-                                              Cancel 
-                                              @endif       
-                                            </td>
-                                             @if($acq>0)
-                                            <td>
-                                                <button onclick="return confirm('Are you sure want to cancel this item??')" class="btn btn-danger btn-sm"><span style="color:white">Cancel</span></button>
-                                            </td>
-                                            @endif 
-                                         
-                                            </form>
-
-
-
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                             </div>
-
-
-                             <form method="post" action="{{route('customer_order_cancel_item_full')}}">
-                                 @csrf 
-                                 <div class="form-group">
-                                  <label>Reason for return/cancel</label>
-                                  <textarea cols="5" rows="5" class="form-control" name="reason" autocomplete="off" required></textarea>
-                                 </div>
-                                        @php $quantity=0; $product_id=0; @endphp
-                                        @foreach($order_item as $item)
-                                        @foreach($item->orderMeta as $value)
-                                          @if($value->meta_key=='_product_id')@php $product_id=$value->meta_value;@endphp @endif
-                                          @if($value->meta_key=='_qty') @php $quantity=$value->meta_value; @endphp @endif
-                                        @endforeach
-                                           <input type="hidden" class="form-control" name="order_id" value="{{$item->order_id}}">
-                                           <input type="hidden" class="form-control" name="item_id[]" value="{{$item->order_item_id}}">
-                                           <input type="hidden" class="form-control" name="product_id[]" value="{{$product_id}}">
-                                           <input type="hidden" class="form-control" name="pro_id[]" value="{{$product_id}}">
-                                           <input type="hidden" class="form-control" name="quantity[]" value="{{$quantity}}">
-                                        @endforeach
-                                <button onclick="return confirm('Are you sure want to cancel full order??')" class="btn btn-danger btn-sm mb-3"><span style="color:white">Cancel Full Order</span></button>
-                             </form>  
-            </div>
+    <form method="post" action="{{route('customer_order_cancel_item_full')}}">
+        @csrf 
+        <div class="form-group">
+            <label>Reason for return/cancel</label>
+            <textarea cols="5" rows="5" class="form-control" name="reason" autocomplete="off" required></textarea>
+        </div>
+        @php $quantity=0; $product_id=0; @endphp
+        @foreach($order_item as $item)
+        @foreach($item->orderMeta as $value)
+        @if($value->meta_key=='_product_id')@php $product_id=$value->meta_value;@endphp @endif
+        @if($value->meta_key=='_qty') @php $quantity=$value->meta_value; @endphp @endif
+        @endforeach
+        <input type="hidden" class="form-control" name="order_id" value="{{$item->order_id}}">
+        <input type="hidden" class="form-control" name="item_id[]" value="{{$item->order_item_id}}">
+        <input type="hidden" class="form-control" name="product_id[]" value="{{$product_id}}">
+        <input type="hidden" class="form-control" name="pro_id[]" value="{{$product_id}}">
+        <input type="hidden" class="form-control" name="quantity[]" value="{{$quantity}}">
+        @endforeach
+        <button onclick="return confirm('Are you sure want to cancel full order??')" class="btn btn-danger btn-sm mb-3"><span style="color:white">Cancel Full Order</span></button>
+    </form>  
+</div>
 @endsection
