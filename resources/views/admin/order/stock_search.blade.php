@@ -47,10 +47,10 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>SKU</th>
+                                    <th>Sku</th>
                                     <th>Items</th>
                                     <th class="right">Categories</th>
+                                    <th class="right">Attribute</th>
                                     <th class="center">Quantity</th>
                                     <th class="right">Cost</th>
                                     <th class="right">Sale Price</th>
@@ -60,58 +60,85 @@
                             </thead>
 
                             <tbody>
-                                @php $all_qty=0; $img=''; $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $cost=0; @endphp
-                                @foreach($products as $item)
-                                @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
+                                    @php $product_total_qty=0; $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $total_cost=0; $img='';
                                 @endphp
-                                @foreach($product_info as $info)
-                                @if($info->meta_key=='qty')
-                                @php $qty=$info->meta_value; @endphp
-                                @endif
-                                @if($info->meta_key=='sale_price')
-                                @php $price=$info->meta_value; @endphp
-                                @endif
-                                @if($info->meta_key=='product_stock')
-                                @php $cost=$info->meta_value; @endphp
-                                @endif
-                                @if($info->meta_key=='stock_status')
-                                @php $status=$info->meta_value; @endphp
-                                @endif
-                                @if($info->meta_key=='_sku')
-                                @php $sku=$info->meta_value; @endphp
-                                @endif
-                                   @if($info->meta_key=='attached_file')
-                                    @php $img=$info->meta_value; @endphp
-                                    @endif
-                                @endforeach
-                                @if($qty>0)
-                                @php $i++
-                                @endphp
+                            @foreach($products as $pro)
+                               @php 
+                               $img=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','attached_file')->first(); 
+                               $qty=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','qty')->sum('meta_value'); 
+                               $cost=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','product_stock')->sum('meta_value'); 
+                               $sale_price=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','sale_price')->sum('meta_value'); 
+                               $pro_title=DB::table('posts')->where('ID',$pro->post_id)->where('post_type','product')->first(); 
+                               $skuu=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','_sku')->first(); 
+                               @endphp
                                 <tr>
-                                    <td class="center">{{$i}}</td>
-                                                     <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img)}}"></br> {{ $sku ? $sku : 'No SKU Found' }}</td>
-                                    <td class="left strong">{{$item->post_title}}</td>
+                                    <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br> {{$skuu->meta_value}} </td>
+                                    <td class="left">{{$pro_title->post_title}}</td>
                                     <td class="left">@php $category=DB::table('term_relationships')
-                                        ->where('object_id',$item->ID)
+                                        ->where('object_id',$pro->post_id)
                                         ->where('taxonomy','product_cat')
                                         ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
                                         ->join('terms','terms.term_id','=','term_taxonomy.term_id')
                                         ->select('terms.name as cat_name')
-                                        ->first(); @endphp {{$category->cat_name}}</td>
-                                    <td class="right">{{$qty}}</td>
-                                    <td class="right">{{$tot=$cost}}tk</td>
-                                    <td class="right">{{$price}}tk</td>
-                                    <td class="right">{{$status}}</td>
+                                        ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php
+                                        $category=''; @endphp @endif</td>
+                                        <td class="right">
+                                        <!-- show product attribute with current stock  -->
+                                         @php 
+                                        $lists=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$pro->post_id)
+                                        ->where('meta_key','attribute')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->select('meta_value','post_id')
+                                        ->get();
+                                         @endphp
+                                            <table class="table table-responsive">
+                                                            <tbody>
+                                                            @php $i=0; @endphp 
+                                                            @foreach($lists as $a) 
+                                                                @php 
+                                                                $i++;
+                                                                $attribute=json_decode($a->meta_value);
+                                                                @endphp
+                                                                    <tr>
+                                                                    <td>
+                                                                        @foreach($attribute as $att)
+                                                                        <b> {{$att->taxonomy}}</b> :
+                                                                        {{$att->term}}
+                                                                    
+                                                                        @php $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first(); @endphp       
+                                                                        @endforeach
+                                                                    </td>
+                                                                    <td>{{$stock->meta_value}}</td>
+                                                                        <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                       </table>
+                                        <!-- show product attribute with current stock  -->
+
+                                    </td>
                                     <td class="right">
-                                        <a href="{{route('stock.print.sticker',$item->ID)}}" class="btn btn-info"> <i class="fas fa-print"></i> Print </a> <br>
-                                    <a href="{{route('product.edit',$item->ID)}}" class="btn btn-success mt-2 mb-2"> <i class="fas fa-edit"></i> Edit</a><br>
-                                        <a onclick="return confirm('are you sure??')" href="{{route('stock.deleted',$item->ID)}}" class="btn btn-danger"> <i class="fas fa-trash-alt"></i> Delete</a><br>
+                                        @if($i>0) 
+                                        @php $qty=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$pro->post_id)
+                                        ->where('meta_key','attribute_stock')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $product_total_qty+=$main_qty; @endphp
+                                    </td>
+                                    <td class="right">{{$total_cost+=$cost}} tk</td>
+                                    <td class="right">{{$total_sell_price+=$sale_price}} tk</td>
+                                    <td class="right">@if($main_qty>0) In Stock @else Out of stock @endif</td>
+                                    <td class="right">
+                                          <a href="{{route('stock.print.sticker',$pro->post_id)}}" class="btn btn-info"> <i
+                                                class="fas fa-print"></i> Print </a> <br>
+                                        <a href="{{route('product.edit',$pro->post_id)}}" class="btn btn-success mt-2 mb-2">
+                                            <i class="fas fa-edit"></i> Edit</a><br>
                                     </td>
                                 </tr>
-                                @php $total_cost+=$tot; $total_sell_price+=$price; $all_qty+=$qty; @endphp
-                                @endif
-
-                                @endforeach
+                            @endforeach 
                             </tbody>
                         </table>
                    
@@ -132,7 +159,7 @@
                     <div class="box bg-primary">
                         <!-- <i class="fa fa-lemon ml-1"></i> -->
 
-                        <h3 class="text-center">{{$all_qty}}</h3>
+                        <h3 class="text-center">{{$product_total_qty}}</h3>
 
                         <p class="lead text-center font-weight-bold">Total Stock </p>
                     </div>

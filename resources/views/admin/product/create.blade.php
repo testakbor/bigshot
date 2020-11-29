@@ -146,10 +146,13 @@
                       </div>
                       <input type="button" class="btn btn-success" value="Add" id="valueAttributeBtn">
                     </div>
+                        <button id="add_attribute" type="button" class="btn btn-success">Add Varient</button>
                     <div class="form-group row mt-3">
-                      <div class="col-md-12" id="finalValue">
-                      </div>
+                      <div class="col-md-12" id="finalValue"></div>
+                      <div style="display:none" class="col-md-12" id="finalValuetemp"></div>
                     </div>
+
+              
                   </div>
                 </div>
               </div>
@@ -266,14 +269,12 @@
 <script>
   $(document).ready(function() {
     $("#attributeAdd").on('click', function() {
-
       var id = $("#attributes").val();
       $.ajax({
         type: "GET",
         url: "{{url('admin/product/arttibuteValue/')}}" + "/" + id,
         dataType: "json",
         success: function(response) {
-          console.log(response);
           $('#attribut-value').show();
           var schema_one = '';
           $.each(response, function(i, item) {
@@ -290,11 +291,11 @@
     $('#valueAttributeBtn').on('click', function() {
       var id = $("#valueAttribute").val();
       var text = $("#valueAttribute :selected").text();
-      console.log(id);
-      console.log(text);
       var text = '<input id="remove_' + id + '"  type="hidden" onclick="closeThis(' + id + ')" name="valueName[]" value="' + id + '" ><span style="margin-right:10px" class="btn btn-primary closeButton">' + text + '</span>';
+      var text_two = '<input class="all_att" id="remove_' + id + '"  type="hidden" onclick="closeThis(' + id + ')" name="valueNametemp[]" value="' + id + '" ><span style="margin-right:10px" class="btn btn-primary closeButton">' + text + '</span>';
 
       $('#finalValue').append(text);
+      $('#finalValuetemp').append(text_two);
     });
 
     $('#manageStock').change(function() {
@@ -313,6 +314,28 @@
       $('#remove_' + info).remove();
     }
 
+    $("#add_attribute").click(function(){
+        var valueNametemp = $('input[name="valueNametemp[]"]').map(function(){return $(this).val();}).get(); 
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+        type: "POST",
+        data:{
+           valueNametemp:valueNametemp,
+          _token: _token
+        },
+        url: "{{route('attribute_stock_add')}}",
+        dataType: "json",
+        success: function(response) {
+         alert('insert success');
+         $(".all_att").attr("name","hello");
+
+            //  $(".all_att").removeClass('all_att');
+        },
+        error: function(response) {
+         console.log(response);
+        }
+      })
+    });
 
   });
 </script>

@@ -20,17 +20,15 @@ class PageController extends Controller
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->select('terms.term_id as cat_id')
         ->first();
-  
         $product_related=DB::table('term_relationships')
         ->where('term_taxonomy_id',$category->cat_id)
         ->where('posts.post_type','product')
         ->join('posts','term_relationships.object_id','=','posts.ID')
 		->limit(10)->get();
-	
         $gallery_images=DB::table('postmeta')
         ->where('post_id',$product->ID)
         ->where('meta_key','gallery_file')
-        ->select('meta_key','meta_value')
+        ->select('meta_key','meta_value','meta_id')
         ->get();
         $allAttribute = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => 'default_attribute'])->first();
         if ($allAttribute) {
@@ -38,7 +36,14 @@ class PageController extends Controller
         } else {
             $arributeArray = array();
         }
-        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray'));
+        $lists=DB::table('posts')
+                            ->where('post_parent',$id)
+                            ->where('meta_key','attribute')
+                            ->join('postmeta','posts.ID','=','postmeta.post_id')
+                            ->select('meta_value','post_id')
+                            ->get(); 
+       
+        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray','lists'));
     }
     public function cart()
     {

@@ -116,6 +116,13 @@
                                         <p>New Product</p>
                                     </a>
                                 </li>
+                                  <li class="nav-item">
+                                    <a href="{{route('attribute_stock')}}"
+                                        class="nav-link {{isset($page) && $page=='products'?'active':''}}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Stock Update</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         @endif

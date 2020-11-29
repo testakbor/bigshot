@@ -34,9 +34,7 @@
           </div>
         </div>
       </form> -->
-
-
-            <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Stock List</div>
+      <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Stock List</div>
             <div class="d-flex justify-content-center mb-3">
                 <form class="form-inline" method="post" action="{{route('stock.sku.search')}}">
                     @csrf()
@@ -49,25 +47,13 @@
                     <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
                 </form>
             </div>
-
-
-
-
-
-
-
-
-
-
-
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
                     <div class="box bg-primary">
                         <!-- <i class="fa fa-lemon ml-1"></i> -->
-
-                        <h3 class="text-center">{{$product_total_stock}}</h3>
+                        <h3 class="text-center">{{$total_stock_attribute+$total_stock_default}}</h3>
 
                         <p class="lead text-center font-weight-bold">Total Stock </p>
                     </div>
@@ -75,8 +61,6 @@
                 <div class="col-md-4">
                     <div class="box bg-success">
                         <!-- <i class="fa fa-user ml-1"></i> -->
-
-
                         <h3 class="text-center">
                             @php $t_costs=0; @endphp
                             @foreach($data as $datas)
@@ -86,15 +70,12 @@
                             @endforeach
                             {{$t_costs}}
                         </h3>
-
                         <p class="lead text-center font-weight-bold">Total Cost</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
                         <h3 class="text-center">
                             @php $t_sell=0; @endphp
                             @foreach($data as $datas)
@@ -104,31 +85,25 @@
                             @endforeach
                             {{$t_sell}}
                         </h3>
-
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="container">
             <div class="card">
-
                 <div class="card-body">
-
                     <div class="table-responsive-sm">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>SKU</th>
                                     <th>Items</th>
                                     <th class="right">Categories</th>
+                                    <th class="right">Attribute</th>
                                     <th class="center">Quantity</th>
                                     <th class="right">Cost</th>
                                     <th class="right">Sale Price</th>
@@ -136,7 +111,6 @@
                                     <th class="right">Action</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; $img='';
                                 @endphp
@@ -167,7 +141,6 @@
                                 @php $i++
                                 @endphp
                                 <tr>
-                                    <td class="center">{{$i}}</td>
                                     <td class="center"><img width="50px" height="50px"
                                             src="{{asset('backend/products/'.$img)}}"></br>
                                         {{ $sku ? $sku : 'No SKU Found' }}</td>
@@ -180,7 +153,50 @@
                                         ->select('terms.name as cat_name')
                                         ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php
                                         $category=''; @endphp @endif</td>
-                                    <td class="right">{{$qty}}</td>
+                                      <td class="right">
+                                        <!-- show product attribute with current stock  -->
+                                         @php 
+                                        $lists=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$item->ID)
+                                        ->where('meta_key','attribute')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->select('meta_value','post_id')
+                                        ->get();
+                                         @endphp
+                                            <table class="table table-responsive">
+                                                            <tbody>
+                                                            @php $i=0; @endphp 
+                                                            @foreach($lists as $a) 
+                                                                @php 
+                                                                $i++;
+                                                                $attribute=json_decode($a->meta_value);
+                                                                @endphp
+                                                                    <tr>
+                                                                    <td>
+                                                                        @foreach($attribute as $att)
+                                                                        <b> {{$att->taxonomy}}</b> :
+                                                                        {{$att->term}}
+                                                                    
+                                                                        @php $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first(); @endphp       
+                                                                        @endforeach
+                                                                    </td>
+                                                                    <td>{{$stock->meta_value}}</td>
+                                                                        <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                       </table>
+                                        <!-- show product attribute with current stock  -->
+
+                                    </td>
+                                    <td class="right">@if($i>0) 
+                                        @php $qty=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$item->ID)
+                                        ->where('meta_key','attribute_stock')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; @endphp</td>
                                     <td class="right">{{$cost}}tk</td>
                                     <td class="right">{{$price}}tk</td>
                                     <td class="right">{{$status}} </br>{{date('d-M-Y',strtotime($item->post_date))}}
@@ -198,13 +214,11 @@
                         </table>
                         {{$products->links()}}
                     </div>
-
                     <div class="row">
                         <div class="col-lg-4 col-sm-5">
 
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -213,43 +227,31 @@
                 <div class="col-md-4">
                     <div class="box bg-primary">
                         <!-- <i class="fa fa-lemon ml-1"></i> -->
-
-                        <h3 class="text-center">{{$product_total_stock}}</h3>
-
+                        <h3 class="text-center">{{$total_stock_attribute+$total_stock_default}}</h3>
                         <p class="lead text-center font-weight-bold">Total Stock </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="box bg-success">
                         <!-- <i class="fa fa-user ml-1"></i> -->
-
-
                         <h3 class="text-center">{{$t_costs}}</h3>
-
                         <p class="lead text-center font-weight-bold">Total Cost</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
                         <h3 class="text-center">{{$t_sell}}</h3>
-
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
     <!-- /.row -->
 </div><!-- /.container-fluid -->
-
 <!-- /.content -->
 <!--  </div> -->
 @endsection
-
 @section('js')
-
 @endsection

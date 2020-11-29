@@ -1,6 +1,5 @@
 @extends('front.layouts.front_master')
 @section('content')
-
 <style>
     #featured{
         height: 380px;
@@ -31,39 +30,40 @@ endif;
 endforeach;
 @endphp
 <div class="container p-0">
-    @if(session('status'))
-    <div class="alert alert-success" role="alert" id="alert">
-        {{ session('status') }}
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong> {{ session('error') }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong> {{ session('success') }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
     </div>
     @endif
     <div class="d-flex flex-column mt-2 ">
         <div class="d-flex flex-column ">
             <div class="empyt text-center border-bottom border-dark pt-3 pb-3">{{$product->post_title}} </div>
             <div class="d-flex flex-row flex-wrap mt-2">
-                <div class="d-flex flex-column col-md-1 col-2 pr-0 pl-0">
+                <div id="im_gallary" class="d-flex flex-column col-md-1 col-2 pr-0 pl-0">
                     @foreach($gallery_images as $g)
                     <div class="mb-2">
-                       
-                            <img class="img-fluid rounded" src="{{asset('backend/products/'.$g->meta_value)}}" style="height: 70px;width: 100%" alt="" >
-                       
+                            <img onmouseover="changeImage('{{$g->meta_value}}')" onclick="changeImage('{{$g->meta_value}}')" class="img-fluid rounded" src="{{asset('backend/products/'.$g->meta_value)}}" style="height: 70px;width: 100%" alt="">
                     </div>
                     @endforeach
                 </div>
                 <div class="proImag col-md-7 col-10">
                     <img id="featured" src="{{asset('backend/products/'.$image)}}" class="rounded"
-                         alt="Responsive image" >
+                         alt="Responsive image"> 
                 </div>
                 <div class="d-flex flex-column col-md-4 p-0 col-12">
                     <div class="pname"></div>
                     <div class="attri">
-                        @foreach($arributeArray as $a)
-                        @if($a->taxonomy=='pa_color')
-                        Color:{{$a->term}}
-                        @endif
-                        @if($a->taxonomy=='pa_size')
-                        Size:{{$a->term}}
-                        @endif
-                        @endforeach
                     </div>
                     <div class="d-flex flex-row mb-2">
                            <div class="col-4">Price: </div>
@@ -76,39 +76,35 @@ endforeach;
                             <div class="d-flex flex-row align-items-center">
                                 <div class="col-4 ">Quantity: </div>
                                 <div class="col-8 mt-2">
-                                    <input type="number" name="quantity" class="form-control" id="" value="1">
+                                    <input type="number" name="quantity" class="form-control" id="" value="1" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="d-flex flex-row align-items-center">
-                                <div class="col-4">Color: </div>
-                                <div class="col-8 mt-2">
-                                   <select name="" class="form-control" id="">
-                                       <option value="1">1</option>
-                                   </select>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row align-items-center">
-                                <div class="col-4">Size: </div>
-                                <div class="col-8 mt-2">
-                                     <select name="" class="form-control" id="">
-                                       <option value="1">1</option>
-                                   </select>
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                @if($qty==0)
-                                Out of stock
-                                @else
+                              <table class="table table-responsive">
+                                <tbody>
+                                  @foreach($lists as $a) 
+                                    @php 
+                                    $attribute=json_decode($a->meta_value);
+                                    @endphp
+                                        <tr>
+                                            <td style="border: 0px solid #ffffff;">
+                                              <input required type="radio" name="attribute_id" value="{{$a->post_id}}">
 
+                                             @foreach($attribute as $att)
+                                             <b>{{strtoupper($att->taxonomy)}}</b> :
+                                             {{$att->term}} 
+                                                 
+                                             @endforeach
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                             </table>
+                            <div class="mt-3">
                                 <button type="submit" class="btn btn-primary mb-2 btn-large btn-block">Buy</button>
-                                @endif
                                 <div class="text-center">
-                                    
-                                
                                 <a href="{{url('/wishlist/product/'.$product->ID)}}">
                                    Add to wishlist <i class="far fa-heart ml-2 h4"></i>
                                 </a></div>
-                                
                             </div>
                             <input type="hidden" name="id" value="{{$product->ID}}">
                             <input type="hidden" name="name" value="{{$product->post_title}}">
@@ -174,6 +170,24 @@ endforeach;
             </div>
 
         </div>
+        </div>
         
     </div>
-    @endsection
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+                    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+ </script>
+  <script>
+     function changeImage(imgName) {
+        image = document.getElementById('im_gallary');
+        var s=image.src = imgName;
+        var path="{{asset('/backend/products/')}}"+"/"+s;
+        var image1 = document.getElementById('featured');
+          if (image1.src.match(path)) {
+                image1.src = ss;
+            }
+            else {
+                image1.src = path;
+            }
+     }
+  </script>
+@endsection

@@ -158,7 +158,7 @@ class AttributeController extends Controller
         $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
         $attributeValues=DB::table('term_taxonomy')
             ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-            ->where('taxonomy','pa_'.$attribute->attribute_label)
+            ->where('taxonomy',$attribute->attribute_label)
             ->paginate(3);       
             return view('admin.attribute.valueList',compact('attribute','attributeValues'))->with($extraInfo);
     }
@@ -177,7 +177,7 @@ class AttributeController extends Controller
        $term_id=DB::table('terms')->insertGetId($term_info);
        $taxonomy=array(
         'term_id'=>$term_id,
-        'taxonomy'=>'pa_'.$attribute->attribute_label,
+        'taxonomy'=>$attribute->attribute_label,
         'description'=>'',
         'createdDate'=>date('Y-m-d H:i:s')
        );
@@ -227,7 +227,7 @@ class AttributeController extends Controller
         ->where('term_id',$id)
         ->first();
         
-        $label=Str::after($taxonomy->taxonomy,'pa_');
+        $label=Str::after($taxonomy->taxonomy,'');
         
         // get attribute id 
         $attribute=DB::table('attribute_taxonomies')

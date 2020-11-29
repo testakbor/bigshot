@@ -68,7 +68,8 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {    
-          if($request->user()->can('manage-product')) {    
+          if($request->user()->can('manage-product')) {   
+            // DB::table('temp_attribute_stock')->delete();    
         $extraInfo=array(
             'title'=>"New Product",
             'page'=>'product'
@@ -101,7 +102,7 @@ class ProductController extends Controller
     }
     }
 
-    public function store(ProductStoreRequest $request){
+    public function store(ProductStoreRequest $request){ 
         if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;
@@ -124,32 +125,8 @@ class ProductController extends Controller
             'post_content_filtered'=>'',
             'post_type'=>'product',
         );        
-
         $post_id=DB::table('posts')->insertGetId($product);
-        // product attributes
-        if($request->valueName  !=null ){
-            $attribute=[];
-            foreach($request->valueName as $value){
-                $detailVal= DB::table('term_taxonomy')
-                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-                ->where('term_taxonomy.term_id',$value)
-                ->select('term_taxonomy.*','terms.name')
-                ->first();
-                $attribute[]=array(
-                    'taxonomy'=>$detailVal->taxonomy,
-                    'term'=>$detailVal->name,
-                    'term_id'=>$detailVal->term_id
-                );
-            }
-            $attributes=json_encode($attribute);
-
-            $attributeMeta=array(
-                'post_id'=>$post_id,
-                'meta_key'=>'default_attribute',
-                'meta_value'=> $attributes
-            );
-            DB::table('postmeta')->insert($attributeMeta);
-        }       
+    
         // product categories
         if($request->category !=null){
             foreach ($request->category as  $value) {
@@ -166,43 +143,21 @@ class ProductController extends Controller
    if($request->brand){
     DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
 }
-
-     // sale price and reqgular price
-// $productPrice=[
-//     'regular_price'=>$request->regular_price,
-//     'sale_price'=>$request->sale_price,
-//     'weight'=>$request->weight,
-//     'length'=>$request->length,
-//     'width'=>$request->width,
-//     'height'=>$request->height
-// ];
-// DB::table('postmeta')->insert($productPrice);  
-
-    // sale price and reqgular price
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'stock_status','meta_value'=>$request->stock_status]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'regular_price','meta_value'=>$request->regular_price]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'sale_price','meta_value'=>$request->sale_price]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'weight','meta_value'=>$request->weight]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'length','meta_value'=>$request->length]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'width','meta_value'=>$request->width]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'height','meta_value'=>$request->height]);
-
-DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'qty','meta_value'=>$request->stockQuality]);
-
-DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'product_stock','meta_value'=>$request->product_stock]);
-
 if(isset($request->product_stock) && $request->product_stock!=0){
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$request->product_stock]);
 }
-
+if($request->valueName==''){
+  DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'qty','meta_value'=>$request->stockQuality]);
+  DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
+}
 if($request->product_sku==''){  
           $digits = 3;
           $rand=rand(pow(10, $digits-1), pow(10, $digits)-1);
@@ -213,19 +168,16 @@ if($request->product_sku==''){
     $s_k_u=$request->product_sku.$rand; 
 } 
 DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
-
-    // product image 
+// product image 
 $image_name=null;
 if($request->hasFile('product_image')){
     $image_name = time().'.'.$request->product_image->getClientOriginalExtension();
     $request->product_image->move(('backend/products'), $image_name);
-
     $porductImage=array(
         'post_id'=>$post_id,
         'meta_key'=>'attached_file',
         'meta_value'=>$image_name
     );
-
     $postmeta=DB::table('postmeta')->insert($porductImage);
 }
         // gallery image
@@ -246,10 +198,34 @@ if($request->hasFile('galleryImage'))
     }
 
 }
-
-session()->flash("success","Information saved Successfully");
-return redirect(route('product.index'));
-          }
+// //insert temp attribute data with post table and postmeta table
+        $all_temp_att=DB::table('temp_attribute_stock')->get(); 
+        foreach($all_temp_att as $att){ 
+            DB::table('posts')->insert([
+                'post_parent' =>$post_id,
+                'post_type' =>'product_varient',
+            ]);
+            $id_last=DB::getPdo()->lastInsertId();
+            DB::table('postmeta')->insert([
+            'post_id' =>$id_last,  
+            'meta_key'  =>'attribute',
+            'meta_value'=> $att->attribute_value,
+            ]);
+            DB::table('postmeta')->insert([
+            'post_id' =>$post_id,  
+            'meta_key'  =>'default_attribute',
+            'meta_value'=> $att->attribute_value,
+            ]);
+            DB::table('postmeta')->insert([
+            'post_id' =>$id_last,  
+            'meta_key'  =>'attribute_stock',
+            'meta_value'=> $request->stockQuality,
+            ]);
+        }
+        DB::table('temp_attribute_stock')->delete(); 
+      session()->flash("success","Information saved Successfully");
+      return redirect(route('product.index'));
+    }
 
 }
 
@@ -258,7 +234,7 @@ public function attributeValue($id,Request $request){
  $attribute=attribute_taxonomie::where('attribute_id',$id)->first();
  $attributeValues=DB::table('term_taxonomy')
  ->join('terms','terms.term_id','=','term_taxonomy.term_id')
- ->where('taxonomy','pa_'.$attribute->attribute_label)
+ ->where('taxonomy',$attribute->attribute_label)
  ->get();  
 
  echo json_encode($attributeValues);
@@ -368,46 +344,38 @@ public function edit($id,Request $request)
     $alert_qty=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'alert_qty'])->select('meta_value')->first();
     $stock=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'product_stock'])->first();
     $sku = DB::table('postmeta')->where(['post_id' => $id, 'meta_key' => '_sku'])->first();
-    $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->first();
-    
-    if($allAttribute){ 
-        $arributeArray=json_decode($allAttribute->meta_value);
-    }
-    else{
-        $arributeArray=array();
-    }
+    $allAttribute=DB::table('postmeta')->where(['post_id'=>$id,'meta_key'=>'default_attribute'])->get();
+
     $attributes=attribute_taxonomie::where('status',1)->get();
     return view('admin.product.edit',compact('categories','tags','attributes',
         'product','nameTaxonomy','tagTaxonomy','bandTaxonomy','image',
         'stock_status','regular_price','sale_price','weight',
-        'length','width','height','qty','alert_qty','arributeArray','stock',
+        'length','width','height','qty','alert_qty','allAttribute','stock',
         'sku','gallery_images'
     ))->with($extraInfo);
 }
 
 }
 
-public function update(Request $request,$id){
-  if($request->user()->can('manage-product')) {
-    $postDelete=DB::table('posts')->where('ID',$id)->delete();
-
+public function update(Request $request,$id){  
+  if($request->user()->can('manage-product')) { 
+     $postDelete=DB::table('posts')->where('ID',$id)->delete();
+      DB::table('posts')
+      ->where('post_parent',$id)
+      ->where('post_type','product_varient')
+      ->delete();
      $oldStartStock=DB::table('postmeta')
-       ->where('post_id',$id)
-        ->where('meta_key','start_stock')->first();
-
+     ->where('post_id',$id)
+     ->where('meta_key','start_stock')->first();
     $postmetaDelete=DB::table('postmeta')->where('post_id',$id)->delete();
-
     $term_relationships=DB::table('term_relationships')->where('object_id',$id)->delete();
-
     $year=$request->year;
     $month=$request->month;
     $day=$request->day;
     $H=$request->HH;
     $min=$request->min;
-
     $post_date=date('Y-m-d H:i:00',strtotime($year.'-'.$month.'-'.$day.' '.$H.':'.$min.':00'));
     $post_date_gmt=date('Y-m-d H:i:s',strtotime($post_date.'+6 hour'));
-
     $product=array(
         'post_title'=>$request->post_title,
         'post_name'=>$request->post_title,
@@ -421,158 +389,111 @@ public function update(Request $request,$id){
         'pinged'=>'',
         'post_content_filtered'=>'',
         'post_type'=>'product',
-
     );
     $post_id=DB::table('posts')->insertGetId($product);
-
-// product attributes
-
-
-    if($request->valueName  !==null ){
-        $attribute=[];
-        foreach($request->valueName as $value){
-
-            $detailVal= DB::table('term_taxonomy')
-            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-            ->where('term_taxonomy.term_id',$value)
-            ->select('term_taxonomy.*','terms.name')
-            ->first();
-
-            $attribute[]=array(
-                'taxonomy'=>$detailVal->taxonomy,
-                'term'=>$detailVal->name,
-                'term_id'=>$detailVal->term_id
-
-            );
-
-        }
-        $attributes=json_encode($attribute);
-        $attributeMeta=array(
-            'post_id'=>$post_id,
-            'meta_key'=>'default_attribute',
-            'meta_value'=> $attributes
-        );
-        DB::table('postmeta')->insert($attributeMeta);
-    }       
-
-        // product categories
+   
+    //product default attributes
+      if($request->att_default!=null){
+          for($i=0;$i<count($request->att_default);$i++){
+            DB::table('postmeta')->insert([
+                'post_id' =>  $post_id,
+                'meta_key' =>  'default_attribute',
+                'meta_value' => $request->att_default[$i],
+            ]);
+          }
+      }
+  
+    //product categories
     if($request->category !=null){
         foreach ($request->category as  $value) {
            DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
        }
    }
-
-
-     // product tag
+   // product tag
    if(count($request->tag) > 0){
     foreach ($request->tag as  $value) {
        DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
    }
 }
-
-     // brand
+// brand
 if($request->brand){
     DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
 }
-
-     // sale price and reqgular price
-// $productPrice=[
-//     'regular_price'=>$request->regular_price,
-//     'sale_price'=>$request->sale_price,
-//     'weight'=>$request->weight,
-//     'length'=>$request->length,
-//     'width'=>$request->width,
-//     'height'=>$request->height
-// ];
-// DB::table('postmeta')->insert($productPrice);  
-
-    // sale price and reqgular price
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'stock_status','meta_value'=>$request->stock_status]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'regular_price','meta_value'=>$request->regular_price]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'sale_price','meta_value'=>$request->sale_price]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'weight','meta_value'=>$request->weight]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'length','meta_value'=>$request->length]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'width','meta_value'=>$request->width]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'height','meta_value'=>$request->height]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'qty','meta_value'=>$request->stockQuality]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
-
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'product_stock','meta_value'=>$request->product_stock]);
-
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$oldStartStock->meta_value]);
-if($request->product_sku==''){  
-          $digits = 3;
-          $rand=rand(pow(10, $digits-1), pow(10, $digits)-1);
-          $s_k_u=$rand; 
-}else{
-    $digits = 3;
-    $rand=rand(pow(10, $digits-1), pow(10, $digits)-1); 
-    $s_k_u=$request->product_sku.$rand; 
-} 
+$s_k_u=$request->product_sku;
 DB::table('postmeta')->insert(['post_id' => $post_id, 'meta_key' => '_sku', 'meta_value' => $s_k_u]);
-
-
-    // product image 
+// product image 
 $image_name=null;
 if($request->hasFile('product_image')){
     $image_name = time().'.'.$request->product_image->getClientOriginalExtension();
     $request->product_image->move(('backend/products'), $image_name);
-
     $porductImage=array(
         'post_id'=>$post_id,
         'meta_key'=>'attached_file',
         'meta_value'=>$image_name
     );
-
     $postmeta=DB::table('postmeta')->insert($porductImage);
 }
 else{
-
    $porductImage=array(
     'post_id'=>$post_id,
     'meta_key'=>'attached_file',
     'meta_value'=>$request->oldImage
 );
-
-   $postmeta=DB::table('postmeta')->insert($porductImage);
+$postmeta=DB::table('postmeta')->insert($porductImage);
 }
 
-        // gallery image
-if($request->hasFile('galleryImage'))
-{
-    $galleryImage = [];
-    foreach($request->file('galleryImage') as $image)
-    {
-        $filename = $image->getClientOriginalName();
-        $image->move(('backend/products'), $filename);
-
-
-        $porductGalleryImage=array(
-            'post_id'=>$post_id,
-            'meta_key'=>'gallery_file',
-            'meta_value'=>$filename
-        );
-
-        $postmeta=DB::table('postmeta')->insert($porductGalleryImage);
+// gallery image
+    // $galleryImage = [];
+    // foreach($request->file('gallery_image') as $image)
+    // {
+    //     $filename = $image->getClientOriginalName();
+    //     $image->move(('backend/products'), $filename);
+    //     $porductGalleryImage=array(
+    //         'post_id'=>$post_id,
+    //         'meta_key'=>'gallery_file',
+    //         'meta_value'=>$filename
+    //     );
+    //     $postmeta=DB::table('postmeta')->insert($porductGalleryImage);
+    // }
+    //insert temp attribute data with post table and postmeta table
+    DB::table('posts')->where('post_parent',$id)->update([
+           'post_parent' =>$post_id,
+           'post_type' =>'product_varient',
+     ]);
+     $all_temp_att=DB::table('temp_attribute_stock')->get(); 
+     foreach($all_temp_att as $att){ 
+     DB::table('posts')->insert([
+         'post_parent' =>$post_id,
+         'post_type' =>'product_varient',
+     ]);
+     $id_last=DB::getPdo()->lastInsertId();
+     DB::table('postmeta')->insert([
+     'post_id' =>$id_last,  
+     'meta_key'  =>'attribute',
+     'meta_value'=> $att->attribute_value,
+     ]);
+     DB::table('postmeta')->insert([
+     'post_id' =>$id_last,  
+     'meta_key'  =>'attribute_stock',
+     'meta_value'=> $request->stockQuality,
+     ]);
+     }
+    DB::table('temp_attribute_stock')->delete(); 
+    session()->flash("success","Information saved Updated");
+    return redirect(route('product.index'));
     }
-
-}
-
-session()->flash("success","Information saved Updated");
-return redirect(route('product.index'));
   }
-}
-
-
 //stock sticker print
 public function stockPrintSticker($id){
         $product=DB::table('postmeta')->where('post_id',$id)->get();
@@ -595,16 +516,44 @@ public function stockPrintSticker($id){
     return $pdf->download('sku_sticker.pdf');
 }
 
+public function attributeStockAdd(Request $request){
+     if($request->valueNametemp!=null ){
+            $attribute=[];
+            foreach($request->valueNametemp as $value){
+                $detailVal=DB::table('term_taxonomy')
+                ->join('terms','terms.term_id','=','term_taxonomy.term_id')
+                ->where('term_taxonomy.term_id',$value)
+                ->select('term_taxonomy.*','terms.name')
+                ->first();
+                $attribute[]=array(
+                    'taxonomy'=>$detailVal->taxonomy,
+                    'term'=>$detailVal->name,
+                    'term_id'=>$value
+                );
+            }
+            $attributes=json_encode($attribute);
+            $attributeMeta=array(
+                'attribute_value'=> $attributes
+            );
+            DB::table('temp_attribute_stock')->insert($attributeMeta);
+            $data=$value;
+            return response()->json($data);
+        
+    }
+
+}
+
 public function stockSkuSearch(Request $request){
         $extraInfo = array(
             'title' => "Stock List",
             'page' => 'stock'
         ); 
    $sku=$request->product_sku;
-    $products=DB::table('postmeta')->where(['meta_key'=>'_sku','meta_value'=>$sku])
-   ->join('posts','postmeta.post_id','=','posts.ID')
+    $products=DB::table('postmeta')
+    ->where(['meta_key'=>'_sku','meta_value'=>$sku])
    ->get();
-   return view('admin.order.stock_search',compact('products'))->with($extraInfo);
+  
+   return view('admin.order.stock_search',compact('products','sku'))->with($extraInfo);
 }
 
     public function stockSkuSearchLower(Request $request)
@@ -632,5 +581,45 @@ public function stockSkuSearch(Request $request){
         ->get();
         return view('admin.order.stock_search_sold',compact('products'))->with($extraInfo);
     }
+
+
+    //product attribute stock update
+    public function varient_stock(Request $request){
+        if($request->sku==''){
+          $lists=[];  
+          $sku_list=DB::table('postmeta')->where('meta_key','_sku')->get();
+          return view('admin.product.attribute_stock',compact('sku_list','lists'));
+        }else{
+        $post_id=DB::table('postmeta')
+        ->where('meta_key','_sku')
+        ->where('meta_value',$request->sku)
+        ->select('post_id')
+        ->first(); 
+        $lists=DB::table('posts')
+        ->where('post_parent',$post_id->post_id)
+        ->where('post_type','product_varient')
+        ->where('postmeta.meta_key','attribute')
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->select('postmeta.meta_value','post_id')
+        ->get();  
+        $sku_list=DB::table('postmeta')->where('meta_key','_sku')->get();
+        return view('admin.product.attribute_stock',compact('sku_list','lists'));
+        }
+     
+    }
+
+    public function attributeStockupdate(Request $request){
+    for($i=0;$i<count($request->post_id);$i++){
+        DB::table('postmeta')
+        ->where('post_id',$request->post_id[$i])
+        ->where('meta_key','attribute_stock')
+        ->update([
+        'meta_value' =>$request->stock[$i]
+        ]);
+    }
+    session()->flash("success","Stock has been update successfully");
+    return back();
+    }
+
 
 }

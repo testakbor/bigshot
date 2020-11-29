@@ -532,6 +532,7 @@ public function rejectProductUpdate(Request $request)
 }
 public function stock(Request $request)
 {
+
   if($request->user()->can('manage-stock')) {     
   $extraInfo=array(
     'title'=>"Stock List",
@@ -540,25 +541,31 @@ public function stock(Request $request)
   $products=DB::table('posts')
   ->where('post_type','product')
   ->where('post_status','!=','deleted')
-  ->where('meta_key', 'qty')
-  ->where('meta_value','>',0)
   ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->groupBy('posts.ID')
   ->paginate(10);
 
   $data=Post::
   where('post_type','product')
   ->where('post_status','!=','deleted')
-  ->where('meta_key', 'qty')
-  ->where('meta_value','>',0)
   ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->get();
+    ->groupBy('posts.ID')
+  ->get(); 
 
-  $product_total_stock=DB::table('posts')
+
+  $total_stock_attribute=DB::table('posts')
+  ->where('post_type','product_varient')
+  ->join('postmeta','posts.ID','=','postmeta.post_id')
+  ->where('meta_key','attribute_stock')
+  ->sum('meta_value');
+
+  $total_stock_default=DB::table('posts')
   ->where(['post_type'=>'product','meta_key'=>'qty'])
   ->where('meta_value','>',0)
   ->join('postmeta','posts.ID','=','postmeta.post_id')
   ->sum('meta_value'); 
-  return view('admin.order.stock',compact('products','data','product_total_stock'))->with($extraInfo);
+
+  return view('admin.order.stock',compact('products','data','total_stock_attribute','total_stock_default'))->with($extraInfo);
 }
 }
 

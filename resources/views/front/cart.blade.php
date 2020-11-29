@@ -222,6 +222,7 @@ $email=auth()->user()->email;
                                             </select>
                                         </div>
                                     </div>
+                              
                                     <button type="submit" id="order_submit" class="btn btn-primary btn-block btn-lg">Place
                                     Order</button>
                                 </form>
@@ -247,6 +248,7 @@ $email=auth()->user()->email;
                                         <tbody>
                                             @php $order=0; @endphp
                                             @foreach ($info as $item)
+
                                             @php
                                             $order++;
                                             $image='no-image.png';
@@ -268,7 +270,11 @@ $email=auth()->user()->email;
                                                     src="{{asset('backend/products/'.$image->meta_value)}}"
                                                     class="img-thumbnail" alt="Responsive image" />
                                                     <br>
-                                                    {{$item->name}}
+                                                    {{$item->name}}  
+                                                    @if($item["attributes"]["parent"]>0)
+                                                      <input type="hidden" name="att_parent[]" value="{{$item["attributes"]["parent"]}}">
+                                                      <input type="hidden" name="att_qty[]" value="{{$item["attributes"]["q"]}}">
+                                                    @endif   
                                                 </td>
                                                
                                                 <td>{{$total=$item->price}}</td>

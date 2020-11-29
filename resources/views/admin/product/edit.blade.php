@@ -51,7 +51,7 @@
                       <div class="form-group row">
                         <label for="regular_price" class="col-sm-2 col-form-label">Sku</label>
                         <div class="col-sm-10">
-                          <input type="text" name="product_sku" class="form-control" id="regular_price" value="@if(isset($sku->meta_value)){{$sku->meta_value}} @else 0 @endif" placeholder="Sku">
+                          <input type="text" readonly name="product_sku" class="form-control" id="regular_price" value="@if(isset($sku->meta_value)){{$sku->meta_value}} @else 0 @endif" placeholder="Sku">
                         </div>
                       </div>
                       <div class="form-group row">
@@ -148,14 +148,19 @@
                       </div>
                       <input type="button" class="btn btn-success" value="Add" id="valueAttributeBtn">
                     </div>
+                    <button id="add_attribute" type="button" class="btn btn-success">Add Varient</button>
                     <div class="form-group row mt-3">
                       <div class="col-md-12" id="finalValue">
-             
-                        @foreach($arributeArray as $value)
-                        <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$value->term_id}}">
-                        <span style="margin-right:10px" class="btn btn-primary closeButton">{{$value->term}}</span>
-                        @endforeach
+                        @foreach($allAttribute as $a)
+                           <input type="text" name="att_default[]" value="{{$a->meta_value}}">
+                             @php $data=json_decode($a->meta_value);  @endphp
+                             @foreach($data as $att) 
+                               <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$att->term_id}}">
+                               <span style="margin-right:10px" class="btn btn-primary closeButton">{{$att->term}}</span>
+                             @endforeach
+                        @endforeach 
                       </div>
+                       <div style="display:none"  class="col-md-12" id="finalValuetemp"></div>
                     </div>
                   </div>
                 </div>
@@ -266,7 +271,8 @@
                   <div class="row">
                   @foreach($gallery_images as $g) 
                     <div class="col-md-6">
-                       <img src="{{asset('backend/products/').'/'.$g->meta_value}}" style="height:100px;weight:100px" />
+                       <img  src="{{asset('backend/products/').'/'.$g->meta_value}}" style="height:50px;weight:50px" />
+                        <input type="hidden" name="gallery_image_default[]" value="{{$g->meta_value}}">
                     </div>
                   @endforeach
                   </div>
@@ -275,7 +281,7 @@
                 </div>
               </div>
               <div class="card-body" style="display: block;">
-                <input type="file" name="galleryImage[]" id="" class="form-control" multiple>
+                <input type="file" name="gallery_image[]" id="" class="form-control" multiple>
               </div>
             </div>
           </div>
@@ -298,7 +304,6 @@
 <script>
   $(document).ready(function() {
     $("#attributeAdd").on('click', function() {
-
       var id = $("#attributes").val();
       $.ajax({
         type: "GET",
@@ -322,11 +327,10 @@
     $('#valueAttributeBtn').on('click', function() {
       var id = $("#valueAttribute").val();
       var text = $("#valueAttribute :selected").text();
-      console.log(id);
-      console.log(text);
-      var text = '<input id="remove_' + id + '"  type="hidden" onclick="closeThis(' + id + ')" name="valueName[]" value="' + id + '" ><span style="margin-right:10px" class="btn btn-primary closeButton">' + text + '</span>';
-
+      var text = '<input class="all_att" id="remove_' + id + '"  type="hidden" onclick="closeThis(' + id + ')" name="valueName[]" value="' + id + '" ><span style="margin-right:10px" class="btn btn-primary closeButton">' + text + '</span>';
+      var text_two = '<input class="all_att" id="remove_' + id + '"  type="hidden" onclick="closeThis(' + id + ')" name="valueNametemp[]" value="' + id + '" ><span style="margin-right:10px" class="btn btn-primary closeButton">' + text + '</span>';
       $('#finalValue').append(text);
+      $('#finalValuetemp').append(text_two);
     });
 
     $('#manageStock').change(function() {
@@ -344,6 +348,29 @@
     function closeThis(info) {
       $('#remove_' + info).remove();
     }
+
+       $("#add_attribute").click(function(){
+        var valueNametemp = $('input[name="valueNametemp[]"]').map(function(){return $(this).val();}).get(); 
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+        type: "POST",
+        data:{
+           valueNametemp:valueNametemp,
+          _token: _token
+        },
+        url: "{{route('attribute_stock_add')}}",
+        dataType: "json",
+        success: function(response) {
+         alert('insert success');
+         $(".all_att").attr("name","hello");
+
+            //  $(".all_att").removeClass('all_att');
+        },
+        error: function(response) {
+         console.log(response);
+        }
+      })
+    });
 
 
   });

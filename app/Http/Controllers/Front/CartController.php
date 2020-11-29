@@ -21,6 +21,7 @@ class CartController extends Controller {
     public function cart() {
 
         $info = Cart::getContent();
+            //   dd($info);
         if (Auth::check()) {
             $user_info = DB::table('usermeta')
                     ->where('user_id', auth()->user()->id)
@@ -69,22 +70,68 @@ class CartController extends Controller {
     }
 
     public function addCart(Request $request) {
-        if ($request->quantity > $request->main_qty) {
-            return back()->with('status', 'Quantity limit Exists');
-            exit();
-        } else {
+            if($request->attribute_id!=0){
+            $stock=DB::table('postmeta')
+            ->where('post_id',$request->attribute_id)
+            ->where('meta_key','attribute_stock')
+            ->select('meta_value')
+            ->first();
+            if ($request->quantity > $stock->meta_value) {
+                return back()->with('error', 'Quantity limit Exists');
+                exit();
+            }
+             if($stock->meta_value==0){
+                return back()->with('error', 'Out of stock');
+                exit();
+             }
+            }
+            else{
+              $stock=DB::table('postmeta')
+            ->where('post_id',$request->id)
+            ->where('meta_key','qty')
+            ->select('meta_value')
+            ->first();    
+            if ($request->quantity > $request->main_qty) {
+                return back()->with('error', 'Quantity limit Exists');
+                exit();
+            }
+            if($stock->meta_value==0){
+                return back()->with('error', 'Out of stock');
+                exit();
+             }
+            }
+            $a=DB::table('postmeta')
+            ->where('post_id',$request->attribute_id)
+            ->where('meta_key','attribute')
+            ->select('meta_value')
+            ->first();
+            if(isset($a)){
+              $att=json_decode($a->meta_value);
+            }else{
+                $att='';
+            }
+
+            if($request->attribute_id!=0){
+                $parent=$request->attribute_id;
+            }else{
+                $parent=0; 
+            }
+        
             Cart::add(array(
                 array(
                     'id' => $request->id,
                     'price' => $request->price,
                     'quantity' => $request->quantity,
                     'name' => $request->name,
-                    'options' => array()
-                )
+                    'attributes' => array(
+                        'taxonomy'=> $att,
+                        'parent'  => $parent,
+                        'q'  => $request->quantity,
                     )
+                 )
+               )
             );
-            return redirect()->back()->with('status', 'Product added in Cart');
-        }
+            return redirect()->back()->with('success', 'Product added in Cart');
     }
 
     public function index() {
@@ -294,16 +341,31 @@ class CartController extends Controller {
         //     );
         //     DB::table('order_items')->insert($order_item); 
         //    }
-        foreach ($info as $item) {
-            $pro = DB::table('postmeta')->where('post_id', $item->id)->where('meta_key', 'qty')->get();
-            foreach ($pro as $pros) {
-                $ac_qty = $pros->meta_value;
-                $customer_qty = $item->quantity;
-                $tot_qty = $ac_qty - $customer_qty;
-                DB::table('postmeta')->where('post_id', $item->id)->where('meta_key', 'qty')->update([
-                    'meta_value' => $tot_qty,
-                ]);
-            }
+          if($request->att_parent!=0){
+                  for($i=0;$i<count($request->att_parent);$i++){
+                       $proo = DB::table('postmeta')->where('post_id',$request->att_parent[$i])->where('meta_key','attribute_stock')->first();
+                       if(isset($proo)){
+                        $acc_qty = $proo->meta_value;
+                        $c_qty = $request->att_qty[$i];
+                        $tot_qtyy = $acc_qty - $c_qty;
+                        DB::table('postmeta')->where('post_id',$request->att_parent[$i])->where('meta_key','attribute_stock')->update([
+                            'meta_value' => $tot_qtyy,
+                        ]);
+                       }
+                  }
+               }
+        foreach ($info as $item) {            
+           //if product attribute not found then stock minus from default stock quantity 
+            $pro = DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->get();
+                    foreach ($pro as $pros) {
+                        $ac_qty = $pros->meta_value;
+                        $customer_qty = $item->quantity;
+                        $tot_qty = $ac_qty - $customer_qty;
+                        DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->update([
+                            'meta_value' => $tot_qty,
+                        ]);
+               }
+         
             $order_item = array(
                 'order_item_name' => $item->name,
                 'order_item_type' => 'line-item',
@@ -311,6 +373,22 @@ class CartController extends Controller {
                 'product_id' => $item->id
             );
             $order_item_id = DB::table('order_items')->insertGetId($order_item);
+
+
+
+              if($request->att_parent!=null){
+                for($i=0;$i<count($request->att_parent);$i++){
+                     DB::table('order_itemmeta')->insert([
+                            'order_item_id' => $order_item_id,
+                            'meta_key' => 'attribute_parent',
+                            'meta_value' => $request->att_parent[$i],
+                            'customer_id' => $id,
+                            'order_id' => $order_id,
+                            'order_date' => date('Y-m-d'),
+                     ]);
+                }
+              }
+
 
             $order_item_details = array(
                 'order_item_id' => $order_item_id,

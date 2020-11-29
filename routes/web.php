@@ -108,6 +108,9 @@ Route::group(['middleware' => 'role:admin'], function() {
     });
 
     Route::group(['namespace'=>'Admin'],function(){       
+        Route::get('attribute/stock','ProductController@varient_stock')->name('attribute_stock');
+        Route::post('attribute/stock/add','ProductController@attributeStockAdd')->name('attribute_stock_add');
+        Route::post('attribute/stock/update','ProductController@attributeStockupdate')->name('attribute_stock_update');
         Route::get('database/backup','SettingsController@databaseBackup')->name('database_backup');
         Route::get('all/dispatch/complete/order','OrderController@allDispatchcomplete')->name('all_dispatch_complete');
         Route::resource('coupon','CouponController');
