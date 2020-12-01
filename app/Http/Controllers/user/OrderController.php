@@ -223,36 +223,82 @@ class OrderController extends Controller
 
 
     public function cancel_order_item_full(Request $request){
+
+      //delete cancel quantity meta key 
+      DB::table('order_itemmeta')
+      ->where('order_id',$request->order_id)
+      ->where('meta_key','cancel_quantity')
+      ->delete();
+
+       //update post status 
        DB::table('posts')
        ->where('post_type','shop_order')
        ->where('ID',$request->order_id)
        ->update([
-          'post_status' =>'cancel',
+          'post_status' =>'cancelled',
           'post_content' =>$request->reason,
           'post_modified' =>date('Y-m-d H:i:s'),
        ]);
+
+
+
+       //default product
        $count_product_id=$request->pro_id;
        for($i=0;$i<count($count_product_id);$i++){
          $q=$request->quantity[$i];
          $pro_id=$count_product_id[$i];
          $pro_qty=DB::table('postmeta')
          ->where('post_id',$pro_id)
-         ->where('meta_key','qty')
+         ->where('meta_key','default_qty')
          ->first();
+         if(isset($pro_qty)){
+           $update_qty=$pro_qty->meta_value+$q;
+            DB::table('postmeta')
+            ->where('post_id',$pro_id)
+            ->where('meta_key','default_qty')
+            ->update([
+                'meta_value' => $update_qty
+            ]);
+          }
+       }
+
+
+
+       //attribute product
+       $count_attribute_product_id=$request->a_parent;
+       for($i=0;$i<count($count_attribute_product_id);$i++){
+         $q=$request->quantity[$i];
+         $pro_id=$count_attribute_product_id[$i];
+         $pro_qty=DB::table('postmeta')
+         ->where('post_id',$pro_id)
+         ->where('meta_key','attribute_stock')
+         ->first();
+           if(isset($pro_qty)){
          $update_qty=$pro_qty->meta_value+$q;
          DB::table('postmeta')
          ->where('post_id',$pro_id)
-         ->where('meta_key','qty')
+         ->where('meta_key','attribute_stock')
          ->update([
              'meta_value' => $update_qty
          ]);
+           }
        }
-    
 
 
-
-
-
+       //insert cancel quantity
+          $order_date=DB::table('order_itemmeta')
+      ->where('order_id',$request->order_id)
+      ->first();
+       for($i=0;$i<count($request->quantity);$i++){
+        DB::table('order_itemmeta')->insert([
+            'order_item_id' =>$request->item_id[$i],
+            'order_id' =>$request->order_id,
+            'meta_key' =>'cancel_quantity',
+            'meta_value' =>$request->quantity[$i],
+            'customer_id' =>auth()->user()->id,
+            'order_date' =>$order_date->order_date
+        ]);
+       }
        session()->flash("success", "Order has been cancelled Successfully");
        return redirect()->route('order-list.index');
     }

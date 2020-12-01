@@ -110,26 +110,32 @@
         </table>
     </div>
 
-
+@if($order->post_status=='cancelled')
+ @else 
     <form method="post" action="{{route('customer_order_cancel_item_full')}}">
         @csrf 
         <div class="form-group">
             <label>Reason for return/cancel</label>
             <textarea cols="5" rows="5" class="form-control" name="reason" autocomplete="off" required></textarea>
         </div>
-        @php $quantity=0; $product_id=0; @endphp
+        @php $quantity=0; $product_id=0; $att_id=0; $cancel_qty=0; $to_qty=0; @endphp
         @foreach($order_item as $item)
         @foreach($item->orderMeta as $value)
         @if($value->meta_key=='_product_id')@php $product_id=$value->meta_value;@endphp @endif
         @if($value->meta_key=='_qty') @php $quantity=$value->meta_value; @endphp @endif
+        @if($value->meta_key=='cancel_quantity') @php $cancel_qty=$value->meta_value; @endphp @endif
+        @if($value->meta_key=='attribute_parent') @php $att_id=$value->meta_value; @endphp @endif
+         @php $to_qty=$quantity-$cancel_qty; @endphp
         @endforeach
         <input type="hidden" class="form-control" name="order_id" value="{{$item->order_id}}">
         <input type="hidden" class="form-control" name="item_id[]" value="{{$item->order_item_id}}">
         <input type="hidden" class="form-control" name="product_id[]" value="{{$product_id}}">
         <input type="hidden" class="form-control" name="pro_id[]" value="{{$product_id}}">
-        <input type="hidden" class="form-control" name="quantity[]" value="{{$quantity}}">
+        <input type="hidden" class="form-control" name="quantity[]" value="{{$to_qty}}">
+        <input type="hidden" class="form-control" name="a_parent[]" value="{{$att_id}}">
         @endforeach
         <button onclick="return confirm('Are you sure want to cancel full order??')" class="btn btn-danger btn-sm mb-3"><span style="color:white">Cancel Full Order</span></button>
     </form>  
+    @endif 
 </div>
 @endsection
