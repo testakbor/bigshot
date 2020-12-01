@@ -316,12 +316,14 @@ class OrderController extends Controller
 
 
 public function allStatusPrint($id)
-{     $order = Post::where('ID', $id)->first();
+{    
+$order = Post::where('ID', $id)->first();
 $name = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'first_name')->first();
 $phone = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'phone')->first();
 $city = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'city')->first();
 $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
 $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+
 $pdf = PDF::loadView('admin.order.allStatusPrint', array(
   'order' => $order, 'name' => $name, 'phone' => $phone,
   'city' => $city, 'products' => $products, 'order_info' => $order_info

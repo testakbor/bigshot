@@ -98,6 +98,7 @@
                                         $grandTotal=0;
                                         $grandLinetotal=0;
                                         $total_sub=0;
+                                        $att=0;
                                         @endphp
                                         @foreach($products as $key=>$items)
                                         @foreach($items->orderMeta as $value)
@@ -111,11 +112,32 @@
                                         if($value->meta_key=='_line_total'){
                                         $total=$value->meta_value;
                                         }
+                                         if($value->meta_key=='attribute_parent'){
+                                        $att=$value->meta_value;
+                                        }
                                         @endphp
                                         @endforeach
                                         <tr>
                                             <th>{{++$key}}</th>
-                                            <td>{{$items->order_item_name}} </td>
+                                            <td>{{$items->order_item_name}} 
+                                              <table class="table">
+                                                <tbody>
+                                                    @php 
+                                                        $list_att=DB::table('postmeta')->where('post_id',$att)
+                                                        ->where('meta_key','attribute')->get(); 
+                                                    @endphp
+                                                    @foreach($list_att as $a)
+                                                    @php $data_att=json_decode($a->meta_value); @endphp 
+                                                        @foreach($data_att as $da)
+                                                            <tr>
+                                                            <td>{{strtoupper($da->taxonomy)}}</td>
+                                                            <td>{{strtoupper($da->term)}}</td>
+                                                            </tr>
+                                                        @endforeach 
+                                                    @endforeach 
+                                                </tbody>
+                                                </table>
+                                            </td>
                                             <td>{{$subtotal}}</td>
                                             <td>{{$qty}}</td>
                                             <td>{{$subtotal}}</td>
