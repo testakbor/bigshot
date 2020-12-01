@@ -23,7 +23,7 @@
                         {{date('d-M-Y',strtotime($order->post_date))}}
                     </th>
                     <th>
-                        {{$order->post_status}} <br>
+                        {{strtoupper($order->post_status)}} <br>
                          {{date('d-M-Y',strtotime($order->post_modified))}}
                     </th>
                     <th>
@@ -45,6 +45,9 @@
                 @if($meta->meta_key=='_product_id')
                 @php $id=$meta->meta_value; @endphp
                 @endif
+                 @if($meta->meta_key=='attribute_parent')
+                @php $att=$meta->meta_value; @endphp
+                @endif
                 @if($meta->meta_key=='_qty')
                 @php $qty=$meta->meta_value; @endphp
                 @endif
@@ -54,11 +57,28 @@
                         @php $product_img=DB::table('postmeta')->where('post_id',$id)->where('meta_key','attached_file')->first(); @endphp
                         <img width="50px" height="50px" src="{{asset('backend/products/'.$product_img->meta_value)}}">
                         <br>
-                        @php $product_sku=DB::table('postmeta')->where('post_id',$id)->where('meta_key','_sku')->first(); @endphp
+                         @php $product_sku=DB::table('postmeta')->where('post_id',$id)->where('meta_key','_sku')->first(); @endphp
                          {{$product_sku->meta_value}}
                     </td>
                     <td>
                         {{$item->order_item_name}}
+                        <table class="table">
+                          <tbody>
+                             @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                ->where('meta_key','attribute')->get(); 
+                             @endphp
+                             @foreach($list_att as $a)
+                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+                                    <tr>
+                                      <td>{{strtoupper($da->taxonomy)}}</td>
+                                      <td>{{strtoupper($da->term)}}</td>
+                                    </tr>
+                                @endforeach 
+                             @endforeach 
+                          </tbody>
+                        </table>
                     </td>
                     <td>
                          @php 

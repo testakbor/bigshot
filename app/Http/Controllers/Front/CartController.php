@@ -75,9 +75,9 @@ class CartController extends Controller {
             ->where('post_id',$request->attribute_id)
             ->where('meta_key','attribute_stock')
             ->select('meta_value')
-            ->first();
+            ->first(); 
             if ($request->quantity > $stock->meta_value) {
-                return back()->with('error', 'Quantity limit Exists');
+                return back()->with('error', 'Quantity not Exists');
                 exit();
             }
              if($stock->meta_value==0){
@@ -88,11 +88,11 @@ class CartController extends Controller {
             else{
               $stock=DB::table('postmeta')
             ->where('post_id',$request->id)
-            ->where('meta_key','qty')
+            ->where('meta_key','default_qty')
             ->select('meta_value')
-            ->first();    
-            if ($request->quantity > $request->main_qty) {
-                return back()->with('error', 'Quantity limit Exists');
+            ->first();   
+            if ($request->quantity > $stock->meta_value) {
+                return back()->with('error', 'Quantity not Exists');
                 exit();
             }
             if($stock->meta_value==0){
@@ -354,14 +354,16 @@ class CartController extends Controller {
                        }
                   }
                }
+               
+           
         foreach ($info as $item) {            
            //if product attribute not found then stock minus from default stock quantity 
-            $pro = DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->get();
+            $pro = DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','default_qty')->get();
                     foreach ($pro as $pros) {
                         $ac_qty = $pros->meta_value;
                         $customer_qty = $item->quantity;
                         $tot_qty = $ac_qty - $customer_qty;
-                        DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','qty')->update([
+                        DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','default_qty')->update([
                             'meta_value' => $tot_qty,
                         ]);
                }
@@ -373,22 +375,6 @@ class CartController extends Controller {
                 'product_id' => $item->id
             );
             $order_item_id = DB::table('order_items')->insertGetId($order_item);
-
-
-
-              if($request->att_parent!=null){
-                for($i=0;$i<count($request->att_parent);$i++){
-                     DB::table('order_itemmeta')->insert([
-                            'order_item_id' => $order_item_id,
-                            'meta_key' => 'attribute_parent',
-                            'meta_value' => $request->att_parent[$i],
-                            'customer_id' => $id,
-                            'order_id' => $order_id,
-                            'order_date' => date('Y-m-d'),
-                     ]);
-                }
-              }
-
 
             $order_item_details = array(
                 'order_item_id' => $order_item_id,
@@ -503,7 +489,15 @@ class CartController extends Controller {
             );
             DB::table('order_itemmeta')->insert($order_item_details);
 
-
+              $order_item_details = array(
+                'order_item_id' => $order_item_id,
+                'meta_key' => 'attribute_parent',
+                'meta_value' => $item["attributes"]["parent"],
+                'order_id' => $order_id,
+                'customer_id' => $id,
+                'order_date' => date('Y-m-d'),
+            );
+            DB::table('order_itemmeta')->insert($order_item_details);
             // if($request->paymentMethod=='DeliveryChargeOnly'){
             //    $order_item_details=array(
             //     'order_item_id'=>$order_item_id,

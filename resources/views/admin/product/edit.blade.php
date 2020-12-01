@@ -83,14 +83,50 @@
                         
                         </div>
                       </div>
-                      <div class="form-group row" id="stockQualityDiv">
-                        <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
-                        <div class="col-sm-8">
-                          @php $qtyy=0; @endphp
-                          @if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
-                          <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
-                        </div>
-                      </div>
+                      @if($allAttribute->count()>0)
+                   
+
+
+                      <table class="table table-responsive">
+                          <thead>
+                              <tr>
+                              <th scope="col">Attribute</th>
+                              <th scope="col">Stock</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            @php $i=0; @endphp 
+                            @foreach($allAttribute as $a) 
+                              @php 
+                              $i++;
+                              $attribute=json_decode($a->meta_value);
+                              @endphp
+                                  <tr>
+                                    <td>
+                                      @foreach($attribute as $att)
+                                      <b> {{$att->taxonomy}}</b> :
+                                      {{$att->term}}
+                                    
+                                      @php $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first(); @endphp       
+                                      @endforeach
+                                  </td>
+                                    <td><input type="text" class="form-control" name="stock[]" value="{{$stock->meta_value}}" autocomplete="off"></td>
+                                      <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
+                                </tr>
+                                @endforeach
+                            </tbody>
+                          </table>
+                          @else 
+                          <div class="form-group row" id="stockQualityDiv">
+                            <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
+                            <div class="col-sm-8">
+                              @php $qtyy=0; @endphp
+                              @if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
+                              <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
+                            </div>
+                          </div> 
+                          @endif
+                      
 
                       <div class="form-group row" id="lowStockThresholdDiv">
                         <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
@@ -152,7 +188,7 @@
                     <div class="form-group row mt-3">
                       <div class="col-md-12" id="finalValue">
                         @foreach($allAttribute as $a)
-                           <input type="text" name="att_default[]" value="{{$a->meta_value}}">
+                           <input type="hidden" name="att_default[]" value="{{$a->meta_value}}">
                              @php $data=json_decode($a->meta_value);  @endphp
                              @foreach($data as $att) 
                                <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$att->term_id}}">
@@ -257,41 +293,46 @@
                 </div>
               </div>
               <div class="card-body" style="display: block;">
-                <input type="file" name="product_image" id="" class="form-control">
                 @if(isset($image->meta_value)) @php $img=$image->meta_value; @endphp @else @php $img=''; @endphp @endif
-                <img src="{{asset('backend/products/').'/'.$img}}" style="height:100px;weight:100px" />
+                <img src="{{asset('backend/products/').'/'.$img}}" style="width:100px;height:100px" />
                 <input type="hidden" name="oldImage" value="{{$img}}">
+                <input type="file" name="product_image" id="" class="form-control mt-3">
               </div>
             </div>
+
+
+
             {{-- product Gallary --}}
-            <div class="card card-default">
+              <div class="card card-default">
               <div class="card-header">
                 <h3 class="card-title">Product Gallery</h3>
                 <div class="card-tools">
-                  <div class="row">
-                  @foreach($gallery_images as $g) 
-                    <div class="col-md-6">
-                       <img  src="{{asset('backend/products/').'/'.$g->meta_value}}" style="height:50px;weight:50px" />
-                        <input type="hidden" name="gallery_image_default[]" value="{{$g->meta_value}}">
-                    </div>
-                  @endforeach
-                  </div>
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
                 </div>
               </div>
               <div class="card-body" style="display: block;">
-                <input type="file" name="gallery_image[]" id="" class="form-control" multiple>
+                 <div class="row">
+                    @foreach($gallery_images as $g) 
+                      <div class="col-md-3">
+                         <img src="{{asset('backend/products/').'/'.$g->meta_value}}" style="width:50px;height:50px" />
+                         <a class="btn btn-danger btn-sm" href="{{route('gallery_delete',$g->meta_id)}}"><i class="fa fa-trash"></i></a>
+                      </div>
+                    @endforeach
+                    <input type="file" name="gallery_image[]" id="" class="form-control mt-3" multiple>
+                 </div>
               </div>
             </div>
-          </div>
 
+
+
+
+
+          </div>
         </div>
       </form>
       <!-- /.col -->
     </div>
-
-
     <!-- /.row -->
 </div><!-- /.container-fluid -->
 </section>

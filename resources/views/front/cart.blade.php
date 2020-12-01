@@ -272,8 +272,8 @@ $email=auth()->user()->email;
                                                     <br>
                                                     {{$item->name}}  
                                                     @if($item["attributes"]["parent"]>0)
-                                                      <input type="hidden" name="att_parent[]" value="{{$item["attributes"]["parent"]}}">
-                                                      <input type="hidden" name="att_qty[]" value="{{$item["attributes"]["q"]}}">
+                                                      <input type="text" name="att_parent[]" value="{{$item["attributes"]["parent"]}}">
+                                                      <input type="text" name="att_qty[]" value="{{$item["attributes"]["q"]}}">
                                                     @endif   
                                                 </td>
                                                

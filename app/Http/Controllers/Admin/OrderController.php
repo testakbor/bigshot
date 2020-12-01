@@ -291,18 +291,23 @@ class OrderController extends Controller
     'page' => 'order'
   );
       $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
       $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
       $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
       $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
       $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order;
-      $order = Post::where('posts.post_type','shop_order')
-       ->whereBetween('post_modified', [date('Y-m-01'), date('Y-m-t')])
+      $order = Post::where('post_type','shop_order')
+       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->orderBy('ID', 'DESC')
       ->paginate(20);
   return view('admin.order.allStatus',compact('order','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
@@ -541,15 +546,11 @@ public function stock(Request $request)
   $products=DB::table('posts')
   ->where('post_type','product')
   ->where('post_status','!=','deleted')
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->groupBy('posts.ID')
   ->paginate(10);
 
   $data=Post::
   where('post_type','product')
   ->where('post_status','!=','deleted')
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->groupBy('posts.ID')
   ->get(); 
 
 
@@ -560,10 +561,11 @@ public function stock(Request $request)
   ->sum('meta_value');
 
   $total_stock_default=DB::table('posts')
-  ->where(['post_type'=>'product','meta_key'=>'qty'])
+  ->where(['post_type'=>'product','meta_key'=>'default_qty'])
   ->where('meta_value','>',0)
   ->join('postmeta','posts.ID','=','postmeta.post_id')
   ->sum('meta_value'); 
+
 
   return view('admin.order.stock',compact('products','data','total_stock_attribute','total_stock_default'))->with($extraInfo);
 }

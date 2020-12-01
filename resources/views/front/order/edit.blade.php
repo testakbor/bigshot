@@ -51,6 +51,8 @@
                             </tr>
                         </thead>
                           @php
+                            $tot_qty=0;
+                            $tot_price=0;
                             $i=1;
                             $grandTotal=0;
                             $subtotal=0;
@@ -102,12 +104,16 @@
                                 <td>
                                     @php
                                      $a_qty=$qty-$cancel_qty; 
+                                     $tot_qty+= $a_qty;
                                     @endphp
                                     @if($a_qty>0)
                                     {{$sub=$p_price->meta_value*$a_qty}} tk
                                     @else 
+                                    @php $sub=0;  @endphp
                                     0 tk 
+
                                     @endif 
+                                    @php $tot_price+=$sub; @endphp
                                 </td>
                             </tr>
                             @php
@@ -124,7 +130,17 @@
                 </div>
             </div>
 
-             @if($status->post_status=='cancelled')
+   
+        
+
+
+
+
+
+
+
+
+ @if($status->post_status=='cancelled')
              @else 
             <div class="row mt-4">
                 <div class="col-md-12">
@@ -133,10 +149,10 @@
                             <!-- <p class="mb-1 text-dark"><b>Order Details</b></p> -->
                         </div>
                         <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Sub Total {{ $total_qty}} pcs </b></p>
+                            <p class="mb-1"><b>Sub Total {{ $tot_qty}} pcs </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">{{$grandTotal}} tk</p>
+                            <p class="mb-1">{{$tot_price}} tk</p>
                         </div>
                     </div>
                     <!-- <div class="row justify-content-between">
@@ -152,7 +168,7 @@
                             <p class="mb-1"><b>Delivery Charges</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($total_qty>0) {{$delivery_charge}} tk @else  0 tk @endif</p>
+                            <p class="mb-1">@if($tot_qty>0) {{$delivery_charge}} tk @else  0 tk @endif</p>
                         </div>
                     </div>
 
@@ -162,7 +178,7 @@
                             <p class="mb-1"><b>Coupon Code</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($total_qty>0){{$coupon_code}} @else 0 @endif</p>
+                            <p class="mb-1">@if($tot_qty>0){{$coupon_code}} @else 0 @endif</p>
                         </div>
                     </div>
 
@@ -171,7 +187,7 @@
                             <p class="mb-1"><b>Coupon Amount</b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($total_qty>0) {{$coupon_amount}} tk @else 0 tk @endif </p>
+                            <p class="mb-1">@if($tot_qty>0) {{$coupon_amount}} tk @else 0 tk @endif </p>
                         </div>
                     </div>
                     @endif 
@@ -184,7 +200,7 @@
                             <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($total_qty>0) Tk. {{number_format(($grandTotal+$delivery_charge)-$coupon_amount)}} @else 0 tk @endif</p>
+                            <p class="mb-1">@if($tot_qty>0) Tk. {{number_format(($tot_price+$delivery_charge)-$coupon_amount)}} @else 0 tk @endif</p>
                         </div>
                     </div>
                     @else
@@ -193,7 +209,7 @@
                             <p class="mb-1"><b>Order Total </b></p>
                         </div>
                         <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($total_qty>0) Tk. {{number_format($grandTotal+$delivery_charge)}} @else 0 tk @endif</p>
+                            <p class="mb-1">@if($tot_qty>0) Tk. {{number_format($tot_price+$delivery_charge)}} @else 0 tk @endif</p>
                         </div>
                     </div>
                     @endif 
@@ -202,27 +218,36 @@
                 </div>
             </div>
             @endif
-            <!-- <div class="row invoice ">
-                <div class="col">
-                    <p class="mb-1"> Invoice Number : 788152</p>
-                    <p class="mb-1">Invoice Date : 22 Dec,2019</p>
-                    <p class="mb-1">Recepits Voucher:18KU-62IIK</p>
-                </div>
-            </div> -->
-        </div>
-        <!-- <div class="card-footer">
-            <div class="jumbotron-fluid">
-                <div class="row justify-content-between ">
-                    <div class="col-auto my-auto ">
-                        <h2 class="mb-0 font-weight-bold">TOTAL PAID</h2>
-                    </div>
-                    <div class="col-auto my-auto ml-auto">
-                        <h1 class="display-3 ">Tk {{$grandTotal+$i+80}}</h1>
-                    </div>
-                </div>
 
-            </div>
-        </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
     </div>
 </div>
 @endsection

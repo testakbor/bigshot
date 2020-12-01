@@ -84,6 +84,7 @@
                   <tr>
                   <!-- <th>SKU</th> -->
                   <th>Items</th>
+                  <th>Attribute</th>
                   <!-- <th class="right">Categories</th> -->
                   <th class="center">Quantity</th>
                   <th class="right">Cost</th>
@@ -98,18 +99,60 @@
                   @foreach($cat_pro as $pro)
                   @php $product_info=DB::table('postmeta')->where('post_id',$pro->ID)->get(); @endphp
                   @foreach($product_info as $info)
-                   @if($info->meta_key=='qty') @php $qty=$info->meta_value; @endphp  @endif 
+                   @if($info->meta_key=='default_qty') @php $qty=$info->meta_value; @endphp  @endif 
                    @if($info->meta_key=='sale_price') @php $price=$info->meta_value; @endphp  @endif 
                    @if($info->meta_key=='product_stock') @php $costs=$info->meta_value; @endphp  @endif 
                   @endforeach
                       <tr>
                         <!-- <td class="center">rrr</td> -->
                         <td class="left strong">{{$pro->post_title}}</td>
+                        <td class="left strong">
+                            @php 
+                                        $lists=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$pro->ID)
+                                        ->where('meta_key','attribute')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->select('meta_value','post_id')
+                                        ->get();
+                                         @endphp
+                                            <table class="table table-responsive">
+                                                            <tbody>
+                                                            @php $i=0; @endphp 
+                                                            @foreach($lists as $a) 
+                                                                @php 
+                                                                $i++;
+                                                                $attribute=json_decode($a->meta_value);
+                                                                @endphp
+                                                                    <tr>
+                                                                    <td>
+                                                                        @foreach($attribute as $att)
+                                                                        <b> {{$att->taxonomy}}</b> :
+                                                                        {{$att->term}}
+                                                                    
+                                                                        @php $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first(); @endphp       
+                                                                        @endforeach
+                                                                    </td>
+                                                                    <td>{{$stock->meta_value}}</td>
+                                                                        <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                       </table>
+                        </td>
                         <!-- <td class="left">Women</td> -->
-                        <td class="right">{{$qty}}</td>
+                        <td class="right">
+                          @if($i>0) 
+                                        @php $qty=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$pro->ID)
+                                        ->where('meta_key','attribute_stock')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; @endphp
+                        </td>
                         <td class="right">TK {{$cost=$costs}}</td>
                         <td class="right">Tk {{$price}}</td>
-                        <td class="right">@if($qty>0) In stock @else Out of Stock @endif</td>
+                        <td class="right">@if($main_qty>0) In stock @else Out of stock @endif</td>
                         <!-- <td class="right">
                           <i class="fas fa-print"><a href="#">Print</a></i><br>
                           <i class="fas fa-edit"><a href="#">Edit</a></i><br>

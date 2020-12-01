@@ -116,10 +116,11 @@
 
                 <table class="table table-striped">
                   <thead class="thead-light">
-                    <tr>
+                    <tr> 
                       <th scope="col">#</th>
                       <th scope="col">Image</th>
                       <th scope="col">Item</th>
+                      <th scope="col"></th>
                       <th scope="col">Cost</th>
                       <th scope="col">Qty</th>
                       <th scope="col">Total</th>
@@ -133,6 +134,7 @@
                     $grandTotal=0;
                     $grandLinetotal=0;
                     $total_sub=0;
+                    $att=0;
                     @endphp
                     @foreach($products as $key=>$items)
                     @foreach($items->orderMeta as $value)
@@ -145,6 +147,9 @@
                     }
                     if($value->meta_key=='_line_total'){
                     $total=$value->meta_value;
+                    }
+                     if($value->meta_key=='attribute_parent'){
+                       $att=$value->meta_value;
                     }
                     @endphp
                     @endforeach
@@ -160,6 +165,25 @@
                         <img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}">
                        </th>
                       <td>{{$items->order_item_name}} <br> @php $skuu=DB::table('postmeta')->where('post_id',$items->product_id)->where('meta_key','_sku')->first(); @endphp {{$skuu->meta_value}}</td>
+                      <td>
+                        <table class="table">
+                          <tbody>
+                             @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                ->where('meta_key','attribute')->get(); 
+                             @endphp
+                             @foreach($list_att as $a)
+                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+                                    <tr>
+                                      <td>{{$da->taxonomy}}:</td>
+                                      <td>{{$da->term}}</td>
+                                    </tr>
+                                @endforeach 
+                             @endforeach 
+                          </tbody>
+                        </table>
+                      </td>
                       <td>{{$subtotal}}</td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
                       <td>{{$subtotal}}</td>

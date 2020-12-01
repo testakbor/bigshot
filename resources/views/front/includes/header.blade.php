@@ -214,13 +214,15 @@
                             </div>
                             <div class="d-flex flex-row">
                                 <div class="d-flex flex-row">
+                                    <form method="get" action="{{url('/search/item')}}">
                                     <div class=" has-search ">
                                         <span class="fa fa-search form-control-feedback"></span>
-                                        <input type="text" class="form-control homeSearchInput" style="width: 75%;float: left" placeholder="What do you want to find?">
-                                        <button class="btn btn-primary homeSearchButton" type="button">
+                                        <input type="text" name="search" class="form-control homeSearchInput" style="width: 75%;float: left" placeholder="What do you want to find?">
+                                        <button class="btn btn-primary homeSearchButton" type="submit">
                                             Search
                                         </button>
                                     </div>
+                                   </form>
                                 </div>
 								<div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
 								@if(\Cart::getTotalQuantity()==0)@else

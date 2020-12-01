@@ -372,7 +372,7 @@ class QuickReportController extends Controller
   }
   public function womenStock(Request $request)
   {
-      if($request->user()->can('manage-report')) {
+   if($request->user()->can('manage-report')) {
    $extraInfo=array(
     'title'=>"Category Wise Stock",
     'page'=>'Report'

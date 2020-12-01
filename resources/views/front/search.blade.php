@@ -1,90 +1,140 @@
 @extends('front.layouts.front_master')
-
+@section('title') Bigshot | Home @endsection 
 @section('content')
+<style>
+    .dropbtn {
+        color: #000000;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    .dropdown-content a:hover {background-color: #ddd;}
+    .dropdown:hover .dropdown-content {display: block;}
+
+    .badge { 
+        position: relative;
+        top: -7px;
+        left: -8px;
+        border: 1px solid red;
+        border-radius: 20%;
+        background: red;
+        color: #ffffff;
+    } 
+
+    .main {
+        width: 50%;
+        margin: 50px auto;
+    }
+
+    /* Bootstrap 4 text input with search icon */
+
+    .has-search .form-control {
+        padding-left: 2.375rem;
+    }
+
+    .has-search .form-control-feedback {
+        position: absolute;
+        z-index: 2;
+        display: block;
+        width: 2.375rem;
+        height: 2.375rem;
+        line-height: 2.375rem;
+        text-align: center;
+        pointer-events: none;
+        color: #aaa;
+    }
+    .homeSearchInput{
+        border-radius: 5px 0 0 5px;
+    }
+    .homeSearchButton
+    {
+        border-radius: 0 5px 5px 0;
+    }
+    .homeSearchInput::placeholder{
+        font-size: 12px;
+    }
+    .sm-menus div{
+       height: 33px
+   }
+   .product-title{
+    /*font-size: calc(0.5vw + 0.7vh);*/
+}
+
+@media (max-width: 767px) {
+  .poductDiv div:nth-child(even){
+     padding-right: 0px !important;
+     padding-left: 5px !important;
+ }
+ .poductDiv > div:nth-child(odd){
+     padding-right: 5px !important;     
+ }
+}
 
 
-<!-- Page Content  -->
-<div id="content" class="p-4 p-md-5">
-    <div class="row">
-      <div class="col-md-10 ">
-       <div class="container-fluid">
-
-          <section style="margin-left: 120px" class="">
-
-            @if($products->isEmpty()) <h1 class="text-center" style="color:red">No Product Found</h1> @endif
-
-              <ul class="wrapper cf mt-3">
-                @php
-                $rprice=0;
-                $sprice=0;
-                $image='no-image.png';
-                @endphp
-                @foreach($products as $item)
-                   @foreach ($item->productMeta as $meta)
-                      @if($meta['meta_key']=='regular_price')
-                        @php                            
-                        $rprice=$meta['meta_value'];
-                        @endphp
-                      @endif
-
-                      @if($meta['meta_key']=='sale_price')
-                        @php                            
-                        $sprice=$meta['meta_value'];
-                        @endphp
-                      @endif
-
-                       @if($meta['meta_key']=='attached_file')
-                        @php                            
-                        $image=$meta['meta_value'];
-                        @endphp
-                       @endif
-                      @endforeach
-              
-                  <li class="product fl-l">
-                    <a href="{{route('product-page',$item->ID)}}">
-                      <div class="container-prod">
-                        <div class="image" style="background-image:url({{asset('backend/products/'.$image)}});"></div>
-                        <div class="container-information">
-                          <div class="title">
-                            {{$item->post_title}}
-                            ৳{{$sprice}}
-                              <!-- <a href="#" class="more close"><i class="fa fa-times"></i></a>                 -->
-                          </div>
-                      </div>
-
-                      <!-- <div class="buttons cf">
-                        <span style="margin-left: 3px;font-size: 12px;">
-                          <span class="add ml-2">20,000+ bought this</span>
-                      </span>
-
-                  </div> -->
-              </div>
-                    </a>
-          </li>
-@endforeach
-         
-</ul>
-
-</section>
-
+</style>
+<div class="container-fluid p-0">
+     @if($products->isEmpty()) <h4 class="text-center" style="color:red">No Product Found</h4> @endif 
+ <!-- body part start -->	
+ <div class="container mb-3 p-0">
+    <div class="d-flex flex-column">
+       @include('front.includes.banner')	
+        <div class="d-flex flex-wrap mt-3 poductDiv">
+         @php
+         $rprice=0;
+         $sprice=0;
+         $image='';
+         @endphp
+         @foreach($products as $item)
+         @foreach ($item->productMeta as $meta)
+         @if($meta['meta_key']=='regular_price')
+         @php
+         $rprice=$meta['meta_value'];
+         @endphp
+         @endif
+         @if($meta['meta_key']=='sale_price')
+         @php
+         $sprice=$meta['meta_value'];
+         @endphp
+         @endif
+         @if($meta['meta_key']=='attached_file')
+         @php
+         $image=$meta['meta_value'];
+         @endphp
+         @endif
+         @endforeach 
+         <div class="col-6 col-md-3 mt-2 ml-0 pl-0">
+            <a style=" text-decoration: none;" href="{{url('product/'.$item->ID.'/'.urlencode($item->post_title))}}">
+                <div class="card">
+                    <img src="{{asset('backend/products/'.$image)}}"  class="rounded img-fluid" style="" alt="...">
+                    <div class="text-center">
+                        <span style="color:#000000" class="card-text product-title">{{$item->post_title}}</span>
+                        <p class="card-text"> <del style="color:red">৳{{$rprice}}</del> <span style="color:#000000">৳{{$sprice}}</span></p>
+                    </div>
+                </div>
+            </a>
+        </div>  
+        @endforeach
+    </div>
 </div>
 </div>
-<div class="col-md-2 col-sm-12" style="background-color: #fff;position: fixed;
-right: 10px;top:96px;">
-<div class="img-box mt-3">
-    <img src="{{asset('assets/front/images/offer.png')}}" height="200" width="210">
-</div>          
-<p class="text-justify mt-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-<!-- <form>
-  <div class="form-group">
-      <div class="input-group"> <input type="text" class="form-control coupon" name="" value="xyz3gd"> <span class="input-group-append"> <button class="btn btn-light btn-apply coupon">Copy</button> </span> </div>
-  </div>
-</form> -->
-
+<!-- body part end -->
 </div>
-</div>
-</div>
-</div>
-
-@endsection
+@endsection 

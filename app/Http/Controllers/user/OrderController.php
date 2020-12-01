@@ -149,15 +149,31 @@ class OrderController extends Controller
       //stock increase
       $product_current_qty=DB::table('postmeta')
       ->where('post_id',$request->product_id)
-      ->where('meta_key','qty')
+      ->where('meta_key','default_qty')
       ->first();
+      if(isset($product_current_qty)){
       $product_update_stock=$product_current_qty->meta_value+$cancel_qty;
       DB::table('postmeta')
       ->where('post_id',$request->product_id)
-      ->where('meta_key','qty')
+      ->where('meta_key','default_qty')
       ->update([
          'meta_value' => $product_update_stock
        ]);
+      }
+
+       $product_current_qty_attribute=DB::table('postmeta')
+      ->where('post_id',$request->att_parent)
+      ->where('meta_key','attribute_stock')
+      ->first();
+      if(isset($product_current_qty_attribute)){
+      $product_update_stock_attribute=$product_current_qty_attribute->meta_value+$cancel_qty;
+      DB::table('postmeta')
+      ->where('post_id',$request->att_parent)
+      ->where('meta_key','attribute_stock')
+      ->update([
+         'meta_value' => $product_update_stock_attribute
+       ]);
+      }
 
        $order_date=DB::table('order_itemmeta')
       ->where('order_id',$request->cancel_order_id)

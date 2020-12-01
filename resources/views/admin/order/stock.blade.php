@@ -118,7 +118,7 @@
                                 @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
                                 @endphp
                                 @foreach($product_info as $info)
-                                @if($info->meta_key=='qty')
+                                @if($info->meta_key=='default_qty')
                                 @php $qty=$info->meta_value; @endphp
                                 @endif
                                 @if($info->meta_key=='sale_price')
@@ -136,10 +136,8 @@
                                 @if($info->meta_key=='attached_file')
                                 @php $img=$info->meta_value; @endphp
                                 @endif
-                                @endforeach
-                                @if($qty>0)
-                                @php $i++
-                                @endphp
+                                @endforeach 
+                                
                                 <tr>
                                     <td class="center"><img width="50px" height="50px"
                                             src="{{asset('backend/products/'.$img)}}"></br>
@@ -199,7 +197,7 @@
                                         ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; @endphp</td>
                                     <td class="right">{{$cost}}tk</td>
                                     <td class="right">{{$price}}tk</td>
-                                    <td class="right">{{$status}} </br>{{date('d-M-Y',strtotime($item->post_date))}}
+                                    <td class="right">@if($main_qty>0) In stock @else Out of stock @endif </br>{{date('d-M-Y',strtotime($item->post_date))}}
                                     </td>
                                     <td class="right">
                                         <a href="{{route('stock.print.sticker',$item->ID)}}" class="btn btn-info"> <i
@@ -208,7 +206,6 @@
                                             <i class="fas fa-edit"></i> Edit</a><br>
                                     </td>
                                 </tr>
-                                @endif
                                 @endforeach
                             </tbody>
                         </table>

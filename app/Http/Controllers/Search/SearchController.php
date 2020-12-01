@@ -11,14 +11,13 @@ use App\Model\front\Post;
 class SearchController extends Controller
 {
 
-    public function SearchItem($search)
+    public function SearchItem(Request $request)
     {
-        $q = $search;
+        $q = $request->search;
         $products=Post::where('post_type','product')
         ->where('post_status','publish')
         ->where('post_title', 'like', '%' .$q. '%')
         ->get();
-        return response()->json($products);
-    // return view('front.search',compact('products'));
+       return view('front.search',compact('products'));
     }
 }

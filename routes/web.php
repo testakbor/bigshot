@@ -104,10 +104,11 @@ Route::group(['middleware' => 'role:admin'], function() {
     });
        
     Route::group(['namespace'=>'Search'],function(){
-        Route::get('/search/{search}','SearchController@SearchItem');
+        Route::get('/search/item','SearchController@SearchItem');
     });
 
     Route::group(['namespace'=>'Admin'],function(){       
+        Route::get('gallery/product/delete/{id}','ProductController@gallery_image_delete')->name('gallery_delete');
         Route::get('attribute/stock','ProductController@varient_stock')->name('attribute_stock');
         Route::post('attribute/stock/add','ProductController@attributeStockAdd')->name('attribute_stock_add');
         Route::post('attribute/stock/update','ProductController@attributeStockupdate')->name('attribute_stock_update');
