@@ -1351,7 +1351,6 @@ public function deliveredOrderPrint($id){
   return $pdf->download('delivery_invoice.pdf');
 }
 public function deliveredOrderCancel($id){
-
   DB::table('posts')->where('ID',$id)->update([
     'post_status' =>'cancelled'
   ]);
