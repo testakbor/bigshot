@@ -23,7 +23,7 @@
       @include('admin.includes.messages')
       <div class="row">
         <input type="hidden" name="id" value="{{$id}}">
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="card card-default">
             <div class="card-header">
               @php $skuu=''; $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
@@ -35,12 +35,10 @@
               @php $address=$info->meta_value; @endphp
               @endif
 
-
-
               @if($info->meta_key=='_sku')
               @php $sku=$info->meta_value; @endphp
               @endif
-              @if($info->meta_key=='_created_via')
+              @if($info->meta_key=='payment_method')
               @php $check_out=$info->meta_value; @endphp
               @endif
               @if($info->meta_key=='_customer_ip_address')
@@ -62,30 +60,28 @@
               @endforeach
               <h3 class="card-title" style="width: 100%">Order #{{$id}} details </h3>
 
-              <h3 class="card-title">Payment via {{$check_out}}. Customer IP: {{$customer_ip}}</h3>
+              <h3 class="card-title">Payment via {{$check_out}}</h3>
 
             </div>
             <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
               <div class="genarel">
-                <div class="font-weight-bold text-center">Genarel</div>
+                <div class="font-weight-bold">Genarel</div>
                 <div class="mt-3">
 
                   <div class="form-group">
                     <label for="dateCreated">Date created:</label>
-                    {{date('Y-m-d',strtotime($order->post_date))}}
-
+                    {{date('Y-m-d',strtotime($order->post_date))}}<br>
+                   <label for="">Status:</label>
+                  {{strtoupper($order->post_status)}}
                   </div>
-                    <div class="form-group">
-                 <label for=""> Status:</label>
-                  {{$order->post_status}}
-                  </div>
+           
 
                 </div>
               </div>
               <div>
                 <div class="font-weight-bold">Billing</div>
                 <div class="mt-3">
-                  @if(isset($user->name)){{$user->name}} @endif <br>
+                  @if(isset($user->name)){{$user->name}} @else Guest @endif <br>
                   {{$address}}
                 </div>
                 <div class="font-weight-bold">Email Address</div>
@@ -188,6 +184,7 @@
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
                       <td>{{$subtotal}}</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
+                      <input type="hidden" name="att_id[]" value="{{$att}}">
                       <input type="hidden" name="order_id" value="{{$id}}">
                       <input type="hidden" name="order_item_id[]" value="{{$value->order_item_id}}">
                       <input type="hidden" name="total[]" value="{{$subtotal}}">

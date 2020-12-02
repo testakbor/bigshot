@@ -39,8 +39,8 @@
            @csrf 
            <div class="col-md-12">
 
-
-           <table class="table table-responsive">
+  
+             <table class="table table-responsive">
                 <thead>
                     <tr>
                     <th scope="col"></th>

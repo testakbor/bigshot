@@ -152,18 +152,24 @@ use App\Model\front\Order_item;
         @endphp
         <td  class="left"><img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}"></td>
         <td  class="left">{{$qtys->meta_value}} </td>
-        <td  class="left">{{$posts->post_title}} <br> {{$sku->meta_value}}</td>
+        <td  class="left">{{$posts->post_title}} <br> {{$sku->meta_value}}
+      
+         
+      </td>
         @php 
         endif;
         @endphp
         @php
-        if($i >1):
+        if($i>1):
         @endphp
         <tr>
          <td  class="left"> {{$sku->meta_value}} </td>
          <td  class="left"> {{$qtys->meta_value}} </td>
-         <td  class="left"> {{$posts->post_title}} <br> {{$sku->meta_value}}</td>
+         <td  class="left"> {{$posts->post_title}} 
+         <br> {{$sku->meta_value}} </td>
+
        </tr>
+
        @php 
        endif;
        if($i==1):

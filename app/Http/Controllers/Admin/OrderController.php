@@ -403,14 +403,17 @@ public function reject(Request $request)
     return back();
   }
   $meta_info=Postmeta::where('meta_key','_sku')->where('meta_value',$sku)->first();
-  $qty_current=Postmeta::where('meta_key','qty')->where('post_id',$meta_info->post_id)->first();
   $img=Postmeta::where('meta_key','attached_file')->where('post_id',$meta_info->post_id)->first();
-  $allAttribute = DB::table('postmeta')->where(['post_id' => $meta_info->post_id, 'meta_key' => 'default_attribute'])->first();
-  if ($allAttribute) {
-    $arributeArray = json_decode($allAttribute->meta_value);
-  } else {
-    $arributeArray = array();
-  }
+
+  $attribute=DB::table('posts')
+  ->where('post_parent',$meta_info->post_id)
+  ->where('post_type','product_varient')
+  ->where('meta_key','attribute')
+  ->join('postmeta','postmeta.post_id','=','posts.ID')
+  ->select('meta_value','post_id')
+  ->get();
+ 
+
   if($meta_info==NULL){
     session()->flash("error", "No Sku Found");
     return back();
@@ -421,7 +424,7 @@ public function reject(Request $request)
   ->where('object_id',$post->ID)
   ->where('taxonomy','product_cat')
   ->get();
-  return view('admin.order.reject',compact('meta_info','post','relationShips','qty_current','img','arributeArray'))->with($extraInfo);
+  return view('admin.order.reject_qty',compact('meta_info','post','relationShips','img','attribute'))->with($extraInfo);
 }
 }
 
@@ -455,86 +458,69 @@ public function rejectProductSearh(Request $request)
 }
 public function rejectProductUpdate(Request $request)
 {    
-  $extraInfo=array(
+  
+   $extraInfo=array(
     'title'=>"Reject item",
     'page'=>'reject'
-  ); 
-  $sku=$request->sku;
-  $meta_info=Postmeta::where('meta_key','qty')
-  ->where('post_id',$request->product_id)
-  ->first();
-  $newQty=$meta_info->meta_value-$request->quantity;
-  $relationShips=DB::table('postmeta')->where('meta_key','qty')
-  ->where('post_id',$request->product_id)
-  ->update(['meta_value'=>$newQty]);
-
-  $data_one=Postmeta::where('meta_key','reject_qty')
-  ->where('post_id',$request->product_id)
-  ->first();
-  $data_two=Postmeta::where('meta_key','product_status')
-  ->where('post_id',$request->product_id)
-  ->first();
-  $data_three=Postmeta::where('meta_key','reject_date')
-  ->where('post_id',$request->product_id)
-  ->first();
-
-  if($data_one!=null && $data_two!=null && $data_three!=null){
-   Postmeta::where('meta_key','reject_qty')
-   ->where('post_id',$request->product_id)
-   ->delete();
-   $data_two=Postmeta::where('meta_key','product_status')
-   ->where('post_id',$request->product_id)
-   ->delete();
-   $data_three=Postmeta::where('meta_key','reject_date')
-   ->where('post_id',$request->product_id)
-   ->delete();
-   $post_qty=array(
-    'post_id'=>$request->product_id,
-    'meta_key'=>'reject_qty',
-    'meta_value'=> $request->quantity
   );
-   DB::table('postmeta')->insert($post_qty);
 
-   $post_status=array(
-    'post_id'=>$request->product_id,
-    'meta_key'=>'product_status',
-    'meta_value'=> 'reject'
-  );
-   DB::table('postmeta')->insert($post_status);
+  for($i=0;$i<count($request->post_id);$i++){
 
-   $post_date=array(
-    'post_id'=>$request->product_id,
-    'meta_key'=>'reject_date',
-    'meta_value'=> date('Y-m-d')
-  );
-   DB::table('postmeta')->insert($post_date);
- }else{
-   $post_qty=array(
-    'post_id'=>$request->product_id,
-    'meta_key'=>'reject_qty',
-    'meta_value'=> $request->quantity
-  );
-   DB::table('postmeta')->insert($post_qty);
+     $default_stock=DB::table('postmeta')
+     ->where('post_id',$request->post_id[$i])
+     ->where('meta_key','default_qty')
+     ->first();
+     
+    if(isset($default_stock)){
+       $update_qty=$default_stock->meta_value-$request->stock[$i];
+       DB::table('postmeta')
+       ->where('post_id',$request->post_id[$i])
+       ->where('meta_key','default_qty')
+       ->update([
+         'meta_value' =>$update_qty
+       ]);
+     }
 
-   $post_status=array(
-    'post_id'=>$request->product_id,
-    'meta_key'=>'product_status',
-    'meta_value'=> 'reject'
-  );
-   DB::table('postmeta')->insert($post_status);
+     $attribute_stock=DB::table('postmeta')
+     ->where('post_id',$request->post_id[$i])
+     ->where('meta_key','attribute_stock')
+     ->first();
 
-   $post_date=array(
-    'post_id'=>$request->product_id,
-    'meta_key'=>'reject_date',
-    'meta_value'=> date('Y-m-d')
-  );
-   DB::table('postmeta')->insert($post_date);
- }
+     if(isset($attribute_stock)){
+       $update_qty=$attribute_stock->meta_value-$request->stock[$i];
+       DB::table('postmeta')
+       ->where('post_id',$request->post_id[$i])
+       ->where('meta_key','attribute_stock')
+       ->update([
+         'meta_value' =>$update_qty
+       ]);
+      }
 
- 
+      DB::table('postmeta')->insert([
+       'post_id'=>$request->post_id[$i],
+       'meta_key'=>'product_status',
+       'meta_value'=>'reject',
+      ]);
 
+      DB::table('postmeta')->insert([
+       'post_id'=>$request->post_id[$i],
+       'meta_key'=>'reject_date',
+       'meta_value'=> date('Y-m-d')
+      ]);
+
+      DB::table('postmeta')->insert([
+       'post_id'=>$request->post_id[$i],
+       'meta_key'=>'reject_date',
+       'meta_value'=> date('Y-m-d')
+      ]);
+
+      DB::table('postmeta')->insert([
+       'post_id'=>$request->post_id[$i],
+       'meta_key'=>'reject_qty',
+       'meta_value'=> $request->stock[$i]
+      ]);
+  }
  session()->flash("success","Quantity has been reject Successfully");
-
  return view('admin.order.reject')->with($extraInfo);
 }
 public function stock(Request $request)
@@ -633,29 +619,22 @@ public function stockMove($day)
 public function soldStock(Request $request)
 {
    if($request->user()->can('manage-stock')) {  
-  $extraInfo = array(
-    'title' => "Sold Stock List",
-    'page' => 'oldstock'
-  );
-  $products = Post::where('post_type', 'product')
-  ->where('meta_key', 'qty')
-  ->where('meta_value', 0)
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->paginate(10);
-  $pro = Post::where('post_type', 'product')
-  ->where('meta_key', 'qty')
-  ->where('meta_value', 0)
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->get();
-  $total_stock = DB::table('posts')
-  ->where('post_type', 'product')
-  ->where('post_status', '!=', 'deleted')
-  ->where('meta_key', 'qty')
-  ->where('meta_value', '=', 0)
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->count();
-  return view('admin.order.stock_sold', compact('products', 'total_stock', 'pro'))->with($extraInfo);
-}
+    $extraInfo = array(
+      'title' => "Sold Stock List",
+      'page' => 'oldstock'
+    );
+     $default_product=DB::table('postmeta')  
+                    ->where('meta_key','default_qty') 
+                    ->where('meta_value','<=',0)
+                    ->get();
+
+     $attribute_product=DB::table('postmeta')  
+                    ->where('meta_key','attribute_stock') 
+                    ->where('meta_value','<=',0)
+                    ->get();   
+         
+     return view('admin.order.stock_sold',compact('default_product','attribute_product'))->with($extraInfo);
+    }
 }
 
 public function lowerStock(Request $request){
@@ -1027,8 +1006,7 @@ public function grossProfit()
 
     public function updateOrderQty(Request $request){
       $count=count($request->qty);
-
-      for($i=0;$i<$count;$i++){
+        for($i=0;$i<$count;$i++){
 
         $oldQty=DB::table('order_itemmeta')
         ->where('order_id',$request->order_id)
@@ -1046,7 +1024,7 @@ public function grossProfit()
         
         $unitPrice=$stuTotal->meta_value/$oldQty->meta_value;
 
-        //    dd($unitPrice);
+      //   dd($unitPrice);
 
         $term=DB::table('order_itemmeta')
         ->where('order_id',$request->order_id)
@@ -1066,9 +1044,38 @@ public function grossProfit()
         ->where('meta_key','_line_total')
         ->update(['meta_value'=>$request->qty[$i]*$unitPrice]);
 
+        //decrement stock from attribute
+        $attribute_stock=DB::table('postmeta')
+        ->where('post_id',$request->att_id[$i])
+        ->where('meta_key','attribute_stock')
+        ->first();
 
+        if(isset($attribute_stock)){
+           $tot_stock=$attribute_stock->meta_value-$request->qty[$i];
+           DB::table('postmeta')
+           ->where('post_id',$request->att_id[$i])
+           ->where('meta_key','attribute_stock')
+           ->update([
+             'meta_value' => $tot_stock
+           ]);
+        }
 
+        //decrement stock from default
+        $default_stock=DB::table('postmeta')
+        ->where('post_id',$request->product_id[$i])
+        ->where('meta_key','default_qty')
+        ->first();
+          if(isset($default_stock)){
+           $tot_stock=$default_stock->meta_value-$request->qty[$i];
+           DB::table('postmeta')
+           ->where('post_id',$request->product_id[$i])
+           ->where('meta_key','default_qty')
+           ->update([
+             'meta_value' => $tot_stock
+           ]);
+        }
       }
+      session()->flash("success","Order quantity and stock has been update successfully");
       return redirect(route('order.pendingOrder'));
     }
 

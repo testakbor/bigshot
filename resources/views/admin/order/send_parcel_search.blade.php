@@ -51,7 +51,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                @php $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
+                @php $att=0; $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
                 @foreach($orders as $item)
                 @foreach($item->productMeta as $info) 
                      @if($info->meta_key=='phone')
@@ -79,13 +79,41 @@
                                 <td>{{$meta->order_item_name}}</td>
                               </tr>
                               @endforeach
+                                   @foreach($item->orderItem as $meta)
+                              @foreach($meta->orderMeta as $value)
+                               
+                                     @if($value->meta_key=='attribute_parent')
+                                    @php $att=$value->meta_value; @endphp
+                                  @endif 
+                               @endforeach
+                               @endforeach
                             </table>
+                                <table class="table">
+                          <tbody>
+                             @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                ->where('meta_key','attribute')->get(); 
+                             @endphp
+                             @foreach($list_att as $a)
+                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+                                    <tr>
+                                      <td>{{$da->taxonomy}}:</td>
+                                      <td>{{$da->term}}</td>
+                                    </tr>
+                                @endforeach 
+                             @endforeach 
+                          </tbody>
+                        </table>
                       </td>
                       <td class="center">
                              <table style="width:100%">
                               @foreach($item->orderItem as $meta)
                               @foreach($meta->orderMeta as $value)
                                  @if($value->meta_key=='_qty')
+                                    @php $qty=$value->meta_value; @endphp
+                                  @endif 
+                                     @if($value->meta_key=='attribute_parent')
                                     @php $qty=$value->meta_value; @endphp
                                   @endif 
                                @endforeach
@@ -110,7 +138,7 @@
                               @endforeach
                             </table>
                       </td>
-                      <td class="right">{{$item->post_status}}</td>
+                      <td class="right">{{strtoupper($item->post_status)}}</td>
                       <td class="right"><a class="btn btn-danger btn-sm" href="{{route('send.parcel.search.remove',$item->ID)}}"><i class="fa fa-times"></i> Remove from here<td></td>
                   </tr>
                   @endforeach 

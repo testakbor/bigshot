@@ -58,35 +58,8 @@
                     <th>Quantity</th>
                   </tr>
                 </thead>
-                @if(isset($meta_info))
-                <tbody>
-                  <tr>
-                    <td><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br>{{$meta_info->meta_value}} </br>     @foreach($arributeArray as $a)
-                                    @if($a->taxonomy=='pa_color')
-                                    Color:{{$a->term}}
-                                    @endif
-                                    @if($a->taxonomy=='pa_size')
-                                    Size:{{$a->term}}
-                                    @endif
-                                    @endforeach</td>
-                    <td>
-                      @php
-                      $name='';
-                      @endphp
-                      @foreach($relationShips as $item)
-                      @php
-                      $category=DB::table('terms')->where('term_id',$item->term_id)->first();
-                      $name .=$category->name.', ';
-                      @endphp
-                      @endforeach
-                      {{substr($name,0,-2)}}
-                    </td>
-                    <td>
-                      <input type="hidden" name="product_id" value="{{$meta_info->post_id}}">
-                     {{$qty_current->meta_value}}</td>
-                  </tr>
-                </tbody>
-                @endif
+             
+         
               </table>
             </div>
           </div>
@@ -97,13 +70,14 @@
    
           <div class="offset-md-4 col-md-4">
             <div class="box bg-danger">
-              <h3 class="text-center">  <input type="text" name="quantity" class="form-control" id="quantity" autocomplete="off" placeholder="Enter Quantity" required></h3>
-              <p class="lead text-center font-weight-bold">Reject Qty</p>
+             
             </div>
           </div>
           <div class="col-md-4">
             <div class="box">
-              <button class="btn-primary" type="Submite" style="height: 56px;width: 80%;border-radius: 6px;">Submit</button>
+           
+              
+    
             </div>
           </div>
         </div>

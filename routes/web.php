@@ -157,7 +157,7 @@ Route::group(['middleware' => 'role:admin'], function() {
 
         Route::get('admin/stockMove/{day}','OrderController@stockMove')->name('stockMove');
 
-        Route::get('admin/stock/list/old','OrderController@soldStock')->name('order.stock.old');
+        Route::get('admin/stock/list/sold','OrderController@soldStock')->name('order.stock.old');
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
         Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
         Route::resource('admin/customer','CustomerController');

@@ -128,8 +128,8 @@ class ProductController extends Controller
         $post_id=DB::table('posts')->insertGetId($product);
     
         // product categories
-        if($request->category !=null){
-            foreach ($request->category as  $value) {
+        if($request->category!=null){
+            foreach ($request->category as $value) {
                DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
            }
        }
@@ -142,7 +142,7 @@ class ProductController extends Controller
      // brand
    if($request->brand){
     DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
-}
+   }
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'stock_status','meta_value'=>$request->stock_status]);
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'regular_price','meta_value'=>$request->regular_price]);
 DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'sale_price','meta_value'=>$request->sale_price]);
@@ -373,7 +373,7 @@ public function edit($id,Request $request)
 
 public function update(Request $request,$id){  
    if($request->user()->can('manage-product')) { 
-
+   DB::table('term_relationships')->where('object_id',$id)->delete();
        //update post table
         $year=$request->year;
         $month=$request->month;
@@ -471,7 +471,6 @@ public function update(Request $request,$id){
         ]);
        }
        DB::table('temp_attribute_stock')->delete();
-       DB::table('term_relationships')->where('object_id',$id)->delete();
        //product categories
         if($request->category !=null){
             foreach ($request->category as  $value) {   
@@ -493,6 +492,7 @@ public function update(Request $request,$id){
   }
 //stock sticker print
 public function stockPrintSticker($id){
+        $pro_name=DB::table('posts')->where('ID',$id)->first();
         $product=DB::table('postmeta')->where('post_id',$id)->get();
         $category = DB::table('term_relationships')
         ->where('object_id', $id)
@@ -501,14 +501,22 @@ public function stockPrintSticker($id){
             ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
             ->select('terms.name as cat_name')
             ->first();
-        $allAttribute = DB::table('postmeta')->where(['post_id' => $id,'meta_key' => 'default_attribute'])->first();
-        if ($allAttribute) {
-            $arributeArray = json_decode($allAttribute->meta_value);
-        } else {
-            $arributeArray = array();
-        }
+        $allAttribute = DB::table('posts')
+        ->where('post_parent',$id)
+        ->where('post_type','product_varient')
+        ->where('meta_key','attribute')
+        ->join('postmeta','posts.ID','=','postmeta.post_id')
+        ->get();
+          $taxo=[];
+ 
+        foreach($allAttribute as $att){
+              $arributeArray=json_decode($att->meta_value);
+              foreach($arributeArray as $value){
+                $taxo[]=$value->taxonomy.':'.$value->term;
+              }
+         }
         $pdf = PDF::loadView('admin.stock.stock_sticker_print', array(
-                'product' => $product, 'category'=>$category,'arributeArray'=>$arributeArray,'id'=>$id
+                'product' => $product, 'category'=>$category,'id'=>$id,'taxo'=>$taxo,'pro_name'=>$pro_name
         ));
     return $pdf->download('sku_sticker.pdf');
 }

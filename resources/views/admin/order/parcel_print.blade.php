@@ -45,7 +45,7 @@
 									<th>Amount</th>
 								</tr>
 								<tbody>
-                 @php $total_parcel=0; $product=''; $qty=0; $total_qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
+                 @php $att=0; $total_parcel=0; $product=''; $qty=0; $total_qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
                  @foreach($orders as $key=>$item)
                      @foreach($item->productMeta as $info) 
                      @if($info->meta_key=='phone')
@@ -73,7 +73,32 @@
                                 <td>{{$meta->order_item_name}}</td>
                               </tr>
                               @endforeach
-                            </table>
+							</table>
+							  @foreach($item->orderItem as $meta)
+                              @foreach($meta->orderMeta as $value)
+                                 @if($value->meta_key=='attribute_parent')
+                                    @php $att=$value->meta_value; @endphp
+                                  @endif 
+                               @endforeach
+                               @endforeach
+                    <table class="table">
+                          <tbody>
+                             @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                ->where('meta_key','attribute')->get(); 
+                             @endphp
+                             @foreach($list_att as $a)
+                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+                                    <tr>
+                                      <td>{{$da->taxonomy}}:</td>
+                                      <td>{{$da->term}}</td>
+                                    </tr>
+                                @endforeach 
+                             @endforeach 
+                          </tbody>
+                        </table>
+
                     </td>
 										<td>
                            <table style="width:100%">
