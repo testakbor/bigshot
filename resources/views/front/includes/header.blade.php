@@ -270,9 +270,9 @@
 								</a> 
                                 </div>
                                 <div class="d-flex align-items-center ml-1"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}} </span> @else @endif </a></div>
-                                <div class="d-flex align-items-center ">
+                                <div class="d-flex align-items-center ml-1">
                                 @guest
-						          <a  href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
+						          <a class="ml-2" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
                                 @else 
                                 <nav class="navbar navbar-expand-lg">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -289,7 +289,7 @@
                                              ->first();
                                             @endphp
                                             @if(isset($img)) 
-                                              <img class="mr-1" src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
+                                              <img class="mr-2" src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
                                             @endif
                                         </a>
                                         <div class="dropdown-menu dropdown-large">
