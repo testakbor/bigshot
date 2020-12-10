@@ -108,7 +108,7 @@
                      <a href="{{url('profile')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-user"></i></a> 
                      @endguest 
 
-                    <a href="{{url('cart')}}" class="float-right mr-4 mt-2"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
+                    <a href="{{url('cart')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
                                     @if(Auth::check())
                                       @php 
                                        $cart_count=DB::table('user_cart')
@@ -122,8 +122,8 @@
 						   {{ $cart_count}}
 						</span>
                            </a>  
-                            <a class="float-right mr-4 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i></a>
-                            <a data-toggle="modal" data-target="#exampleModalCenter" class="float-right mr-4 mt-2" href=""><i style="color:#000000"  class="fa fa-search ml-1" aria-hidden="true"></i></a>
+                            <a class="float-right mr-2 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i></a>
+                            <a class="float-right mr-2 mt-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <div class="d-flex flex-column sm-menus">
 							@php 
@@ -237,7 +237,6 @@
                 </nav>
                 <!-------- display on large ----------->
                 <div class="d-none d-sm-block sticky-top">
-
                     <div class="d-flex flex-column ">
                         <div class="d-flex justify-content-between ml-5 mr-5 mt-3">
                             <div>
@@ -246,7 +245,7 @@
                             <div class="d-flex flex-row">
                                 <div class="d-flex flex-row">
                                     <form method="get" action="{{url('/search/item')}}">
-                                    <div class=" has-search ">
+                                    <div class=" has-search mt-2">
                                         <span class="fa fa-search form-control-feedback"></span>
                                         <input type="text" name="search" class="form-control homeSearchInput" style="width: 75%;float: left" placeholder="What do you want to find?">
                                         <button class="btn btn-primary homeSearchButton" type="submit">
@@ -255,8 +254,7 @@
                                     </div>
                                    </form>
                                 </div>
-                                <div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
-                                   
+                                <div class="d-flex align-items-center ml-1"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
                                     @if(Auth::check())
                                       @php 
                                        $cart_count=DB::table('user_cart')
@@ -269,15 +267,13 @@
                                     <span class="badge badge-light">
                                       {{$cart_count}}
                                     </span>
-				
-									        	</a> 
+								</a> 
                                 </div>
-
-                                <div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}}  </span> @else  @endif  </a></div>
-                                <div class="d-flex align-items-center ml-3">
-                                         @guest
-						          <a href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
-                               @else 
+                                <div class="d-flex align-items-center ml-1"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}} </span> @else @endif </a></div>
+                                <div class="d-flex align-items-center ">
+                                @guest
+						          <a  href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
+                                @else 
                                 <nav class="navbar navbar-expand-lg">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="navbar-toggler-icon"></span>
@@ -293,29 +289,27 @@
                                              ->first();
                                             @endphp
                                             @if(isset($img)) 
-                                              <img src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
+                                              <img class="mr-1" src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
                                             @endif
                                         </a>
                                         <div class="dropdown-menu dropdown-large">
-                                                  	<a class="dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
-							<a class="dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
-                            <a class="dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
-							<a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
-							<a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
-							<a class="dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
-							   <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
-								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-								@csrf
-								</form>
-                                        </div> <!-- dropdown-large.// -->
+                                        <a class="dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
+							            <a class="dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
+                                        <a class="dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
+							            <a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
+							            <a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
+							            <a class="dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
+							            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
+								        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								        @csrf
+								        </form>
+                                        </div>
                                     </li>
                                 </ul>
-                                </div> <!-- navbar-collapse.// -->
+                                </div>
                                 </nav>
-
-
-                        @endguest
+                                @endguest
                                 </div>
                             </div>
                         </div>
@@ -340,22 +334,8 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Actual search box -->
-                <!--    <div class="form-group has-search col-md-3">
-                       <span class="fa fa-search form-control-feedback"></span>
-                       <input type="text" class="form-control homeSearchInput" style="width: 80%;float: left" placeholder="Search">
-                       <button class="btn btn-primary homeSearchButton" type="button">
-                           Search
-                       </button>
-                   </div> -->
-
                 <div class="sticky-top">
                     <div class="" style="height: 2px;background: black"></div>
                 </div>
-
             </div>
-
-     
-
             <!-- header part end -->
