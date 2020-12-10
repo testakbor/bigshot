@@ -254,7 +254,7 @@
                                     </div>
                                    </form>
                                 </div>
-                                <div class="d-flex align-items-center ml-1"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
+                                <div class="d-flex align-items-center ml-2"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
                                     @if(Auth::check())
                                       @php 
                                        $cart_count=DB::table('user_cart')
@@ -269,7 +269,7 @@
                                     </span>
 								</a> 
                                 </div>
-                                <div class="d-flex align-items-center ml-1"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}} </span> @else @endif </a></div>
+                                <div class="d-flex align-items-center ml-1"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}} </span> @else <span class="badge badge-light">0</span> @endif </a></div>
                                 <div class="d-flex align-items-center ml-1">
                                 @guest
 						          <a class="ml-2" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
@@ -289,17 +289,17 @@
                                              ->first();
                                             @endphp
                                             @if(isset($img)) 
-                                              <img class="mr-2" src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
+                                              <img src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
                                             @endif
                                         </a>
                                         <div class="dropdown-menu dropdown-large">
-                                        <a class="dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
-							            <a class="dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
-                                        <a class="dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
-							            <a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
-							            <a class="dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
-							            <a class="dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
-							            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                        <a class="shadow dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
+							            <a class="shadow-lg dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
+                                        <a class="shadow dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
+							            <a class="shadow dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
+							            <a class="shadow dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
+							            <a class="shadow dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
+							            <a class="shadow dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
 								        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 								        @csrf
