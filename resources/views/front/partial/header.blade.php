@@ -46,8 +46,6 @@
             @else
             <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
             @endif
-
-
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="{{url('profile')}}">
                 <div class="hov ">
@@ -61,7 +59,6 @@
                   <p class="ml-4">
                     {{ Auth::user()->name }} <br><span class="ml-2" style="color: black;">View Profile</span>
                   </p>
-
                 </div>
               </a>
               <!-- <a class="dropdown-item" href="#"><i class="demo fa fa-gift" aria-hidden="true"></i>Earn</a> -->

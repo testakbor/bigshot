@@ -11,6 +11,7 @@
         </div>
         <div class="card-body">
             <div class="row justify-content-between mb-3">
+                @php $total_order_qty=0; $total_order_amount=0; @endphp
                       @if($status->post_status=='cancelled')
                        <h4 class="text-center">Order has been cancelled</h4>
                       @else 
@@ -20,7 +21,7 @@
                         Ship To
                         <hr> 
                     <div>
-                        @php $name=''; $address=''; $city=''; $payment_method=''; @endphp
+                        @php $name=''; $address=''; $city=''; $payment_method=''; $qtty=0;  @endphp
                         @foreach($order_info as $info)
                         @if($info->meta_key=='first_name') @php $name=$info->meta_value; @endphp @endif
                         @if($info->meta_key=='address_one') @php $address=$info->meta_value; @endphp @endif
@@ -34,220 +35,200 @@
                 </div>
                 @endif 
             </div>
-            <div class="row">
-                <div class="col-md-12">
                     <div class="table-responsive">
                     <table class="table table-striped">
                         Items In Order
-                        <thead class="thead-light">
-
+                        <thead>
                             <tr>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <!-- <th scope="col">Cost</th> -->
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Attribute</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Amount</th>
                             </tr>
                         </thead>
-                          @php
-                            $tot_qty=0;
-                            $tot_price=0;
-                            $i=1;
-                            $grandTotal=0;
-                            $subtotal=0;
-                            $qty=0;
-                            $item_id=0;
-                            $sub=0;
-                            $total_qty=0;
-                            $delivery_charge=0;
-                            $coupon_amount=0;
-                            $coupon_code='';
-                            $item_id=0;
-                            @endphp
-                           @if($status->post_status=='cancelled')
-                          @else 
                         <tbody>
-                            @foreach($products as $item)
-                            @foreach($item->orderMeta as $value)
-                            @if($value->meta_key=='_qty') @php $qty=$value->meta_value; @endphp @endif
-                            @if($value->meta_key=='_line_subtotal') @php $subtotal=$value->meta_value; @endphp @endif
-                            @if($value->meta_key=='delivery_charge') @php $delivery_charge=$value->meta_value; @endphp @endif
-                            @if($value->meta_key=='coupon_code') @php $coupon_code=$value->meta_value; @endphp @endif
-                            @if($value->meta_key=='coupon_taka') @php $coupon_amount=$value->meta_value; @endphp @endif
-                            @if($value->order_item_id) @php $item_id=$value->order_item_id; @endphp @endif
-                            @endforeach
-                            @php $product_status=DB::table('order_itemmeta')->where(['order_item_id'=>$item->order_item_id,'meta_key'=>'product_status'])->first(); @endphp
+                         @foreach($products as $item)
                             <tr>
-                                <th scope="row">
-                                </th>
-                                <th>
-                                    @php
-                                    $sku=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','_sku')->first();
-                                    $p_price=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','sale_price')->first();
-                                    $image=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','attached_file')->first();
-                                    @endphp
-                                    <img width="30px" height="30px" src="{{asset('backend/products/'.$image->meta_value)}}"><br>
-                                    Sku:{{$sku->meta_value}}
-                                </th>
-                                <td>{{$item->order_item_name}}</td>
-                                <!-- <td> @php $cost=DB::table('postmeta')->where('post_id',$item->product_id)->where('meta_key','product_stock')->first(); @endphp {{$cost->meta_value}}</td> -->
-                                <td>           
-                                    @php 
-                                    $cancel_qty=DB::table('order_itemmeta')
-                                    ->where('order_item_id',$item_id)
-                                    ->where('meta_key','cancel_quantity')
-                                    ->sum('meta_value');
-                                    @endphp
-                                    {{$qty-$cancel_qty}} pcs
-                                </td>
-                                <td>
-                                    @php
-                                     $a_qty=$qty-$cancel_qty; 
-                                     $tot_qty+= $a_qty;
-                                    @endphp
-                                    @if($a_qty>0)
-                                    {{$sub=$p_price->meta_value*$a_qty}} tk
-                                    @else 
-                                    @php $sub=0;  @endphp
-                                    0 tk 
+                            <td>
+                            {{$item->order_item_name}}</br>
+                       @php 
+                       $d_img=DB::table('postmeta')
+                       ->where('post_id',$item->product_id) 
+                       ->where('meta_key','attached_file')
+                       ->first(); 
+                        $d_sku=DB::table('postmeta')
+                       ->where('post_id',$item->product_id) 
+                       ->where('meta_key','_sku')
+                       ->first();
+                       @endphp
+                       @if(isset($d_img))
+                        <img width="50px" height="50px" src="{{asset('backend/products/'.$d_img->meta_value)}}">
+                       @endif
+                       @if(isset($d_sku))
+                        {{$d_sku->meta_value}}
+                       @endif <br> 
+                        @php 
+                        $a_img=DB::table('posts')
+                       ->where('ID',$item->product_id) 
+                       ->where('meta_key','attached_file')
+                       ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                       ->first(); 
+                        $a_sku=DB::table('posts')
+                       ->where('ID',$item->product_id) 
+                       ->where('meta_key','_sku')
+                       ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                       ->first(); 
+                        @endphp
+                        @if(isset($a_img))
+                        <img width="50px" height="50px" src="{{asset('backend/products/'.$a_img->meta_value)}}">
+                       @endif</br> 
+                        @if(isset($a_sku))
+                        {{$a_sku->meta_value}}
+                       @endif </br> 
+                       </td>
+                       <td>
+                            @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$item->product_id)
+                                ->where('meta_key','attribute')->get(); 
+                                @endphp
+                                  @foreach($list_att as $a)
+                                  @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+                                  <b>{{strtoupper($da->taxonomy)}}</b> : <b>{{strtoupper($da->term)}}</b>
+                                    @endforeach 
+                                  @endforeach 
+                       </td>
+                      <td>
+                          @foreach($item->orderMeta as $meta)
+                                       @if($meta->meta_key=='cancel_quantity')
+                                         @php $cancel_qty=$meta->meta_value; @endphp
+                                        @endif 
+                                        @if($meta->meta_key=='_qty')
+                                          <b>{{$meta->meta_value}}<b/>
+                                        @endif
+                                    @endforeach 
+                                    </td>
+                                    <td>
+                                            @foreach($item->orderMeta as $meta)
+                                                        @if($meta->meta_key=='_qty')
+                                                        @php $qtty=$meta->meta_value; @endphp
+                                                        @endif
+                                                    @endforeach 
+                                                    @php
+                                                    $pro_default=DB::table('postmeta')
+                                                                ->where('post_id',$item->product_id) 
+                                                                ->where('meta_key','sale_price')
+                                                                ->first();  
+                                                    $pro_att=DB::table('posts')
+                                                                ->where('ID',$item->product_id) 
+                                                                ->where('meta_key','sale_price')
+                                                                ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                                                                ->first();  
+                                                    @endphp
+                                                    @if(isset($pro_default)) 
+                                                    {{ $price=$qtty*$pro_default->meta_value}} 
+                                                    @endif
 
-                                    @endif 
-                                    @php $tot_price+=$sub; @endphp
-                                </td>
-                            </tr>
-                            @php
-                            $i++;
-                            $grandTotal+=$sub;
-                            $total_qty+=$a_qty;
-                            @endphp
-                            @endforeach
-                        </tbody>
-                        @endif 
-                    </table>
-                    </div>
-                    <hr class="my-3 ">
-                </div>
+                                                    @if(isset($pro_att)) 
+                                                    {{ $price=$qtty*$pro_att->meta_value}} 
+                                                    @endif
+                                                    @php $total_order_qty+=$qtty; @endphp
+                                                    @php $total_order_amount+=$price; @endphp
+
+                                                   
+                                                
+                                       </td>
+                                   </tr>
+                                   @endforeach 
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto">
+                                    </div>
+                                    <div class="flex-sm-col text-right col">
+                                        <p class="mb-1"><b>Sub Total {{$total_order_qty}} pcs </b></p>
+                                    </div>
+                                    <div class="flex-sm-col col-auto">
+                                        <p class="mb-1">{{ $total_order_amount}} tk</p>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="flex-sm-col text-right col">
+                                        <p class="mb-1"><b>Delivery Charges</b></p>
+                                    </div>
+                                    <div class="flex-sm-col col-auto">
+                                        <p class="mb-1">
+                                            @php $delivery_charge=DB::table('order_itemmeta')
+                                            ->where('order_id',$order->ID) 
+                                            ->where('meta_key','delivery_charge') 
+                                            ->first();
+                                            @endphp
+                                            @if(isset($delivery_charge)) 
+                                             {{$d_charge=$delivery_charge->meta_value}} tk
+                                             @else 
+                                              {{$d_charge=0}} tk
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                            <div class="row justify-content-between">
+                                    <div class="flex-sm-col text-right col">
+                                        <p class="mb-1"><b>Coupon Code</b></p>
+                                    </div>
+                                    <div class="flex-sm-col col-auto">
+                                        <p class="mb-1">
+                                             @php $coupon_code=DB::table('order_itemmeta')
+                                            ->where('order_id',$order->ID) 
+                                            ->where('meta_key','coupon_code') 
+                                            ->first();
+                                            @endphp
+                                            @if(isset($coupon_code)) 
+                                              @if($coupon_code->meta_value=='') 
+                                                {{$c_code=0}}
+                                                @else 
+                                                   {{$c_code=$coupon_code->meta_value}}
+                                              @endif
+                                             @else 
+                                              {{$c_code=0}}
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="flex-sm-col text-right col">
+                                        <p class="mb-1"><b>Coupon Amount</b></p>
+                                    </div>
+                                    <div class="flex-sm-col col-auto">
+                                        <p class="mb-1">
+                                             @php $coupon_taka=DB::table('order_itemmeta')
+                                            ->where('order_id',$order->ID) 
+                                            ->where('meta_key','coupon_taka') 
+                                            ->first();
+                                            @endphp
+                                            @if(isset($coupon_taka)) 
+                                             {{$c_taka=$coupon_taka->meta_value}} tk
+                                             @else 
+                                              {{$c_taka=0}} tk
+                                            @endif         
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+                                    <div class="flex-sm-col text-right col">
+                                        <p class="mb-1"><b>Order Total </b></p>
+                                    </div>
+                                    <div class="flex-sm-col col-auto">
+                                        <p class="mb-1"> 
+                                          {{number_format($total_order_amount+$d_charge-$c_taka)}} tk  
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                 </div>
             </div>
-
-   
-        
-
-
-
-
-
-
-
-
- @if($status->post_status=='cancelled')
-             @else 
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <div class="row justify-content-between">
-                        <div class="col-auto">
-                            <!-- <p class="mb-1 text-dark"><b>Order Details</b></p> -->
-                        </div>
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Sub Total {{ $tot_qty}} pcs </b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">{{$tot_price}} tk</p>
-                        </div>
-                    </div>
-                    <!-- <div class="row justify-content-between">
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"> <b>Discount</b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">Tk. {{$i=10}} </p>
-                        </div>
-                    </div> -->
-                    <div class="row justify-content-between">
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Delivery Charges</b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($tot_qty>0) {{$delivery_charge}} tk @else  0 tk @endif</p>
-                        </div>
-                    </div>
-
-                   @if($coupon_amount>0)
-                   <div class="row justify-content-between">
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Coupon Code</b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($tot_qty>0){{$coupon_code}} @else 0 @endif</p>
-                        </div>
-                    </div>
-
-                     <div class="row justify-content-between">
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Coupon Amount</b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($tot_qty>0) {{$coupon_amount}} tk @else 0 tk @endif </p>
-                        </div>
-                    </div>
-                    @endif 
-                  
-
-                    
-                   @if($coupon_amount>0)
-                    <div class="row justify-content-between">
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Order Total </b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($tot_qty>0) Tk. {{number_format(($tot_price+$delivery_charge)-$coupon_amount)}} @else 0 tk @endif</p>
-                        </div>
-                    </div>
-                    @else
-                      <div class="row justify-content-between">
-                        <div class="flex-sm-col text-right col">
-                            <p class="mb-1"><b>Order Total </b></p>
-                        </div>
-                        <div class="flex-sm-col col-auto">
-                            <p class="mb-1">@if($tot_qty>0) Tk. {{number_format($tot_price+$delivery_charge)}} @else 0 tk @endif</p>
-                        </div>
-                    </div>
-                    @endif 
-
-
-                </div>
-            </div>
-            @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </div>
-    </div>
-</div>
+       </div>
 @endsection

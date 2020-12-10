@@ -38,7 +38,7 @@
           @endforeach
           <div class="row">
           <div class="col-md-12">
-                 <form action="{{route('profile.update',$user->id)}}" method="post">
+                 <form action="{{route('profile.update',$user->id)}}" method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         {{ method_field('PATCH') }}
                          <div class="form-group">
@@ -60,6 +60,7 @@
                          <div class="form-group">
                              <label for="zip">Photo</label>
                                 <img width="50px" height="50px" src="{{asset('assets/front/user/'.$image)}}">
+</br>  </br>
                                 <input type="file" class="form-control" name="user_image">
                                 <input type="hidden" class="form-control" name="d_image" value="{{$image}}">
                                 <div class="invalid-feedback">

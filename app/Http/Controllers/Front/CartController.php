@@ -9,6 +9,7 @@ use Cart;
 use auth;
 use Mail;
 use Redirect;
+use Session;
 use App\Http\Requests\CheckoutValidateRequest;
 
 class CartController extends Controller {
@@ -19,15 +20,14 @@ class CartController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function cart() {
-
-        $info = Cart::getContent();
-            //   dd($info);
         if (Auth::check()) {
+            $info = DB::table('user_cart')->where('user_id',auth()->user()->id)->get();
             $user_info = DB::table('usermeta')
                     ->where('user_id', auth()->user()->id)
                     ->get();
         } else {
             $user_info = [];
+             $info = Cart::getContent();
         }
         $district = DB::table('term_taxonomy')->where('taxonomy', 'district')
                 ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -39,6 +39,7 @@ class CartController extends Controller {
     public function cart_new() {
 
         $info = Cart::getContent();
+
         if (Auth::check()) {
             $user_info = DB::table('usermeta')
                     ->where('user_id', auth()->user()->id)
@@ -70,6 +71,10 @@ class CartController extends Controller {
     }
 
     public function addCart(Request $request) {
+            if($request->quantity==0){
+                    return back()->with('error', 'Quantity must be greater than 0');
+                    exit();
+            }
             if($request->attribute_id!=0){
             $stock=DB::table('postmeta')
             ->where('post_id',$request->attribute_id)
@@ -100,45 +105,76 @@ class CartController extends Controller {
                 exit();
              }
             }
-            $a=DB::table('postmeta')
-            ->where('post_id',$request->attribute_id)
-            ->where('meta_key','attribute')
-            ->select('meta_value')
-            ->first();
-            if(isset($a)){
-              $att=json_decode($a->meta_value);
-            }else{
-                $att='';
-            }
-
             if($request->attribute_id!=0){
                 $parent=$request->attribute_id;
             }else{
-                $parent=0; 
+                $parent=$request->id; 
             }
-        
+
             Cart::add(array(
                 array(
-                    'id' => $request->id,
+                    'id' => $parent,
                     'price' => $request->price,
                     'quantity' => $request->quantity,
                     'name' => $request->name,
-                    'attributes' => array(
-                        'taxonomy'=> $att,
-                        'parent'  => $parent,
-                        'q'  => $request->quantity,
-                    )
-                 )
+                ),
                )
             );
-            return redirect()->back()->with('success', 'Product added in Cart');
-    }
+
+            if(Auth::check()){
+              $user_id=auth()->user()->id;
+              $count=DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$parent)
+              ->count();
+              if($count>0){
+               $old_qty=DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$parent)
+              ->select('quantity')
+              ->first();
+
+               $old_price=DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$parent)
+              ->select('price')
+              ->first();
+
+              $updateQty=$old_qty->quantity+$request->quantity;
+              $updatePrice=$updateQty*$request->price;
+
+              DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$parent)
+              ->update([
+                'user_id'=>$user_id,
+                'id'=>$parent,
+                'price' => $updatePrice,
+                'actual_price' => $request->price,
+                'quantity' => $updateQty,
+                'name' => $request->name,
+              ]);
+              }else{
+              DB::table('user_cart')->insert([
+                'user_id'=>$user_id,
+                'id'=>$parent,
+                'price' => $request->price*$request->quantity,
+                'actual_price' => $request->price,
+                'quantity' => $request->quantity,
+                'name' => $request->name,
+              ]);
+            }
+            }
+         
+           return redirect()->back()->with('success', 'Product added in Cart');
+      }
 
     public function index() {
         //
     }
 
     public function checkout(CheckoutValidateRequest $request) {
+
         if($request->coupon_taka==null){
            $coupon_taka=0;
         }else{
@@ -332,7 +368,12 @@ class CartController extends Controller {
             'meta_value' => $request->paymentMethod,
         );
         DB::table('postmeta')->insert($order_post);
-        $info = Cart::getContent();
+       
+        if(Auth::check()) {
+           $info = DB::table('user_cart')->where('user_id',auth()->user()->id)->get();
+        }else{
+             $info = Cart::getContent();
+        }
         //     foreach ($info as  $value) {
         //        $order_item=array(
         //         'order_item_name'=>$value->name,
@@ -341,24 +382,9 @@ class CartController extends Controller {
         //     );
         //     DB::table('order_items')->insert($order_item); 
         //    }
-          if($request->att_parent!=0){
-                  for($i=0;$i<count($request->att_parent);$i++){
-                       $proo = DB::table('postmeta')->where('post_id',$request->att_parent[$i])->where('meta_key','attribute_stock')->first();
-                       if(isset($proo)){
-                        $acc_qty = $proo->meta_value;
-                        $c_qty = $request->att_qty[$i];
-                        $tot_qtyy = $acc_qty - $c_qty;
-                        DB::table('postmeta')->where('post_id',$request->att_parent[$i])->where('meta_key','attribute_stock')->update([
-                            'meta_value' => $tot_qtyy,
-                        ]);
-                       }
-                  }
-               }
-               
-           
-        foreach ($info as $item) {            
+        foreach ($info as $key=>$item) {            
            //if product attribute not found then stock minus from default stock quantity 
-            $pro = DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','default_qty')->get();
+             $pro = DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','default_qty')->get();
                     foreach ($pro as $pros) {
                         $ac_qty = $pros->meta_value;
                         $customer_qty = $item->quantity;
@@ -367,6 +393,23 @@ class CartController extends Controller {
                             'meta_value' => $tot_qty,
                         ]);
                }
+
+                 $pro_two = DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','attribute_stock')->get();
+                    foreach ($pro_two as $pros) {
+                        $ac_qty = $pros->meta_value;
+                        $customer_qty = $item->quantity;
+                        $tot_qty = $ac_qty - $customer_qty;
+                        DB::table('postmeta')->where('post_id',$item->id)->where('meta_key','attribute_stock')->update([
+                            'meta_value' => $tot_qty,
+                        ]);
+               }
+               //if user login then price calculate from db otherwise session
+               if(Auth::check()){
+                   $tot_pri=$item->quantity * $item->actual_price;
+               }else{
+                  $tot_pri=$item->quantity * $item->price;
+               }
+              
          
             $order_item = array(
                 'order_item_name' => $item->name,
@@ -385,6 +428,7 @@ class CartController extends Controller {
                 'order_date' => date('Y-m-d'),
             );
             DB::table('order_itemmeta')->insert($order_item_details);
+
             $order_item_details = array(
                 'order_item_id' => $order_item_id,
                 'meta_key' => '_qty',
@@ -415,7 +459,7 @@ class CartController extends Controller {
             $order_item_details = array(
                 'order_item_id' => $order_item_id,
                 'meta_key' => '_line_subtotal',
-                'meta_value' => $item->quantity * $item->price,
+                'meta_value' => $tot_pri,
                 'order_id' => $order_id,
                 'customer_id' => $id,
                 'order_date' => date('Y-m-d'),
@@ -424,7 +468,7 @@ class CartController extends Controller {
             $order_item_details = array(
                 'order_item_id' => $order_item_id,
                 'meta_key' => '_line_total',
-                'meta_value' => $item->quantity * $item->price,
+                'meta_value' => $tot_pri,
                 'order_id' => $order_id,
                 'customer_id' => $id,
                 'order_date' => date('Y-m-d'),
@@ -492,7 +536,7 @@ class CartController extends Controller {
               $order_item_details = array(
                 'order_item_id' => $order_item_id,
                 'meta_key' => 'attribute_parent',
-                'meta_value' => $item["attributes"]["parent"],
+                'meta_value' => $item->id,
                 'order_id' => $order_id,
                 'customer_id' => $id,
                 'order_date' => date('Y-m-d'),
@@ -510,13 +554,19 @@ class CartController extends Controller {
             //  DB::table('order_itemmeta')->insert($order_item_details);
             // }
         }
-        Cart::clear();
-        // $name = $request->first_name;
-        // $order_id = $order_id;
-        // $user_email = $request->email;
-        // Mail::send('mail', ['name' => $name, 'order_id' => $order_id], function ($m) use ($user_email) {
-        //     $m->to($user_email)->subject('Order Confirmation');
-        // });
+        if(Auth::check()){
+          DB::table('user_cart')->where('user_id',auth()->user()->id)->delete();
+        }else{
+          Cart::clear();
+        }
+        
+            $name = $request->first_name;
+        $email = $request->email;
+        $subject='Order Confirmation';
+        Mail::send('mail', ['name' => $name, 'order_id' => $order_id], function($message) use ($email, $subject) {
+             $message->from('order@bigshotstyle.com', 'Bigshot');
+            $message->to($email)->subject($subject);
+        });
         return redirect()->route('order.success');
     }
 
@@ -567,15 +617,60 @@ class CartController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request) {
-        $qty = $request->quantity;
-        $product_id = $request->product_id;
-        Cart::update($product_id, ['quantity' =>
-            ['relative' => false,
-                'value' => $qty]
-        ]);
-        return back()->with('status', 'Item quantity has been update');
-    }
 
+        for($i=0;$i<count($request->product_id);$i++){ 
+          $product_id=$request->product_id[$i];
+           $qty=$request->quantity[$i]; 
+           
+           
+           $default_pro=DB::table('postmeta')
+           ->where('post_id',$request->product_id[$i])
+           ->where('meta_key','default_qty')
+           ->first();
+
+           if(isset($default_pro)){
+               $ac_qty_default=$default_pro->meta_value;
+               if($qty>$ac_qty_default){
+                return back()->with('status', 'Quantity not exists');
+               }
+           }
+
+            $attribute_pro=DB::table('postmeta')
+           ->where('post_id',$request->product_id[$i])
+           ->where('meta_key','attribute_stock')
+           ->first();
+
+          if(isset($attribute_pro)){
+               $ac_qty_att=$attribute_pro->meta_value;
+               if($qty>$ac_qty_att){
+                return back()->with('status', 'Quantity not exists');
+               }
+           }
+            Cart::update($product_id, array(
+            'quantity' => array(
+                'relative' => false,
+                'value' =>   $qty
+            ),
+            ));
+            if(Auth::check()){
+              $user_id=auth()->user()->id;
+              $current_price=DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$product_id)
+              ->select('actual_price')
+              ->first();
+              DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$product_id)
+              ->update([
+                 'quantity'=>$qty,
+                 'price'=>$qty*$current_price->actual_price,
+                 'actual_price'=>$current_price->actual_price,
+              ]);
+             }
+        }
+         return back()->with('status', 'Item quantity has been update');
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -587,8 +682,14 @@ class CartController extends Controller {
     }
 
     public function remove($id) {
-        // dd('id');
         Cart::remove($id);
+        if(Auth::check()){
+        $user_id=auth()->user()->id;
+        DB::table('user_cart')
+              ->where('user_id',$user_id)
+              ->where('id',$id)
+              ->delete();
+        }
         return redirect(route('cart'))->with('status', 'Item deleted from cart');
     }
 

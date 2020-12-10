@@ -14,7 +14,7 @@
                     display: none;
                     position: absolute;
                     background-color: #f1f1f1;
-                    min-width: 160px;
+        
                     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                     z-index: 1;
                 }
@@ -72,6 +72,28 @@
                 .sm-menus div{
                 	height: 33px
                 }
+
+                .dropdown-menu {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    z-index: 1000;
+                    display: none;
+                    float: left;
+                    min-width: 0rem !important; 
+                    padding: .5rem 0;
+                    margin: .125rem 0 0;
+                    font-size: 1rem;
+                    color: #212529;
+                    text-align: left;
+                    list-style: none;
+                    background-color: #fff;
+                    background-clip: padding-box;
+                    border: 1px solid rgba(0,0,0,.15);
+                    border-radius: .25rem;
+                }
+                
+
             </style>
             <div class="mt-0 mb-2 sticky-top bg-light">
 
@@ -86,13 +108,22 @@
                      <a href="{{url('profile')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-user"></i></a> 
                      @endguest 
 
-					<a href="{{url('cart')}}" class="float-right mr-4 mt-2"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
-					@if(\Cart::getTotalQuantity()==0)@else
+                    <a href="{{url('cart')}}" class="float-right mr-4 mt-2"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
+                                    @if(Auth::check())
+                                      @php 
+                                       $cart_count=DB::table('user_cart')
+                                      ->where('user_id',auth()->user()->id)
+                                      ->sum('quantity');
+                                      @endphp 
+                                      @else 
+                                      @php $cart_count=\Cart::getTotalQuantity(); @endphp
+                                     @endif
 						 <span class="badge badge-light">
-						   {{ \Cart::getTotalQuantity()}}
+						   {{ $cart_count}}
 						</span>
-						@endif		     
-                       	</a>                   
+                           </a>  
+                            <a class="float-right mr-4 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i></a>
+                            <a data-toggle="modal" data-target="#exampleModalCenter" class="float-right mr-4 mt-2" href=""><i style="color:#000000"  class="fa fa-search ml-1" aria-hidden="true"></i></a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <div class="d-flex flex-column sm-menus">
 							@php 
@@ -168,7 +199,7 @@
                             </div>
 
                             <div class="d-flex align-items-center ">
-                            	<a href="{{url('order-list')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Order list </a>
+                            	<a href="{{url('order-list')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-sticky-note ml-1"></i> Order list </a>
                             </div>
 
                             <div> 
@@ -224,38 +255,49 @@
                                     </div>
                                    </form>
                                 </div>
-								<div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
-								@if(\Cart::getTotalQuantity()==0)@else
-						 <span class="badge badge-light">
-						   {{ \Cart::getTotalQuantity()}}
-						</span>
-						@endif
+                                <div class="d-flex align-items-center ml-3"><a href="{{url('cart')}}"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
+                                   
+                                    @if(Auth::check())
+                                      @php 
+                                       $cart_count=DB::table('user_cart')
+                                      ->where('user_id',auth()->user()->id)
+                                      ->sum('quantity');
+                                      @endphp 
+                                      @else 
+                                      @php $cart_count=\Cart::getTotalQuantity(); @endphp
+                                     @endif
+                                    <span class="badge badge-light">
+                                      {{$cart_count}}
+                                    </span>
+				
 									        	</a> 
                                 </div>
 
                                 <div class="d-flex align-items-center ml-3"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}}  </span> @else  @endif  </a></div>
                                 <div class="d-flex align-items-center ml-3">
                                          @guest
-						<a href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
-                         @else 
-                            @php 
-                                    $imgg=DB::table('usermeta')
-                                    ->where('user_id',auth()->user()->id)
-                                    ->where('meta_key','user_image')
-                                    ->first(); 
-                                    @endphp
-						   @if(isset($imgg->meta_value))
-							<img  src="{{asset('assets/front/user/'.$imgg->meta_value)}}" style="border-radius: 50%;height: 33px;">
-						    </br>
-							@else
-							<img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
-						    </br>
-							@endif
-					
-						    <div class="dropdown">
-							<a class="dropbtn">Profile</a>
-							<div class="dropdown-content">
-							<a class="dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
+						          <a href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
+                               @else 
+                                <nav class="navbar navbar-expand-lg">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="main_nav">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                                            @php
+                                             $img=DB::table('usermeta')
+                                             ->where('user_id',auth()->user()->id)
+                                             ->where('meta_key','user_image')
+                                             ->first();
+                                            @endphp
+                                            @if(isset($img)) 
+                                              <img src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
+                                            @endif
+                                        </a>
+                                        <div class="dropdown-menu dropdown-large">
+                                                  	<a class="dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
 							<a class="dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
                             <a class="dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
 							<a class="dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
@@ -266,8 +308,13 @@
 								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 								@csrf
 								</form>
-							</div>
-						</div>
+                                        </div> <!-- dropdown-large.// -->
+                                    </li>
+                                </ul>
+                                </div> <!-- navbar-collapse.// -->
+                                </nav>
+
+
                         @endguest
                                 </div>
                             </div>
@@ -308,5 +355,7 @@
                 </div>
 
             </div>
+
+     
 
             <!-- header part end -->

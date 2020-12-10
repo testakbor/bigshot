@@ -67,13 +67,13 @@
                             <div>{{$name}}</div>
                             <div>৳ {{ $price}}</div>
                         </div>
+                          <a href="{{url('product/'.$item->product_id.'/'.urlencode($name))}}" class="btn btn-success btn-sm">View</a>
                     </div>
                 </div>
                 @endforeach
             </div>
-
         </div>
-            
+         {{$wishProduct->links()}}
     </div>
 </div>
 @endsection

@@ -1,4 +1,3 @@
-
 @extends('front.layouts.front_master')
 @section('content')
 <style>
@@ -39,60 +38,87 @@
                         <a title="view invoice" href="{{route('customer_ordere_edit',$order->ID)}}"> Details</i></a>                      
                     </th>
                 </tr>  
-                @foreach($order->orderItem as $item)
-                @foreach($item->orderMeta as $meta)
-                @if($meta->order_item_id) @php $item_id=$meta->order_item_id; @endphp @endif
-                @if($meta->meta_key=='_product_id')
-                @php $id=$meta->meta_value; @endphp
-                @endif
-                 @if($meta->meta_key=='attribute_parent')
-                @php $att=$meta->meta_value; @endphp
-                @endif
-                @if($meta->meta_key=='_qty')
-                @php $qty=$meta->meta_value; @endphp
-                @endif
-                @endforeach
                 <tr class="text-center">
                     <td>
-                        @php $product_img=DB::table('postmeta')->where('post_id',$id)->where('meta_key','attached_file')->first(); @endphp
-                        <img width="50px" height="50px" src="{{asset('backend/products/'.$product_img->meta_value)}}">
-                        <br>
-                         @php $product_sku=DB::table('postmeta')->where('post_id',$id)->where('meta_key','_sku')->first(); @endphp
-                         {{$product_sku->meta_value}}
+                     @php $qty=0; $cancel_qty=0; @endphp   
+                    @foreach($order->orderItem as $item)
+                       @php 
+                       $d_img=DB::table('postmeta')
+                       ->where('post_id',$item->product_id) 
+                       ->where('meta_key','attached_file')
+                       ->first(); 
+                        $d_sku=DB::table('postmeta')
+                       ->where('post_id',$item->product_id) 
+                       ->where('meta_key','_sku')
+                       ->first();
+                       @endphp
+                       @if(isset($d_img))
+                        <img width="50px" height="50px" src="{{asset('backend/products/'.$d_img->meta_value)}}">
+                       @endif
+                       @if(isset($d_sku))
+                        {{$d_sku->meta_value}}
+                       @endif 
+                        @php 
+                        $a_img=DB::table('posts')
+                       ->where('ID',$item->product_id) 
+                       ->where('meta_key','attached_file')
+                       ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                       ->first(); 
+                        $a_sku=DB::table('posts')
+                       ->where('ID',$item->product_id) 
+                       ->where('meta_key','_sku')
+                       ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                       ->first(); 
+                        @endphp
+                        @if(isset($a_img))
+                        <img width="50px" height="50px" src="{{asset('backend/products/'.$a_img->meta_value)}}">
+                       @endif
+                        @if(isset($a_sku))
+                        {{$a_sku->meta_value}}
+                       @endif 
+                    @endforeach 
                     </td>
                     <td>
-                        {{$item->order_item_name}}
-                        <table class="table">
-                          <tbody>
-                             @php 
-                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                       <table style="width:100%">
+                            <tr>
+                                <th>Item</th>
+                                <th>Attribute</th>
+                                <th>Qty</th>
+                            </tr>
+                            @foreach($order->orderItem as $item)
+                            <tr>
+                                <td><b>{{$item->order_item_name}}</b></td>
+                                <td>
+                                @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$item->product_id)
                                 ->where('meta_key','attribute')->get(); 
-                             @endphp
-                             @foreach($list_att as $a)
-                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                @endphp
+                                  @foreach($list_att as $a)
+                                  @php $data_att=json_decode($a->meta_value); @endphp 
                                   @foreach($data_att as $da)
-                                    <tr>
-                                      <td>{{strtoupper($da->taxonomy)}}</td>
-                                      <td>{{strtoupper($da->term)}}</td>
-                                    </tr>
-                                @endforeach 
-                             @endforeach 
-                          </tbody>
+                                  <b>{{strtoupper($da->taxonomy)}}</b> : <b>{{strtoupper($da->term)}}</b>
+                                    @endforeach 
+                                  @endforeach 
+                                </td>
+                                <td>
+                                    @foreach($item->orderMeta as $meta)
+                                       @if($meta->meta_key=='cancel_quantity')
+                                         @php $cancel_qty=$meta->meta_value; @endphp
+                                        @endif 
+                                        @if($meta->meta_key=='_qty')
+                                          <b>{{$meta->meta_value}}<b/>
+                                        @endif
+                                    @endforeach 
+                                </td>
+                            </tr>
+                            @endforeach 
                         </table>
                     </td>
                     <td>
-                         @php 
-                         $cancel_qty=DB::table('order_itemmeta')
-                         ->where('order_item_id',$item_id)
-                         ->where('meta_key','cancel_quantity')
-                         ->sum('meta_value');
-                         @endphp
-                        {{$qty-$cancel_qty}}
                     </td>
                     <td>
                     </td>
                 </tr>
-                @endforeach
                 @endforeach
             </tbody>
         </table>

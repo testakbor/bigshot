@@ -26,6 +26,34 @@
     
 		<!-- js start here -->
         @include('front.includes.js')
-       <!--  js end here  -->
+	   <!--  js end here  -->
+		
+	   
+<!-- Modal for mobile device -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+            <div class="d-flex flex-row">
+                                    <form method="get" action="{{url('/search/item')}}">
+                                    <div class=" has-search ">
+                                        <span class="fa fa-search form-control-feedback"></span>
+                                        <input type="text" name="search" class="form-control homeSearchInput" style="width: 75%;float: left" placeholder="What do you want to find?">
+                                        <button class="btn btn-primary homeSearchButton" type="submit">
+                                            Search
+                                        </button>
+                                    </div>
+                                   </form>
+                                </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 </body>
 </html>

@@ -68,7 +68,7 @@
                             @if($valus->meta_key=='product_stock') @php $t_costs+=$valus->meta_value; @endphp @endif
                             @endforeach
                             @endforeach
-                            {{$t_costs}}
+                            {{number_format($t_costs)}}
                         </h3>
                         <p class="lead text-center font-weight-bold">Total Cost</p>
                     </div>
@@ -83,7 +83,7 @@
                             @if($valus->meta_key=='sale_price') @php $t_sell+=$valus->meta_value; @endphp @endif
                             @endforeach
                             @endforeach
-                            {{$t_sell}}
+                            {{number_format($t_sell)}}
                         </h3>
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
@@ -195,8 +195,8 @@
                                         ->where('meta_key','attribute_stock')
                                         ->join('postmeta','posts.ID','=','postmeta.post_id')
                                         ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; @endphp</td>
-                                    <td class="right">{{$cost}}tk</td>
-                                    <td class="right">{{$price}}tk</td>
+                                    <td class="right">{{number_format($cost)}}tk</td>
+                                    <td class="right">{{number_format($price)}}tk</td>
                                     <td class="right">@if($main_qty>0) In stock @else Out of stock @endif </br>{{date('d-M-Y',strtotime($item->post_date))}}
                                     </td>
                                     <td class="right">
@@ -231,14 +231,14 @@
                 <div class="col-md-4">
                     <div class="box bg-success">
                         <!-- <i class="fa fa-user ml-1"></i> -->
-                        <h3 class="text-center">{{$t_costs}}</h3>
+                        <h3 class="text-center">{{number_format($t_costs)}}</h3>
                         <p class="lead text-center font-weight-bold">Total Cost</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
-                        <h3 class="text-center">{{$t_sell}}</h3>
+                        <h3 class="text-center">{{number_format($t_sell)}}</h3>
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
                 </div>

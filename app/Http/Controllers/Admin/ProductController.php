@@ -223,6 +223,11 @@ if($request->hasFile('galleryImage'))
             'meta_key'  =>'attribute_stock',
             'meta_value'=> $request->stockQuality,
             ]);
+             DB::table('postmeta')->insert([
+            'post_id' =>$id_last,  
+            'meta_key'  =>'attribute_low_stock',
+            'meta_value'=> $request->lowStockThreshold,
+            ]);
         }
         DB::table('temp_attribute_stock')->delete(); 
       session()->flash("success","Information saved Successfully");
@@ -434,7 +439,6 @@ public function update(Request $request,$id){
         DB::table('postmeta')->where('post_id',$id)->where('meta_key','length')->update(['meta_value'=>$request->length]);
         DB::table('postmeta')->where('post_id',$id)->where('meta_key','width')->update(['meta_value'=>$request->width]);
         DB::table('postmeta')->where('post_id',$id)->where('meta_key','height')->update(['meta_value'=>$request->height]);
-        DB::table('postmeta')->where('post_id',$id)->where('meta_key','alert_qty')->update(['meta_value'=>$request->lowStockThreshold]);
         DB::table('postmeta')->where('post_id',$id)->where('meta_key','product_stock')->update(['meta_value'=>$request->product_stock]);
         DB::table('postmeta')->where('post_id',$id)->where('meta_key','start_stock')->update(['meta_value'=>$request->product_stock]);
 
@@ -445,9 +449,14 @@ public function update(Request $request,$id){
              ->where('post_id',$request->post_id[$i])
              ->where('meta_key','attribute_stock')
              ->update(['meta_value'=>$request->stock[$i]]);
+              DB::table('postmeta')
+             ->where('post_id',$request->post_id[$i])
+             ->where('meta_key','attribute_low_stock')
+             ->update(['meta_value'=>$request->low_stock[$i]]);
           }
         }else{
           DB::table('postmeta')->where('post_id',$id)->where('meta_key','default_qty')->update(['meta_value'=>$request->stockQuality]);
+          DB::table('postmeta')->where('post_id',$id)->where('meta_key','alert_qty')->update(['meta_value'=>$request->lowStockThreshold]);
         }
 
     

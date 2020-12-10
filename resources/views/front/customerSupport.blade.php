@@ -64,47 +64,56 @@
 
                   <div class="tab-pane fade" id="return" role="tabpanel">
                     <div class="col-sm-12 p-0">
-                      <form method="POST" action="{{route('genarelQuiry')}}">
+                      <form method="POST" action="{{route('s_cancel')}}">
                         @csrf
                         <div class="h4">Request cancel/return Form</div>
+
+
                         <div class="form-group">
                           <label class="control-label">Name</label>
                           <div class="">
                             <input class="form-control" type="text" name="name" placeholder="Name" value="{{auth()->user()->name}}">
                           </div>
                         </div>
+
                         <div class="form-group">
                           <label class="control-label">Email</label>
                           <div class="">
                             <input class="form-control" type="text" name="email" placeholder="Email" value="{{auth()->user()->email}}">
                           </div>
                         </div>
-                        <div class="form-group ml-3">
 
+
+                        <div class="form-group ml-3">
                           <div class="custom-control custom-radio">
-                            <label>
-                              <input type="radio" name="colorRadio"  value="full" id="f_cancel" > Full order cancel/return
+                            <label id="f_cancel">
+                              <input type="radio" name="cancel_option"  value="full" id="f_cancel"> Full order cancel/return
                             </label>
                           </div>
 
 
                           <div class="custom-control custom-radio">
-                            <label>
-                              <input type="radio" name="colorRadio" value="partial" id="p_cancel" checked> Partial order cancel/return
+                            <label id="p_cancel">
+                              <input type="radio" name="cancel_option" value="partial" id="p_cancel"> Partial order cancel/return
                             </label>
-                            <input type="hidden" name="" id="hidden">
                           </div>
                         </div>
-                        <div class="form-group">
+
+
+                        <div id="order_id" class="form-group" style="display:none">
                           <div class="">
                             <input class="form-control" type="text" name="" placeholder="Oder id or invoice number">
                           </div>
                         </div>
-                         <div class="form-group" id="skuDiv">
+
+
+                         <div class="form-group" id="sku" style="display:none">
                             <div class="">
                               <input class="form-control box" type="text" name=""  placeholder="SKU or Product code" >
                             </div>
                           </div>
+
+
 
                         <div class="red">
                           <div class="form-group">
@@ -116,18 +125,22 @@
                           </textarea>
                             </div>
                           </div>
-
                         </div>
+
                           
-                        <button type="button" class="btn btn-primary">Submit</button>
-                          
-                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
                       </form>
                     </div>
-                  
-         
-  </div>
-  </div>
-  </div>
-
+                </div>
+           </div>
+      </div>
+      <script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+      <script>
+        $("#f_cancel").click(function(){
+           $("#order_id").show();
+        });
+      </script>
   @endsection

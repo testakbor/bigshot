@@ -25,6 +25,9 @@ class QuickReportController extends Controller
 
   public function index(Request $request)
   {
+
+
+  
       if($request->user()->can('quick-report')) {
     $extraInfo=array(
       'title'=>"Quick Report",

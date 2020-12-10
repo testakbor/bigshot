@@ -38,9 +38,25 @@ endforeach;
     </button>
     </div>
     @endif
+    @if(session('status_error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong> {{ session('status_error') }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    @endif
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
     <strong> {{ session('success') }}</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    @endif
+      @if(session('status_success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong> {{ session('status_success') }}</strong>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -76,7 +92,7 @@ endforeach;
                             <div class="d-flex flex-row align-items-center">
                                 <div class="col-4 ">Quantity: </div>
                                 <div class="col-8 mt-2">
-                                    <input type="number" name="quantity" class="form-control" id="" value="1" autocomplete="off">
+                                    <input type="number" step="1" min="1" max="" name="quantity" class="form-control" id="" value="1" autocomplete="off">
                                 </div>
                             </div>
                               <table class="table table-responsive">
@@ -87,12 +103,10 @@ endforeach;
                                     @endphp
                                         <tr>
                                             <td style="border: 0px solid #ffffff;">
-                                              <input required type="radio" name="attribute_id" value="{{$a->post_id}}">
-
+                                              <input required type="radio" name="attribute_id" value="{{$a->post_id}}"> 
                                              @foreach($attribute as $att)
                                              <b>{{strtoupper($att->taxonomy)}}</b> :
                                              {{$att->term}} 
-                                                 
                                              @endforeach
                                         </td>
                                     </tr>
@@ -102,9 +116,10 @@ endforeach;
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-primary mb-2 btn-large btn-block">Buy</button>
                                 <div class="text-center">
-                                <a href="{{url('/wishlist/product/'.$product->ID)}}">
-                                   Add to wishlist <i class="far fa-heart ml-2 h4"></i>
-                                </a></div>
+                                <a class="btn btn-success btn-large btn-block" href="{{url('/wishlist/product/'.$product->ID)}}">
+                                   <i class="far fa-heart ml-2 h4"></i>
+                                </a>
+                                </div>
                             </div>
                             <input type="hidden" name="id" value="{{$product->ID}}">
                             <input type="hidden" name="name" value="{{$product->post_title}}">

@@ -19,7 +19,7 @@
       <form method="post" action="{{route('stock.sku.search.sold')}}">
         @csrf
         <fieldset>
-          <legend>Sold Out Stock List</legend>
+          <legend class="text-center">Sold Out Stock List</legend>
         </fieldset>
       </form>
     </div>
@@ -139,8 +139,8 @@
                     ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif
                       </td>
                       <td class="right">0</td>
-                      <td class="right">{{$cost->meta_value}} tk</td>
-                      <td class="right">{{$sale_price->meta_value}} tk</td>
+                      <td class="right">{{number_format($cost->meta_value)}} tk</td>
+                      <td class="right">{{number_format($sale_price->meta_value)}} tk</td>
                       <td class="right">Out Of Stock</td>
                       <td class="right">
                         <i class="fas fa-print"><a href="{{route('stock.print.sticker',$dpro->post_id)}}">Print</a></i><br>
@@ -186,8 +186,8 @@
                     ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif
                       </td>
                       <td class="right">0</td>
-                      <td class="right">{{$cost->meta_value}} tk</td>
-                      <td class="right">{{$sale_price->meta_value}} tk</td>
+                      <td class="right">{{number_format($cost->meta_value)}} tk</td>
+                      <td class="right">{{number_format($sale_price->meta_value)}} tk</td>
                       <td class="right">Out Of Stock</td>
                       <td class="right">
                         <i class="fas fa-print"><a href="{{route('stock.print.sticker',$parent_id->post_parent)}}">Print</a></i><br>

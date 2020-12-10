@@ -645,7 +645,6 @@ public function lowerStock(Request $request){
   ); 
   $products=Post::
   where('post_type','product')
-  ->where('post_status', '!=', 'deleted')
   ->get(); 
   return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
   }

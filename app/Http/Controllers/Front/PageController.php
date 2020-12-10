@@ -99,14 +99,14 @@ class PageController extends Controller
         ->where('user_id',Auth::user()->id)
         ->count();
         if($count>0){
-          return back()->with('status','This item already exists in your wishlist');
+          return back()->with('status_error','This item already exists in your wishlist');
         }else{
          $wishlist = array(
             'product_id' => $request->id,
             'user_id' => Auth::user()->id,
         );
         DB::table('wishlist')->insertGetId($wishlist);
-        return back()->with('status','Product added in wishlist');
+        return back()->with('status_success','Product added in wishlist');
         }
     }
     public function DailyLoginBonus()

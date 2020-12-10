@@ -92,6 +92,7 @@
                               <tr>
                               <th scope="col">Attribute</th>
                               <th scope="col">Stock</th>
+                              <th scope="col">Low stock threshold</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -107,10 +108,15 @@
                                       <b> {{$att->taxonomy}}</b> :
                                       {{$att->term}}
                                     
-                                      @php $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first(); @endphp       
+                                      @php 
+                                         $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first();
+                                         $llow_stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_low_stock')->first();
+                                       @endphp       
                                       @endforeach
+                                      @if(isset($llow_stock)) @php $llow_stock=$llow_stock->meta_value; @endphp @endif
                                   </td>
                                     <td><input type="text" class="form-control" name="stock[]" value="{{$stock->meta_value}}" autocomplete="off"></td>
+                                    <td> <input type="text" class="form-control" name="low_stock[]" value="{{$llow_stock}}" autocomplete="off"></td>
                                       <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
                                 </tr>
                                 @endforeach
@@ -125,10 +131,9 @@
                               <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
                             </div>
                           </div> 
-                          @endif
-                      
 
-                      <div class="form-group row" id="lowStockThresholdDiv">
+
+                        <div class="form-group row" id="lowStockThresholdDiv">
                         <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
                         </label>
                         <div class="col-sm-8">
@@ -136,9 +141,9 @@
                           @if(isset($alert_qty)) @php $al_qty=$alert_qty->meta_value; @endphp @endif
                           <input type="number" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
-                      </div>
+                       </div>
 
-                      <div class="form-group row">
+                     <div class="form-group row">
                         <label for="stock" class="col-sm-4 col-form-label">Stock</label>
                         <div class="col-sm-8">
                           <select name="stock_status" class="form-control" id="stock">
@@ -147,6 +152,17 @@
                           </select>
                         </div>
                       </div>
+
+
+                       @endif
+                      
+
+                    
+
+             
+
+
+
                     </div>
                   </div>
                   <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">

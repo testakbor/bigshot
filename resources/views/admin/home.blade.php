@@ -78,7 +78,7 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>{{$total_sale_amount}}</h3>
+              <h3>{{number_format($total_sale_amount)}}</h3>
               <p>Sales Amount</p>
             </div>
             <div class="icon">

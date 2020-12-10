@@ -97,6 +97,7 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('user/profile/chnage/{id}','PageController@passwordEdit')->name('password.edit');
         Route::post('user/profile/chnage/{id}','PageController@passwordUpdate')->name('password.update');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
+        Route::post('support/all/aorder/cancel','QuiryController@support_all_cancel_order')->name('s_cancel');
         Route::get('/customer/order/details/{id}','OrderController@edit')->name('customer_ordere_edit')->middleware('auth');
         Route::get('/customer/order/cancel/{id}','OrderController@cancel_order_details')->name('customer_ordere_cancel')->middleware('auth');
         Route::post('/customer/order/cancel/item', 'OrderController@cancel_order_item')->name('customer_order_cancel_item')->middleware('auth');

@@ -23,4 +23,20 @@ class QuiryController extends Controller
         return redirect(route('profile'));
 
     }
+
+     //full order cancel
+     public function support_all_cancel_order(Request $request){
+        $order_id=$request->order_id;
+        $count=DB::table('posts')
+        ->where('post_type','shop_order')
+        ->where('ID',$order_id)
+        ->count();
+        if($count==0){
+
+           session()->flash("success","Information Insert Successfully");
+           return back();
+        }
+     }
+
+
 }

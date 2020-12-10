@@ -12,6 +12,7 @@ class Post extends Model
    public function orderItem(){
         return $this->hasMany('App\Model\front\Order_item','order_id','ID');
    }
+
  
 
   

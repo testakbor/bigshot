@@ -85,14 +85,27 @@ $email=auth()->user()->email;
 @endphp @endif @if($in->meta_key=='zip') @php $zip=$in->meta_value;
 @endphp @endif @endforeach
 <div id="" class="container p-0">
-    @if(Cart::getTotalquantity()>0)
-
-
+    @if(Auth::check())
+     @php
+      $cart_user_count=DB::table('user_cart')
+      ->where('user_id',auth()->user()->id)
+      ->sum('quantity'); 
+     @endphp 
+     @else 
+     @php $cart_user_count=Cart::getTotalquantity(); @endphp
+    @endif
+    @if($cart_user_count>0)
     <div class="d-flex flex-row mt-2 flex-wrap  mb-3">
-
-
         <div class="col-md-8 col-12 p-0 mb-3 poductDiv">
             @include('admin.includes.messages')
+             @if(session('status'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong> {{ session('status') }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                @endif
             <nav id="myTab" class="nav nav-tabs nav-justified">
                 <a class="nav-item nav-link btn btn-primary active mr-2 "
                 data-toggle="tab" href="#home"> Ship to</a>
@@ -250,51 +263,73 @@ $email=auth()->user()->email;
                                             @foreach ($info as $item)
 
                                             @php
-                                            $order++;
-                                            $image='no-image.png';
-                                            $images=DB::table('postmeta')
-                                            ->where('post_id',$item->id)
-                                            ->where('meta_key','attachment')
-                                            ->first();
-                                            if($images>0):
-                                            $image= $images->meta_value;
-                                            endif;
+                                              $order++;
                                             @endphp
                                             <tr>
                                                 <th scope="row">{{$order}}</th>
                                                 <td>
-                                                    @php
-                                                    $image=DB::table('postmeta')->where(['post_id'=>$item->id,'meta_key'=>'attached_file'])->select('meta_value')->first();
+                                                    @php 
+                                                    $image=DB::table('posts')
+                                                     ->where('ID',$item->id) 
+                                                     ->where('meta_key','attached_file') 
+                                                     ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                                                     ->select('meta_value')
+                                                     ->first();
+                                                      $d_image=DB::table('postmeta')
+                                                     ->where('post_id',$item->id) 
+                                                     ->where('meta_key','attached_file') 
+                                                     ->select('meta_value')
+                                                     ->first();
                                                     @endphp
+                                                    @if(isset($image)) 
+                                                     @php $img=$image->meta_value; @endphp
+                                                    @endif
+                                                    @if(isset($d_image)) 
+                                                     @php $img=$d_image->meta_value; @endphp
+                                                    @endif
                                                     <img width="100px" height="100px"
-                                                    src="{{asset('backend/products/'.$image->meta_value)}}"
+                                                    src="{{asset('backend/products/'.$img)}}"
                                                     class="img-thumbnail" alt="Responsive image" />
                                                     <br>
-                                                    {{$item->name}}  
-                                                    @if($item["attributes"]["parent"]>0)
-                                                      <input type="hidden" name="att_parent[]" value="{{$item["attributes"]["parent"]}}">
-                                                      <input type="hidden" name="att_qty[]" value="{{$item["attributes"]["q"]}}">
-                                                    @endif   
+                                                    {{$item->name}} 
+
+                                                    @php $att_name=DB::table('postmeta')
+                                                    ->where('post_id',$item->id)
+                                                    ->where('meta_key','attribute')
+                                                    ->select('meta_value')
+                                                    ->first();
+                                                     @endphp
+
+                                                     @if(isset($att_name)) 
+                                                       @php $j_decode=json_decode($att_name->meta_value);  @endphp
+                                                        @foreach($j_decode as $j_value) 
+                                                        {{$j_value->taxonomy}} : {{$j_value->term}} 
+                                                        @endforeach 
+                                                     @endif
+                                                    
                                                 </td>
-                                               
-                                                <td>{{$total=$item->price}}</td>
+                                                <td>
+                                                    @if(Auth::check())
+                                                    {{$total=$item->actual_price}}
+                                                    @else 
+                                                      {{$total=$item->price}}
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <form id="cart_up" class="up" method="POST"
                                                     action="{{route('cart.update')}}" name="Updatequantity">
                                                     @csrf
-                                                    <input type="hidden" name="product_id" value="{{$item->id}}">
+                                                    <input type="hidden" name="product_id[]" value="{{$item->id}}">
                                                     <div class="quantity buttons_added" style="padding: 0;">
                                                         <!--  <input type="button" value="-" class="minus"> -->
                                                         <input type="number" id="cart_qty_data"
                                                         class="input-text quantity_text form-control" step="1"
-                                                        min="1" max="" name="quantity"
+                                                        min="1" max="" name="quantity[]"
                                                         value="{{$item->quantity}}" title="quantity" size="4"
                                                         inputmode="numeric">
                                                         <!-- <input type="button" value="+" class="plus"> -->
                                                         <!-- <input type="submit" value="" class="plus"> -->
-
                                                     </div>
-                                                </form>
                                             </td>
                                             <td>
                                                 <a onclick="return confirm('are you sure??')"
@@ -308,16 +343,18 @@ $email=auth()->user()->email;
                                     @endforeach
                                 </tbody>
                             </table>
+                            <button style="width: 100%;" type="submit" class="btn btn-success">Update Cart</button>
+                                </form>
                             <ul class="list-group mb-3">
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <p>Sub Total:</p> <div class="float-right">{{Cart::getTotalquantity()}} pcs {{Cart::getTotal()}} tk</div>
+                                    <p>Sub Total:</p> <div class="float-right">@if(Auth::check()) @php $user_qtyy=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('quantity'); @endphp @else @php $user_qtyy=Cart::getTotalquantity(); @endphp @endif {{$user_qtyy}} pcs @if(Auth::check()) @php $user_pricee=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); @endphp @else @php $user_pricee=Cart::getTotal(); @endphp @endif {{$user_pricee}}  tk</div>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <p>Delivery Charge:</p> <div class="float-right" id="charge"></div> <input id="deli" type="hidden" value="" class="form-control">
                                 </li>
 
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <p>Order Total:</p> <div class="float-right"> {{Cart::getTotal()}} tk</div> 
+                                    <p>Order Total:</p> <div class="float-right">@if(Auth::check()) @php $user_pricee=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); @endphp @else @php $user_pricee=Cart::getTotal(); @endphp @endif {{$user_pricee}} tk</div> 
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <p>Apply Promo code:</p> <div class="float-right"> <input autocomplete="off" id="promo_code" type="number" step="any" name="promo_code" class="form-control" placeholder="Enter code"> </div>
@@ -327,6 +364,7 @@ $email=auth()->user()->email;
                                     <p>Order Total After Discount:</p>  <div class="float-right"> <span id="cart_get_total"></span> tk </div> 
                                 </li>
                             </ul>
+                               
                         </div>
                         <button type="button" class="btn btn-primary" id="first_btn_back"><i class="fas fa-arrow-left"></i> Back</button>
                         <button type="button" class="btn btn-success float-right" id="second_btn">Next <i class="fas fa-arrow-right"></i> </button>
@@ -346,32 +384,41 @@ $email=auth()->user()->email;
                 @foreach ($info as $item)
                 @php
                 $order++;
-                $image='no-image.png';
-                $images=DB::table('postmeta')
-                ->where('post_id',$item->id)
-                ->where('meta_key','attachment')
-                ->first();
-                if($images>0):
-                $image= $images->meta_value;
-                endif;
                 @endphp
+                @php 
+                $image=DB::table('posts')
+                ->where('ID',$item->id) 
+                ->where('meta_key','attached_file') 
+                ->join('postmeta','postmeta.post_id','=','posts.post_parent')
+                ->select('meta_value')
+                ->first();
+                $d_image=DB::table('postmeta')
+                ->where('post_id',$item->id) 
+                ->where('meta_key','attached_file') 
+                ->select('meta_value')
+                ->first();
+                @endphp
+               @if(isset($image)) 
+                @php $imgg=$image->meta_value; @endphp
+              @endif
+              @if(isset($d_image)) 
+                   @php $imgg=$d_image->meta_value;
+                   @endphp
+              @endif
                 <div class="col-md-12 p-0 col-12">
                     <div class="d-flex justify-content-between item-align-center mt-2">
                         <div class="d-flex flex-column text-center">
                             <div>
-                                @php
-                                $image=DB::table('postmeta')->where(['post_id'=>$item->id,'meta_key'=>'attached_file'])->select('meta_value')->first();
-                                @endphp
-                                <img src="{{asset('backend/products/'.$image->meta_value)}}"
+                                <img src="{{asset('backend/products/'.$imgg)}}"
                                 class="img-thumbnail" alt="image" style="width: 100px;height: 100px" />
                             </div>
                             <div> {{$item->name}}</div>  
                         </div>
-                        <div>{{$total=$item->price}} tk</div>
+                        <div>@if(Auth::check()) {{$total=$item->actual_price}} tk @else {{$total=$item->price}} @endif</div>
                         <div> x </div>
                         <div>{{$item->quantity}} </div>
                         <div> = </div>
-                        <div>{{$total=$item->price*$item->quantity}} tk</div>
+                        <div>@if(Auth::check()) {{$total=$item->actual_price*$item->quantity}} tk  @else {{$total=$item->price*$item->quantity}} @endif</div>
 
                     </div>
                 </div>
@@ -385,16 +432,12 @@ $email=auth()->user()->email;
                                     <hr>
                                 </div> -->
                                 @endforeach
-
                             </div>
                                 <div class="bg-success btn d-flex justify-content-between pl-2 pr-2 text-white font-weight-bold">
                                     <div>Price: </div>
                                     <div><span id="cart_get_payment_sidebar"></span> tk</div>
-                                
                             </div>
                         </div>
-
-
                     </div>
                     @else
                     <h4 class="text-center">Opp's You have no product in your shopping cart</h4>
@@ -402,14 +445,15 @@ $email=auth()->user()->email;
                     </div>
                     </div>
                     @endif
+                    </div>
  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
                     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
  </script>
 <script>
   $(document).ready(function() {
-      document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
-      document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
-      document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+      document.getElementById('cart_get_total').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?> 
+      document.getElementById('cart_get_payment').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?> 
+      document.getElementById('cart_get_payment_sidebar').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?> 
   });
   function spinner() {
         document.getElementsByClassName("loader")[0].style.display = "block";
@@ -476,28 +520,6 @@ $("#order_submit").click(function(e){
           document.getElementById("payment_msg").innerHTML=msg;
      }
 });
-
-//check if cart quantity is 0 then show error
-$("#cart_qty_data").change(function(){
-    var val=$("#cart_qty_data").val();
-    if(val==0){
-      alert('Opp"s Error')
-      return false;
-    }
-  $('#cart_up').delay(200).submit();
-});
-
-$("#cart_qty_data").keyup(function(){
-    var val=$("#cart_qty_data").val();
-    if(val==0){
-      alert('Opp"s Error')
-      return false;
-    }
-  $('#cart_up').delay(200).submit();
-});
-
-
-
 //radio button click wise div show hide 
 $('input:radio').on('click', function(e) {
     var value =e.currentTarget.value;
@@ -513,9 +535,9 @@ $('input:radio').on('click', function(e) {
 //state dropdown change ajax call 
 $("#state").change(function() {
     var district_id = $("#state").val();
-     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
     $.ajax({
         url: "{{url('/district/city/')}}" + '/' + district_id,
         type: "GET",
@@ -544,8 +566,6 @@ $("#state").change(function() {
            },
         });
    });
-
-
 //city dropdown change ajax call  
 $("#city").change(function() {
     var city_id = $("#city").val();
@@ -564,18 +584,14 @@ $("#city").change(function() {
         },
     });
 });
-
-
 //promo code input keyup change ajax call  
 $("#promo_code").keyup(function() {
     var codes = $("#promo_code").val();
     var d=$("#deli").val();
     var ac_delivery_charge=parseInt(d) || 0;
- 
-     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
-
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?> 
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
     if(codes==''){
             var discount_totall=main_amount+ac_delivery_charge;
             var discount_totall_payment=main_amount_payment+ac_delivery_charge;
@@ -585,7 +601,6 @@ $("#promo_code").keyup(function() {
             document.getElementById('cart_get_payment_sidebar').innerHTML=discount_totall_sidebar;
             return false;
     }
-    
     $.ajax({
         url: "{{url('/apply/promocode/ajax/')}}" + '/' + codes,
         type: "GET",
@@ -611,17 +626,15 @@ $("#promo_code").keyup(function() {
         },
     });
 });
-
-
 $("#promo_code").change(function() {
     
       var codes = $("#promo_code").val();
     var d=$("#deli").val();
     var ac_delivery_charge=parseInt(d) || 0;
  
-     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php echo Cart::getTotal(); ?> 
-     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php echo Cart::getTotal(); ?> 
+     var main_amount=document.getElementById('cart_get_total').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?> 
+     var main_amount_payment=document.getElementById('cart_get_payment').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
+     var main_amount_payment_sidebar=document.getElementById('cart_get_payment_sidebar').innerHTML=<?php if(Auth::check()){ echo $totak_price=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); }else{echo Cart::getTotal(); } ?>  
 
     if(codes==''){
             var discount_totall=main_amount+ac_delivery_charge;
@@ -658,21 +671,6 @@ $("#promo_code").change(function() {
         },
     });
 });
-
-
-
-
 //page refresh but tab will be active 
-$(document).ready(function() {
-    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        localStorage.setItem('activeTab', $(e.target).attr('href'));
-    });
-    var activeTab = localStorage.getItem('activeTab');
-    if (activeTab) {
-        $('#myTab a[href="' + activeTab + '"]').tab('show');
-    }
-});
-
-
 </script>
     @endsection
