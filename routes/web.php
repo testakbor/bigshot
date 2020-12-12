@@ -83,6 +83,8 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('/return-policy','PageController@returnPolicy')->name('return.policy');
         Route::get('/settings','PageController@settings')->name('settings');
         Route::get('/customer-support','PageController@customerSupport')->middleware('auth')->name('customer.support');
+        Route::get('/p_cancel_order/{id}','PageController@p_cancel_ajax')->middleware('auth');
+        Route::get('/f_cancel_order/{id}','PageController@f_cancel_ajax')->middleware('auth');
 
 
         Route::post('/addCart','CartController@addCart')->name('addCart');

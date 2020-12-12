@@ -108,7 +108,7 @@
                      <a href="{{url('profile')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-user"></i></a> 
                      @endguest 
 
-                    <a href="{{url('cart')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
+                    <a href="{{url('cart')}}" class="float-right mt-2 ml-2 mr-3"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
                                     @if(Auth::check())
                                       @php 
                                        $cart_count=DB::table('user_cart')
@@ -118,12 +118,25 @@
                                       @else 
                                       @php $cart_count=\Cart::getTotalQuantity(); @endphp
                                      @endif
+                                      @if($cart_count>0)
 						 <span class="badge badge-light">
-						   {{ $cart_count}}
-						</span>
+						   {{ $cart_count}} 
+                        </span>
+                        @else 
+                        @endif  
                            </a>  
-                            <a class="float-right mr-2 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i></a>
-                            <a class="float-right mr-2 mt-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
+                            <a class="float-right mr-2 mt-2 ml-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i>
+                        
+                        
+                            @if(Auth::check()) 
+                                 @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count(); @endphp 
+                                    @if($wish>0)
+                                     <span class="badge badge-light"> {{$wish}} </span> 
+                                   @endif 
+                                  @endif 
+                        
+                        </a>
+                            <a class="float-right mr-2 mt-2 ml-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <div class="d-flex flex-column sm-menus">
 							@php 
@@ -264,12 +277,23 @@
                                       @else 
                                       @php $cart_count=\Cart::getTotalQuantity(); @endphp
                                      @endif
+                                    @if($cart_count>0)
                                     <span class="badge badge-light">
-                                      {{$cart_count}}
+                                     	    {{ $cart_count}} 
                                     </span>
+                                    @else 
+                                    @endif 
 								</a> 
                                 </div>
-                                <div class="d-flex align-items-center ml-1"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i> @if(Auth::check()) @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count() @endphp  <span class="badge badge-light"> {{$wish}} </span> @else <span class="badge badge-light">0</span> @endif </a></div>
+                                <div class="d-flex align-items-center ml-2"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i>
+                                 @if(Auth::check()) 
+                                 @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count(); @endphp 
+                                    @if($wish>0)
+                                     <span class="badge badge-light"> {{$wish}} </span> 
+                                   @endif 
+                                  @endif 
+                                </a>
+                            </div>
                                 <div class="d-flex align-items-center ml-1">
                                 @guest
 						          <a class="ml-2" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 

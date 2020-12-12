@@ -150,9 +150,19 @@ use App\Model\front\Order_item;
         endif;
         if($i ==1 ):
         @endphp
+        @if(isset($image->meta_value))
         <td  class="left"><img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}"></td>
+        @endif 
+
+             @if(isset($qtys->meta_value))
         <td  class="left">{{$qtys->meta_value}} </td>
-        <td  class="left">{{$posts->post_title}} <br> {{$sku->meta_value}}
+        <td  class="left">{{$posts->post_title}} <br> 
+        @endif 
+
+
+          @if(isset($sku->meta_value))
+        {{$sku->meta_value}}
+        @endif 
       
          
       </td>
@@ -163,11 +173,12 @@ use App\Model\front\Order_item;
         if($i>1):
         @endphp
         <tr>
+        @if(isset($sku->meta_value))
          <td  class="left"> {{$sku->meta_value}} </td>
          <td  class="left"> {{$qtys->meta_value}} </td>
          <td  class="left"> {{$posts->post_title}} 
          <br> {{$sku->meta_value}} </td>
-
+@endif 
        </tr>
 
        @php 

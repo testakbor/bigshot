@@ -187,8 +187,41 @@ class PageController extends Controller
     }
     public function customerSupport()
     {
-        return view('front.customerSupport');
+        //customer order list
+        $order_list=DB::table('order_itemmeta')
+        ->where('customer_id',auth()->user()->id)
+        ->select('order_id')
+        ->groupBy('order_id')
+        ->get();
+        return view('front.customerSupport',compact('order_list'));
     }
+
+    //partial cancel ajax
+    public function p_cancel_ajax($id){
+       $product_name=DB::table('order_items')
+       ->where('order_items.order_id',$id)
+       ->where('postmeta.meta_key','attribute')
+       ->where('order_itemmeta.meta_key','_qty')
+       ->select('order_items.order_item_id as items_id','order_item_name as product_name','postmeta.meta_value as att','order_itemmeta.meta_value as qt','order_items.product_id')
+       ->leftjoin('postmeta','postmeta.post_id','=','order_items.product_id')
+       ->leftjoin('order_itemmeta','order_itemmeta.order_item_id','=','order_items.order_item_id')
+       ->get();  
+       return response()->json(['product_name'=>$product_name]);
+    }
+
+     //full cancel ajax
+    public function f_cancel_ajax($id){
+       $product_name_full=DB::table('order_items')
+       ->where('order_items.order_id',$id)
+       ->where('postmeta.meta_key','attribute')
+       ->where('order_itemmeta.meta_key','_qty')
+       ->select('order_items.product_id as product_id','order_itemmeta.meta_value as qt')
+       ->leftjoin('postmeta','postmeta.post_id','=','order_items.product_id')
+       ->leftjoin('order_itemmeta','order_itemmeta.order_item_id','=','order_items.order_item_id')
+       ->get();  
+       return response()->json(['product_name_full'=>$product_name_full]);
+    }
+
     //delete wishlist
     public function wishlistDelete($id){
       $id=base64_decode($id);

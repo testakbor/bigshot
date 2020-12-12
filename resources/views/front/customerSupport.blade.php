@@ -9,7 +9,14 @@
 <!-- Page Content  -->
 <div id="content" class="container p-0 mb-2">
  
-
+               @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong> {{ session('success') }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                @endif
 
                 <nav class="nav nav-tabs nav-justified">
                   <a class="nav-item nav-link active" data-toggle="tab" href="#general">General Enquiries</a>
@@ -48,7 +55,7 @@
                         <div class="form-group">
                           <label class=" control-label">Your Message</label>
                           <div class="">
-                            <textarea class="form-control" type="text" name="message" placeholder="Your Message"></textarea>
+                            <textarea class="form-control"  type="text" name="message" placeholder="Your Message"></textarea>
                           </div>
                         </div>
                         <div class="form-group">
@@ -101,29 +108,38 @@
 
 
                         <div id="order_id" class="form-group" style="display:none">
-                          <div class="">
-                            <input class="form-control" type="text" name="" placeholder="Oder id or invoice number">
-                          </div>
+                          <select id="customer_order_id" class="form-control" name="customer_order_id">
+                            <option value="">Chose Order Id</option>
+                            @foreach($order_list as $single_order)
+                              <option value="{{$single_order->order_id}}">{{$single_order->order_id}}</option>
+                            @endforeach 
+                          </select>
                         </div>
 
+                        
+                        <div id="order_id_search" class="form-group" style="display:none">
+                          <select class="form-control" id="customer_orders_id" name="customer_orders_id">
+                            <option value="">Chose Order Id</option>
+                            @foreach($order_list as $single_order)
+                              <option value="{{$single_order->order_id}}">{{$single_order->order_id}}</option>
+                            @endforeach 
+                          </select>
+                        </div>
 
-                         <div class="form-group" id="sku" style="display:none">
-                            <div class="">
-                              <input class="form-control box" type="text" name=""  placeholder="SKU or Product code" >
-                            </div>
-                          </div>
-
-
+                        <div id="p_data_show" style="display:none">
+                           <table style="width:100%" id="data_show">
+                                <tr>
+                                  <th>Item</th>
+                                </tr>
+                              </table>
+                        </div>
 
                         <div class="red">
                           <div class="form-group">
                             <label class=" control-label">
                               Reason for Cancellation
                             </label>
-                            <div class="">
-                              <textarea class="form-control" type="text" name=""  placeholder="Reason for Cancellation">
-                          </textarea>
-                            </div>
+                            <textarea class="form-control" type="text" name="c_reason"  placeholder="Reason for Cancellation"></textarea>
                           </div>
                         </div>
 
@@ -141,6 +157,61 @@
       <script>
         $("#f_cancel").click(function(){
            $("#order_id").show();
+             $("#order_id_search").hide();
+               $("#p_data_show").hide();
         });
+          $("#p_cancel").click(function(){
+           $("#order_id_search").show();
+           $("#order_id").hide();
+        });
+
+
+       $("#customer_orders_id").change(function(){
+        var id=$("#customer_orders_id").val();
+        $.ajax({
+        url: "{{url('/p_cancel_order/')}}" + '/' +id,
+        type: "GET",
+        success: function(response) {
+            $("#p_data_show").show();
+            var item_name = ""; 
+            item_name+= "<tr><th></th><th>Item</th><th>Attribute</th><th>Qty</th></tr>";
+            $.each(response.product_name, function(i, item) {
+                 var input_value="<input type='number' name='quantity[]' value='"+item.qt+"'>";
+                 var input_proid="<input type='hidden' name='pro_id[]' value='"+item.product_id+"'>";
+                 item_name+="<tr><td><input type='checkbox' name='check_id[]' value="+item.product_id+"></td> <td>"+item.product_name+"</td>  <td>"+item.att+"</td>  <td>"+input_value+"</td><td>"+input_proid+"</td> </tr>";
+            });
+            $("#data_show").html(item_name);
+            },
+           error: function(response) {
+            console.log(response);
+           },
+        });
+       });
+
+        $("#customer_order_id").change(function(){
+        var id=$("#customer_order_id").val();
+        $.ajax({
+        url: "{{url('/f_cancel_order/')}}" + '/' +id,
+        type: "GET",
+        success: function(response) {
+          console.log(response);
+            $("#p_data_show").show();
+            var item_name = ""; 
+            item_name+= "<tr><th></th><th></th></tr>";
+            $.each(response.product_name_full, function(i, item) {
+                var input_proid="<input type='hidden' name='pro_id[]' value='"+item.product_id+"'>";
+                var input_qty="<input type='hidden' name='quantity[]' value='"+item.qt+"'>";
+                item_name+="<tr> <td>"+input_proid+"</td>  <td>"+input_qty+"</td></tr>";
+            });
+            $("#data_show").html(item_name);
+            },
+           error: function(response) {
+            console.log(response);
+           },
+        });
+       });
+
+
+
       </script>
   @endsection

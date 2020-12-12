@@ -158,9 +158,18 @@
                         ->where('meta_key','attached_file')        
                         ->first(); 
                         @endphp
+                        @if(isset( $image))
                         <img width="50px" height="50px" src="{{asset('backend/products/'.$image->meta_value)}}">
+                        @endif 
                        </th>
-                      <td>{{$items->order_item_name}} <br> @php $skuu=DB::table('postmeta')->where('post_id',$items->product_id)->where('meta_key','_sku')->first(); @endphp {{$skuu->meta_value}}</td>
+                      <td>{{$items->order_item_name}} <br>
+                       @php 
+                       $skuu=DB::table('postmeta')->where('post_id',$items->product_id)->where('meta_key','_sku')->first(); 
+                       @endphp 
+                       @if(isset($skuu))
+                       {{$skuu->meta_value}}
+                       @endif 
+                       </td>
                       <td>
                         <table class="table">
                           <tbody>
