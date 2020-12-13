@@ -106,6 +106,16 @@ $email=auth()->user()->email;
                 </button>
                 </div>
                 @endif
+
+              @if(session('status_error_update'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong> {{ session('status_error_update') }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                @endif
+
             <nav id="myTab" class="nav nav-tabs nav-justified">
                 <a class="nav-item nav-link btn btn-primary active mr-2 "
                 data-toggle="tab" href="#home"> Ship to</a>
@@ -235,6 +245,7 @@ $email=auth()->user()->email;
                                             </select>
                                         </div>
                                     </div>
+                                  
                               
                                     <button type="submit" id="order_submit" class="btn btn-primary btn-block btn-lg">Place
                                     Order</button>
@@ -261,7 +272,6 @@ $email=auth()->user()->email;
                                         <tbody>
                                             @php $order=0; @endphp
                                             @foreach ($info as $item)
-
                                             @php
                                               $order++;
                                             @endphp
@@ -422,15 +432,7 @@ $email=auth()->user()->email;
 
                     </div>
                 </div>
-                               <!--  <div class="col-md-9">
-                                    <ul>
-                                        <li>Item:{{$item->name}}</li>
-                                        <li>Price:৳{{$total=$item->price}}</li>
-                                        <li>Quantity:{{$item->quantity}}</li>
-                                        <li>Total:৳{{$total=$item->price*$item->quantity}}</li>
-                                    </ul>
-                                    <hr>
-                                </div> -->
+                     
                                 @endforeach
                             </div>
                                 <div class="bg-success btn d-flex justify-content-between pl-2 pr-2 text-white font-weight-bold">

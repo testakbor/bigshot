@@ -56,7 +56,7 @@
           <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-          <h3 class="text-center">4353</h3>
+          <h3 class="text-center">{{$total_qty}}</h3>
 
           <p class="lead text-center font-weight-bold">Quantity</p>
         </div>

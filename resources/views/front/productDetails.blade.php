@@ -114,7 +114,7 @@ endforeach;
                                 </tbody>
                              </table>
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-primary mb-2 btn-large btn-block">Buy</button>
+                                <button type="submit" class="btn btn-primary mb-2 btn-large btn-block"><i class="fas fa-shopping-bag"></i> Add To Cart</button>
                                 <div class="text-center">
                                 <a class="btn btn-success btn-large btn-block" href="{{url('/wishlist/product/'.$product->ID)}}">
                                    <i class="far fa-heart ml-2 h4"></i>

@@ -78,11 +78,33 @@ class OrderController extends Controller
       ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
       ->orderBy('ID','DESC')
       ->paginate(10); 
+        $or=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+      ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+      ->orderBy('ID','DESC')
+      ->get(); 
       $total_orders=Post::where('posts.post_type','shop_order')
       ->where('post_status','on-hold')
       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();  
-      return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
+
+       $total_item=DB::table('order_itemmeta')
+       ->join('posts','posts.ID','=','order_itemmeta.order_id')
+       ->where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->where('meta_key','_qty')
+       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+       ->sum('meta_value');
+
+        $total_amount=DB::table('order_itemmeta')
+       ->join('posts','posts.ID','=','order_itemmeta.order_id')
+       ->where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->where('meta_key','_line_subtotal')
+       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+       ->sum('meta_value');
+
+      return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status','total_item','total_amount','or'))->with($extraInfo);
     }
     public function todayPendingOrder(){
       $extraInfo=array(
@@ -238,7 +260,13 @@ class OrderController extends Controller
       ->where('post_status','dispatch_complete')
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->count();
-      return view('admin.order.all_complete_dispatch', compact('order','total_complete'))->with($extraInfo); 
+         $total_qty=Post::where('post_type','shop_order')
+      ->where('post_status','dispatch_complete')
+      ->where('meta_key','_qty')
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
+      ->join('order_itemmeta','posts.ID','=','order_itemmeta.order_id')
+      ->sum('meta_value');
+      return view('admin.order.all_complete_dispatch', compact('order','total_complete','total_qty'))->with($extraInfo); 
   }
 
   public function dispatchByDate($day)
@@ -305,12 +333,16 @@ class OrderController extends Controller
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order;
+
+      $total_order=Post::where(['posts.post_type'=>'shop_order'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+
       $order = Post::where('post_type','shop_order')
        ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->orderBy('ID', 'DESC')
       ->paginate(20);
-  return view('admin.order.allStatus',compact('order','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status'))->with($extraInfo);
+  return view('admin.order.allStatus',compact('order','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order'))->with($extraInfo);
 }
 
 
@@ -791,7 +823,8 @@ public function grossProfit()
       $order = Post::find($id);
       $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
       $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
-      return view('admin.order.edit', compact('order', 'products', 'id', 'order_info'))->with($extraInfo);     
+      $delivery_charge=DB::table('order_itemmeta')->where('meta_key','delivery_charge')->first();
+      return view('admin.order.edit', compact('order', 'products', 'id', 'order_info','delivery_charge'))->with($extraInfo);     
     }
 
     public function sendParcelPrint(Request $request){
@@ -856,11 +889,16 @@ public function grossProfit()
       ->where('post_status','dispatch_complete')
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->count();
-      return view('admin.order.excelDispatch', compact('order','total_complete','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
+       $total_qty=Post::where('post_type','shop_order')
+      ->where('post_status','dispatch_complete')
+      ->where('meta_key','_qty')
+      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
+      ->join('order_itemmeta','posts.ID','=','order_itemmeta.order_id')
+      ->sum('meta_value');
+      return view('admin.order.excelDispatch', compact('order','total_complete','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status','total_qty'))->with($extraInfo); 
     }
 
     public function excelDispatchDownload(Request $request){
-
           DB::table('posts')->whereIn('ID',$request->check_id)->update([
             'post_status'=>'dispatch_complete'
           ]);
@@ -1075,7 +1113,7 @@ public function grossProfit()
         }
       }
       session()->flash("success","Order quantity and stock has been update successfully");
-      return redirect(route('order.pendingOrder'));
+      return back();
     }
 
     public function processingOrderPrint($id){

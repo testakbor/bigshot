@@ -91,6 +91,7 @@
                   <th>Name</th>
                   <th class="right">Address</th>
                   <th class="right">Mobile</th>
+                  <th class="right">Delivery Charge</th>
                   <th class="right">Amount</th>
                   <!-- <th class="right">Comments</th> -->
                   <th class="right">Action</th>
@@ -98,7 +99,7 @@
               </thead>
 
               <tbody>
-                @php $sub=0; $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
+                @php $sub=0; $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $tot_charge=0; @endphp
                 @foreach($order as $orders)
                 @foreach($orders->productMeta as $meta)
                 @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
@@ -108,10 +109,6 @@
                 @endforeach
                 @foreach($orders->orderItem as $info)
                 @foreach($info->orderMeta as $value)
-                @if($value->meta_key=='_line_subtotal')
-                @php $subtotal=$value->meta_value; @endphp
-                @endif
-
                 @endforeach
                 @endforeach
                 <tr>
@@ -119,7 +116,8 @@
                   <td>{{$name}} {{$last_name}}</td>
                   <td class="right">{{$address_one}}</td>
                   <td class="right">{{$phone}}</td>
-                  <td class="right">{{$sub=$subtotal}}</td>
+                  <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}} @php $tot_charge+=$charge; @endphp</td>
+                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$subtotal+$charge}}</td>
                   <td class="right">
                   <a href="{{route('order.processing.print',$orders->ID)}}" class="btn btn-primary mb-2">  <i class="fas fa-print"> </i> Print</a><br>
                     <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-success mb-2"><i class="fas fa-edit"></i> Edit</a><br>
@@ -147,7 +145,7 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="box bg-primary">
             <!-- <i class="fa fa-lemon ml-1"></i> -->
 
@@ -157,12 +155,14 @@
           </div>
         </div>
 
-        <div class="col-md-4 ">
+        <div class="col-md-6">
           <div class="box bg-info">
             <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-            <h3 class="text-center">{{$total_amount}}</h3>
+            <h3 class="text-center">
+            {{$total_amount+$tot_charge}}
+            </h3>
 
             <p class="lead text-center font-weight-bold">Total Amount</p>
           </div>

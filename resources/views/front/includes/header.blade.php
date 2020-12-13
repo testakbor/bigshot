@@ -108,7 +108,7 @@
                      <a href="{{url('profile')}}" class="float-right mt-2"> <i style="color:#000000" class="fas fa-user"></i></a> 
                      @endguest 
 
-                    <a href="{{url('cart')}}" class="float-right mt-2 ml-2 mr-3"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
+                    <a href="{{url('cart')}}" class="float-right mt-2  mr-3"> <i style="color:#000000" class="fas fa-shopping-bag"></i> 
                                     @if(Auth::check())
                                       @php 
                                        $cart_count=DB::table('user_cart')
@@ -125,7 +125,7 @@
                         @else 
                         @endif  
                            </a>  
-                            <a class="float-right mr-2 mt-2 ml-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i>
+                            <a class="float-right mr-2 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i>
                         
                         
                             @if(Auth::check()) 
@@ -136,19 +136,20 @@
                                   @endif 
                         
                         </a>
-                            <a class="float-right mr-2 mt-2 ml-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
+                            <a class="float-right mr-2 mt-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <div class="d-flex flex-column sm-menus">
 							@php 
 							$tags = DB::table('term_taxonomy')
 							->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
 							->where('term_taxonomy.taxonomy', 'product_tag')
+							->where('terms.status',1)
 							->select('term_taxonomy.*', 'terms.name', 'terms.status')
 							->get();
 							@endphp
 							@foreach($tags as $tag)
                             <div class="mt-2"> 
-								<a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{$tag->name}}</a>
+								<a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{strtoupper($tag->name)}}</a>
 							</div>
                              @endforeach
 
@@ -285,7 +286,7 @@
                                     @endif 
 								</a> 
                                 </div>
-                                <div class="d-flex align-items-center ml-2"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i>
+                                <div class="d-flex align-items-center ml-4"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i>
                                  @if(Auth::check()) 
                                  @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count(); @endphp 
                                     @if($wish>0)
@@ -294,9 +295,9 @@
                                   @endif 
                                 </a>
                             </div>
-                                <div class="d-flex align-items-center ml-1">
+                                <div class="d-flex align-items-center">
                                 @guest
-						          <a class="ml-2" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
+						          <a class="ml-4" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
                                 @else 
                                 <nav class="navbar navbar-expand-lg">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -342,12 +343,13 @@
 							    @php 
 								$tags = DB::table('term_taxonomy')
 								->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-								->where('term_taxonomy.taxonomy', 'product_tag')
+                                ->where('term_taxonomy.taxonomy', 'product_tag')
+                                ->where('terms.status',1)
 								->select('term_taxonomy.*', 'terms.name', 'terms.status')
 								->get();
 								@endphp
 									@foreach($tags as $tag)
-								    <div class="mr-4"> <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{$tag->name}}</a></div>
+								    <div class="mr-4"> <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark">{{strtoupper($tag->name)}}</a></div>
 								    @endforeach
                             </div>
                             <div class="d-flex col-md-5 justify-content-end p-0">					

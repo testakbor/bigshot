@@ -409,13 +409,19 @@ class CartController extends Controller {
                }else{
                   $tot_pri=$item->quantity * $item->price;
                }
-              
+              $check_id=DB::table('posts')
+              ->where('ID',$item->id)
+              ->select('ID','post_parent')
+              ->first(); 
+
+              if($check_id->post_parent==0){ $p_id=$check_id->ID; }  else{ $p_id=$check_id->post_parent;}
          
             $order_item = array(
                 'order_item_name' => $item->name,
                 'order_item_type' => 'line-item',
                 'order_id' => $order_id,
-                'product_id' => $item->id
+                'product_id' => $item->id,
+                'product_parent' => $p_id
             );
             $order_item_id = DB::table('order_items')->insertGetId($order_item);
 
@@ -631,7 +637,7 @@ class CartController extends Controller {
            if(isset($default_pro)){
                $ac_qty_default=$default_pro->meta_value;
                if($qty>$ac_qty_default){
-                return back()->with('status', 'Quantity not exists');
+                return back()->with('status_error_update', 'Quantity not exists');
                }
            }
 
@@ -643,7 +649,7 @@ class CartController extends Controller {
           if(isset($attribute_pro)){
                $ac_qty_att=$attribute_pro->meta_value;
                if($qty>$ac_qty_att){
-                return back()->with('status', 'Quantity not exists');
+                return back()->with('status_error_update', 'Quantity not exists');
                }
            }
             Cart::update($product_id, array(
@@ -669,7 +675,7 @@ class CartController extends Controller {
               ]);
              }
         }
-         return back()->with('status', 'Item quantity has been update');
+         return back()->with('status','Item quantity has been update');
     }
     /**
      * Remove the specified resource from storage.

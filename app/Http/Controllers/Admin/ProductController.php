@@ -128,14 +128,14 @@ class ProductController extends Controller
         $post_id=DB::table('posts')->insertGetId($product);
     
         // product categories
-        if($request->category!=null){
+      if(count($request->category) > 0){
             foreach ($request->category as $value) {
                DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
            }
        }
      // product tag
        if(count($request->tag) > 0){
-        foreach ($request->tag as  $value) {
+        foreach ($request->tag as $value) {
            DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
        }
    }

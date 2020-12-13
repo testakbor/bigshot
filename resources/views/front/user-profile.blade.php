@@ -21,10 +21,12 @@
                 <img width="100px" height="100px" src="{{asset('assets/front/user/'.$profile_image->meta_value)}}" class="img-fluid" alt="">
                 @else
                 <img width="100px" height="100px" src="{{asset('assets/front/images/zhou_256x256.jpg')}}" class="img-fluid" alt="">
-                @endif
+                @endif</br>
                 <div class="d-flex flex-column">
-                    <div>  Name: {{auth()->user()->name}}</div>
-                    <div> Email: {{auth()->user()->email}}</div>
+                  <ul style="padding: 0px;">
+                      <li style="list-style: none;"> {{auth()->user()->name}}</li>
+                      <li style="list-style: none;"> {{auth()->user()->email}}</li>
+                  </ul>
                     <div> <a style="text-decoration: none;" href="{{route('profile.edit',auth()->user()->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit </a></div>
                     <div>  <a style="text-decoration: none;" href="{{route('password.edit',auth()->user()->id)}}" class="text-danger"> <i class="fa fa-pencil" aria-hidden="true"></i> Password Change </a></div>
 

@@ -12,6 +12,7 @@
           <th>Name</th>
           <th>Mobile</th>
           <th>Address</th>
+          <th>Delivery Charge</th>
           <th>Amount</th>
     	</tr>
     </thead>
@@ -33,7 +34,8 @@
     	    <td>{{ $name}}</td>     
     	    <td>{{ $mobile}}</td>     
     	    <td>{{ $address}}</td>     
-    	    <td>{{ $amount}}</td>     
+    	    <td>@php $delivery=DB::table('order_itemmeta')->where('order_id',$row->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>     
+    	    <td>{{ $amount+$charge}}</td>     
 	   </tr>
     @endforeach
     </tbody>

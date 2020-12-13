@@ -117,7 +117,7 @@
                       <th scope="col">Image</th>
                       <th scope="col">Item</th>
                       <th scope="col"></th>
-                      <th scope="col">Cost</th>
+                      <th scope="col">Price</th>
                       <th scope="col">Qty</th>
                       <th scope="col">Total</th>
                     </tr>
@@ -154,7 +154,7 @@
                       <th scope="row">
                         @php
                         $image=DB::table('postmeta')
-                        ->where('post_id',$items->product_id)
+                        ->where('post_id',$items->product_parent)
                         ->where('meta_key','attached_file')        
                         ->first(); 
                         @endphp
@@ -164,7 +164,7 @@
                        </th>
                       <td>{{$items->order_item_name}} <br>
                        @php 
-                       $skuu=DB::table('postmeta')->where('post_id',$items->product_id)->where('meta_key','_sku')->first(); 
+                       $skuu=DB::table('postmeta')->where('post_id',$items->product_parent)->where('meta_key','_sku')->first(); 
                        @endphp 
                        @if(isset($skuu))
                        {{$skuu->meta_value}}
@@ -189,9 +189,9 @@
                           </tbody>
                         </table>
                       </td>
-                      <td>{{$subtotal}}</td>
+                      <td>{{number_format($subtotal)}}</td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
-                      <td>{{$subtotal}}</td>
+                      <td>{{number_format($subtotal)}}</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
                       <input type="hidden" name="att_id[]" value="{{$att}}">
                       <input type="hidden" name="order_id" value="{{$id}}">
@@ -199,7 +199,7 @@
                       <input type="hidden" name="total[]" value="{{$subtotal}}">
                     </tr>
                     @php
-                    $grandTotal +=$subtotal;
+                    $grandTotal+=$subtotal;
                      $grandLinetotal +=$total; 
                       @endphp
                     @endforeach
@@ -208,18 +208,18 @@
               </div>
               <div class="card-footer ">
                 <div class="d-flex flex-column justify-content-end">
-                  <div class="d-flex flex-row justify-content-end">
-                    <div> item Sub total:</div>
-                    <div> $ {{$grandTotal}}</div>
+                  <div class="d-flex flex-row justify-content-end" style="font-size: 18px;">
+                    <div> Delivery Charge:</div>
+                    <div> @if(isset($delivery_charge)) @php $charge=$delivery_charge->meta_value; @endphp {{number_format($charge)}} tk @endif</div>
                   </div>
-                  <div class="d-flex flex-row justify-content-end">
+                  <div class="d-flex flex-row justify-content-end" style="font-size: 18px;">
                     <div> Order Total: </div>
-                    <div> $ {{$grandLinetotal}}</div>
+                    <div>  {{number_format($grandLinetotal+$charge)}} tk</div>
                   </div>
                 </div>
               </div>
               <div class="col-md-12 text-center">
-              <button type="submit" value="submit" name="submit" class="btn btn-primary" >Update</button>
+              <button type="submit" value="submit" name="submit" class="btn btn-success mb-2">Update Order</button>
                </div>     
           </form>
         </div>
