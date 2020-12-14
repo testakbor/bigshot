@@ -113,6 +113,7 @@
                     $i=1;
                     @endphp
                    @foreach($attributeValues as $value)
+                  @if($value->status==1)
                     <tr>
                       <td>{{$i}}</td>
                       <td>{{ucfirst($value->name)}}</td>
@@ -122,6 +123,17 @@
                         <a href="{{route('attributeValue.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
                       </td>
                     </tr>
+                    @else 
+                    <tr style="background: #db8192;">
+                      <td>{{$i}}</td>
+                      <td>{{ucfirst($value->name)}}</td>
+                      <td>{{$value->count}}</td>
+                      <td>{{$value->status==1?'Active':'Inactive'}}</td>
+                      <td>
+                        <a href="{{route('attributeValue.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
+                      </td>
+                    </tr>
+                    @endif 
                     @php 
                     $i++;
                     @endphp
@@ -134,16 +146,10 @@
               </div>  
             </div>
             <!-- /.card -->
-           
-
           </div>
-        
-
           </div>
           <!-- /.col -->
         </div>
-      
-      
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>

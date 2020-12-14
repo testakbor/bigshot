@@ -116,14 +116,25 @@
                     $i=1;
                     @endphp
                    @foreach($tags as $value)
+                    @if($value->status==1)
                     <tr>
                       <td>{{$i}}</td>
                       <td>{{$value->name}}</td>
-                      <td>{{$value->status==1?'Active':'Inactive'}}</td>
+                      <td>Active</td>
                       <td>
                         <a href="{{route('tag.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
                       </td>
                     </tr>
+                    @else 
+                     <tr style="background: #db8192;">
+                      <td>{{$i}}</td>
+                      <td>{{$value->name}}</td>
+                      <td>Inactive</td>
+                      <td>
+                        <a href="{{route('tag.edit',$value->term_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i> Edit</a>
+                      </td>
+                    </tr>
+                    @endif 
                     @php 
                     $i++;
                     @endphp
@@ -136,16 +147,10 @@
               </div>  
             </div>
             <!-- /.card -->
-           
-
           </div>
-        
-
           </div>
           <!-- /.col -->
         </div>
-      
-      
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>

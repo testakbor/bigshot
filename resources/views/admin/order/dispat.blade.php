@@ -4,30 +4,24 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
-      @include('admin.includes.messages')
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Dispatch</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Dispatch</li>
-          </ol>
-        </div>
-      </div>
     </div><!-- /.container-fluid -->
 
 
-   <div class="card-body">
+
+      <div class="card-body">
+        <h1 class="mb-3" style="text-align:center;font-weight:bold;">All Dispatch Order</h1>
+         
       <div class="container">
+         @include('admin.includes.messages')
         <ul class="nav bg-dark d-flex justify-content-around">
-         <li class="nav-item " style="border-right: 1px solid white;">
-          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
+         <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link " href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order}})</a>
         </li>
 
-     
-        <li class="nav-item" style="border-right: 1px solid white;">
+       <!--  <li class="nav-item " style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order ({{$pending_order}})</a>
+        </li> -->
+        <li class="nav-item " style="border-right: 1px solid white;">
           <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
         </li>
         <li class="nav-item" style="border-right: 1px solid white;">
@@ -48,15 +42,17 @@
         <li class="nav-item">
           <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled ({{$cancelled_order}})</a>
         </li>
-        
+
       </ul>
     </div>
+
+    
   </div>
 
 
 
     <div class="s002">
-      <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Dispatch Order</div>
+      <div class="d-flex  justify-content-center h2 mb-3">Search Dispatch Order</div>
       <div class="d-flex justify-content-center mb-3">
         <form class="form-inline" method="post" action="{{route('dispatch.order.date.wise')}}" >
           @csrf() 

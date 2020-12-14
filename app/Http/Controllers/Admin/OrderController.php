@@ -69,9 +69,7 @@ class OrderController extends Controller
       $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
       ->count();
       $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
-  
+      ->count(); 
 
       $orders=Post::where('posts.post_type','shop_order')
       ->where('post_status','on-hold')
@@ -104,7 +102,7 @@ class OrderController extends Controller
        ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
        ->sum('meta_value');
 
-      return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order_status','total_item','total_amount','or'))->with($extraInfo);
+      return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_item','total_amount','or'))->with($extraInfo);
     }
     public function todayPendingOrder(){
       $extraInfo=array(
@@ -317,32 +315,12 @@ class OrderController extends Controller
      $extraInfo = array(
     'title' => "Order List",
     'page' => 'order'
-  );
-      $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
-      ->count();
-
-      $total_order=Post::where(['posts.post_type'=>'shop_order'])
-      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
-      ->count();
-
+    );
       $order = Post::where('post_type','shop_order')
        ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->orderBy('ID', 'DESC')
       ->paginate(20);
-  return view('admin.order.allStatus',compact('order','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_order'))->with($extraInfo);
+  return view('admin.order.allStatus',compact('order'))->with($extraInfo);
 }
 
 

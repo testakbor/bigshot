@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
-use DB;
+use App\Model\front\Post;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +25,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+      Schema::defaultStringLength(191);
+      $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+     view()->share('pending_order',$pending_order);
+      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+       view()->share('processing_order',$processing_order);
+      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+       view()->share('dispatch_order',$dispatch_order);
+      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+       view()->share('delivered_order',$delivered_order);
+      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+       view()->share('cancelled_order',$cancelled_order);
+      $total_order=Post::where(['posts.post_type'=>'shop_order'])
+      ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
+      ->count();
+      view()->share('total_order',$total_order);
     }
 }

@@ -4,40 +4,16 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
-      @include('admin.includes.messages')
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Delivery</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Delivery List</li>
-          </ol>
-        </div>
-      </div>
     </div><!-- /.container-fluid -->
     <div class="s002">
-
-
-
-
-
-
-
-
-    <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search  Order</div>
-
-
-<div class="card-body">
+     <h1 class="mb-3" style="text-align:center;font-weight:bold;">All Delivered Order</h1>
       <div class="container">
+         @include('admin.includes.messages')
         <ul class="nav bg-dark d-flex justify-content-around">
-         <li class="nav-item " style="border-right: 1px solid white;">
-          <a  class="nav-link active" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status ({{$total_order_status}})</a>
+         <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order}})</a>
         </li>
-
-     
-        <li class="nav-item" style="border-right: 1px solid white;">
+        <li class="nav-item " style="border-right: 1px solid white;">
           <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
         </li>
         <li class="nav-item" style="border-right: 1px solid white;">
@@ -52,19 +28,19 @@
         <li class="nav-item" style="border-right: 1px solid white;">
           <a  class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
         </li>
-        <li class="nav-item bg-primary" style="border-right: 1px solid white;">
-          <a class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered ({{$delivered_order}})</a>
+        <li class="nav-item bg-primary"  style="border-right: 1px solid white;">
+          <a class="nav-link active" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered ({{$delivered_order}})</a>
         </li>
         <li class="nav-item">
           <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled ({{$cancelled_order}})</a>
         </li>
-        
       </ul>
     </div>
   </div>
 
-
-      <div class="d-flex justify-content-center mb-3">
+   <div class="s002">
+    <div class="d-flex justify-content-center h2 mt-3 mb-3">Search Order</div>
+    <div class="d-flex justify-content-center mb-3">
         <form class="form-inline" method="post" action="{{route('order.delivered.search')}}" >
           @csrf() 
           <div class="form-group mb-2">
@@ -80,9 +56,6 @@
         </form>
       </div>
 
-
-
-  
           <!-- <i class="fa fa-lemon ml-1"></i> -->
           @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $qty=0; $sub=0; $total_item=0; @endphp
           @foreach($order as $orders)
@@ -106,7 +79,7 @@
 
       <div class="container">
     <div class="row">
-      <div class="offset-6 col-md-2">
+      <div class="col-md-4">
         <div class="box bg-info">
           <!-- <i class="fa fa-lemon ml-1"></i> -->
 
@@ -116,13 +89,13 @@
         </div>
       </div>
 
-      <div class="col-md-2 ">
+      <div class="col-md-4">
         <div class="box bg-success">
           <h3 class="text-center">{{$total_item}}</h3>
           <p class="lead text-center font-weight-bold">Total Item</p>
         </div>
       </div>
-      <div class="col-md-2 ">
+      <div class="col-md-4">
         <div class="box bg-primary">
           <h3 class="text-center">{{$total_amount}}</h3>
           <p class="lead text-center font-weight-bold">Total Amount</p>
@@ -222,7 +195,7 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="offset-6 col-md-2">
+      <div class="col-md-4">
         <div class="box bg-info">
           <!-- <i class="fa fa-lemon ml-1"></i> -->
 
@@ -232,13 +205,13 @@
         </div>
       </div>
 
-      <div class="col-md-2 ">
+      <div class="col-md-4">
         <div class="box bg-success">
           <h3 class="text-center">{{$total_item}}</h3>
           <p class="lead text-center font-weight-bold">Total Item</p>
         </div>
       </div>
-      <div class="col-md-2 ">
+      <div class="col-md-4">
         <div class="box bg-primary">
           <h3 class="text-center">{{$total_amount}}</h3>
           <p class="lead text-center font-weight-bold">Total Amount</p>

@@ -117,7 +117,8 @@
                     $i=1;
                     @endphp
                    @foreach($attributes as $value)
-                    <tr>
+                  @if($value->status==1)
+                     <tr>
                       <td>{{$i}}</td>
                       <td>{{ucfirst($value->attribute_name)}}</td>
                       <td>{{$value->attribute_type}}</td>
@@ -125,9 +126,20 @@
                       <td>
                         <a href="{{route('attribute.edit',$value->attribute_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
                         <a href="{{route('attribute.attributeValue',$value->attribute_id)}}" title="Attibute Value" class="btn btn-success"> <i class="fa fa-cog"></i> </a>
-
                       </td>
                     </tr>
+                    @else 
+                   <tr style="background: #db8192;">
+                      <td>{{$i}}</td>
+                      <td>{{ucfirst($value->attribute_name)}}</td>
+                      <td>{{$value->attribute_type}}</td>
+                      <td>{{$value->status==1?'Active':'Inactive'}}</td>
+                      <td>
+                        <a href="{{route('attribute.edit',$value->attribute_id)}}" class="btn btn-primary"> <i class="fa fa-edit"></i></a>
+                        <a href="{{route('attribute.attributeValue',$value->attribute_id)}}" title="Attibute Value" class="btn btn-success"> <i class="fa fa-cog"></i> </a>
+                      </td>
+                    </tr>
+                    @endif 
                     @php 
                     $i++;
                     @endphp
@@ -140,16 +152,10 @@
               </div>  
             </div>
             <!-- /.card -->
-           
-
           </div>
-        
-
           </div>
           <!-- /.col -->
         </div>
-      
-      
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
