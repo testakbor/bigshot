@@ -333,12 +333,12 @@
                                     <p>Cancellation Items</p>
                                 </a>
                                 </li> -->
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a href="{{route('sold.stock')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Sold out stock</p>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a href="{{route('best.customer')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
