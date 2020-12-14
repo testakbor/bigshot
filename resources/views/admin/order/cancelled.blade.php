@@ -22,7 +22,7 @@
          @include('admin.includes.messages')
         <ul class="nav bg-dark d-flex justify-content-around">
          <li class="nav-item" style="border-right: 1px solid white;">
-          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order}})</a>
+          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_admin}})</a>
         </li>
 
        <!--  <li class="nav-item " style="border-right: 1px solid white;">
@@ -52,11 +52,7 @@
 
       </ul>
     </div>
-
-    
   </div>
-
-
       <div class="s002">
     <div class="d-flex justify-content-center h2 mb-3">Search Order</div>
     <div class="d-flex justify-content-center mb-3">
@@ -76,64 +72,7 @@
           <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
         </form>
       </div>
-
-
-
-
-
-
-          <!-- <i class="fa fa-lemon ml-1"></i> -->
-          @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; @endphp
-          @foreach($order as $orders)
-          @foreach($orders->productMeta as $meta)
-          @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
-          @if($meta->meta_key=='last_name') @php $last_name=$meta->meta_value; @endphp @endif
-          @if($meta->meta_key=='address_one') @php $address_one=$meta->meta_value; @endphp @endif
-          @if($meta->meta_key=='phone') @php $phone=$meta->meta_value; @endphp @endif
-          @endforeach
-          @foreach($orders->orderItem as $info)
-          @foreach($info->orderMeta as $value)
-          @endforeach
-          @endforeach
-          @php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
-          @php $total_amount+=$sub; @endphp
-          @endforeach
-         
-    
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="box bg-danger">
-          <!-- <i class="fa fa-lemon ml-1"></i> -->
-
-          <h3 class="text-center">{{$total_order}}</h3>
-
-          <p class="lead text-center font-weight-bold">Total Cancelled</p>
-        </div>
-      </div>
-
-
-      <div class="col-md-6">
-        <div class="box bg-info">
-          <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
-          <h3 class="text-center">{{$total_amount}}</h3>
-
-          <p class="lead text-center font-weight-bold">Total Amount</p>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-
-     
- 
-
-
 </section>
-
 <!-- Main content -->
 <section class="content">
   <div class="container">
@@ -155,13 +94,12 @@
                 <th>Name</th>
                 <th class="right">Mobile</th>
                 <th class="right">Quantity</th>
+                <th class="right">Delivery Charge</th>
                 <th class="right">Amount</th>
                 <th class="right">Cancel Date</th>
-                <!-- <th class="right">Comment</th> -->
                 <th class="right">Action</th>
               </tr>
             </thead>
-
             <tbody>
               @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $qty=0; @endphp
               @foreach($order as $orders)
@@ -180,17 +118,16 @@
                 <td>{{$name}} {{$last_name}}</td>
                 <td class="right">{{$phone}}</td>
                 <td class="right">@php $qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qty}}</td>
-                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$sub}}</td>
+                <td class="right">              @php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
+                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$sub+$charge}}</td>
                 <td class="right">{{date('Y-m-d',strtotime($orders->post_modified))}}</td>
                 <!-- <td class="right">Comment</td> -->
                 <td class="right">
                   <a href="{{route('order.cancelled.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
                   <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
-
                 </td>
-                <!-- <td class="right">hello</td> -->
               </tr>
-              @php $total_amount+=$sub; @endphp
+              @php $total_amount+=$sub+$charge; @endphp
               @endforeach
             </tbody>
           </table>
@@ -225,7 +162,7 @@
           <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-          <h3 class="text-center">{{$total_amount}}</h3>
+          <h3 class="text-center">{{number_format($total_amount)}}</h3>
 
           <p class="lead text-center font-weight-bold">Total Amount</p>
         </div>

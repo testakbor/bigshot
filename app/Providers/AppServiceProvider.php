@@ -46,9 +46,9 @@ class AppServiceProvider extends ServiceProvider
       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
        view()->share('cancelled_order',$cancelled_order);
-      $total_order=Post::where(['posts.post_type'=>'shop_order'])
+      $total_order_admin=Post::where(['posts.post_type'=>'shop_order'])
       ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
       ->count();
-      view()->share('total_order',$total_order);
+      view()->share('total_order_admin',$total_order_admin);
     }
 }

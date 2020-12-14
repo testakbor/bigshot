@@ -34,18 +34,20 @@
 				<br>
 					<br>
 						<br>
-							<table style="width:100%" class="table">
-								<tr style="background: #e7e7e7;">
-									<th>Order Id</th>
-									<th>Name</th>
-									<th>Mobile</th>
-									<th>Address</th>
-									<th>Items</th>
-									<th>Quantity</th>
-									<th>Amount</th>
-								</tr>
-								<tbody>
-                 @php $att=0; $total_parcel=0; $product=''; $qty=0; $total_qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
+          	<table style="width:100%" class="table">
+          <thead>
+          <tr style="background: #e7e7e7;">
+                  <th style="font-size: 12px;">Order Id</th>
+									<th style="font-size: 12px;">Name</th>
+									<th style="font-size: 12px;">Mobile</th>
+									<th style="font-size: 12px;">Address</th>
+                  <th style="font-size: 12px;">Items</th>
+                  <th style="font-size: 12px;">Delivery Charge</th>
+									<th style="font-size: 12px;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
                  @foreach($orders as $key=>$item)
                      @foreach($item->productMeta as $info) 
                      @if($info->meta_key=='phone')
@@ -61,94 +63,93 @@
                      @php $last_name=$info->meta_value; @endphp
                     @endif 
                 @endforeach
-									<tr>
-										<th>{{$item->ID}}</th>
-										<th>{{$first_name}} {{$last_name}}</th>
-										<th>{{$address}}</th>
-										<th>{{$mobile_no}}</th>
-										<td>
-                      <table style="width:100%">
-                              @foreach($item->orderItem as $meta)
-                              <tr>
-                                <td>{{$meta->order_item_name}}</td>
-                              </tr>
-                              @endforeach
-							</table>
-							  @foreach($item->orderItem as $meta)
-                              @foreach($meta->orderMeta as $value)
-                                 @if($value->meta_key=='attribute_parent')
-                                    @php $att=$value->meta_value; @endphp
-                                  @endif 
-                               @endforeach
-                               @endforeach
-                    <table class="table">
-                          <tbody>
-                             @php 
-                                $list_att=DB::table('postmeta')->where('post_id',$att)
-                                ->where('meta_key','attribute')->get(); 
-                             @endphp
-                             @foreach($list_att as $a)
-                              @php $data_att=json_decode($a->meta_value); @endphp 
-                                  @foreach($data_att as $da)
-                                    <tr>
-                                      <td>{{$da->taxonomy}}:</td>
-                                      <td>{{$da->term}}</td>
-                                    </tr>
-                                @endforeach 
-                             @endforeach 
-                          </tbody>
-                        </table>
+                @endforeach
+                  	<td>{{$item->ID}}</td>
+										<td>{{$first_name}} {{$last_name}}</td>
+									
+                    <td>{{$mobile_no}}</td>
+                    	<td>{{$address}}</td>
+							
+              <td>
+                @php $tot_parcel=0; $to_amount_charge=0; $att=0; $q=0;$s=0; $att=0; $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
+                    @foreach($orders as $item)
+                    @foreach($item->orderItem as $meta)
+                                      <table style="width:100%">
+                                            <tr>
+                                              <th style="font-size: 12px;">Name</th>
+                                              <th style="font-size: 12px;">Attribute</th>
+                                              <th style="font-size: 12px;">Qty</th>
+                                              <th style="font-size: 12px;">Amount</th>
+                                            </tr>
+                                            <tr>
+                                              <td>{{$meta->order_item_name}}</td>
+                                              <td>
+                                                @foreach($meta->orderMeta as $value)
+                                                        @if($value->meta_key=='attribute_parent')
+                                                          @php $att=$value->meta_value; @endphp
+                                                        @endif 
+                                                  @endforeach
+                                             @php 
+                                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                                ->where('meta_key','attribute')->get(); 
+                                            @endphp
+                                            @foreach($list_att as $a)
+                                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                                  @foreach($data_att as $da)
+                                              
+                                                      {{$da->taxonomy}} : {{$da->term}}
+                                                      </br>
+                                                @endforeach 
+                                            @endforeach 
+                                              </td>
+                                              <td>
+                                                  @foreach($meta->orderMeta as $value)
+                                                        @if($value->meta_key=='_qty')
+                                                          @php $q=$value->meta_value; @endphp
+                                                        @endif 
 
-                    </td>
-										<td>
-                           <table style="width:100%">
-                              @foreach($item->orderItem as $meta)
-                              @foreach($meta->orderMeta as $value)
-                                 @if($value->meta_key=='_qty')
-                                    @php $qty=$value->meta_value; @endphp
-                                  @endif 
-                               @endforeach
-                              <tr>
-                                <td>{{$qty}}</td>
-                              </tr>
-                              @php $total_qty+=$qty; @endphp
-                              @endforeach
-                            </table>
-                    </td>
-										<td>
-                       <table style="width:100%">
-                              @foreach($item->orderItem as $meta)
-                              @foreach($meta->orderMeta as $value)
-                                 @if($value->meta_key=='_line_subtotal')
-                                    @php $subtotal=$value->meta_value; @endphp
-                                  @endif 
-                               @endforeach
-                              <tr>
-                                <td>{{number_format($subtotal)}}</td>
-                              </tr>
-                              @php $grandTotal+=$subtotal; @endphp
-                              @endforeach
-                            </table>
-                    </td>
-									</tr>
-                 @endforeach 
-								</tbody>
-								<tfoot>
-									<tr>
-										<td>Total Parcel </td>
-										<td>{{$grandTotal}}</td>
-										<td></td>
-										<td></td>
-										<td>Total</td>
-										<td>{{$total_qty}}</td>
-										<td>{{number_format($grandTotal)}}tk</td>
-									</tr>
-								</tfoot>
-							</table>
-							<div class="col1">
-								<p>Receiver</p>
-								<p>Signature:</p>
-								<p>Name:</p>
-							</div>
+                                                        @if($value->meta_key=='attribute_parent')
+                                                          @php $att=$value->meta_value; @endphp
+                                                        @endif 
+                                                
+                                                  @endforeach
+                                                {{$q}} @php $tot_parcel+=$q; @endphp
+                                              </td>
+                                              <td>
+                                                @foreach($meta->orderMeta as $value)
+                                                @if($value->meta_key=='_line_subtotal')
+                                                    @php $s=$value->meta_value; @endphp
+                                                  @endif 
+                                                  
+                                              @endforeach
+                                                {{number_format($s)}} 
+                                                @php $to_amount_charge+=$s; $grandTotal+=$s; @endphp
+                                              </td>
+                                            </tr>
+                                          
+                                          </table>
+                                      @endforeach
+                                      @endforeach
+                                    </td>
+                                    <td>{{$charge}}</td>
+                                    <td>{{$to_amount_charge+$charge}}</td>
+                                  </tr>
+                                
+                                </tbody>
+                                <tfoot>
+                                  <tr>
+                                    <td>Total Parcel</td>
+                                    <td>{{$to_amount_charge+$charge}}</td>
+                                    <td></td>
+                                    <td></td>
+                                  </tr>
+                                </tfoot>
+                       </table>
+
+                      <div class="col1">
+                          <p>Receiver:</p>
+                          <p>Signature:</p>
+                          <p>Name:</p>
+                        </div>
 						</body>
 					</html>

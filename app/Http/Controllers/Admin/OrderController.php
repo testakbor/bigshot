@@ -60,16 +60,7 @@ class OrderController extends Controller
         'title'=>"Pending Order List",
         'page'=>'pendingOrder'
       );
-      $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count(); 
+
 
       $orders=Post::where('posts.post_type','shop_order')
       ->where('post_status','on-hold')
@@ -102,7 +93,7 @@ class OrderController extends Controller
        ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
        ->sum('meta_value');
 
-      return view('admin.order.pendingOrder',compact('orders','total_orders','pending_order','processing_order','delivered_order','cancelled_order', 'dispatch_order','total_item','total_amount','or'))->with($extraInfo);
+      return view('admin.order.pendingOrder',compact('orders','total_orders','total_item','total_amount','or'))->with($extraInfo);
     }
     public function todayPendingOrder(){
       $extraInfo=array(
@@ -169,17 +160,6 @@ class OrderController extends Controller
       'title' => "Order List",
       'page' => 'order'
     );
-     $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
      $order=Post::where('post_type','shop_order')
     ->where('post_status','processing')
      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')]) 
@@ -188,7 +168,7 @@ class OrderController extends Controller
     ->where('post_status', 'processing')
     ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->count();
-    return view('admin.order.processing',compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo);
+    return view('admin.order.processing',compact('order','total_order'))->with($extraInfo);
   }
 
   public function processingOrderByDate($day)
@@ -222,17 +202,6 @@ class OrderController extends Controller
       'title' => "Order List",
       'page' => 'order'
     );
-     $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
     $order = Post::where('post_type', 'shop_order')
     ->where('post_status', 'dispatch')
     ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
@@ -241,7 +210,7 @@ class OrderController extends Controller
     ->where('post_status', 'dispatch')
     ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->count();
-    return view('admin.order.dispat', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo); 
+    return view('admin.order.dispat', compact('order','total_order'))->with($extraInfo); 
   }
 
   public function allDispatchcomplete(){
@@ -810,11 +779,18 @@ public function grossProfit()
       $company_name=$request->delivery_company;
       $id=$request->order;
       $orders = Post::where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->get();
-      DB::table('posts')->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->update([
-        'post_status'=>'dispatch',
-        'post_modified'=>$current,
-      ]);
-      $pdf = PDF::loadView('admin.order.parcel_print',array('company_name'=>$company_name,'orders'=>$orders));
+      // DB::table('posts')->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->update([
+      //   'post_status'=>'dispatch',
+      //   'post_modified'=>$current,
+      // ]);
+       $delivery=DB::table('order_itemmeta')->where('order_id',$id)
+      ->where('meta_key','delivery_charge')->first();
+       if(isset($delivery)){ 
+       $charge=$delivery->meta_value;
+      } else{
+       $charge=0;
+      } 
+      $pdf = PDF::loadView('admin.order.parcel_print',array('company_name'=>$company_name,'orders'=>$orders,'charge'=>$charge));
       return $pdf->download('delivery_invoice.pdf');
         //return view('admin.order.parcel_print',compact('orders','company_name'));
     }
@@ -846,19 +822,6 @@ public function grossProfit()
         'title' => "Dispatch Order List",
         'page' => 'order'
       ); 
-       $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order; 
       $order = Post::where('post_type','shop_order')
       ->where('post_status','dispatch')
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
@@ -873,7 +836,7 @@ public function grossProfit()
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->join('order_itemmeta','posts.ID','=','order_itemmeta.order_id')
       ->sum('meta_value');
-      return view('admin.order.excelDispatch', compact('order','total_complete','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status','total_qty'))->with($extraInfo); 
+      return view('admin.order.excelDispatch', compact('order','total_complete','total_qty'))->with($extraInfo); 
     }
 
     public function excelDispatchDownload(Request $request){
@@ -889,41 +852,17 @@ public function grossProfit()
         'title' => "Order List",
         'page' => 'order'
       );
-       $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $reject_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'failed'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order+$reject_order;
       $order=Post::where(['post_type'=>'shop_order','post_status'=>'delivered'])
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->get();
-      return view('admin.order.deliveryInvoiceOrder',compact('order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','reject_order','total_order_status'))->with($extraInfo); 
+      return view('admin.order.deliveryInvoiceOrder',compact('order'))->with($extraInfo); 
     }
 
     public function deliveredOrder(){
       $extraInfo = array(
         'title' => "Order List",
         'page' => 'order'
-      );
-       $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
+      ); 
       $order = Post::where('post_type', 'shop_order')
       ->where('post_status','=','delivered')
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
@@ -932,7 +871,7 @@ public function grossProfit()
       ->where('post_status','=','delivered')
       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
       ->count();
-      return view('admin.order.delivery', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo); 
+      return view('admin.order.delivery', compact('order','total_order'))->with($extraInfo); 
     }
 
     public function deliveredSearch(Request $request){
@@ -961,19 +900,6 @@ public function grossProfit()
         'title' => "Order List",
         'page' => 'order'
       );
-
-     $pending_order=Post::where(['posts.post_type'=>'shop_order','post_status'=>'on-hold'])
-      ->count();
-      $processing_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'processing'])
-      ->count();
-      $dispatch_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'dispatch'])
-      ->count();
-      $delivered_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'delivered'])
-      ->count();
-      $cancelled_order = Post::where(['posts.post_type' => 'shop_order', 'post_status' => 'cancelled'])
-      ->count();;
-      $total_order_status=$pending_order+$processing_order+$dispatch_order+$delivered_order+$cancelled_order; 
-
       $date = \Carbon\Carbon::today()->subDays(30);
       $order = Post::where('post_type', 'shop_order')
       ->where('post_status', 'cancelled')
@@ -983,7 +909,7 @@ public function grossProfit()
       ->where('post_status', 'cancelled')
       ->where('post_modified', '>=', $date)
       ->count();
-      return view('admin.order.cancelled', compact('order','total_order','pending_order','processing_order','dispatch_order','delivered_order','cancelled_order','total_order_status'))->with($extraInfo);
+      return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
     } 
 
     public function cancelledOrderSearch(Request $request){

@@ -44,14 +44,13 @@
                   <th>Address</th>
                   <th>Mobile</th>
                   <th class="right">Items</th>
-                  <th class="center">Qty</th>
+                  <th class="right">Delivery Charge</th>
                   <th class="right">Amount</th>
-                  <th class="right">Status</th>
                   <th class="right">Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                @php $att=0; $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
+                @php $tot_parcel=0; $to_amount_charge=0; $att=0; $q=0;$s=0; $att=0; $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
                 @foreach($orders as $item)
                 @foreach($item->productMeta as $info) 
                      @if($info->meta_key=='phone')
@@ -72,24 +71,23 @@
                       <td class="left">{{$first_name}} {{$last_name}}</td>
                       <td class="left">{{$address}}</td>
                       <td class="left">{{$mobile_no}}</td>
-                      <td class="right">
-                            <table style="width:100%">
-                              @foreach($item->orderItem as $meta)
-                              <tr>
-                                <td>{{$meta->order_item_name}}</td>
-                              </tr>
-                              @endforeach
-                                   @foreach($item->orderItem as $meta)
-                              @foreach($meta->orderMeta as $value)
-                               
-                                     @if($value->meta_key=='attribute_parent')
-                                    @php $att=$value->meta_value; @endphp
-                                  @endif 
-                               @endforeach
-                               @endforeach
-                            </table>
-                                <table class="table">
-                          <tbody>
+                      <td class="left">
+                      @foreach($item->orderItem as $meta)
+                       <table style="width:100%">
+                            <tr>
+                              <th>Name</th>
+                              <th>Attribute</th>
+                              <th>Qty</th>
+                              <th>Amount</th>
+                            </tr>
+                            <tr>
+                              <td>{{$meta->order_item_name}}</td>
+                              <td>
+                                 @foreach($meta->orderMeta as $value)
+                                        @if($value->meta_key=='attribute_parent')
+                                          @php $att=$value->meta_value; @endphp
+                                        @endif 
+                                   @endforeach
                              @php 
                                 $list_att=DB::table('postmeta')->where('post_id',$att)
                                 ->where('meta_key','attribute')->get(); 
@@ -97,49 +95,46 @@
                              @foreach($list_att as $a)
                               @php $data_att=json_decode($a->meta_value); @endphp 
                                   @foreach($data_att as $da)
-                                    <tr>
-                                      <td>{{$da->taxonomy}}:</td>
-                                      <td>{{$da->term}}</td>
-                                    </tr>
+                                      {{strtoupper($da->taxonomy)}} : {{strtoupper($da->term)}}
+                                       </br>
                                 @endforeach 
                              @endforeach 
-                          </tbody>
-                        </table>
-                      </td>
-                      <td class="center">
-                             <table style="width:100%">
-                              @foreach($item->orderItem as $meta)
-                              @foreach($meta->orderMeta as $value)
-                                 @if($value->meta_key=='_qty')
-                                    @php $qty=$value->meta_value; @endphp
-                                  @endif 
-                                     @if($value->meta_key=='attribute_parent')
-                                    @php $qty=$value->meta_value; @endphp
-                                  @endif 
-                               @endforeach
-                              <tr>
-                                <td>{{$qty}}</td>
-                              </tr>
-                              @endforeach
-                            </table>
-                      </td>
-                      <td class="right">
-                             <table style="width:100%">
-                              @foreach($item->orderItem as $meta)
-                              @foreach($meta->orderMeta as $value)
+                              </td>
+                              <td>
+                                   @foreach($meta->orderMeta as $value)
+                                        @if($value->meta_key=='_qty')
+                                          @php $q=$value->meta_value; @endphp
+                                        @endif 
+
+                                        @if($value->meta_key=='attribute_parent')
+                                          @php $att=$value->meta_value; @endphp
+                                        @endif 
+                                
+                                   @endforeach
+                                 {{$q}} @php $tot_parcel+=$q; @endphp
+                              </td>
+                              <td>
+                                 @foreach($meta->orderMeta as $value)
                                  @if($value->meta_key=='_line_subtotal')
-                                    @php $subtotal=$value->meta_value; @endphp
+                                    @php $s=$value->meta_value; @endphp
                                   @endif 
+                                  
                                @endforeach
-                              <tr>
-                                <td>{{$subtotal}}</td>
-                              </tr>
-                              @php $grandTotal+=$subtotal; @endphp
-                              @endforeach
-                            </table>
+                                 {{number_format($s)}} 
+                                @php $to_amount_charge+=$s; $grandTotal+=$s; @endphp
+                              </td>
+                            </tr>
+                           
+                          </table>
+                      @endforeach
+
                       </td>
-                      <td class="right">{{strtoupper($item->post_status)}}</td>
-                      <td class="right"><a class="btn btn-danger btn-sm" href="{{route('send.parcel.search.remove',$item->ID)}}"><i class="fa fa-times"></i> Remove from here<td></td>
+
+                      <td class="left">
+                        @php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}
+                      </td>
+                      <td class="left">{{$to_amount_charge+$charge}}</td>
+                      <td class="right"><a onclick="return confirm('are you sure?')" class="btn btn-danger btn-sm" href="{{route('send.parcel.search.remove',$item->ID)}}"><i class="fa fa-times"></i> Remove from here<td></td>
                   </tr>
                   @endforeach 
                 </tbody>
@@ -167,7 +162,7 @@
               </div>
               <div class="col-md-3">          
                <button class="btn btn-success">            
-                  {{$grandTotal}}
+                  {{$grandTotal+$charge}}
                   Total Percel
                 </button>
               </div>

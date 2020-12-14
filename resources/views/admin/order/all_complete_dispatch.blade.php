@@ -51,7 +51,7 @@
         </a>
       </div>
 
-      <div class="col-md-2 ">
+      <div class="col-md-2">
         <div class="box bg-success">
           <!-- <i class="fa fa-handshake ml-1"></i> -->
 

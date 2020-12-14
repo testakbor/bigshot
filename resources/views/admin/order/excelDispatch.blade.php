@@ -22,7 +22,7 @@
          @include('admin.includes.messages')
         <ul class="nav bg-dark d-flex justify-content-around">
          <li class="nav-item" style="border-right: 1px solid white;">
-          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order}})</a>
+          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_admin}})</a>
         </li>
 
        <!--  <li class="nav-item " style="border-right: 1px solid white;">
@@ -80,7 +80,7 @@
 
       <div class="container">
     <div class="row">
-      <div class="offset-8 col-md-2">
+      <div class="col-md-6">
         <a style="text-decoration: none;" href="{{route('all_dispatch_complete')}}">
         <div class="box bg-danger">
           <h3 class="text-center">{{$total_complete}}</h3>
@@ -89,7 +89,7 @@
         </a>
       </div>
 
-      <div class="col-md-2 ">
+      <div class="col-md-6">
         <div class="box bg-success">
 
 
