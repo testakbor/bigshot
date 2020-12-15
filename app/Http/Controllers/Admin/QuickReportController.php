@@ -480,8 +480,8 @@ public function rejectItemSearch(Request $request){
   );
   $start=$request->start;
   $end=$request->end;
-  $data=Post::where(['post_type'=>'product','meta_key'=>'reject_date'])
-  ->join('postmeta','posts.ID','=','postmeta.post_id')
+  $data=DB::table('postmeta')
+  ->where('meta_key','reject_date')
   ->whereBetween('meta_value',[$start,$end])
   ->get();
   return view('admin.quickReport.reject_item_search',compact('data'))->with($extraInfo);
@@ -503,7 +503,7 @@ public function bestSelling(Request $request)
    FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id 
    where meta_key='_qty' 
    and order_date Between '$start' and '$end' 
-   GROUP by product_id ORDER by total_qty DESC LIMIT 10");
+   GROUP by product_parent ORDER by total_qty DESC LIMIT 10");
   return view('admin.quickReport.best_selling',compact('order'))->with($extraInfo);
 }
 }
@@ -519,7 +519,7 @@ public function bestSellingSearch(Request $request){
    FROM order_itemmeta JOIN order_items ON order_itemmeta.order_item_id=order_items.order_item_id 
    where meta_key='_qty' 
    and order_date Between '$start' and '$end' 
-   GROUP by product_id ORDER by total_qty DESC");
+   GROUP by product_parent ORDER by total_qty DESC");
   return view('admin.quickReport.best_sell_search',compact('order'))->with($extraInfo);
 }
 }

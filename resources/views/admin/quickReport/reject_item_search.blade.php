@@ -30,41 +30,21 @@
 		</div>
 		<!-- /.container-fluid -->
 		<div class="s002">
-		
-
-
-
-
-
-
- <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Reject Item</div>
-    <div class="d-flex justify-content-center">
-      <form class="form-inline" method="post" action="{{route('reject.item.search.data')}}" >
-        @csrf() 
-        <div class="form-group mb-2">
-          <label for="depart" class="mr-2">Start Date </label>
-          <input class="form-control datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
-        </div>
-        <div class="form-group mx-sm-3 mb-2">
-          <label for="return" class="mr-2">End Date </label>
-          <input class="form-control datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
-        </div>
-        <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
-      </form>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+			<div class="d-flex font-weight-bold justify-content-center h2 mb-3">Search Reject Item</div>
+			<div class="d-flex justify-content-center">
+			<form class="form-inline" method="post" action="{{route('reject.item.search.data')}}" >
+				@csrf() 
+				<div class="form-group mb-2">
+				<label for="depart" class="mr-2">Start Date </label>
+				<input class="form-control datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
+				</div>
+				<div class="form-group mx-sm-3 mb-2">
+				<label for="return" class="mr-2">End Date </label>
+				<input class="form-control datepicker" name="end" value="{{date('Y-m-d')}}" id="return" type="date"/>
+				</div>
+				<button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+			</form>
+			</div>
            </div>
 		</section>
 		<!-- Main content -->
@@ -79,38 +59,74 @@
 								<thead>
 									<tr>
 										<th class="center">SKU</th>
-										<th>Categories</th>
-										<th class="right">Quantity</th>
-										<th class="right">Amount</th>
+										<th class="right">Item</th>
+										<th class="right">Attribute</th>
+										<th class="right">Qty</th>
 										<th class="right">Reject Date</th>
-										<th class="right">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									@php $sku=''; $qty=0; $total_qty=0;$amount=0;$total_amount=0;$reject_date=''; @endphp
+									@php $total_qty=0; @endphp
 									@foreach($data as $item)
-									@foreach($item->productMeta as $meta)
-									 @if($meta->meta_key=='_sku') @php $sku=$meta->meta_value; @endphp @endif
-									 @if($meta->meta_key=='reject_qty') @php $qty=$meta->meta_value; @endphp @endif
-									 @if($meta->meta_key=='sale_price') @php $amount=$meta->meta_value; @endphp @endif
-									 @if($meta->meta_key=='reject_date') @php $reject_date=$meta->meta_value; @endphp @endif
-									@endforeach
+									 @php 
+									 $check_id=DB::table('posts')
+									->where('ID',$item->post_id)
+									->select('ID','post_parent')
+									->first();
+									 @endphp 
+									@if(isset($check_id))
+											@if($check_id->post_parent==0) 
+											@php $p_id=$check_id->ID; @endphp  
+											@else 
+											@php $p_id=$check_id->post_parent; @endphp 
+											@endif
+									@endif
 									<tr>
-										<td class="center">{{$sku}}<br>{{date('d-m-Y',strtotime($item->post_date))}}</td>
-										<td>@php $category=DB::table('term_relationships')
-										->where('object_id',$item->ID)
-										->where('taxonomy','product_cat')
-										->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
-										->join('terms','terms.term_id','=','term_taxonomy.term_id')
-										->select('terms.name as cat_name')
-										->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif
-									   </td>
-										<td class="right">{{$qty}}</td>
-										<td class="right">{{$amount}}</td>
-										<td class="right">{{date('d-m-Y',strtotime($reject_date))}}</td>
-										<td class="right"><a class="btn btn-danger btn-sm" href="{{route('reject.item.remove.data',$item->ID)}}">Remove</a></td>
+										<td class="center">
+											@php $sku=DB::table('postmeta')
+											->where('post_id',$p_id) 
+											->where('meta_key','_sku')
+											->first(); 
+											@endphp
+											@if(isset($sku)) {{$sku->meta_value}} @endif
+										</td>
+										<td class="right">
+                                          @php $name=DB::table('posts')->where('ID',$p_id)->first(); @endphp @if(isset($name)) @php $pro_name=$name->post_title; @endphp @endif {{$pro_name}}
+										</td>
+
+										<td>
+											@php 
+														$lists=DB::table('postmeta')
+														->where('post_id',$item->post_id)
+														->where('meta_key','attribute')
+														->select('meta_value','post_id')
+														->first();
+														@endphp
+														@if(isset($lists))
+														 @php $attribute=json_decode($lists->meta_value); @endphp
+														   @foreach($attribute as $att)
+                                                                        {{$att->taxonomy}} :
+                                                                        {{$att->term}}     
+                                                           @endforeach 
+														@endif 
+										</td>
+										<td>
+											@php 
+											$qty=DB::table('postmeta')->where('post_id',$item->post_id)
+											->where('meta_key','reject_qty')->first(); 
+											@endphp
+											@if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
+											{{$qtyy}} @php $total_qty+=$qtyy; @endphp
+										</td>
+										<td>
+											@php 
+											$reject_date=DB::table('postmeta')->where('post_id',$item->post_id)
+											->where('meta_key','reject_date')->first(); 
+											@endphp
+											@if(isset($reject_date)) @php $rdate=$reject_date->meta_value; @endphp @endif
+											{{$rdate}}
+										</td>
 									</tr>
-									@php $total_qty+=$qty;$total_amount+=$amount; @endphp
 									@endforeach 
 								</tbody>
 							</table>
@@ -128,13 +144,6 @@
 							<!-- <i class="fa fa-lemon ml-1"></i> -->
 							<h3 class="text-center">{{$total_qty}}</h3>
 							<p class="lead text-center font-weight-bold">Total Quantity</p>
-						</div>
-					</div>
-					<div class="col-md-4 ">
-						<div class="box bg-info">
-							<!-- <i class="fa fa-handshake ml-1"></i> -->
-							<h3 class="text-center">{{$total_amount}}</h3>
-							<p class="lead text-center font-weight-bold">Total Amount</p>
 						</div>
 					</div>
 				</div>

@@ -16,8 +16,8 @@ class PageController extends Controller
         $category = DB::table('term_relationships')
         ->where('object_id',$id)
         ->where('taxonomy', 'product_cat')
-        ->join('term_taxonomy', 'term_relationships.term_taxonomy_id', '=', 'term_taxonomy.term_taxonomy_id')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_id')
+        ->join('terms','terms.term_id','=','term_taxonomy.term_id')
         ->select('terms.term_id as cat_id')
         ->first();
         $product_related=DB::table('term_relationships')

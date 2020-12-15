@@ -61,14 +61,18 @@
 								<th>Quantity</th>
 								<th>Sales amount</th>
 								<th>Cost</th>
+								<th></th>
 								<th>Gross Profit</th>
 							</tr>
 							<tbody>
-								@php $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
+								@php $total_charge=0; $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
 								@foreach($order as $item)
 								<tr>
 									<td>{{date('d-m-Y',strtotime($item->post_date))}}</td>
-									<td>{{$item->ID}}</td>
+									<td>{{$item->ID}} 
+								@php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
+								@php $total_charge+=$charge; @endphp	
+									</td>
 									<td>
 										<table style="width:100%">
                                          @foreach($item->orderItem as $meta)
@@ -155,6 +159,7 @@
 										@endforeach
 										</table>
 									</td>
+									<td></td>
 									<td>
 										<table style="width:100%">
 										@foreach($item->orderItem as $meta)
@@ -175,19 +180,11 @@
 									<td><b>Total</b></td>
 									<td></td>
 									<td></td>
-									<td>
-										<b>{{$total_qty}}</b>
-									</td>
-									<td>
-										<b>{{number_format($total_sale_amount)}}tk
-											<b/>
-										</td>
-										<td>
-											<b>{{number_format($total_cost)}}tk</b>
-										</td>
-										<td>
-											<b>{{number_format($total_sale_amount-$total_cost)}}tk</b>
-										</td>
+									<td>{{$total_qty}}</td>
+									<td>{{number_format($total_sale_amount)}}tk</td>
+									<td>{{number_format($total_cost)}}tk</b></td>
+									<td>delivery charge: {{number_format($total_charge)}}tk</td>
+									<td>{{number_format($total_sale_amount-$total_cost+$total_charge)}}tk</td>
 									</tr>
 								</tfoot>
 							</table>

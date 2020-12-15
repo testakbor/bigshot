@@ -4,28 +4,63 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <div class="container-fluid">
-      @include('admin.includes.messages')
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Excel Dispatch</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Excel Dispatch</li>
-          </ol>
-        </div>
-      </div>
+
+
     </div><!-- /.container-fluid -->
-    <div class="s002">
+
+
+
+
+
+
+
+
+      <div class="card-body">
+        <h1 class="mb-3" style="text-align:center;font-weight:bold;">Excel Dispatch</h1>
+         
+      <div class="container">
+         @include('admin.includes.messages')
+        <ul class="nav bg-dark d-flex justify-content-around">
+         <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_admin}})</a>
+        </li>
+
+       <!--  <li class="nav-item " style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order ({{$pending_order}})</a>
+        </li> -->
+        <li class="nav-item " style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing ({{$processing_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch ({{$dispatch_order}})</a>
+        </li>
+        <li class="nav-item bg-primary" style="border-right: 1px solid white;">
+          <a  class="nav-link active" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered ({{$delivered_order}})</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled ({{$cancelled_order}})</a>
+        </li>
+
+      </ul>
+    </div>
+
     
+  </div>
 
 
 
-
-
- <div class="d-flex font-weight-bold justify-content-center h2 mb-3">Excel Dispatch</div>
-    <div class="d-flex justify-content-center">
+    <div class="s002">
+    <div class="d-flex justify-content-center h2 mb-3">Search Excel Dispatch Order</div>
+    <div class="d-flex justify-content-center mb-3">
       <form class="form-inline" method="post" action="{{route('excel.dispatch.order.date')}}" >
         @csrf() 
         <div class="form-group mb-2">
@@ -39,33 +74,7 @@
         <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
       </form>
     </div>
-  <div class="container">
-    <div class="row">
-      <div class="offset-8 col-md-2">
-        <div class="box bg-danger">
-          <!-- <i class="fa fa-lemon ml-1"></i> -->
-
-          <h3 class="text-center">12</h3>
-
-          <p class="lead text-center font-weight-bold">Complete</p>
-        </div>
-      </div>
-
-      <div class="col-md-2 ">
-        <div class="box bg-success">
-          <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
-          <h3 class="text-center">12</h3>
-
-          <p class="lead text-center font-weight-bold">Quantity</p>
-        </div>
-      </div>
     </div>
-
-  </div>
-
-
 <!-- Main content -->
 <section class="content">
   <div class="container">
@@ -77,22 +86,32 @@
       </div>
 
       <div class="card-body">
-
-
+        {{$order->links()}}
+        @if($order->count()>0)
+        <button id="selectAll" class="btn btn-info" type="button">Copy</button>
+        <button id="download_excel" class="btn btn-success" type="button">Download</button>
+        <button style="display: none;" id="refresh_excel" class="btn btn-success" type="button">Refresh</button>
+        @endif 
+<div class="loader">
+  <div class="loading">
+  </div>
+</div>
         <div class="table-responsive-sm">
-          <table class="table table-striped">
+          <table id="example" class="table table-striped">
+
             <thead>
               <tr>
                 <th class="center">Oder Id</th>
                 <th>Name</th>
                 <th class="right">Mobile</th>
                 <th class="right">Address</th>
+                <th class="right">Delivery Charge</th>
                 <th class="right">Amount</th>
-                <!-- <th class="right">Comments</th> -->
-                <th class="right">Action</th>
+                <th class="right">Status</th>
               </tr>
             </thead>
-
+            <form id="copy_form" class="form-inline" method="post" action="{{route('order.excel.dispatch.download')}}" >
+             @csrf() 
             <tbody>
               @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $total_qty=0; @endphp
               @foreach($order as $orders)
@@ -112,24 +131,22 @@
               @endforeach
               @endforeach
               <tr>
-                <td class="center">{{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
+                <td class="center"><input type="checkbox" name="check_id[]" value="{{$orders->ID}}"> {{$orders->ID}} Date:{{date('d-m-Y',strtotime($orders->post_date))}}</td>
                 <td>{{$name}} {{$last_name}}</td>
                 <td class="right">{{$phone}}</td>
                 <td class="right">{{$address_one}}</td>
-                <td class="right">{{$total_amount}}</td>
-                <td class="right">
-                  <a href="#" class="btn btn-success">Copy</a><br>
-                  <a onclick="return confirm('are you sure??')" href="{{route('excel.dispatch.order.complete',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 100%;">Complete</a>
-                </td>
-                <!-- <td class="right">hello</td> -->
+                <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
+                <td class="right">{{$total_amount+$charge}}</td>
+                <td>@if($orders->post_status=='dispatch_complete') Complete @else In Complete @endif</td>
               </tr>
               @php $total_amount=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp
               @endforeach
             </tbody>
+              </form>
           </table>
-          {{$order->links()}}
+     
         </div>
-
+            
         <div class="row">
           <div class="col-lg-4 col-sm-5">
 
@@ -141,6 +158,8 @@
     </div>
   </div>
 
+
+
 </section>
 <!-- /.row -->
 </div><!-- /.container-fluid -->
@@ -150,5 +169,25 @@
 @endsection
 
 @section('js')
+<script>
+$(document).ready(function () {
+  $('body').on('click', '#selectAll', function () {
+        $('input[type="checkbox"]', '#example').prop('checked', true);
+    $(this).toggleClass('allChecked');
+  })
 
+  $("#download_excel").click(function(){
+    $('#copy_form').delay(200).submit();
+    $("#refresh_excel").show();
+    $("#download_excel").hide();
+  });
+
+  $("#refresh_excel").click(function(){
+    location.reload();
+  });
+
+
+
+});
+</script>
 @endsection

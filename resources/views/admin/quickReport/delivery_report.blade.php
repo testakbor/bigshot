@@ -73,7 +73,7 @@ use App\Model\front\Order_item;
                   <td class="left strong">{{$item->ID}}</td>
                   <td class="right">{{date('d-M-Y',strtotime($item->post_date))}}</td>
                   <!-- <td class="right">{{$item->post_status}}</td> -->
-                  <td class="right"><a href="{{url('delivered/edit/'.$item->ID)}}" class="btn btn-success btn-sm" href="">View Details</a></td>
+                  <td class="right"><a href="{{url('order/edit/'.$item->ID)}}" class="btn btn-success btn-sm" href="">View Details</a></td>
                   </tr>
                   @endforeach 
                 </tbody>

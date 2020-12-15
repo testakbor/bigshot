@@ -142,16 +142,38 @@ class OrderController extends Controller
     ->toDateString();
     $end=Carbon::parse($request->end)
     ->toDateString();
-    $orders=Post::where('posts.post_type','shop_order')
-    ->where('post_status','on-hold')
-    ->whereBetween('post_date',array([$start,$end]))
-    ->orderBy('ID','DESC')
-    ->get();
-    $total_orders=Post::where('posts.post_type','shop_order')
-    ->where('post_status','on-hold')
-    ->whereBetween('post_date',array([$start,$end])) 
-    ->count();  
-    return view('admin.order.searchOrder',compact('orders','total_orders'))->with($extraInfo);
+      $orders=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+      ->whereBetween('post_date',array([$start,$end]))
+      ->orderBy('ID','DESC')
+      ->paginate(10); 
+        $or=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+      ->whereBetween('post_date',array([$start,$end]))
+      ->orderBy('ID','DESC')
+      ->get(); 
+      $total_orders=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+      ->whereBetween('post_date',array([$start,$end]))
+      ->count();  
+
+       $total_item=DB::table('order_itemmeta')
+       ->join('posts','posts.ID','=','order_itemmeta.order_id')
+       ->where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->where('meta_key','_qty')
+       ->whereBetween('post_date',array([$start,$end]))
+       ->sum('meta_value');
+
+        $total_amount=DB::table('order_itemmeta')
+       ->join('posts','posts.ID','=','order_itemmeta.order_id')
+       ->where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->where('meta_key','_line_subtotal')
+       ->whereBetween('post_date',array([$start,$end]))
+       ->sum('meta_value');
+
+      return view('admin.order.searchOrder',compact('orders','total_orders','total_item','total_amount','or'))->with($extraInfo);
   }
 
   public function processing()
@@ -202,7 +224,7 @@ class OrderController extends Controller
       'title' => "Order List",
       'page' => 'order'
     );
-    $order = Post::where('post_type', 'shop_order')
+    $order = Post::where('post_type','shop_order')
     ->where('post_status', 'dispatch')
     ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->paginate(20);
@@ -437,7 +459,6 @@ public function rejectProductSearh(Request $request)
 }
 public function rejectProductUpdate(Request $request)
 {    
-  
    $extraInfo=array(
     'title'=>"Reject item",
     'page'=>'reject'
@@ -479,12 +500,6 @@ public function rejectProductUpdate(Request $request)
        'post_id'=>$request->post_id[$i],
        'meta_key'=>'product_status',
        'meta_value'=>'reject',
-      ]);
-
-      DB::table('postmeta')->insert([
-       'post_id'=>$request->post_id[$i],
-       'meta_key'=>'reject_date',
-       'meta_value'=> date('Y-m-d')
       ]);
 
       DB::table('postmeta')->insert([
@@ -881,15 +896,15 @@ public function grossProfit()
         'title' => "Delivery List",
         'page' => 'processing'
       );
-      $order = Post::where('post_type', 'shop_order')
-      ->where('post_status', 'delivered')
+     $order = Post::where('post_type', 'shop_order')
+      ->where('post_status','=','delivered')
       ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
       ->paginate(20);
       $total_order = Post::where('post_type', 'shop_order')
-      ->where('post_status', 'delivered')
-      ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))])
+      ->where('post_status','=','delivered')
+       ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
       ->count();
-      return view('admin.order.delivery_search', compact('order', 'total_order'))->with($extraInfo); 
+      return view('admin.order.delivery_search', compact('order','total_order'))->with($extraInfo); 
     }
 
 
@@ -1079,19 +1094,16 @@ public function grossProfit()
       'title' => "Brand List",
       'page' => 'processing'
     );
-     $date = \Carbon\Carbon::today()->subDays(30);
-     $order = Post::where('post_type', 'shop_order')
-     ->whereBetween('post_date',[$start,$end])
-     ->where('post_status', 'processing')
-     ->where('post_modified', '>=', $date)
-     ->paginate(20);
-     $total_order = Post::where('post_type', 'shop_order')
-     ->whereBetween('post_date', [$start, $end])
-     ->where('post_status', 'processing')
-     ->where('post_modified', '>=', $date)
-     ->count();
-     return view('admin.order.processing_date_wise', compact('order', 'total_order'))->with($extraInfo);
 
+    $order=Post::where('post_type','shop_order')
+    ->where('post_status','processing')
+     ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))]) 
+    ->paginate(20);
+    $total_order=Post::where('post_type', 'shop_order')
+    ->where('post_status', 'processing')
+    ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))]) 
+    ->count();
+    return view('admin.order.processing_date_wise',compact('order','total_order'))->with($extraInfo);
    }
 
    public function dispatchOrderDelivered($id){
@@ -1116,18 +1128,18 @@ public function grossProfit()
       'title' => "Brand List",
       'page' => 'processing'
     );
-    $date = \Carbon\Carbon::today()->subDays(30);
-    $order = Post::where('post_type', 'shop_order')
-    ->where('ID', $request->order_id)
-    ->where('post_status', 'dispatch')
-    ->where('post_modified', '>=', $date)
+  
+    $order = Post::where('post_type','shop_order')
+    ->where('post_status','dispatch')
+    ->where('ID',$request->order_id)
+    ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->paginate(20);
     $total_order = Post::where('post_type', 'shop_order')
-    ->where('ID', $request->order_id)
     ->where('post_status', 'dispatch')
-    ->where('post_modified', '>=', $date)
+    ->where('ID',$request->order_id)
+    ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')])
     ->count();
-    return view('admin.order.dispatch_date_wise', compact('order', 'total_order'))->with($extraInfo);
+    return view('admin.order.dispatch_date_wise', compact('order','total_order'))->with($extraInfo); 
   }
 
 
@@ -1189,17 +1201,27 @@ public function grossProfit()
 
  public function exceldispatchOrderdate(Request $request){
   $start=$request->start;
-  $end = $request->end;
+  $end=$request->end;
   $extraInfo = array(
     'title' => "Brand List",
     'page' => 'processing'
   );
-        //   $date = \Carbon\Carbon::today();
-  $order = Post::where('post_type', 'shop_order')
-  ->where('post_status', 'dispatch')
-  ->whereBetween('post_modified',[$start,$end])
-  ->paginate(20);
-  return view('admin.order.excelDispatchdate', compact('order'))->with($extraInfo); 
+
+      $order = Post::where('post_type','shop_order')
+      ->where('post_status','dispatch')
+      ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))])
+      ->paginate(500);
+      $total_complete=Post::where('post_type','shop_order')
+      ->where('post_status','dispatch_complete')
+      ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))])
+      ->count();
+       $total_qty=Post::where('post_type','shop_order')
+      ->where('post_status','dispatch_complete')
+      ->where('meta_key','_qty')
+      ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))])
+      ->join('order_itemmeta','posts.ID','=','order_itemmeta.order_id')
+      ->sum('meta_value');
+      return view('admin.order.excelDispatchdate', compact('order','total_complete','total_qty'))->with($extraInfo);
 }
 
 

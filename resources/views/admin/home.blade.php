@@ -98,8 +98,9 @@
           <input type="hidden" id="end_date" value="{{$end}}">
           @endif
         </div>
-        <div class="col-md-12">
-          <form method="get" action="{{route('admin.home')}}">
+
+            <div class="col-md-6">
+         <form method="get" action="{{route('admin.home')}}">
             <div class="form-group">
               <label>Start</label>
               <input type="date" class="form-control" value="{{date('Y-m-01')}}" name="start" placeholder="start" required>
@@ -110,6 +111,10 @@
             </div>
             <button type="submit" class="btn btn-success">Search</button>
           </form>
+        </div>
+
+        <div class="col-md-12">
+         
           <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         </div>
 

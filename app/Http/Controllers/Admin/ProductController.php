@@ -293,10 +293,10 @@ public function edit($id,Request $request)
 
     // product categorys                
     $texonomoys=DB::table('term_relationships')
-    ->join('term_taxonomy', 'term_taxonomy.term_taxonomy_id', '=', 'term_relationships.term_taxonomy_id')
-    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
     ->where('object_id',$id)
     ->where('term_taxonomy.taxonomy','product_cat')
+    ->join('term_taxonomy','term_taxonomy.term_id','=','term_relationships.term_taxonomy_id')
+    ->join('terms','terms.term_id', '=', 'term_taxonomy.term_id')
     ->select('terms.name')
     ->get();
     $nameTaxonomy=array();
@@ -481,14 +481,14 @@ public function update(Request $request,$id){
        }
        DB::table('temp_attribute_stock')->delete();
        //product categories
-        if($request->category !=null){
+        if($request->category!=null){
             foreach ($request->category as  $value) {   
               DB::table('term_relationships')->insert(['object_id'=>$id,'term_taxonomy_id'=>$value]); 
             }
          }
 
        // product tag
-       if(count($request->tag) > 0){
+       if(count($request->tag)>0){
           foreach ($request->tag as  $value) {
             DB::table('term_relationships')->insert(['object_id'=>$id,'term_taxonomy_id'=>$value]); 
           }

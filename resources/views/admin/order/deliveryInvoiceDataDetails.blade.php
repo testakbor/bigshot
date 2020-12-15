@@ -1,230 +1,127 @@
+<?php
+
+use App\Model\front\Order_item;
+?>
 @extends('admin.layouts.master')
 @section('content')
-<div class="content-wrapper" style="min-height: 1203.6px;" id="app">
-    <!-- Content Header (Page header) -->
+<div class="content-wrapper" style="min-height: 1203.6px;">
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Edit Order</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Edit Order</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
+         
+        </div>
+        <div class="s002">
+    <div class="d-flex font-weight-bold justify-content-center h2 mb-3"></div>
+
+                   <div class="card-body">
+        <h1 class="mb-3" style="text-align:center;font-weight:bold;">All Delivery Invoice</h1>
+         
+      <div class="container">
+         @include('admin.includes.messages')
+        <ul class="nav bg-dark d-flex justify-content-around">
+         <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.allStatus')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">All Status({{$total_order_admin}})</a>
+        </li>
+
+       <!--  <li class="nav-item " style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Pending Order ({{$pending_order}})</a>
+        </li> -->
+        <li class="nav-item " style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.pendingOrder')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Sales ({{$pending_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link"  href="{{route('order.processing')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Processing ({{$processing_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.dispat')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Dispatch ({{$dispatch_order}})</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a  class="nav-link" href="{{route('order.excel.dispatch')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Excel Dispatch</a>
+        </li>
+        <li class="nav-item bg-primary" style="border-right: 1px solid white;">
+          <a  class="nav-link active" href="{{route('order.delivery.invoice')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivery Invoice</a>
+        </li>
+        <li class="nav-item" style="border-right: 1px solid white;">
+          <a class="nav-link" href="{{route('order.deliver')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Delivered ({{$delivered_order}})</a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" href="{{route('order.cancelled')}}" style="color: aliceblue" tabindex="-1" aria-disabled="true">Cancelled ({{$cancelled_order}})</a>
+        </li>
+
+      </ul>
+    </div>
+
+    
+  </div>
+
+
+  <div class="s002">
+    <div class="d-flex justify-content-center h2 mb-3">Search Order</div>
+    <div class="d-flex justify-content-center mb-3">
+      <div class="d-flex justify-content-center mb-3">
+        <form class="form-inline" method="post" action="{{route('order.delivery.invoice.data')}}" >
+          @csrf() 
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Order Id</label>
+            <input  type="text" class="form-control" name="order_id" placeholder="Scanner or Order Id" />
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="depart" class="mr-2">Date</label>
+            <input  type="date" class="form-control" name="order_date" placeholder="Scanner or Order Id" />
+          </div>
+
+          <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+        </form>
+      </div>
+
+
+
+
+
+        </div>
     </section>
-    <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
-            @include('admin.includes.messages')
-            <div class="row">
-                <input type="hidden" name="id" value="{{$id}}">
-                <div class="col-md-9">
-                    <div class="card card-default">
-                        <div class="card-header">
-                            @php $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
-                            @foreach($order_info as $info)
-                            @if($info->meta_key=='phone')
-                            @php $mobile_no=$info->meta_value; @endphp
-                            @endif
-                            @if($info->meta_key=='address_one')
-                            @php $address=$info->meta_value; @endphp
-                            @endif
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive-sm">
+                      <h5 class="text-center">Current Month Order List</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="center">#</th>
+                                    <th class="center">Invoice Number</th>
+                                    <th>Date</th>
+                                    <!-- <th>Delivery Company</th> -->
+                                    <th class="right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                             @foreach($order as $key=>$item)
+                             <tr>
+                               <td>{{++$key}}</td>
+                               <td>{{$item->ID}}</td>
+                               <td>{{date('d-m-Y',strtotime($item->post_modified))}}</td>
+                               <td>
+                                 <a class="btn btn-success" href="{{url('order/edit'.'/'.$item->ID)}}">Edit</a>
+                                 <a class="btn btn-primary" href="{{url('delivered/print'.'/'.$item->ID)}}">Invoice</a>
+                  
+                                </td>
+                             </tr>
+                             @endforeach 
+                            </tbody>
+                        </table>
+                    </div>
 
-                            @if($info->meta_key=='_sku')
-                            @php $sku=$info->meta_value; @endphp
-                            @endif
-                            @if($info->meta_key=='_created_via')
-                            @php $check_out=$info->meta_value; @endphp
-                            @endif
-                            @if($info->meta_key=='_customer_ip_address')
-                            @php $customer_ip=$info->meta_value; @endphp
-                            @endif
-
-                            @if($info->meta_key=='address_two')
-                            @php $shipping_address=$info->meta_value; @endphp
-                            @endif
-
-                            @if($info->meta_key=='city')
-                            @php $shipping_city=$info->meta_value; @endphp
-                            @endif
-
-
-                            @if($info->meta_key=='_customer_user')
-                            @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->first(); @endphp
-                            @endif
-                            @endforeach
-                            <h3 class="card-title" style="width: 100%">Order #{{$id}} details </h3>
-
-                            <h3 class="card-title">Payment via {{$check_out}}. Customer IP: {{$customer_ip}}</h3>
-
-                        </div>
-                        <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
-                            <div class="genarel">
-                                <div class="font-weight-bold text-center">Genarel</div>
-                                <div class="mt-3">
-
-                                    <div class="form-group">
-                                        <label for="dateCreated">Date created:</label>
-                                        {{date('Y-m-d',strtotime($order->post_date))}}
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for=""> Status:</label>
-                                        {{$order->post_status}}
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div>
-                                <div class="font-weight-bold">Billing</div>
-                                <div class="mt-3">
-                                    @if(isset($user->name)){{$user->name}} @endif <br>
-                                    {{$address}}
-                                </div>
-                                <div class="font-weight-bold">Email Address</div>
-                                <div> @if(isset($user->email)){{$user->email}} @endif</div>
-
-                                <div class="font-weight-bold mt-2">Phone</div>
-                                <div>{{$mobile_no}}</div>
-                            </div>
-                            <div>
-                                <div class="font-weight-bold">Shipping</div>
-                                <div class="mt-3">
-                                    Address:{{$shipping_address}}<br>
-
-                                    City:{{$shipping_city}} <br>
-
-                                </div>
-                            </div>
-
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-5">
                         </div>
                     </div>
-                    <form action="{{route('update.order.quantity')}}" method="POST">
-                        @csrf
-                        <div class="card card-default">
-                            <div class="card-header">
-                                <h3 class="card-title" style="width: 100%">Item Info</h3>
-                            </div>
-                            <div class="card-body d-flex justify-content-between flex-row " style="display: block;">
-
-                                <table class="table table-striped">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Item</th>
-                                            <th scope="col">Cost</th>
-                                            <th scope="col">Qty</th>
-                                            <th scope="col">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                        $subtotal=0;
-                                        $qty=0;
-                                        $total=0;
-                                        $grandTotal=0;
-                                        $grandLinetotal=0;
-                                        $total_sub=0;
-                                        @endphp
-                                        @foreach($products as $key=>$items)
-                                        @foreach($items->orderMeta as $value)
-                                        @php
-                                        if($value->meta_key=='_line_subtotal'){
-                                        $subtotal=$value->meta_value;
-                                        }
-                                        if($value->meta_key=='_qty'){
-                                        $qty=$value->meta_value;
-                                        }
-                                        if($value->meta_key=='_line_total'){
-                                        $total=$value->meta_value;
-                                        }
-                                        @endphp
-                                        @endforeach
-                                        <tr>
-                                            <th scope="row">{{++$key}}</th>
-                                            <td>{{$items->order_item_name}} </td>
-                                            <td>{{$subtotal/$qty}}</td>
-                                            <td><input type="number" name="qty[]" value="{{$qty}}"></td>
-                                            <td>{{$subtotal}}</td>
-                                            <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
-                                            <input type="hidden" name="order_id" value="{{$id}}">
-                                            <input type="hidden" name="order_item_id[]" value="{{$value->order_item_id}}">
-                                            <input type="hidden" name="total[]" value="{{$subtotal}}">
-                                        </tr>
-                                        @php
-                                        $grandTotal +=$subtotal;
-                                        $grandLinetotal +=$total;
-                                        @endphp
-                                        @endforeach
-                                    </tbody>
-                                </table>
-
-                            </div>
-                            <div class="card-footer ">
-                                <div class="d-flex flex-column justify-content-end">
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <div> item Sub total:</div>
-                                        <div> $ {{$grandTotal}}</div>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <div> Order Total: </div>
-                                        <div> $ {{$grandLinetotal}}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 text-center">
-                                <button type="submit" value="submit" name="submit" class="btn btn-primary">Update</button>
-                            </div>
-                    </form>
                 </div>
             </div>
-
-
-
-            <!-- /.card-body -->
         </div>
-
-
-
-</div>
-
-</div>
-</form>
-<!-- /.col -->
-</div>
-
-
-<!-- /.row -->
-</div><!-- /.container-fluid -->
-</section>
-<!-- /.content -->
+    </section>
 </div>
 @endsection
-
 @section('js')
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<script src="{{asset('assets/admin/js/tinymce.min.js')}}" referrerpolicy="origin"></script>
-<script type="text/javascript">
-    tinymce.init({
-        selector: 'textarea',
-        height: 400,
-        menubar: false,
-        plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount'
-        ],
-        toolbar: 'undo redo | formatselect | ' +
-            'bold italic backcolor | alignleft aligncenter ' +
-            'alignright alignjustify | bullist numlist outdent indent | ' +
-            'removeformat | help',
-        content_css: '//www.tiny.cloud/css/codepen.min.css'
-    });
-</script>
 @endsection
