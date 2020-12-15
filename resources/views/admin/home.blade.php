@@ -98,30 +98,25 @@
           <input type="hidden" id="end_date" value="{{$end}}">
           @endif
         </div>
-
-            <div class="col-md-6">
-         <form method="get" action="{{route('admin.home')}}">
-            <div class="form-group">
-              <label>Start</label>
-              <input type="date" class="form-control" value="{{date('Y-m-01')}}" name="start" placeholder="start" required>
-            </div>
-            <div class="form-group">
-              <label>End</label>
-              <input type="date" class="form-control" value="{{date('Y-m-t')}}" name="end" placeholder="start" required>
-            </div>
-            <button type="submit" class="btn btn-success">Search</button>
-          </form>
-        </div>
-
-        <div class="col-md-12">
-         
+          <div class="d-flex justify-content-center">
+            <form class="form-inline" method="get" action="{{route('admin.home')}}" >
+              @csrf() 
+              <div class="form-group mb-2">
+                <label for="depart" class="ml-3">Start Date </label>
+                <input class="form-control datepicker" name="start" value="{{date('Y-m-01')}}" id="depart" type="date"/>
+              </div>
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="return" class="mr-2">End Date </label>
+                <input class="form-control datepicker" name="end" value="{{date('Y-m-t')}}" id="return" type="date"/>
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">SEARCH</button>
+            </form>
+          </div>
+        <div class="col-md-12 mt-5">
           <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         </div>
-
-
       </div>
-      <!-- /.row -->
-    </div><!-- /.container-fluid -->
+    </div>
   </section>
   <!-- /.content -->
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
