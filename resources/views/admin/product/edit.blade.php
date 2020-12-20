@@ -68,7 +68,7 @@
                       </div>
 
                       <div class="form-group row">
-                        <label for="stock" class="col-sm-2 col-form-label">Cost</label>
+                        <label for="stock" class="col-sm-2 col-form-label">Purchase Price</label>
                         <div class="col-sm-10">
                           <input type="text" name="product_stock" value="@if(isset($stock->meta_value)){{$stock->meta_value}} @else 0 @endif" class="form-control" id="stock" placeholder="Cost" required>
                         </div>
@@ -90,9 +90,9 @@
                       <table class="table table-responsive">
                           <thead>
                               <tr>
-                              <th scope="col">Attribute</th>
-                              <th scope="col">Stock</th>
-                              <th scope="col">Low stock threshold</th>
+                              <th>Attribute</th>
+                              <th>Stock</th>
+                              <th>Low stock threshold</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -105,8 +105,8 @@
                                   <tr>
                                     <td>
                                       @foreach($attribute as $att)
-                                      <b> {{$att->taxonomy}}</b> :
-                                      {{$att->term}}
+                                      <b> {{strtoupper($att->taxonomy)}}</b> :
+                                      {{strtoupper($att->term)}}
                                     
                                       @php 
                                          $stock=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','attribute_stock')->first();
@@ -120,6 +120,11 @@
                                       <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
                                 </tr>
                                 @endforeach
+                                @if(isset($stock)) 
+                                  <input type="hidden" class="form-control" name="a_stock" value="{{$stock->meta_value}}" autocomplete="off">
+                                  <input type="hidden" class="form-control" name="l_stock" value="{{$llow_stock}}" autocomplete="off">
+                                @endif
+                              
                             </tbody>
                           </table>
                           @else 
@@ -203,14 +208,47 @@
                     <button id="add_attribute" type="button" class="btn btn-success">Add Varient</button>
                     <div class="form-group row mt-3">
                       <div class="col-md-12" id="finalValue">
-                        @foreach($allAttribute as $a)
+                        <!-- @foreach($allAttribute as $a)
                            <input type="hidden" name="att_default[]" value="{{$a->meta_value}}">
                              @php $data=json_decode($a->meta_value);  @endphp
                              @foreach($data as $att) 
                                <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$att->term_id}}">
                                <span style="margin-right:10px" class="btn btn-primary closeButton">{{$att->term}}</span>
                              @endforeach
-                        @endforeach 
+                        @endforeach  -->
+
+                           <table class="table table-responsive">
+                                <tbody>
+                                  @php $att_statuss=''; @endphp
+                                   @foreach($allAttribute as $a)
+                                     <input type="hidden" name="att_default[]" value="{{$a->meta_value}}">
+                                     @php $data=json_decode($a->meta_value); $current_status=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','att_status')->first(); @endphp
+
+                                       
+                                        <tr>
+                                            <td style="border: 0px solid #ffffff;">
+                                              <input  type="hidden" name="attribute_id" value="{{$a->post_id}}"> 
+                                              @if(isset($current_status)) @php $att_statuss=$current_status->meta_value; @endphp @endif
+                                              @if($att_statuss==1)
+                                              <span style="color:green">Active</span> <input  type="checkbox" name="at_id[]" value="{{$a->post_id}}" checked>   
+                                              @else 
+                                              <span style="color:red">Inactive</span> <input  type="checkbox" name="at_id[]" value="{{$a->post_id}}"> 
+                                              @endif 
+                                               @foreach($data as $att)
+                                                <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$att->term_id}}">
+                                             <b>{{strtoupper($att->taxonomy)}}</b> :
+                                             {{strtoupper($att->term)}} 
+                                   
+                                             @endforeach
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                             </table>
+
+
+
+
                       </div>
                        <div style="display:none"  class="col-md-12" id="finalValuetemp"></div>
                     </div>

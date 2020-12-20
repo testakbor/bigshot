@@ -379,6 +379,7 @@ public function edit($id,Request $request)
   }
 
 public function update(Request $request,$id){  
+    dd($request->attribute_id);
    if($request->user()->can('manage-product')) { 
    DB::table('term_relationships')->where('object_id',$id)->delete();
        //update post table
@@ -478,7 +479,17 @@ public function update(Request $request,$id){
         DB::table('postmeta')->insert([
         'post_id' =>$id_last,  
         'meta_key'  =>'attribute_stock',
-        'meta_value'=> $request->stockQuality,
+        'meta_value'=> $request->a_stock,
+        ]);
+        DB::table('postmeta')->insert([
+        'post_id' =>$id_last,  
+        'meta_key'  =>'attribute_low_stock',
+        'meta_value'=> $request->l_stock,
+        ]);
+         DB::table('postmeta')->insert([
+        'post_id' =>$id_last,  
+        'meta_key'  =>'att_status',
+        'meta_value'=> 1,
         ]);
        }
        DB::table('temp_attribute_stock')->delete();
@@ -491,7 +502,7 @@ public function update(Request $request,$id){
 
        // product tag
        if(count($request->tag)>0){
-          foreach ($request->tag as  $value) {
+          foreach ($request->tag as $value) {
             DB::table('term_relationships')->insert(['object_id'=>$id,'term_taxonomy_id'=>$value]); 
           }
        }
@@ -544,7 +555,7 @@ public function attributeStockAdd(Request $request){
                 $attribute[]=array(
                     'taxonomy'=>$detailVal->taxonomy,
                     'term'=>$detailVal->name,
-                    'term_id'=>$value
+                    'term_id'=>$value,
                 );
             }
             $attributes=json_encode($attribute);
