@@ -230,6 +230,11 @@ if($request->hasFile('galleryImage'))
             'meta_key'  =>'attribute_low_stock',
             'meta_value'=> $request->lowStockThreshold,
             ]);
+               DB::table('postmeta')->insert([
+                'post_id' =>$id_last,  
+                'meta_key'  =>'att_status',
+                'meta_value'=> 1,
+                ]);
         }
         DB::table('temp_attribute_stock')->delete(); 
       session()->flash("success","Information saved Successfully");
@@ -249,6 +254,13 @@ public function attributeValue($id,Request $request){
  echo json_encode($attributeValues);
       }
 
+}
+
+public function att_status_update($id,$status){
+   DB::table('postmeta')->where('post_id',$id)->where('meta_key','att_status')->update([
+      'meta_value' =>$status
+   ]);
+   return back();
 }
 
 // product edit
@@ -379,7 +391,6 @@ public function edit($id,Request $request)
   }
 
 public function update(Request $request,$id){  
-    dd($request->attribute_id);
    if($request->user()->can('manage-product')) { 
    DB::table('term_relationships')->where('object_id',$id)->delete();
        //update post table
@@ -506,7 +517,10 @@ public function update(Request $request,$id){
             DB::table('term_relationships')->insert(['object_id'=>$id,'term_taxonomy_id'=>$value]); 
           }
        }
-
+       
+       DB::table('posts')->where('ID',$id)->update([
+         'post_status' =>$request->status 
+       ]);
 
        session()->flash("success","Product information has been successfully update");
        return redirect(route('product.index'));

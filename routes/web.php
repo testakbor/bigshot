@@ -111,6 +111,7 @@ Route::group(['middleware' => 'role:admin'], function() {
     });
 
     Route::group(['namespace'=>'Admin'],function(){       
+        Route::get('att/status/{id}/{status}','ProductController@att_status_update');
         Route::get('gallery/product/delete/{id}','ProductController@gallery_image_delete')->name('gallery_delete');
         Route::get('attribute/stock','ProductController@varient_stock')->name('attribute_stock');
         Route::post('attribute/stock/add','ProductController@attributeStockAdd')->name('attribute_stock_add');
