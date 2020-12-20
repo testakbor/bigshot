@@ -81,6 +81,9 @@ class CartController extends Controller {
             ->where('meta_key','attribute_stock')
             ->select('meta_value')
             ->first(); 
+            if(isset($stock)){
+
+        
             if ($request->quantity > $stock->meta_value) {
                 return back()->with('error', 'Quantity not Exists');
                 exit();
@@ -90,12 +93,15 @@ class CartController extends Controller {
                 exit();
              }
             }
+                }
+
             else{
               $stock=DB::table('postmeta')
             ->where('post_id',$request->id)
             ->where('meta_key','default_qty')
             ->select('meta_value')
-            ->first();   
+            ->first();  
+                 if(isset($stock)){
             if ($request->quantity > $stock->meta_value) {
                 return back()->with('error', 'Quantity not Exists');
                 exit();
@@ -105,10 +111,16 @@ class CartController extends Controller {
                 exit();
              }
             }
+            }
+             if(isset($stock)){
             if($request->attribute_id!=0){
                 $parent=$request->attribute_id;
             }else{
                 $parent=$request->id; 
+            }
+            }else{
+                return back()->with('error', 'Out of stock');
+                exit();
             }
 
             Cart::add(array(

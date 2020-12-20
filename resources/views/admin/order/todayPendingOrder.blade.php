@@ -45,20 +45,35 @@ use App\Model\front\Order_item;
               <thead>
                 <tr>
                   <th class="center">Oder Id</th>
-                  <th class="right">Item</th>
-                  <th class="right">Qty</th>
-                  <th class="right">Action</th>
+                  <th>Items</th>
+                  <th>Attribute</th> 
+                  <th>Qty</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-             @php $quantity=0; @endphp   
-             @foreach($orders as $items)
-              <tr>
-                <td class="center">{{$items->ID}}</td>
-                <td class="center">
+                 @foreach($orders as $items)
+                <tr>
+                  <td>{{$items->ID}}</td>
+                  <td>
                   @foreach($items->orderItem as $pro_name)
-                     <li style="list-style:none">{{$pro_name->order_item_name}} </li>
-                          @php 
+                    <table style="width:100%;">
+                      <tr>
+                        <td>{{$pro_name->order_item_name}}</td>
+                      </tr>
+                    </table>
+                  @endforeach 
+                  </td>
+                  <td>
+
+
+
+ @foreach($items->orderItem as $pro_name)
+                    <table style="width:100%;">
+                      <tr>
+                        <td>
+
+@php 
                            $lists=DB::table('postmeta')
                            ->where('post_id',$pro_name->product_id)
                             ->where('meta_key','attribute')
@@ -70,30 +85,55 @@ use App\Model\front\Order_item;
                                   $attribute=json_decode($a->meta_value);
                                 @endphp
                                    @foreach($attribute as $att)     
-                          <li style="list-style:none">{{$att->taxonomy}} : {{$att->term}}</li>
+                          {{$att->taxonomy}} : {{$att->term}}
                       @endforeach 
                             @endforeach 
-                       
+
+
+
+                        </td>
+                      </tr>
+                    </table>
                   @endforeach 
-                </td>
-                <td class="center">
-                   @foreach($items->orderItem as $pro_name)
-                      @foreach($pro_name->orderMeta as $meta)
+                  </td>
+
+
+                  <td>
+
+
+
+   @foreach($items->orderItem as $pro_name)
+                    <table style="width:100%;">
+                      <tr>
+                        <td>
+                           @foreach($pro_name->orderMeta as $meta)
                          @if($meta->meta_key=='_qty') 
                            @php $quantity=$meta->meta_value; @endphp 
                          @endif
                       @endforeach
-                        <li style="list-style:none">{{$quantity}}</li> 
-                   @endforeach 
-                </td>
-                <td class="center">
-                  <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a><br>
-                    <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary" ><i class="fas fa-spinner"> </i>Processing</a><br>
-                    <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Details</a><br>
-                    <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger"> <i class="fas fa-window-close"> </i> Cancel</a>
-                </td>
-              </tr>
-             @endforeach 
+                      {{$quantity}}
+                        </td>
+                      </tr>
+                    </table>
+                  @endforeach 
+
+
+                  
+                  </td>
+
+
+
+
+
+
+
+
+                  <td>
+                       <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success"> <i class="fas fa-print"> </i> Print</a>
+                    <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Details</a>
+                  </td>
+                </tr>
+                @endforeach 
               </tbody>
               {{$orders->links()}}
             </table>

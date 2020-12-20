@@ -65,7 +65,7 @@
                             @foreach($products as $pro)
                                @php 
                                $img=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','attached_file')->first(); 
-                               $qty=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','qty')->sum('meta_value'); 
+                               $qty=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','default_qty')->sum('meta_value'); 
                                $cost=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','product_stock')->sum('meta_value'); 
                                $sale_price=DB::table('postmeta')->where('post_id',$pro->post_id)->where('meta_key','sale_price')->sum('meta_value'); 
                                $pro_title=DB::table('posts')->where('ID',$pro->post_id)->where('post_type','product')->first(); 

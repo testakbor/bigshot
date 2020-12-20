@@ -98,7 +98,7 @@
                   ->first(); 
                   @endphp 
                   @if(isset($cost)) 
-                    {{$cost->meta_value}} tk
+                    {{number_format($cost->meta_value)}} tk
                   @endif
                 </td>
                   <td class="right">
@@ -109,7 +109,7 @@
                     ->first();
                     @endphp 
                     @if(isset($price)) 
-                    {{$price->meta_value}} tk
+                    {{number_format($price->meta_value)}} tk
                     @endif
                   </td>
                 </tr>   

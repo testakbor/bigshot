@@ -150,8 +150,8 @@
                                         ->join('postmeta','posts.ID','=','postmeta.post_id')
                                         ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; @endphp
                         </td>
-                        <td class="right">TK {{$cost=$costs}}</td>
-                        <td class="right">Tk {{$price}}</td>
+                        <td class="right">TK {{number_format($cost=$costs)}}</td>
+                        <td class="right">Tk {{number_format($price)}}</td>
                         <td class="right">@if($main_qty>0) In stock @else Out of stock @endif</td>
                         <!-- <td class="right">
                           <i class="fas fa-print"><a href="#">Print</a></i><br>
@@ -183,14 +183,14 @@
               <div class="col-md-4">
                 <div class="box bg-success">
                   <!-- <i class="fa fa-user ml-1"></i> -->
-                  <h3 class="text-center">{{$tot_cost}}</h3>
+                  <h3 class="text-center">{{number_format($tot_cost)}}</h3>
                   <p class="lead text-center font-weight-bold">Total Cost</p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="box bg-info">
                   <!-- <i class="fa fa-handshake ml-1"></i> -->
-                  <h3 class="text-center">{{$tot_price}}</h3>
+                  <h3 class="text-center">{{number_format($tot_price)}}</h3>
                   <p class="lead text-center font-weight-bold">Total Sell Price</p>
                 </div>
               </div>
