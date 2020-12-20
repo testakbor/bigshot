@@ -225,9 +225,11 @@
                                               <input  type="hidden" name="attribute_id" value="{{$a->post_id}}"> 
                                               @if(isset($current_status)) @php $att_statuss=$current_status->meta_value; @endphp @endif
                                               @if($att_statuss==1)
-                                              <span style="color:green">Active</span> <input  type="checkbox" name="at_id[]" value="{{$a->post_id}}" checked>   
+                                              @php $status=0; @endphp
+                                             <a href="{{url('att/status/'.$a->post_id.'/'.$status)}}" class="btn btn-danger btn-sm">X</a> <span style="color:green">Active</span>  
                                               @else 
-                                              <span style="color:red">Inactive</span> <input  type="checkbox" name="at_id[]" value="{{$a->post_id}}"> 
+                                              @php $status=1; @endphp
+                                             <a href="{{url('att/status/'.$a->post_id.'/'.$status)}}" class="btn btn-success btn-sm"><i class="fas fa-check"></i></a> <span style="color:red">Inactive</span> 
                                               @endif 
                                                @foreach($data as $att)
                                                 <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$att->term_id}}">
@@ -269,11 +271,11 @@
               </div>
               <div class="card-body" >               
                 <div class="custom-control custom-radio">
-                  <input class="custom-control-input" name="status" {{$product->post_status=='publish'?'checked':''}} type="radio" id="active" value="1">
+                  <input class="custom-control-input" name="status" {{$product->post_status=='publish'?'checked':''}} type="radio" id="active" value="publish">
                   <label for="active" class="custom-control-label"> Publish</label>
                 </div> 
                 <div class="custom-control custom-radio">
-                  <input class="custom-control-input" name="status" {{$product->post_status=='unpublish'?'checked':''}}  type="radio" id="inactive" value="0">
+                  <input class="custom-control-input" name="status" {{$product->post_status=='unpublish'?'checked':''}}  type="radio" id="inactive" value="unpublish">
                   <label for="inactive" class="custom-control-label"> Unpublish</label>
                 </div>
                
@@ -416,6 +418,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script>
   $(document).ready(function() {
+
     $("#attributeAdd").on('click', function() {
       var id = $("#attributes").val();
       $.ajax({

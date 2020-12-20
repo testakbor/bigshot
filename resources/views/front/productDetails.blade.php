@@ -98,9 +98,13 @@ endforeach;
                               <table class="table table-responsive">
                                 <tbody>
                                   @foreach($lists as $a) 
+                                 
                                     @php 
+                                     $current_status=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','att_status')->first(); 
                                     $attribute=json_decode($a->meta_value);
                                     @endphp
+                                      @if(isset($current_status)) @php $att_statuss=$current_status->meta_value; @endphp @endif
+                                           @if($att_statuss==1)
                                         <tr>
                                             <td style="border: 0px solid #ffffff;">
                                               <input required type="radio" name="attribute_id" value="{{$a->post_id}}"> 
@@ -110,6 +114,7 @@ endforeach;
                                              @endforeach
                                         </td>
                                     </tr>
+                                    @endif 
                                     @endforeach
                                 </tbody>
                              </table>

@@ -66,9 +66,9 @@
                         </div>
                       </div>
                       <div class="form-group row">
-                        <label for="stock" class="col-sm-2 col-form-label">Cost</label>
+                        <label for="stock" class="col-sm-2 col-form-label">Purchase Price</label>
                         <div class="col-sm-10">
-                          <input type="text" name="product_stock" class="form-control" id="stock" value="{{old('product_stock')}}" placeholder="Cost">
+                          <input type="text" name="product_stock" class="form-control" id="stock" value="{{old('product_stock')}}" placeholder="Purchase Price">
                         </div>
                       </div>
                     </div>
