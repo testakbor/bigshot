@@ -66,6 +66,7 @@ class CouponController extends Controller
        $termInfo=array(
            'coupon_code'=>$request->coupon_code,
            'coupon_amount'=>$request->coupon_amount,
+           'coupon_type'=>$request->coupon_type,
            'expire_date'=>$request->expire_date,
        );
        DB::table('coupons')->insert($termInfo);
@@ -121,6 +122,7 @@ class CouponController extends Controller
            $termInfo=array(
                'coupon_code'=>$request->coupon_code,
                'coupon_amount'=>$request->coupon_amount,
+                'coupon_type'=>$request->coupon_type,
                'expire_date'=>$request->expire_date,
            );
            $term=DB::table('coupons')

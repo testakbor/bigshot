@@ -395,7 +395,7 @@ public function update(Request $request,$id){
         'post_name'=>$request->post_title,
         'post_content'=>$request->post_content,
         'post_excerpt'=>$request->post_excerpt,
-        'post_status'=>'publish',
+        'post_status'=>$request->satuts==1?'publish':'unpublish',
         'post_author'=>Auth::user()->id,
         'post_date'=>$post_date,
         'post_date_gmt'=>$post_date_gmt,
