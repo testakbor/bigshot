@@ -155,12 +155,7 @@
 
 
                        @endif
-                      
-
                     
-
-             
-
 
 
                     </div>
@@ -225,6 +220,29 @@
           </div>
 
           <div class="col-md-3">
+
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title">Product Status</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="card-body" >               
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" name="status" {{$product->post_status=='publish'?'checked':''}} type="radio" id="active" value="1">
+                  <label for="active" class="custom-control-label"> Publish</label>
+                </div> 
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" name="status" {{$product->post_status=='unpublish'?'checked':''}}  type="radio" id="inactive" value="0">
+                  <label for="inactive" class="custom-control-label"> Unpublish</label>
+                </div>
+               
+              </div>
+              <!-- /.card-body -->
+            </div>
+
             <div class="card card-default">
               <div class="card-header">
                 <h3 class="card-title">Publish</h3>
