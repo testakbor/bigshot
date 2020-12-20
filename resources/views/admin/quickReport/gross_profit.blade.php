@@ -153,9 +153,9 @@
 										@foreach($item->orderItem as $meta)
 										@php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); @endphp
 											<tr>
-												<td>{{number_format($cost->meta_value)}}</td>
+												<td>{{number_format($cost->meta_value * $qty)}}</td>
 											</tr>
-										@php $total_cost+=$cost->meta_value; @endphp
+										@php $total_cost+=$cost->meta_value*$qty; @endphp
 										@endforeach
 										</table>
 									</td>
@@ -167,7 +167,7 @@
 										@if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; @endphp @endif
 										@endforeach
 											<tr>
-												<td>@php $profit=$sale_price-$cost->meta_value; @endphp {{$profit}}</td>
+												<td>@php $profit=$sale_price-$cost->meta_value*$qty; @endphp {{number_format($profit)}}</td>
 											</tr>
                                         @endforeach
 										</table>
