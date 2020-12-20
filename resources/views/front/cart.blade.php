@@ -654,7 +654,12 @@ $("#promo_code").change(function() {
         success: function(response) {
               var items = ''; 
               $.each(response, function(i, item) {
-                items+='<input type="hidden" id="coupon_amountss" name="coupon_taka" type="text" value="'+item.coupon_amount+'">'; 
+                var coupon_amount=item.coupon_amount;
+                if(item.coupon_type==2){          
+                 var main_delivery_charge=parseInt(d) || 0;           
+                coupon_amount=((main_amount+main_delivery_charge)*(item.coupon_amount))/100;
+                }
+                items+='<input type="hidden" id="coupon_amountss" name="coupon_taka" type="text" value="'+coupon_amount+'">'; 
             });
          $("#coupon_data_div").html(items);
         //  document.getElementById('cart_get_total').innerHTML 

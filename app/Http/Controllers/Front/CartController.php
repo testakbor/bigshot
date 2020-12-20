@@ -705,7 +705,7 @@ class CartController extends Controller {
        ->where('coupon_code',$code)
        ->where('status',1)
        ->where('expire_date','>=',date('Y-m-d'))
-       ->select('coupon_code','coupon_amount')
+       ->select('coupon_code','coupon_amount','coupon_type')
        ->get(); 
         return response()->json($data);
     }

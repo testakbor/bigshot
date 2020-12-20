@@ -40,6 +40,20 @@
                       <input type="text" name="coupon_code" class="form-control" id="categoryName" value="{{$category->coupon_code}}" placeholder="Enter Code" required>
                     </div>    
                     
+                      <div class="form-group">
+                      <label for="exampleInputFile">Copon Type</label>
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="amount" {{$category->coupon_type=='1'?'checked':''}} value="1" name="coupon_type">
+                          <label for="amount" class="custom-control-label">Amount</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" {{$category->coupon_type=='2'?'checked':''}} value="2" id="parcentage" name="coupon_type" >
+                          <label for="parcentage" class="custom-control-label">Percentage</label>
+                        </div>                    
+                      </div>
+                    </div>
+
                      <div class="form-group">
                       <label for="categoryName">Coupon Amount</label>
                       <input type="text" name="coupon_amount" class="form-control" id="categoryName" value="{{$category->coupon_amount}}" placeholder="Enter Amount" required>
@@ -74,18 +88,32 @@
                   {{csrf_field()}}
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="categoryName">Coupon Code</label>
-                      <input type="text" name="coupon_code" class="form-control" id="categoryName" placeholder="Enter Code" required>
+                      <label for="coupon_code">Coupon Code</label>
+                      <input type="text" name="coupon_code" class="form-control" id="coupon_code" placeholder="Enter Code" required>
                     </div>    
                     
-                     <div class="form-group">
-                      <label for="categoryName">Coupon Amount</label>
-                      <input type="text" name="coupon_amount" class="form-control" id="categoryName" placeholder="Enter Amount" required>
+                      <div class="form-group">
+                      <label for="exampleInputFile">Copon Type</label>
+                      <div class="form-group">
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="amount" checked value="1" name="coupon_type">
+                          <label for="amount" class="custom-control-label">Amount</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" value="2" id="parcentage" name="coupon_type" >
+                          <label for="parcentage" class="custom-control-label">Percentage</label>
+                        </div>                    
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="coupon_amount">Coupon Amount</label>
+                      <input type="text" name="coupon_amount" class="form-control" id="coupon_amount" placeholder="Enter Amount" required>
                     </div>
 
                      <div class="form-group">
-                      <label for="categoryName">Expire Date</label>
-                      <input type="date" name="expire_date" class="form-control" value="{{date('Y-m-d')}}" id="categoryName" required>
+                      <label for="expire_date">Expire Date</label>
+                      <input type="date" name="expire_date" class="form-control" value="{{date('Y-m-d')}}" id="expire_date" required>
                     </div>     
                   </div>
                   <!-- /.card-body -->
@@ -101,8 +129,14 @@
               <div class="card-header">
                 <h3 class="card-title">Coupon List</h3>
                  <form method="get" action="{{route('coupon.index')}}"> 
+                  <div class="d-flex justify-content-right">                    
+                    <div class="col-md-6">                      
                     <input type="text" name="coupon" class="form-control" placeholder="Search Coupon" autocomplete="off">
-                    <button class="btn btn-primary btn-sm" type="submit"><i class="fa fd-search"></i> Search</button>
+                    </div>
+                    <div class="col-md-6">                      
+                    <button class="btn btn-primary" type="submit"><i class="fa fd-search"></i> Search</button>
+                    </div>
+                  </div>
                  </form>
               </div>
               <!-- /.card-header -->
@@ -113,6 +147,7 @@
                     <tr>
                       <th style="width: 10px">#</th>
                       <th>Coupon Code</th>
+                      <th>Coupon Type</th>
                       <th>Coupon Amount</th>
                       <th>Expire Date</th>
                       <th>Status</th>
@@ -127,6 +162,7 @@
                     <tr>
                       <td>{{$i}}</td>
                       <td>{{$value->coupon_code}}</td>
+                      <td>{{$value->coupon_type==1?'Amount':'Percentage'}}</td>
                       <td>{{$value->coupon_amount}}</td>
                       <td>{{$value->expire_date}}</td>
                       <td>@if($value->status==1) Active @else Inactive @endif</td>
