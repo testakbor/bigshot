@@ -262,7 +262,7 @@ text-align: center;
                 </div>
         </div>
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-            @php  $pro_qty=0;$pro_alert_qty=0; $products_id=0; $weekly_lower_stock_count=0; $weekly_total_sold_out_product=0; @endphp  
+            @php $total_d_data=0; $total_stock_data=0;  $pro_qty=0;$pro_alert_qty=0; $products_id=0; $weekly_lower_stock_count=0; $weekly_total_sold_out_product=0; @endphp  
                   @foreach($pro as $pros)
                     @foreach($pros->productMeta as $pro_info) 
                      @if($pro_info->meta_key=='qty') @php $pro_qty=$pro_info->meta_value; @endphp @endif 
@@ -306,7 +306,7 @@ text-align: center;
                       ->where('meta_value','<=',$default_alert) 
                       ->select('post_id')
                       ->count();
-    
+                      $total_d_data+=$d_data;
                       @endphp 
 
                       @php 
@@ -327,10 +327,9 @@ text-align: center;
                       ->join('postmeta','postmeta.post_id','=','posts.ID')
                       ->select('post_id','meta_value','post_parent')
                       ->count();
+                        $total_stock_data+=$stock_data;
                       @endphp
                       @endif 
-
-
                       @endforeach
                 </div>
 
@@ -346,7 +345,7 @@ text-align: center;
                   <div class="reportDayText"> All</div>
                   <div class="reportDayValue">
                
-                    {{$d_data+$stock_data}}
+                    {{$total_d_data+$total_stock_data}}
                   </div>
                    </a>
                 </div>
