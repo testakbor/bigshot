@@ -114,9 +114,9 @@
                   <td class="right">{{$address_one}}</td>
                   <td class="right">{{$phone}}</td>
                   <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}} @php $tot_charge+=$charge; @endphp</td>
-                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$subtotal+$charge}}</td>
+                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($subtotal+$charge)}}</td>
                   <td class="right">
-                  <a href="{{route('order.processing.print',$orders->ID)}}" class="btn btn-primary mb-2">  <i class="fas fa-print"> </i> Print</a><br>
+                  <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-primary mb-2">  <i class="fas fa-print"> </i> Print</a><br>
                     <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-success mb-2"><i class="fas fa-edit"></i> Edit</a><br>
                     <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.dispatch',$orders->ID)}}" class="btn btn-warning"><i class="fas fa-window-close"></i> Dispatch</a>
                     <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.cancel',$orders->ID)}}" class="btn btn-danger"><i class="fas fa-window-close"></i> Cancel</a>
@@ -158,7 +158,7 @@
 
 
             <h3 class="text-center">
-            {{$total_amount+$tot_charge}}
+            {{number_format($total_amount+$tot_charge)}}
             </h3>
 
             <p class="lead text-center font-weight-bold">Total Amount</p>

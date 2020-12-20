@@ -37,13 +37,13 @@
           	<table style="width:100%" class="table">
           <thead>
           <tr style="background: #e7e7e7;">
-                  <th style="font-size: 12px;">Order Id</th>
-									<th style="font-size: 12px;">Name</th>
-									<th style="font-size: 12px;">Mobile</th>
-									<th style="font-size: 12px;">Address</th>
-                  <th style="font-size: 12px;">Items</th>
-                  <th style="font-size: 12px;">Delivery Charge</th>
-									<th style="font-size: 12px;">Amount</th>
+                  <th style="font-size: 10px;">Order Id</th>
+									<th style="font-size: 10px;">Name</th>
+									<th style="font-size: 10px;">Mobile</th>
+									<th style="font-size: 10px;">Address</th>
+                  <th style="font-size: 10px;">Items</th>
+                  <th style="font-size: 10px;">Charge</th>
+									<th style="font-size: 10px;">Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -64,22 +64,21 @@
                     @endif 
                 @endforeach
                 @endforeach
-                  	<td>{{$item->ID}}</td>
-										<td>{{$first_name}} {{$last_name}}</td>
+                  	<td style="font-size: 10px;">{{$item->ID}}</td>
+										<td style="font-size: 10px;">{{$first_name}} {{$last_name}}</td>
 									
                     <td>{{$mobile_no}}</td>
-                    	<td>{{$address}}</td>
-							
+                    	<td style="font-size: 10px;">{{$address}}</td>
               <td>
                 @php $tot_parcel=0; $to_amount_charge=0; $att=0; $q=0;$s=0; $att=0; $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
                     @foreach($orders as $item)
                     @foreach($item->orderItem as $meta)
                                       <table style="width:100%">
                                             <tr>
-                                              <th style="font-size: 12px;">Name</th>
-                                              <th style="font-size: 12px;">Attribute</th>
-                                              <th style="font-size: 12px;">Qty</th>
-                                              <th style="font-size: 12px;">Amount</th>
+                                              <th style="font-size: 10px;">Name</th>
+                                              <th style="font-size: 10px;">Attribute</th>
+                                              <th style="font-size: 10px;">Qty</th>
+                                              <th style="font-size: 10px;">Amount</th>
                                             </tr>
                                             <tr>
                                               <td>{{$meta->order_item_name}}</td>
@@ -145,7 +144,6 @@
                                   </tr>
                                 </tfoot>
                        </table>
-
                       <div class="col1">
                           <p>Receiver:</p>
                           <p>Signature:</p>

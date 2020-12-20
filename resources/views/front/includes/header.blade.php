@@ -318,7 +318,7 @@
                                             @endif
                                         </a>
                                         <div class="dropdown-menu dropdown-large">
-                                        <a class="shadow dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i>Profile</a>
+                                        <a class="shadow dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i> Profile</a>
 							            <a class="shadow-lg dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
                                         <a class="shadow dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
 							            <a class="shadow dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>

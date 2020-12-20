@@ -102,11 +102,11 @@
             <form class="form-inline" method="get" action="{{route('admin.home')}}" >
               @csrf() 
               <div class="form-group mb-2">
-                <label for="depart" class="ml-3">Start Date </label>
+                <label for="depart" class="mr-3 ml-3"> Start Date </label>
                 <input class="form-control datepicker" name="start" value="{{date('Y-m-01')}}" id="depart" type="date"/>
               </div>
               <div class="form-group mx-sm-3 mb-2">
-                <label for="return" class="mr-2">End Date </label>
+                <label for="return" class="mr-2"> End Date </label>
                 <input class="form-control datepicker" name="end" value="{{date('Y-m-t')}}" id="return" type="date"/>
               </div>
               <button type="submit" class="btn btn-primary mb-2">SEARCH</button>

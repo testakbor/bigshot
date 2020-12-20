@@ -47,7 +47,8 @@
     <th>Mobile</th>
     <th>Address</th>
     <th>Items</th>
-    <th>Quantity</th>
+    <th>Qty</th>
+    <th>Delivery Charge</th>
     <th>Amount</th>
   </tr>
   <tbody>
@@ -103,10 +104,11 @@
                    
     </td>
     <td>{{$qty}}</td>
+    <td>@if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif  {{$charge}}</td>
     <td>{{$subtotal}}</td>
   </tr>
       @php
-                                        $grandTotal +=$subtotal;
+                                        $grandTotal +=$subtotal+$charge;
                                         $grandLinetotal +=$total;
                                            $total_qty+=$qty;
                                         @endphp

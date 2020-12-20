@@ -4,6 +4,10 @@
     table tr td, th{
         font-size: 0.8em;
     }
+    .table td, .table th {
+    padding: .25rem;
+  
+}
 </style>
 <!-- Page Content  -->
 <div class="container p-0">
@@ -18,18 +22,18 @@
                 <tr class="bg-light text-center">
 
                     <th>
-                        Order placed: <br>
+                        Order placed: 
                         {{date('d-M-Y',strtotime($order->post_date))}}
                     </th>
                     <th>
-                        {{strtoupper($order->post_status)}} <br>
+                        {{strtoupper($order->post_status)}} 
                          {{date('d-M-Y',strtotime($order->post_modified))}}
                     </th>
                     <th>
                         @if($order->post_status=='delivered')
                         @else 
                           <a title="view invoice" href="{{route('customer_ordere_cancel',$order->ID)}}">
-                            Cancel <br>
+                            Cancel /
                             Return
                         </a>
                         @endif 

@@ -112,7 +112,7 @@ use App\Model\front\Order_item;
                  <td>{{$address}}</td>
                  <td>{{$phone}}</td>
                 <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$amount+$charge}}</td>
+                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge)}}</td>
                  <td>On-hold</td>
                  <td>
                    <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm mb-1"> <i class="fas fa-print"> </i> Print</a><br>
@@ -171,7 +171,7 @@ use App\Model\front\Order_item;
           @endphp
           @if(isset($d)) @php $tot_d+=$d->meta_value; @endphp @endif
          @endforeach
-        {{$total_amount+$tot_d}}
+        {{number_format($total_amount+$tot_d)}}
       </h3>
 
       <p class="lead text-center font-weight-bold">Total Amount</p>

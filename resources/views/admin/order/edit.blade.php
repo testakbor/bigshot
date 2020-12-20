@@ -189,7 +189,14 @@
                           </tbody>
                         </table>
                       </td>
-                      <td>{{number_format($subtotal)}}</td>
+                      <td>
+                         @php 
+                       $p=DB::table('postmeta')->where('post_id',$items->product_parent)->where('meta_key','sale_price')->first(); 
+                       @endphp 
+                       @if(isset($p))
+                       {{number_format($p->meta_value)}}
+                       @endif 
+                      </td>
                       <td><input type="number" name="qty[]" value="{{$qty}}"></td>
                       <td>{{number_format($subtotal)}}</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">

@@ -66,7 +66,6 @@
                   <th class="right">Address</th>
                   <th class="center">Quantity</th>
                   <th class="right">Amount</th>
-                  <th class="right">Option</th>
                 </tr>
               </thead>
               <tbody>
@@ -95,12 +94,8 @@
                     ->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$total}}</td>
                     <td rowspan="" class="center">
                        @php $email=DB::table('users')->where('id',$item->customer_id)->select('email')->first();  @endphp
-                       @if(isset($email)) @php $mail=$email->email; @endphp @endif
-                      <!-- <a class="btn btn-success btn-sm" href="{{route('best.customer.send.email',$mail)}}">
-                       
-                        Send Email
-                      </a> -->
-                      <a class="btn btn-primary btn-sm" href="#">Send Sms</a>
+                    
+                      <!-- <a class="btn btn-primary btn-sm" href="#">Send Sms</a> -->
                     </td>
                 </tr>
                 @endforeach

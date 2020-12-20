@@ -77,13 +77,18 @@
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
                         <h3 class="text-center">
-                            @php $t_sell=0; @endphp
-                            @foreach($data as $datas)
-                            @foreach($datas->productMeta as $valus)
-                            @if($valus->meta_key=='sale_price') @php $t_sell+=$valus->meta_value; @endphp @endif
-                            @endforeach
-                            @endforeach
-                            {{number_format($t_sell)}}
+                             @php $d_sell=0; $a_sell=0; @endphp
+                  @foreach($d_data as $d)
+                    @php $d_sell+=DB::table('postmeta')->where('post_id',$d->post_id)->where('meta_key','sale_price')->sum('meta_value'); @endphp
+                  @endforeach
+
+                   @foreach($a_data as $a)
+                    @php $a_sell+=DB::table('postmeta')
+                    ->where('post_id',$a->post_parent)
+                    ->where('meta_key','sale_price')
+                    ->sum('meta_value'); @endphp
+                   @endforeach
+                  {{number_format($d_sell+$a_sell)}}
                         </h3>
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
@@ -238,7 +243,7 @@
                 <div class="col-md-4">
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
-                        <h3 class="text-center">{{number_format($t_sell)}}</h3>
+                        <h3 class="text-center">  {{number_format($d_sell+$a_sell)}}</h3>
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
                 </div>

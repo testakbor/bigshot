@@ -15,7 +15,7 @@ use App\Model\front\Order_item;
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-            <li class="breadcrumb-item active">Order Detail</li>
+            <li class="breadcrumb-item active">Order Details</li>
           </ol>
         </div>
       </div>

@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+table, td, th {
+  border: 1px solid black;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+</style>
 </head>
-
 <body>
-    <div class="container">
 
-        <div class="container-fluid">
-            <div class="row">
 
-                <div class="col-md-9">
                     <div style="height: 50px" class="font-weight-bold text-center">
                         All Order
                     </div>
                     <div class="card card-default">
                         <div class="card-header">
                             <table class="table table-striped">
-                                <!-- <tr>
-                                        <td colspan="2" class="text-center font-weight-bold">Print Order</td>
-                                    </tr>  -->
                                 <tr>
                                     <td>Order #</td>
                                     <td>{{$order->ID}}</td>
                                 </tr>
-
                                 <tr>
                                     <td>Payment via</td>
                                     <td>Cash</td>
@@ -41,17 +40,10 @@
                                     <td class="font-weight-bold">Status</td>
                                     <td>{{$order->post_status}}</td>
                                 </tr>
-
                                 <tr>
                                     <td class="font-weight-bold">Billing</td>
                                     <td>{{$name->meta_value}}</td>
                                 </tr>
-                                <!-- 
-                                    <tr>
-                                        <td class="font-weight-bold">Email Address</td>
-                                        <td>akhoart@email.com</td>
-                                    </tr> -->
-
                                 <tr>
                                     <td class="font-weight-bold">Phone</td>
                                     <td>{{$phone->meta_value}}</td>
@@ -65,28 +57,20 @@
                         <br>
                         <div class="card-body d-flex justify-content-between flex-row ">
                             <table class="table table-striped">
-
-
                             </table>
                         </div>
                     </div>
                     <div class="card card-default">
-                        <!--  <div class="card-header">
-                                 <table class="table table-striped">
-                                     <tr>
-                                         <td colspan="2" class="text-center font-weight-bold">Item Info</td>
-                                     </tr> 
-                                 </table>
-                             </div> -->
                         <div class="card-body d-flex flex-column ">
                             <div>
-                                <table class="table table-striped">
+                                <table class="table table-striped" style="width:100%">
                                     <thead class="thead-light">
                                         <tr>
                                             <th>#</th>
                                             <th>Item</th>
-                                            <th>Cost</th>
+                                            <th>Price</th>
                                             <th>Qty</th>
+                                            <th>Delivery Charge</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
@@ -138,9 +122,12 @@
                                                 </tbody>
                                                 </table>
                                             </td>
-                                            <td>{{$subtotal}}</td>
+                                            <td>@php $price=DB::table('postmeta')->where('post_id',$items->product_parent)
+                                            ->where('meta_key','sale_price')->first(); 
+                                            @endphp @if(isset($price)) @php $p_price=$price->meta_value; @endphp @else @php $p_price=0; @endphp @endif {{number_format($p_price)}}</td>
                                             <td>{{$qty}}</td>
-                                            <td>{{$subtotal}}</td>
+                                            <td>@if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif  {{$charge}}</td>
+                                            <td>{{number_format($qty*$p_price+$charge)}}</td>
                                         </tr>
                                         @php
                                         $grandTotal +=$subtotal;
@@ -154,9 +141,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
+ 
 
 </body>
 

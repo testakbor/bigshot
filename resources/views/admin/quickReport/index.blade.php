@@ -77,14 +77,7 @@ text-align: center;
                 <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('todayPendingOrder')}}">
                   <div class="reportDayText">Today </div>                 
                   <div class="reportDayValue">{{$today_pending_order}}</div>
-                </a>
-             
-              
-                <!-- <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                 
-                  <div class="reportDayText"> Day 1</div>                  
-                  <div class="reportDayValue">{{$day_one_pending_order}}</div>
-                </a> -->
-           
+                </a>           
               
                 <a class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" href="{{route('pendingOrderByDate',1)}}">                                    
                   <div class="reportDayText"> Day 2</div>                  
@@ -252,13 +245,18 @@ text-align: center;
                  <a href="{{url('admin/stock')}}">
                   <div class="reportDayText"> Amount</div>
                   <div class="text-center font-weight-div">
-                  @php $t_sell=0; @endphp
-                  @foreach($data as $datas)
-                    @foreach($datas->productMeta as $valus)
-                      @if($valus->meta_key=='sale_price') @php $t_sell+=$valus->meta_value; @endphp @endif
-                    @endforeach
+                  @php $d_sell=0; $a_sell=0; @endphp
+                  @foreach($d_data as $d)
+                    @php $d_sell+=DB::table('postmeta')->where('post_id',$d->post_id)->where('meta_key','sale_price')->sum('meta_value'); @endphp
                   @endforeach
-                  {{$t_sell}}
+
+                   @foreach($a_data as $a)
+                    @php $a_sell+=DB::table('postmeta')
+                    ->where('post_id',$a->post_parent)
+                    ->where('meta_key','sale_price')
+                    ->sum('meta_value'); @endphp
+                   @endforeach
+                  {{number_format($d_sell+$a_sell)}}
                   </div>
                  </a>
                 </div>
@@ -292,48 +290,63 @@ text-align: center;
                  
                 <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
                   <div class="reportText">Lower Stock</div>
-                      @php $totals_low=0; $i=0; $j=0; $qtyy=0; $low_stock_qtyy=0; @endphp
-                      @foreach($pro as $low)
-                          @php $product_info=DB::table('postmeta')->where('post_id',$low->ID)->get(); @endphp 
-                         @foreach($product_info as $info)
-                          @if($info->meta_key=='qty')
-                          @php $qtyy=$info->meta_value; @endphp
-                          @endif
-                          @if($info->meta_key=='alert_qty')
-                          @php $low_stock_qtyy=$info->meta_value; @endphp
-                          @endif
-                         @endforeach 
+                      @php $totals_low=0; $i=0; $k=0; $j=0; $q=0; $qq=0; $low_stock_qtyy=0; @endphp
+                       @foreach($pro as $low)
 
-                        
 
-                          @if($qtyy<=$low_stock_qtyy) 
-                            @php 
-                            $date = Carbon::parse($low->post_date);
-                            $now = Carbon::now();
-                            $diff = $date->diffInDays($now);
-                            @endphp
-                            @php $i++; @endphp
-                                 @if($diff<=7) 
-                                    @php $j++; @endphp
-                                 @endif
-                          @endif 
-                          
-                    @endforeach
+                        @foreach($low->productMeta as $meta)
+                        @if($meta->meta_key=='alert_qty')  @php $default_alert=$meta->meta_value; @endphp @endif
+                        @if($meta->meta_key=='attribute_low_stock')  @php $low_alert=$meta->meta_value; @endphp @endif  
+                       @endforeach
+
+                       @php
+                      $d_data=DB::table('postmeta')
+                      ->where('post_id',$low->ID) 
+                      ->where('meta_key','default_qty') 
+                      ->where('meta_value','<=',$default_alert) 
+                      ->select('post_id')
+                      ->count();
+    
+                      @endphp 
+
+                      @php 
+                       $at_data=DB::table('posts')
+                      ->where('post_parent',$low->ID) 
+                      ->where('meta_key','attribute_low_stock') 
+                      ->join('postmeta','postmeta.post_id','=','posts.ID')
+                      ->select('post_id','meta_value')
+                      ->first();
+                      @endphp
+
+                          @if(isset($at_data)) 
+                       @php 
+                       $stock_data=DB::table('posts')
+                      ->where('post_parent',$low->ID) 
+                      ->where('meta_key','attribute_stock') 
+                      ->where('meta_value','<=',$at_data->meta_value) 
+                      ->join('postmeta','postmeta.post_id','=','posts.ID')
+                      ->select('post_id','meta_value','post_parent')
+                      ->count();
+                      @endphp
+                      @endif 
+
+
+                      @endforeach
                 </div>
 
-                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
+                <!-- <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
                  <a href="{{route('lower.stock.weekly')}}">
                   <div class="reportDayText">Weekly </div>
                   <div class="reportDayValue">{{$j}}</div>
                  </a>
-                </div>
+                </div> -->
 
-                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column"> 
+                <div class="col-md-2 box ml-3 todayBg d-flex justify-content-center flex-column"> 
                   <a href="{{url('admin/stock/lower')}}">                
                   <div class="reportDayText"> All</div>
                   <div class="reportDayValue">
                
-                    {{$i}}
+                    {{$d_data+$stock_data}}
                   </div>
                    </a>
                 </div>
@@ -342,7 +355,7 @@ text-align: center;
                 <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
                   <div class="reportText">Sold Out</div>
                 </div>
-                <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
+                <!-- <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
                   <a href="{{route('sold.out.stock.weekly')}}">
                   <div class="reportDayText">Weekly</div>
                   <div class="reportDayValue">
@@ -355,9 +368,9 @@ text-align: center;
                             @endphp
                             @if($diff<=7) 
                                     @php 
-                                    $weekly_sold_out+=DB::table('posts')->where(['post_type'=>'product','meta_key'=>'qty'])
+                                    $weekly_sold_out+=DB::table('posts')->where(['post_type'=>'product','meta_key'=>'default_qty'])
                                     ->where('meta_value','=',0)
-                                    ->whereYear('post_date',date('Y'))
+                                    ->whereYear('post_date',date('Y-m-d'))
                                     ->join('postmeta','posts.ID','=','postmeta.post_id')
                                     ->count();
                                     @endphp
@@ -368,10 +381,10 @@ text-align: center;
                    </a>
 
 
-                </div>
-                <div class="col-md-1 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
-                    <a href="{{route('sold.out.stock.yearly')}}">
-                     <div class="reportDayText"> Yearly</div>
+                </div> -->
+                <div class="col-md-2 box ml-3 dayThreeBg d-flex justify-content-center flex-column">
+                    <a href="{{url('admin/stock/list/sold')}}">
+                     <div class="reportDayText"> All</div>
                      <div class="reportDayValue">{{$yearly_total_sold_out_product}}</div>
                    </a>
                 </div>
@@ -383,29 +396,21 @@ text-align: center;
                 </div>
          
                 <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
-                  <a href="{{route('best.sell.weekly')}}">
-                  <div class="reportDayText">Weekly</div>
+                  <a href="{{url('admin/quickReport/best_selling_items')}}">
+                  <div class="reportDayText">Monthly</div>
                   <div class="reportDayValue">
-                        @php $item_weekly=0; @endphp
-                     @foreach($yearly_best_sell_item as $best_weekly) 
-                         @php 
-                            $date = Carbon::parse($best_weekly->order_date);
-                            $now = Carbon::now();
-                            $diff = $date->diffInDays($now);
-                            @endphp
-                            @if($diff<=7) 
-                             @php $item_weekly+=$best_weekly->total_qty; @endphp  
-                          
-                            @endif 
+                     @php $item_monthly=0; @endphp
+                     @foreach($monthly_best_sell_item as $best_monthly) 
+                        @php $item_monthly+=$best_monthly->total_qty; @endphp  
                      @endforeach
-                   {{$item_weekly}}
+                   {{$item_monthly}}
                   </div>
                   </a>
                 </div>
             
                 <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
                   <a href="{{route('b_sell_yearly')}}">
-                  <div class="reportDayText"> Yearly</div>
+                  <div class="reportDayText">Yearly</div>
                   <div class="reportDayValue">
                     @php $item=0; @endphp
                      @foreach($yearly_best_sell_item as $best)  @php $item+=$best->total_qty; @endphp  @endforeach
@@ -435,15 +440,17 @@ text-align: center;
                         <a  href="{{url('delivered/order')}}">
                   <div class="reportDayText"> Amount</div>
                   <div class="reportDayValue">
-                 @php $total_delivered_amount=0; @endphp
+                 @php $total_delivered_amount=0; $total_charge=0; @endphp
                  @foreach($delivered_order as $d_order)
+                 @php $delivery=DB::table('order_itemmeta')->where('order_id',$d_order->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif
+                 @php $total_charge+=$charge; @endphp
                      @foreach($d_order->orderItem as $item_order)
                        @foreach($item_order->orderMeta as $meta)
                          @if($meta->meta_key=='_line_subtotal') @php $total_delivered_amount+=$meta->meta_value; @endphp @endif
                        @endforeach 
                      @endforeach 
                  @endforeach
-                 {{$total_delivered_amount}}
+                 {{number_format($total_delivered_amount+$total_charge)}}
                   </div>
                  </a>
                 </div>
@@ -457,22 +464,19 @@ text-align: center;
                   <a href="{{route('g_profit_monthly')}}">
                   <div class="reportDayText">Monthly</div>
                   <div class="reportDayValue">
-                 @php  $total_profits=0; $sale_prices=0; $costs=0; @endphp
-                    @foreach($order_gross_profit_month as $item) 
-                        @foreach($item->orderItem as $meta)
-                            @foreach($meta->orderMeta as $value)
-                            @if($value->meta_key=='_line_subtotal') @php $sale_prices+=$value->meta_value; @endphp @endif
-                        @endforeach
-                        @endforeach
-
-                        @foreach($item->orderItem as $meta)
-                          @foreach($meta->postMeta as $value)
-                          @if($value->meta_key=='product_stock') @php $costs+=$value->meta_value; @endphp @endif
-                        @endforeach
-                        @endforeach
-                    @endforeach
-                   @php $total_profits=$sale_prices-$costs; @endphp
-                  {{number_format($total_profits)}}
+                @php $qty=0; $total_qty=0; $sale_price=0; $total_sale_amount=0; $cost=0; $total_cost=0; $total_charge=0; @endphp
+                      @foreach($order_gross_profit_month as $item)
+                      	@php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
+							           	@php $total_charge+=$charge; @endphp
+                           @foreach($item->orderItem as $meta)
+                              @php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); $total_cost+=$cost->meta_value; @endphp
+                              @foreach($meta->orderMeta as $value) 
+                              @if($value->meta_key=='_qty') @php $qty=$value->meta_value; $total_qty+=$qty;  @endphp @endif
+                              @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; $total_sale_amount+=$sale_price;  @endphp @endif
+                              @endforeach
+										    	  @endforeach
+                      @endforeach 
+                  {{number_format($total_sale_amount-$total_cost+$total_charge)}}
                   </div>
                   </a>
                 </div>
@@ -480,22 +484,19 @@ text-align: center;
                       <a href="{{url('admin/quickReport/gross_profit')}}">
                   <div class="reportDayText"> Yearly</div>
                   <div class="reportDayValue">
-                    @php  $total_profit=0; $sale_price=0; $cost=0; @endphp
-                    @foreach($order_gross_profit_yearly as $item) 
-                        @foreach($item->orderItem as $meta)
-                            @foreach($meta->orderMeta as $value)
-                            @if($value->meta_key=='_line_subtotal') @php $sale_price+=$value->meta_value; @endphp @endif
-                        @endforeach
-                        @endforeach
-
-                        @foreach($item->orderItem as $meta)
-                          @foreach($meta->postMeta as $value)
-                          @if($value->meta_key=='product_stock') @php $cost+=$value->meta_value; @endphp @endif
-                        @endforeach
-                        @endforeach
-                    @endforeach
-                   @php $total_profit=$sale_price-$cost; @endphp
-                  {{number_format($total_profit)}}
+                    @php $qty=0; $total_qty=0; $sale_price=0; $total_sale_amount=0; $cost=0; $total_cost=0; $total_charge=0; @endphp
+                      @foreach($order_gross_profit_yearly as $item)
+                      	@php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
+							           	@php $total_charge+=$charge; @endphp
+                           @foreach($item->orderItem as $meta)
+                              @php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); $total_cost+=$cost->meta_value; @endphp
+                              @foreach($meta->orderMeta as $value) 
+                              @if($value->meta_key=='_qty') @php $qty=$value->meta_value; $total_qty+=$qty;  @endphp @endif
+                              @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; $total_sale_amount+=$sale_price;  @endphp @endif
+                              @endforeach
+										    	  @endforeach
+                      @endforeach 
+                  {{number_format($total_sale_amount-$total_cost+$total_charge)}}
                 </div>
                </a>
             </div>

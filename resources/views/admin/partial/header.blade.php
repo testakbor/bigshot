@@ -265,13 +265,13 @@
                                     </a>
                                 </li>
 
-                               <li class="nav-item">
+                               <!-- <li class="nav-item">
                                     <a href="{{route('database_backup')}}"
                                         class="nav-link {{isset($page) && $page=='banner_images'?'active':''}}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Database Backup</p>
                                     </a>
-                                </li>
+                                </li> -->
 
                                    <li class="nav-item">
                                     <a href="{{route('coupon.index')}}"

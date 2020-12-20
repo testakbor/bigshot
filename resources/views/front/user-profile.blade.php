@@ -35,7 +35,7 @@
         </div>
         <div class="col-md-9 col-12 p-0 mb-3 ">
             <div class="text-center h5">Wishlist Item</div>
-            <div class="d-flex poductDiv">
+            <div class="d-flex flex-wrap poductDiv">
                 @php $qty=0; $name=''; $image='no-image.png'; $price=''; @endphp
                 @foreach($wishProduct as $item)
                 @php
