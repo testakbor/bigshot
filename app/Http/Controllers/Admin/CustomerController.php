@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use DataTables;
+use App\Model\front\Post;
 
 class CustomerController extends Controller
 {
@@ -48,6 +49,13 @@ class CustomerController extends Controller
             }               
         return view('admin.customer.list')->with($extraInfo);
           }
+    }
+
+
+    public function customerQuery(){
+
+        $customerQuerys=Post::where('post_type','genarel_quiry')->paginate(50);
+         return view('admin.customer.customerQuery',compact('customerQuerys'));
     }
 
     /**

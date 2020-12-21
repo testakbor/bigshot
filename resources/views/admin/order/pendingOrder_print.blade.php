@@ -37,12 +37,12 @@
 					   </p>
 				    </li>
 				 </ul>
-				  <ul style="float:right">
+				  <ul style="float:right;padding-right: 10px ">
 				     <li style="list-style:none">
 				       Total Quantity: {{$total_qty}}
 				    </li>
 					<li style="list-style:none">
-					  Total Due: {{number_format($total_due)}}tk
+					  Total Due: {{number_format($total_due)}} tk
 					</li>
 				 </ul>
 				 

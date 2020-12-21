@@ -466,7 +466,7 @@ public function salesReport(Request $request)
   $end=$request->end;
   $order_item=DB::table('posts')
   ->where('post_type','shop_order')
-  ->where('post_status','delivered')
+  ->where('post_status','on-hold')
   ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
   ->get();
   return view('admin.quickReport.sales_report',compact('order_item'))->with($extraInfo);

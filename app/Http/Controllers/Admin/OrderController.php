@@ -185,6 +185,7 @@ class OrderController extends Controller
      $order=Post::where('post_type','shop_order')
     ->where('post_status','processing')
      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')]) 
+     ->orderBy('ID','DESC')
     ->paginate(20);
     $total_order=Post::where('post_type', 'shop_order')
     ->where('post_status', 'processing')
@@ -325,6 +326,9 @@ $city = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'city')-
 $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
 $deliverycharge = DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','delivery_charge')->first();
 $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
+
+
+// return view('admin.order.allStatusPrint',compact('order','name','phone','city','products','deliverycharge','order_info'));
 
 $pdf = PDF::loadView('admin.order.allStatusPrint', array(
   'order' => $order, 'name' => $name, 'phone' => $phone,
@@ -746,9 +750,17 @@ public function grossProfit()
     public function pending_order_print($id){
       $total_qty=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'_qty'])->sum('meta_value');
       $total_due=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'_line_subtotal'])->sum('meta_value');
+      
+      $deliverycharge=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'delivery_charge'])->sum('meta_value');
+      $total_due=$total_due+$deliverycharge;
       $customer_info=Postmeta::where('post_id',$id)->get();
+
       $pdf = PDF::loadView('admin.order.pendingOrder_print', array('total_qty' => $total_qty,'total_due'=>$total_due,'customer_info'=>$customer_info,'id'=>$id));
-      return $pdf->download('shipping.pdf');
+      return $pdf->download('shipping.pdf'); 
+
+     
+      // return view('admin.order.pendingOrder_print',compact('total_qty' ,'total_due','customer_info','id'));
+
     }
 
     public function pending_order_processing($id){

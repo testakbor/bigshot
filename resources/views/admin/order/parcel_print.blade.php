@@ -82,7 +82,7 @@
                                             </tr>
                                             <tr>
                                               <td>{{$meta->order_item_name}}</td>
-                                              <td>
+                                              <td style="font-size: 0.65rem;width: 40%">
                                                 @foreach($meta->orderMeta as $value)
                                                         @if($value->meta_key=='attribute_parent')
                                                           @php $att=$value->meta_value; @endphp
@@ -131,14 +131,14 @@
                                       @endforeach
                                     </td>
                                     <td>{{$charge}}</td>
-                                    <td>{{$to_amount_charge+$charge}}</td>
+                                    <td>{{ number_format($to_amount_charge+$charge)}}</td>
                                   </tr>
                                 
                                 </tbody>
                                 <tfoot>
                                   <tr>
                                     <td>Total Parcel</td>
-                                    <td>{{$to_amount_charge+$charge}}</td>
+                                    <td>{{number_format($to_amount_charge+$charge)}}</td>
                                     <td></td>
                                     <td></td>
                                   </tr>

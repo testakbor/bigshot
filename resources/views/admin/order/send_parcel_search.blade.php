@@ -81,8 +81,8 @@
                               <th>Amount</th>
                             </tr>
                             <tr>
-                              <td>{{$meta->order_item_name}}</td>
-                              <td>
+                              <td >{{$meta->order_item_name}}</td>
+                              <td style="font-size: .65rem;width:40%" >
                                  @foreach($meta->orderMeta as $value)
                                         @if($value->meta_key=='attribute_parent')
                                           @php $att=$value->meta_value; @endphp
@@ -100,7 +100,7 @@
                                 @endforeach 
                              @endforeach 
                               </td>
-                              <td>
+                              <td >
                                    @foreach($meta->orderMeta as $value)
                                         @if($value->meta_key=='_qty')
                                           @php $q=$value->meta_value; @endphp
@@ -113,7 +113,7 @@
                                    @endforeach
                                  {{$q}} @php $tot_parcel+=$q; @endphp
                               </td>
-                              <td>
+                              <td >
                                  @foreach($meta->orderMeta as $value)
                                  @if($value->meta_key=='_line_subtotal')
                                     @php $s=$value->meta_value; @endphp
@@ -133,7 +133,7 @@
                       <td class="left">
                         @php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}
                       </td>
-                      <td class="left">{{$to_amount_charge+$charge}}</td>
+                      <td class="left">{{number_format($to_amount_charge+$charge)}}</td>
                       <td class="right"><a onclick="return confirm('are you sure?')" class="btn btn-danger btn-sm" href="{{route('send.parcel.search.remove',$item->ID)}}"><i class="fa fa-times"></i> Remove from here<td></td>
                   </tr>
                   @endforeach 
@@ -162,7 +162,7 @@
               </div>
               <div class="col-md-3">          
                <button class="btn btn-success">            
-                  {{$grandTotal+$charge}}
+                  {{number_format($grandTotal+$charge)}}
                   Total Percel
                 </button>
               </div>
