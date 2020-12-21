@@ -36,7 +36,6 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>SKU</th>
                   <th>Items</th>
                   <th class="center">Quantity</th>
                   <th class="center">Alert Quantity</th>
@@ -44,7 +43,7 @@
                 </tr>
               </thead>
               <tbody>
-                
+                <!-- default product -->
               @foreach($d_pro as $dd) 
                 @php $d_alert_qty=DB::table('postmeta')->where('post_id',$dd->ID)->where('meta_key','alert_qty')->first(); @endphp
                 @if(isset($d_alert_qty)) @php $alert_default=$d_alert_qty->meta_value; @endphp @endif
@@ -57,8 +56,7 @@
                 @endphp 
                   @foreach($data_default as $d)
                                <tr>
-                                <td class="center">{{$d->post_id}}</td>
-                                <td class="left strong"></td>
+                                <td class="left strong">Demo {{$d->post_id}}</td>
                                 <td class="left strong"></td>
                                 <td class="left strong"></td>
                                 <td class="left strong"></td>
@@ -66,6 +64,25 @@
                               </tr>
                   @endforeach 
               @endforeach
+              <!-- default product -->
+
+
+               <!-- attribute product -->
+               @php $a_stock=''; $a_alert='';  @endphp
+              @foreach($a_pro as $aa) 
+                 @foreach($aa->productMeta as $meta)
+
+                 @endforeach 
+                  <tr>
+                                <td class="left strong">1</td>
+                                <td class="left strong"></td>
+                                <td class="left strong"></td>
+                                <td class="left strong"></td>
+                                </td>
+                              </tr>           
+              @endforeach 
+                             
+              <!-- attribute product -->
 
                             
               </tbody>

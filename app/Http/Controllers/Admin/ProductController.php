@@ -104,7 +104,9 @@ class ProductController extends Controller
     }
     }
 
-    public function store(ProductStoreRequest $request){ 
+    public function store(Request $request){ 
+      // ProductStoreRequest
+         dd($request->valueName);
         if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;
@@ -235,6 +237,10 @@ if($request->hasFile('galleryImage'))
                 'meta_key'  =>'att_status',
                 'meta_value'=> 1,
                 ]);
+
+                if($request->valueName!=null){
+
+                }
         }
         DB::table('temp_attribute_stock')->delete(); 
       session()->flash("success","Information saved Successfully");
