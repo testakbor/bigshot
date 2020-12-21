@@ -17,14 +17,14 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function __construct()
+    public function __construct()
     {
         $this->middleware('auth:admin');
     }
 
     public function index(Request $request)
     {
-          if($request->user()->can('manage-customer')) {
+      if($request->user()->can('manage-customer')) {
         $extraInfo=array(
             'title'=>"Customer List",
             'page'=>'customer'
@@ -36,27 +36,44 @@ class CustomerController extends Controller
             ->addColumn('status', function($row){
               if($row->status==1){
                 return "Active";
-              }else{
+            }else{
                 return "Inactive";
-              }
-            })
+            }
+        })
             ->addColumn('action', function($row){
                 $btn = '<a class="btn btn-primary" title="" href="'.url('/customer/edit/'.$row->id).'"> <i class="fa fa-edit"></i> Edit</a>';
                 return $btn;
             })
             ->rawColumns(['action'])
             ->make(true);       
-            }               
+        }               
         return view('admin.customer.list')->with($extraInfo);
-          }
     }
+}
 
 
-    public function customerQuery(){
+public function customerQuery(){
 
-        $customerQuerys=Post::where('post_type','genarel_quiry')->paginate(50);
-         return view('admin.customer.customerQuery',compact('customerQuerys'));
-    }
+    $customerQuerys=Post::where('post_type','genarel_quiry')->paginate(50);
+
+    return view('admin.customer.customerQuery',compact('customerQuerys'));
+}
+
+public function queryReplay($id){
+
+    $query=Post::find($id);        
+    return view('admin.customer.queryReplay',compact('query'));
+}
+
+public function queryAnswer(Request $request){
+    $id=$request->id;
+    $info=array(
+     'post_excerpt'=>$request->post_excerpt,           
+ );
+    DB::table('posts')->where('ID',$id)->update($info);
+
+    return redirect(route('customer.customerQuery'));
+}
 
     /**
      * Show the form for creating a new resource.

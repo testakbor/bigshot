@@ -6,12 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Customer List</h1>
+            <h1>Customer Query</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-              <li class="breadcrumb-item active">Customer List</li>
+              <li class="breadcrumb-item active">Customer Query</li>
             </ol>
           </div>
         </div>
@@ -25,7 +25,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Customer List</h3>
+                <h3 class="card-title">Customer Query</h3>
               </div>
               <div class="card-body">
                 <table id="myTable" class="table table-bordered table-striped table">
@@ -34,7 +34,7 @@
                       <th style="width: 10px">#</th>
                       <th>Customer Name</th>
                       <th>Customer Query</th>
-                      <th>Status</th>
+                      <th>Replay</th>
                       <th>Action</th>
                     </tr>
                   </thead>
@@ -42,10 +42,11 @@
                     @foreach($customerQuerys as $key=> $cuQ)
                     <tr>
                       <td>{{$key+1}}</td>
-                      <td>customer Query</td>
+                      <td>{{$cuQ->userInfo->name}}</td>
                       <td>{{$cuQ->post_title}}</td>
-                      <td>status</td>
-                      <td>View</td>
+                      <td>{{$cuQ->post_excerpt}}</td>
+                      <td><a href="{{route('customer.queryReplay',$cuQ->ID)}}" class="btn btn-primary">
+                        <i class="fa fa-edit"></i> Edit</a></td>
                     </tr>
                     @endforeach
                   </tbody>

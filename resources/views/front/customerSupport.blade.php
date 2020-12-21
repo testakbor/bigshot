@@ -32,20 +32,7 @@
                       <form action=" {{route('genarelQuiry')}} " method="POST">
                         @csrf
                         <div class="h4 mt-2">General Enquiries Form</div>
-                        <div class="form-group">
-                          <br>
-                          <label class=" control-label">Name</label>
-                          <div class="">
-                            <input class="form-control" type="text" name="name" ng-model="me.email" placeholder="Name" value="{{auth()->user()->name}}">
-
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <label class="control-label">Email</label>
-                          <div class="">
-                            <input class="form-control" type="text" name="email" placeholder="Email" value="{{auth()->user()->email}}">
-                          </div>
-                        </div>
+                       
                         <div class="form-group">
                           <label class=" control-label">Subject</label>
                           <div class="">
@@ -74,22 +61,7 @@
                       <form method="POST" action="{{route('s_cancel')}}">
                         @csrf
                         <div class="h4">Request cancel/return Form</div>
-
-
-                        <div class="form-group">
-                          <label class="control-label">Name</label>
-                          <div class="">
-                            <input class="form-control" type="text" name="name" placeholder="Name" value="{{auth()->user()->name}}">
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="control-label">Email</label>
-                          <div class="">
-                            <input class="form-control" type="text" name="email" placeholder="Email" value="{{auth()->user()->email}}">
-                          </div>
-                        </div>
-
+                      
 
                         <div class="form-group ml-3">
                           <div class="custom-control custom-radio">
