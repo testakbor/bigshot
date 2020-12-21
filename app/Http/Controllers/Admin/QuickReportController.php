@@ -653,7 +653,7 @@ public function grossProfit(Request $request)
   'page'=>'Report'
 );
  $year=date('Y');
- $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
+ $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->orderBy('ID','DESC')->get();
  return view('admin.quickReport.gross_profit',compact('order'))->with($extraInfo);
 }
 }

@@ -52,17 +52,17 @@
       <form class="form-inline" method="post" action="{{route('order.all.status.search')}}" >
         @csrf() 
         <div class="form-group mb-2">
-          <label for="depart" class="mr-2">Order Id</label>
+          <label for="depart" class="mr-2"> Order Id</label>
           <input  type="text" class="form-control" name="order_id" placeholder="Scanner or Order Id" />
         </div>
 
         <div class="form-group mb-2">
-          <label for="depart" class="mr-2">Mobile</label>
+          <label for="depart" class="mr-2"> Mobile</label>
           <input  type="text" class="form-control" name="mobile" placeholder="Mobile" />
         </div>
 
         <div class="form-group mb-2">
-          <label for="depart" class="mr-2">Email</label>
+          <label for="depart" class="mr-2"> Email</label>
           <input  type="email" class="form-control" name="email" placeholder="Email" />
         </div>
 

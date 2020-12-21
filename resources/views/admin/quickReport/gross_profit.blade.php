@@ -60,7 +60,7 @@
 								<th>Description</th>
 								<th>Quantity</th>
 								<th>Sales amount</th>
-								<th>Cost</th>
+								<th>Purchase Price</th>
 								<th></th>
 								<th>Gross Profit</th>
 							</tr>
@@ -181,10 +181,10 @@
 									<td></td>
 									<td></td>
 									<td>{{$total_qty}}</td>
-									<td>{{number_format($total_sale_amount)}}tk</td>
-									<td>{{number_format($total_cost)}}tk</b></td>
-									<td>delivery charge: {{number_format($total_charge)}}tk</td>
-									<td>{{number_format($total_sale_amount-$total_cost+$total_charge)}}tk</td>
+									<td>{{number_format($total_sale_amount)}} tk</td>
+									<td>{{number_format($total_cost)}} tk</b></td>
+									<td>delivery charge: {{number_format($total_charge)}} tk</td>
+									<td>{{number_format($total_sale_amount-$total_cost+$total_charge)}} tk</td>
 									</tr>
 								</tfoot>
 							</table>

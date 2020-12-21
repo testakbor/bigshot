@@ -48,53 +48,7 @@
                 </form>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="box bg-primary">
-                        <!-- <i class="fa fa-lemon ml-1"></i> -->
-                        <h3 class="text-center">{{$total_stock_attribute+$total_stock_default}}</h3>
-
-                        <p class="lead text-center font-weight-bold">Total Stock </p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="box bg-success">
-                        <!-- <i class="fa fa-user ml-1"></i> -->
-                        <h3 class="text-center">
-                            @php $t_costs=0; @endphp
-                            @foreach($data as $datas)
-                            @foreach($datas->productMeta as $valus)
-                            @if($valus->meta_key=='product_stock') @php $t_costs+=$valus->meta_value; @endphp @endif
-                            @endforeach
-                            @endforeach
-                            {{number_format($t_costs)}}
-                        </h3>
-                        <p class="lead text-center font-weight-bold">Total Cost</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="box bg-info">
-                        <!-- <i class="fa fa-handshake ml-1"></i> -->
-                        <h3 class="text-center">
-                             @php $d_sell=0; $a_sell=0; @endphp
-                  @foreach($d_data as $d)
-                    @php $d_sell+=DB::table('postmeta')->where('post_id',$d->post_id)->where('meta_key','sale_price')->sum('meta_value'); @endphp
-                  @endforeach
-
-                   @foreach($a_data as $a)
-                    @php $a_sell+=DB::table('postmeta')
-                    ->where('post_id',$a->post_parent)
-                    ->where('meta_key','sale_price')
-                    ->sum('meta_value'); @endphp
-                   @endforeach
-                  {{number_format($d_sell+$a_sell)}}
-                        </h3>
-                        <p class="lead text-center font-weight-bold">Total Sell Price</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+ 
     </section>
     <!-- Main content -->
     <section class="content">
@@ -117,7 +71,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; $img='';
+                                @php $tot_costt=0;$tot_selll=0; $tott_qtyy=0; $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; $img='';
                                 @endphp
                                 @foreach($products as $item)
                                 @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
@@ -199,9 +153,9 @@
                                         ->where('post_parent',$item->ID)
                                         ->where('meta_key','attribute_stock')
                                         ->join('postmeta','posts.ID','=','postmeta.post_id')
-                                        ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; @endphp</td>
-                                    <td class="right">{{number_format($cost)}}tk</td>
-                                    <td class="right">{{number_format($price)}}tk</td>
+                                        ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $main_qty; $tott_qtyy+=$main_qty; @endphp  </td>
+                                    <td class="right">{{number_format($cost)}}tk @php $tot_costt+=$cost; @endphp</td>
+                                    <td class="right">{{number_format($price)}}tk @php $tot_selll+=$price; @endphp</td>
                                     <td class="right">@if($main_qty>0) In stock @else Out of stock @endif </br>{{date('d-M-Y',strtotime($item->post_date))}}
                                     </td>
                                     <td class="right">
@@ -229,21 +183,21 @@
                 <div class="col-md-4">
                     <div class="box bg-primary">
                         <!-- <i class="fa fa-lemon ml-1"></i> -->
-                        <h3 class="text-center">{{$total_stock_attribute+$total_stock_default}}</h3>
+                        <h3 class="text-center">{{$tott_qtyy}}</h3>
                         <p class="lead text-center font-weight-bold">Total Stock </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="box bg-success">
                         <!-- <i class="fa fa-user ml-1"></i> -->
-                        <h3 class="text-center">{{number_format($t_costs)}}</h3>
+                        <h3 class="text-center">{{number_format($tot_costt)}}</h3>
                         <p class="lead text-center font-weight-bold">Total Cost</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
-                        <h3 class="text-center">  {{number_format($d_sell+$a_sell)}}</h3>
+                        <h3 class="text-center"> {{number_format($tot_selll)}} </h3>
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
                 </div>

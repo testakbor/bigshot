@@ -91,7 +91,7 @@
                   <td rowspan="" class="center">{{$item->total_qty}}</td>
                   <td rowspan="" class="center">@php $total=DB::table('order_itemmeta')
                     ->where('customer_id',$item->customer_id)
-                    ->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$total}}</td>
+                    ->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($total)}} tk</td>
                     <td rowspan="" class="center">
                        @php $email=DB::table('users')->where('id',$item->customer_id)->select('email')->first();  @endphp
                     

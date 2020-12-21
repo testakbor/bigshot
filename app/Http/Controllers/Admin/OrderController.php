@@ -535,21 +535,6 @@ public function stock(Request $request)
   where('post_type','product')
   ->where('post_status','!=','deleted')
   ->get(); 
-
-
-  $total_stock_attribute=DB::table('posts')
-  ->where('post_type','product_varient')
-  ->join('postmeta','posts.ID','=','postmeta.post_id')
-  ->where('meta_key','attribute_stock')
-   ->where('meta_value','>',0)
-  ->sum('meta_value');
-
-  $total_stock_default=DB::table('posts')
-  ->where(['post_type'=>'product','meta_key'=>'default_qty'])
-  ->where('meta_value','>',0)
-  ->join('postmeta','posts.ID','=','postmeta.post_id')
-  ->sum('meta_value'); 
-
   
     $d_data=Post::
     where('post_type','product')
@@ -568,7 +553,7 @@ public function stock(Request $request)
     ->get();
 
 
-  return view('admin.order.stock',compact('products','data','total_stock_attribute','total_stock_default','d_data','a_data'))->with($extraInfo);
+  return view('admin.order.stock',compact('products','data','d_data','a_data'))->with($extraInfo);
 }
 }
 
