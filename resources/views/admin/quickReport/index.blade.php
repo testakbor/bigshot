@@ -468,11 +468,11 @@ text-align: center;
                       	@php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
 							           	@php $total_charge+=$charge; @endphp
                            @foreach($item->orderItem as $meta)
-                              @php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); $total_cost+=$cost->meta_value; @endphp
                               @foreach($meta->orderMeta as $value) 
                               @if($value->meta_key=='_qty') @php $qty=$value->meta_value; $total_qty+=$qty;  @endphp @endif
                               @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; $total_sale_amount+=$sale_price;  @endphp @endif
                               @endforeach
+                                                            @php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); $total_cost+=$cost->meta_value*$qty; @endphp
 										    	  @endforeach
                       @endforeach 
                   {{number_format($total_sale_amount-$total_cost+$total_charge)}}
@@ -488,11 +488,11 @@ text-align: center;
                       	@php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
 							           	@php $total_charge+=$charge; @endphp
                            @foreach($item->orderItem as $meta)
-                              @php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); $total_cost+=$cost->meta_value; @endphp
                               @foreach($meta->orderMeta as $value) 
                               @if($value->meta_key=='_qty') @php $qty=$value->meta_value; $total_qty+=$qty;  @endphp @endif
                               @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; $total_sale_amount+=$sale_price;  @endphp @endif
                               @endforeach
+                             @php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); $total_cost+=$cost->meta_value*$qty; @endphp
 										    	  @endforeach
                       @endforeach 
                   {{number_format($total_sale_amount-$total_cost+$total_charge)}}

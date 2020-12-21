@@ -97,6 +97,7 @@ endforeach;
                             </div>
                               <table class="table table-responsive">
                                 <tbody>
+                                @php $att_statuss=''; @endphp
                                   @foreach($lists as $a) 
                                  
                                     @php 

@@ -641,10 +641,13 @@ public function lowerStock(Request $request){
     'title'=>"Brand List",
     'page'=>'lowerstock'
   ); 
-  $products=Post::
+  $d_pro=Post::
   where('post_type','product')
   ->get(); 
-  return view('admin.order.stock_lower',compact('products'))->with($extraInfo);
+  $a_pro=Post::
+  where('post_type','product_varient')
+  ->get();
+  return view('admin.order.stock_lower',compact('d_pro','a_pro'))->with($extraInfo);
   }
 }
 

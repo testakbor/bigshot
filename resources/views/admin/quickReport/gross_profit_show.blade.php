@@ -49,7 +49,7 @@
 	<!-- Main content -->
 	<section class="content">
 		<div class="container">
-			<h4 class="text-center">Gross profit in details Year {{date('Y')}}</h4>
+			<h4 class="text-center"></h4>
 			<div class="card">
 				<div class="card-body">
 					<div class="table-responsive-sm">
@@ -60,7 +60,7 @@
 								<th>Description</th>
 								<th>Quantity</th>
 								<th>Sales amount</th>
-								<th>Cost</th>
+								<th>Purchase Price</th>
 								<th></th>
 								<th>Gross Profit</th>
 							</tr>
@@ -153,9 +153,9 @@
 										@foreach($item->orderItem as $meta)
 										@php $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); @endphp
 											<tr>
-												<td>{{number_format($cost->meta_value)}}</td>
+												<td>{{number_format($cost->meta_value * $qty)}}</td>
 											</tr>
-										@php $total_cost+=$cost->meta_value; @endphp
+										@php $total_cost+=$cost->meta_value*$qty; @endphp
 										@endforeach
 										</table>
 									</td>
@@ -167,7 +167,7 @@
 										@if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; @endphp @endif
 										@endforeach
 											<tr>
-												<td>@php $profit=$sale_price-$cost->meta_value; @endphp {{$profit}}</td>
+												<td>@php $profit=$sale_price-$cost->meta_value*$qty; @endphp {{number_format($profit)}}</td>
 											</tr>
                                         @endforeach
 										</table>
@@ -181,10 +181,10 @@
 									<td></td>
 									<td></td>
 									<td>{{$total_qty}}</td>
-									<td>{{number_format($total_sale_amount)}}tk</td>
-									<td>{{number_format($total_cost)}}tk</b></td>
-									<td>delivery charge: {{number_format($total_charge)}}tk</td>
-									<td>{{number_format($total_sale_amount-$total_cost+$total_charge)}}tk</td>
+									<td>{{number_format($total_sale_amount)}} tk</td>
+									<td>{{number_format($total_cost)}} tk</b></td>
+									<td>delivery charge: {{number_format($total_charge)}} tk</td>
+									<td>{{number_format($total_sale_amount-$total_cost+$total_charge)}} tk</td>
 									</tr>
 								</tfoot>
 							</table>
