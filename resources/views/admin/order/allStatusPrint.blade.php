@@ -30,7 +30,13 @@ table {
                                 </tr>
                                 <tr>
                                     <td>Payment via</td>
-                                    <td>Cash</td>
+                                    <td> 
+                                        @foreach ($order_info as $meta)
+                                        @if($meta->meta_key=='payment_method')
+                                       {{$meta->meta_value }}
+                                       @endif
+                                       @endforeach
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="font-weight-bold">Date created</td>

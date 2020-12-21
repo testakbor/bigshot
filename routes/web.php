@@ -165,6 +165,9 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('admin/grossProfit','OrderController@grossProfit')->name('order.grossProfit');
         Route::post('admin/grossProfit/report','QuickReportController@grossProfitShow')->name('order.grossProfit.report');
         Route::resource('admin/customer','CustomerController');
+
+        Route::get('admin/customerQuery','CustomerController@customerQuery')->name('customer.customerQuery');
+
         Route::get('admin/attributeValue/{id}','AttributeController@attributeValue')->name('attribute.attributeValue');
         Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');
         Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');

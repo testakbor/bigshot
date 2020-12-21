@@ -40,12 +40,23 @@ class HomeController extends Controller
         ->where('post_status', 'cancelled')
         ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
         ->count();
+
         $total_sale_amount=Post::where('post_type','shop_order')
         ->where('post_status','on-hold')
         ->where('meta_key','_line_subtotal')
         ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
         ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+        ->sum('meta_value');  
+
+        $delivery_charge=Post::where('post_type','shop_order')
+        ->where('post_status','on-hold')
+        ->where('meta_key','delivery_charge')
+        ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+        ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
         ->sum('meta_value');
+  
+  $total_sale_amount=$total_sale_amount+$delivery_charge;
+
         if($start=='' && $end==''){
             $total_sale_amount_date_wise = Post::where('post_type', 'shop_order')
                 ->where('post_status', 'on-hold')
