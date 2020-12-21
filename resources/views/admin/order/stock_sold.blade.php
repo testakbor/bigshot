@@ -190,8 +190,8 @@
                       <td class="right">{{number_format($sale_price->meta_value)}} tk</td>
                       <td class="right">Out Of Stock</td>
                       <td class="right">
-                        <i class="fas fa-print"><a href="{{route('stock.print.sticker',$parent_id->post_parent)}}">Print</a></i><br>
-                        <i class="fas fa-edit"><a href="{{route('product.edit',$parent_id->post_parent)}}">Edit</a></i><br>
+                        <i class="fas fa-print"></i> <a class="btn btn-primary" href="{{route('stock.print.sticker',$parent_id->post_parent)}}"> Print</a><br>
+                        <i class="fas fa-edit"></i> <a class="btn btn-info" href="{{route('product.edit',$parent_id->post_parent)}}"> Edit</a><br>
                       </td>
                     </tr>
                    @php $j++; $total_sale_j+=$sale_price->meta_value; $total_cost_j+=$cost->meta_value; @endphp
