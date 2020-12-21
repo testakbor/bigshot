@@ -360,7 +360,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="sticky-top">
+                <div class="">
                     <div class="" style="height: 2px;background: black"></div>
                 </div>
             </div>
