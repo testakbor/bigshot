@@ -159,7 +159,7 @@ class AttributeController extends Controller
         $attributeValues=DB::table('term_taxonomy')
             ->join('terms','terms.term_id','=','term_taxonomy.term_id')
             ->where('taxonomy',$attribute->attribute_label)
-            ->paginate(3);       
+            ->paginate(3);     
             return view('admin.attribute.valueList',compact('attribute','attributeValues'))->with($extraInfo);
     }
     }

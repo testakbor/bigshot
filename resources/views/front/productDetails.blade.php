@@ -18,7 +18,7 @@ endif;
 if($meta['meta_key']=='sale_price'):
 $sprice=$meta['meta_value'];
 endif;
-if($meta['meta_key']=='qty'):
+if($meta['meta_key']=='default_qty'):
 $qty=$meta['meta_value'];
 endif;
 if($meta['meta_key']=='default_attribute'):
@@ -95,42 +95,52 @@ endforeach;
                                     <input type="number" step="1" min="1" max="" name="quantity" class="form-control" id="" value="1" autocomplete="off">
                                 </div>
                             </div>
-                              <table class="table table-responsive">
-                                <tbody>
-                                @php $att_statuss=''; @endphp
-                                  @foreach($lists as $a) 
-                                 
-                                    @php 
-                                     $current_status=DB::table('postmeta')->where('post_id',$a->post_id)->where('meta_key','att_status')->first(); 
-                                    $attribute=json_decode($a->meta_value);
-                                    @endphp
-                                      @if(isset($current_status)) @php $att_statuss=$current_status->meta_value; @endphp @endif
-                                           @if($att_statuss==1)
-                                        <tr>
-                                            <td style="border: 0px solid #ffffff;">
-                                              <input required type="radio" name="attribute_id" value="{{$a->post_id}}"> 
-                                             @foreach($attribute as $att)
-                                             <b>{{strtoupper($att->taxonomy)}}</b> :
-                                             {{$att->term}} 
-                                             @endforeach
-                                        </td>
-                                    </tr>
-                                    @endif 
+
+
+                           @if($attributes->count()>0)
+
+
+                             <div class="mt-2">
+                                <lebel for="">Select color</lebel>                          
+                                <select name="" id="att_select" class="form-control" required>
+                                    <option value="">Select</option>
+                                    @foreach($attributes as $att)
+                                      <option value="{{$att->id}}">{{$att->term}}</option>
                                     @endforeach
-                                </tbody>
-                             </table>
+                                </select>
+                             </div>
+                          <div class="mt-2">
+                               <div id="attribut-value"  style="display:none">
+                                    <lebel for="">Select Size</lebel> 
+                                    <select name="" id="att_value" class="form-control"></select>
+                                </div>
+                           </div>
+                            <input type="hidden" id="a_id" name="attribute_id" value="">
+                            <input type="hidden" name="name" value="{{$product->post_title}}">
+                            <input type="hidden" name="main_qty" value="{{$qty}}">
+                            <input type="hidden" name="price" value="{{$sprice}}">
+                               <input id="proid" type="hidden"  value="{{$product->ID}}">
+                         
+                            @else 
+                            <input type="hidden" name="id" value="{{$product->ID}}">
+                            <input type="hidden" name="name" value="{{$product->post_title}}">
+                            <input type="hidden" name="main_qty" value="{{$qty}}">
+                            <input type="hidden" name="price" value="{{$sprice}}">
+                          @endif 
+
+
+
+
+
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-primary mb-2 btn-large btn-block"><i class="fas fa-shopping-bag"></i> Add To Cart</button>
+                                <button type="submit" id="final_cart_submit" class="btn btn-primary mb-2 btn-large btn-block"><i class="fas fa-shopping-bag"></i> Add To Cart</button>
                                 <div class="text-center">
                                 <a class="btn btn-success btn-large btn-block" href="{{url('/wishlist/product/'.$product->ID)}}">
                                    <i class="far fa-heart ml-2 h4"></i>
                                 </a>
                                 </div>
                             </div>
-                            <input type="hidden" name="id" value="{{$product->ID}}">
-                            <input type="hidden" name="name" value="{{$product->post_title}}">
-                            <input type="hidden" name="main_qty" value="{{$qty}}">
-                            <input type="hidden" name="price" value="{{$sprice}}">
+                            
                         </form>
                     </div>
                 </div>
@@ -210,5 +220,73 @@ endforeach;
                 image1.src = path;
             }
      }
+
+
+
+ $("#att_select").on('change', function() {
+      var id = $("#att_select").val();
+      var proid = $("#proid").val();
+      $.ajax({
+        type: "GET",
+        url: "{{url('att')}}" + "/" + id+"/"+proid,
+        dataType: "json",
+        success: function(response) {
+            if (response!=0){
+                 $('#attribut-value').show();
+                var schema_one = '';
+                    schema_one +='<option>Select</option>'; 
+                $.each(response, function(i, item) { 
+                    schema_one += '<option value="' + item.term_id+ '">' + item.term + '</option>';
+                    document.getElementById('a_id').value=item.product_parent
+                });
+                $('#att_value').html(schema_one);
+
+            }else{
+           var id = $("#att_select").val();
+            $.ajax({
+                    type: "GET",
+                    url: "{{url('only')}}" + "/" + id,
+                    dataType: "json",
+                    success: function(response) {
+                    var schema_one = '';
+                    $.each(response, function(i, item) {
+                        document.getElementById('a_id').value=item.product_parent 
+                    });
+                    },
+                    error: function(response) {
+                    console.log(response);
+                    }
+                })
+            }
+        },
+        error: function(response) {
+          console.log(response);
+        }
+      })
+    });
+
+
+     $("#att_value").on('change', function() {
+      var id = $("#att_value").val();
+      $.ajax({
+        type: "GET",
+        url: "{{url('atts')}}" + "/" + id,
+        dataType: "json",
+        success: function(response) {
+          var schema_one = '';
+          $.each(response, function(i, item) {
+            document.getElementById('a_id').value=item.product_parent 
+          });
+        },
+        error: function(response) {
+          console.log(response);
+        }
+      })
+    });
+
+
+   
+
+
   </script>
 @endsection

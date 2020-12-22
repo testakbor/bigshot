@@ -105,8 +105,9 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){ 
+     
       // ProductStoreRequest
-         dd($request->valueName);
+ 
         if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;
@@ -205,6 +206,7 @@ if($request->hasFile('galleryImage'))
 
 }
 // //insert temp attribute data with post table and postmeta table
+        $post_insert_id=[];
         $all_temp_att=DB::table('temp_attribute_stock')->get(); 
         foreach($all_temp_att as $att){ 
             DB::table('posts')->insert([
@@ -212,6 +214,7 @@ if($request->hasFile('galleryImage'))
                 'post_type' =>'product_varient',
             ]);
             $id_last=DB::getPdo()->lastInsertId();
+            $post_insert_id[]=$id_last;
             DB::table('postmeta')->insert([
             'post_id' =>$id_last,  
             'meta_key'  =>'attribute',
@@ -237,17 +240,35 @@ if($request->hasFile('galleryImage'))
                 'meta_key'  =>'att_status',
                 'meta_value'=> 1,
                 ]);
-
-                if($request->valueName!=null){
-
-                }
+        }
+         $i=0;
+        foreach($all_temp_att as $list){
+          $attribute=json_decode($list->attribute_value);
+          $parent=0;
+         
+          foreach($attribute as $key=>$att){
+            DB::table('product_attibutes')->insert([
+              'post_id' =>$post_id,
+              'taxonomy' =>$att->taxonomy,
+              'term' =>$att->term,
+              'term_id' =>$att->term_id,
+              'parent_id'=>$parent,
+              'product_parent'=>$post_insert_id[$i],
+              'status' =>1
+            ]);
+            $id=DB::getPdo()->lastInsertId();
+            $parent=$id;
+            
+          }
+            $i++;
         }
         DB::table('temp_attribute_stock')->delete(); 
       session()->flash("success","Information saved Successfully");
       return redirect(route('product.index'));
     }
+    }
 
-}
+
 
 public function attributeValue($id,Request $request){   
       if($request->user()->can('manage-product')) {     
@@ -481,6 +502,7 @@ public function update(Request $request,$id){
 
     
         //attribute insert
+            $post_insert_id=[];
          $all_temp_att=DB::table('temp_attribute_stock')->get(); 
          foreach($all_temp_att as $att){ 
          DB::table('posts')->insert([
@@ -509,6 +531,33 @@ public function update(Request $request,$id){
         'meta_value'=> 1,
         ]);
        }
+
+
+   $i=0;
+        foreach($all_temp_att as $list){
+          $attribute=json_decode($list->attribute_value);
+          $parent=0;
+         
+          foreach($attribute as $key=>$att){
+            DB::table('product_attibutes')->insert([
+              'post_id' =>$id,
+              'taxonomy' =>$att->taxonomy,
+              'term' =>$att->term,
+              'term_id' =>$att->term_id,
+              'parent_id'=>$parent,
+              'product_parent'=>$post_insert_id[$i],
+              'status' =>1
+            ]);
+            $id=DB::getPdo()->lastInsertId();
+            $parent=$id;
+            
+          }
+            $i++;
+        }
+
+
+
+
        DB::table('temp_attribute_stock')->delete();
        //product categories
         if($request->category!=null){

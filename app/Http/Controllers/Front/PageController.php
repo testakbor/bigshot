@@ -42,8 +42,13 @@ class PageController extends Controller
                             ->join('postmeta','posts.ID','=','postmeta.post_id')
                             ->select('meta_value','post_id')
                             ->get(); 
+        $attributes=DB::table('product_attibutes')
+        ->where('post_id',$product->ID)
+        ->where('parent_id',0)
+        ->groupBy('term_id')
+        ->get();        
        
-        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray','lists'));
+        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray','lists','attributes'));
     }
     public function cart()
     {
@@ -240,4 +245,55 @@ class PageController extends Controller
        ->get();
         return view('front.tag_product',compact('product'));
     }
+
+
+
+
+    public function att_value($id,$product_id){    
+      $data=DB::table('product_attibutes')
+      ->where('id',$id)
+      ->where('post_id',$product_id)
+      ->select('term_id','term','product_parent','id')
+      ->first();
+      $terms=DB::table('product_attibutes')
+      ->where('term_id',$data->term_id) 
+         ->where('post_id',$product_id)
+      ->get();
+       $info=[];
+      foreach($terms as $tcheck){
+        $parent=$tcheck->id;
+
+      $count=DB::table('product_attibutes')
+      ->where('parent_id',$parent) 
+      ->count();
+
+      if($count>0){
+             $child=DB::table('product_attibutes')
+      ->where('parent_id',$parent) 
+      ->first();
+       $info[]=$child;
+      }else{
+           $info=0;
+      }
+
+ 
+
+
+
+      }
+      return response()->json($info);
+    }
+
+      public function atts_value($id){    
+      $data=DB::table('product_attibutes')
+      ->where('term_id',$id)
+      ->select('product_parent')->get();
+      return response()->json($data);
+    }
+
+    public function only($id){
+      $data=DB::table('product_attibutes')->where('id',$id)->select('product_parent')->get();
+      return response()->json($data);
+    }
+
 }
