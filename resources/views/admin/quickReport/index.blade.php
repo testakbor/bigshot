@@ -463,27 +463,46 @@ use Carbon\Carbon; ?>
                 <a href="{{route('g_profit_monthly')}}">
                     <div class="reportDayText">Monthly</div>
                     <div class="reportDayValue">
-                        @php $qty=0; $total_qty=0; $sale_price=0; $total_sale_amount=0; $cost=0; $total_cost=0; $total_charge=0; @endphp
-                        @foreach($order_gross_profit_month as $item)
-                        @php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
-                        @php $total_charge+=$charge; @endphp
-                        @foreach($item->orderItem as $meta)
-                        @foreach($meta->orderMeta as $value) 
-                        @if($value->meta_key=='_qty') @php $qty=$value->meta_value; $total_qty+=$qty;  @endphp @endif
-                        @if($value->meta_key=='_line_subtotal') @php $sale_price=$value->meta_value; $total_sale_amount+=$sale_price;  @endphp @endif
-                        @endforeach
-                        @php
-                         $cost=DB::table('postmeta')->where('post_id',$meta->product_parent)->where('meta_key','product_stock')->first(); 
-                        
-                      
-                        $total_cost+=$cost->meta_value*$qty;
-                           
-                         @endphp
-                        @endforeach
-                        @endforeach 
-                        @php                          
-                          
-                          
+                        @php 
+                        $qty=0; $total_qty=0; $sale_price=0; $total_sale_amount=0; $cost=0; $total_cost=0; $total_charge=0;
+
+                        foreach($order_gross_profit_month as $item){                      
+                            $delivery=DB::table('order_itemmeta')
+                            ->where('order_id',$item->ID)
+                            ->where('meta_key','delivery_charge')
+                            ->first(); 
+                            
+                            if(isset($delivery)){
+                                $charge=$delivery->meta_value;                        
+                            }else{        
+                                $charge=0;                    
+                            }          
+
+                            $total_charge+=$charge;
+                            foreach($item->orderItem as $meta){
+                                foreach($meta->orderMeta as $value){
+                                    if($value->meta_key=='_qty'){
+                                        $qty=$value->meta_value; 
+                                        $total_qty+=$qty;                         
+                                    }
+                                    if($value->meta_key=='_line_subtotal'){
+                                        $sale_price=$value->meta_value;
+                                        $total_sale_amount+=$sale_price;                          
+                                    }
+                                }
+
+                                  
+
+                                $cost=DB::table('postmeta')
+                                ->where('post_id',$meta->product_parent)
+                                ->where('meta_key','product_stock')
+                                ->first(); 
+                                $total_cost+=$cost->meta_value*$qty;
+                            
+                           }
+                             
+                        }
+                       echo $total_qty; 
                         @endphp 
                         {{number_format($total_sale_amount-$total_cost+$total_charge)}}
                     </div>
