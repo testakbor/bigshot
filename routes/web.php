@@ -102,6 +102,7 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('user/profile/chnage/{id}','PageController@passwordEdit')->name('password.edit');
         Route::post('user/profile/chnage/{id}','PageController@passwordUpdate')->name('password.update');
         Route::post('quiry','QuiryController@generalQuiry')->name('genarelQuiry');
+
         Route::post('support/all/aorder/cancel','QuiryController@support_all_cancel_order')->name('s_cancel');
         Route::get('/customer/order/details/{id}','OrderController@edit')->name('customer_ordere_edit')->middleware('auth');
         Route::get('/customer/order/cancel/{id}','OrderController@cancel_order_details')->name('customer_ordere_cancel')->middleware('auth');
@@ -170,6 +171,9 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::resource('admin/customer','CustomerController');
 
         Route::get('admin/customerQuery','CustomerController@customerQuery')->name('customer.customerQuery');
+
+        Route::get('admin/queryReplay/{id}','CustomerController@queryReplay')->name('customer.queryReplay');
+        Route::post('admin/replay','CustomerController@queryAnswer')->name('query.replay');
 
         Route::get('admin/attributeValue/{id}','AttributeController@attributeValue')->name('attribute.attributeValue');
         Route::POST('admin/attributeValueSave','AttributeController@attributeValueSave')->name('attributeValue.store');

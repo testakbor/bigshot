@@ -428,7 +428,7 @@ use Carbon\Carbon; ?>
 
             <div class="col-md-1 box ml-3  todayBg d-flex justify-content-center flex-column">
                 <a  href="{{url('delivered/order')}}">
-                    <div class="reportDayText">Quantity</div>
+                    <div class="reportDayText">Items</div>
                     <div class="reportDayValue">{{$delivered_qty}}</div>
                 </a>
             </div>

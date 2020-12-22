@@ -25,7 +25,7 @@
         <input type="hidden" name="id" value="{{$id}}">
         <div class="col-md-12">
           <div class="card card-default">
-            <div class="card-header">
+            <div class="card-header bg-dark">
               @php $skuu=''; $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
               @foreach($order_info as $info)
               @if($info->meta_key=='phone')
@@ -197,8 +197,8 @@
                        {{number_format($p->meta_value)}}
                        @endif 
                       </td>
-                      <td><input type="number" name="qty[]" value="{{$qty}}"></td>
-                      <td>{{number_format($subtotal)}}</td>
+                      <td><input style="width:100px" type="number" class="form-control" name="qty[]" value="{{$qty}}"></td>
+                      <td>{{number_format($subtotal)}} tk</td>
                       <input type="hidden" name="product_id[]" value="{{$items->product_id}}">
                       <input type="hidden" name="att_id[]" value="{{$att}}">
                       <input type="hidden" name="order_id" value="{{$id}}">
@@ -215,13 +215,15 @@
               </div>
               <div class="card-footer ">
                 <div class="d-flex flex-column justify-content-end">
-                  <div class="d-flex flex-row justify-content-end" style="font-size: 18px;">
-                    <div> Delivery Charge:</div>
-                    <div> @if(isset($delivery_charge)) @php $charge=$delivery_charge->meta_value; @endphp {{number_format($charge)}} tk @endif</div>
+                  <div class="d-flex flex-row justify-content-end" style="font-size: 16px;">
+                    <div class="font-weight-bold"> Delivery Charge: </div>
+                    <div class="ml-1">                    
+                       {{isset($delivery_charge)?number_format( $charge=$delivery_charge->meta_value):''}} tk
+                      </div>
                   </div>
-                  <div class="d-flex flex-row justify-content-end" style="font-size: 18px;">
-                    <div> Order Total: </div>
-                    <div>  {{number_format($grandLinetotal+$charge)}} tk</div>
+                  <div class="d-flex flex-row justify-content-end" style="font-size: 16px;">
+                    <div class="font-weight-bold"> Order Total: </div>
+                    <div class="ml-1">  {{number_format($grandLinetotal+$charge)}} tk</div>
                   </div>
                 </div>
               </div>

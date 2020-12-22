@@ -53,50 +53,125 @@ class HomeController extends Controller
         ->where('meta_key','delivery_charge')
         ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
         ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
-        ->sum('meta_value');
+        ->select('meta_value as d_charge')
+        ->groupBy('order_id')
+        ->get();
+        foreach($delivery_charge as $charge){
+           $total_sale_amount=$total_sale_amount+$charge->d_charge;
+        }
   
-  $total_sale_amount=$total_sale_amount+$delivery_charge;
+ 
+  
+       
 
         if($start=='' && $end==''){
-            $total_sale_amount_date_wise = Post::where('post_type', 'shop_order')
+            $sale_charge=Post::where('post_type','shop_order')
+            ->where('post_status','on-hold')
+            ->where('meta_key','delivery_charge')
+            ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+            ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+            ->select('meta_value as d_charge')
+            ->groupBy('order_id')
+            ->get();
+             $deliver_charge=Post::where('post_type','shop_order')
+            ->where('post_status','delivered')
+            ->where('meta_key','delivery_charge')
+            ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+            ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+            ->select('meta_value as d_charge')
+            ->groupBy('order_id')
+            ->get();
+             $cancel_charge=Post::where('post_type','shop_order')
+            ->where('post_status','cancelled')
+            ->where('meta_key','delivery_charge')
+            ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+            ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+            ->select('meta_value as d_charge')
+            ->groupBy('order_id')
+            ->get();
+            $total_sale_amount_date_wise=Post::where('post_type', 'shop_order')
                 ->where('post_status', 'on-hold')
                 ->where('meta_key', '_line_subtotal')
                 ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
                 ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
                 ->sum('meta_value');
+
+             foreach($sale_charge as $charge){
+                 $total_sale_amount_date_wise=$total_sale_amount_date_wise+$charge->d_charge;
+             }
+
             $total_delivery_amount_date_wise = Post::where('post_type', 'shop_order')
                 ->where('post_status', 'delivered')
                 ->where('meta_key', '_line_subtotal')
                 ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
                 ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
                 ->sum('meta_value');
+                  foreach($deliver_charge as $charge){
+                  $total_delivery_amount_date_wise=$total_delivery_amount_date_wise+$charge->d_charge;
+             }
             $total_cancel_amount_date_wise = Post::where('post_type', 'shop_order')
                 ->where('post_status', 'cancelled')
                 ->where('meta_key', '_line_subtotal')
                 ->whereBetween('post_date', [date('Y-m-01'), date('Y-m-t')])
                 ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
                 ->sum('meta_value');
+               foreach($cancel_charge as $charge){
+                  $total_cancel_amount_date_wise=$total_cancel_amount_date_wise+$charge->d_charge;
+               }
             }else{
+               $sale_charge=Post::where('post_type','shop_order')
+            ->where('post_status','on-hold')
+            ->where('meta_key','delivery_charge')
+            ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+            ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+            ->select('meta_value as d_charge')
+            ->groupBy('order_id')
+            ->get();
+             $deliver_charge=Post::where('post_type','shop_order')
+            ->where('post_status','delivered')
+            ->where('meta_key','delivery_charge')
+            ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+            ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+            ->select('meta_value as d_charge')
+            ->groupBy('order_id')
+            ->get();
+             $cancel_charge=Post::where('post_type','shop_order')
+            ->where('post_status','cancelled')
+            ->where('meta_key','delivery_charge')
+            ->whereBetween('post_date',[date('Y-m-01'), date('Y-m-t')])
+            ->join('order_itemmeta','posts.ID','=', 'order_itemmeta.order_id')
+            ->select('meta_value as d_charge')
+            ->groupBy('order_id')
+            ->get();
             $total_sale_amount_date_wise= Post::where('post_type', 'shop_order')
             ->where('post_status', 'on-hold')
             ->where('meta_key', '_line_subtotal')
             ->whereBetween('post_date', [$start,$end])
             ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
             ->sum('meta_value');
+             foreach($sale_charge as $charge){
+                 $total_sale_amount_date_wise=$total_sale_amount_date_wise+$charge->d_charge;
+             }
             $total_delivery_amount_date_wise = Post::where('post_type', 'shop_order')
             ->where('post_status', 'delivered')
             ->where('meta_key', '_line_subtotal')
             ->whereBetween('post_date', [$start, $end])
             ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
             ->sum('meta_value');
+             foreach($deliver_charge as $charge){
+                  $total_delivery_amount_date_wise=$total_delivery_amount_date_wise+$charge->d_charge;
+             }
             $total_cancel_amount_date_wise = Post::where('post_type', 'shop_order')
             ->where('post_status', 'cancelled')
             ->where('meta_key', '_line_subtotal')
             ->whereBetween('post_date', [$start, $end])
             ->join('order_itemmeta', 'posts.ID', '=', 'order_itemmeta.order_id')
             ->sum('meta_value');
+             foreach($cancel_charge as $charge){
+                  $total_cancel_amount_date_wise=$total_cancel_amount_date_wise+$charge->d_charge;
+             }
             }
-        return view("admin.home",compact('total_sales','total_delivered','total_cancelled','total_sale_amount','total_sale_amount_date_wise','total_delivery_amount_date_wise','total_cancel_amount_date_wise','start','end'))->with($extraInfo);
+           return view("admin.home",compact('total_sales','total_delivered','total_cancelled','total_sale_amount','total_sale_amount_date_wise','total_delivery_amount_date_wise','total_cancel_amount_date_wise','start','end'))->with($extraInfo);
+        }
     }
-}
  

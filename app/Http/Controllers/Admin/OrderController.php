@@ -647,9 +647,13 @@ public function lowerStock(Request $request){
   ); 
   $d_pro=Post::
   where('post_type','product')
-  ->get(); 
+  ->where('meta_key','default_qty')
+  ->join('postmeta','posts.ID','=','postmeta.post_id')
+  ->get();
   $a_pro=Post::
   where('post_type','product_varient')
+  ->where('meta_key','attribute_stock')
+  ->join('postmeta','posts.ID','=','postmeta.post_id')
   ->get();
   return view('admin.order.stock_lower',compact('d_pro','a_pro'))->with($extraInfo);
   }

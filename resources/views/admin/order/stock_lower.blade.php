@@ -43,47 +43,108 @@
                 </tr>
               </thead>
               <tbody>
-                <!-- default product -->
-              @foreach($d_pro as $dd) 
-                @php $d_alert_qty=DB::table('postmeta')->where('post_id',$dd->ID)->where('meta_key','alert_qty')->first(); @endphp
-                @if(isset($d_alert_qty)) @php $alert_default=$d_alert_qty->meta_value; @endphp @endif
+
+              <!-- default product start -->
+              @php $alert_quantity=0; @endphp  
+              @foreach($d_pro as $dp) 
+                @foreach($dp->productMeta as $dmeta) 
+                   @if($dmeta->meta_key=='alert_qty') @php $alert_quantity=$dmeta->meta_value; @endphp @endif
+                @endforeach
                 @php 
-                $data_default=DB::table('postmeta')
-                ->where('post_id',$dd->ID)->where('meta_key','default_qty')
-                ->where('meta_value','<=',$alert_default)
+                 $low_product_default=DB::table('postmeta')
+                ->where('post_id',$dp->post_id)
+                ->where('meta_key','default_qty')
+                ->where('meta_value','<=',$alert_quantity)
                 ->select('post_id')
                 ->get();
-                @endphp 
-                  @foreach($data_default as $d)
-                               <tr>
-                                <td class="left strong">Demo {{$d->post_id}}</td>
-                                <td class="left strong"></td>
-                                <td class="left strong"></td>
-                                <td class="left strong"></td>
+                @endphp
+
+                @foreach($low_product_default as $low)
+                   
+                              <tr>
+                                <td class="center">@php $name=DB::table('posts')->where('ID',$low->post_id)->first(); @endphp {{$name->post_title}}</td>
+                                <td class="left strong">@php $qty=DB::table('postmeta')->where('post_id',$low->post_id)->where('meta_key','default_qty')->first(); @endphp {{$qty->meta_value}}</td>
+                                <td class="left strong">{{$alert_quantity}}</td>
                                 </td>
                               </tr>
-                  @endforeach 
+                @endforeach
               @endforeach
-              <!-- default product -->
+              <!-- default product end -->
 
 
-               <!-- attribute product -->
-               @php $a_stock=''; $a_alert='';  @endphp
-              @foreach($a_pro as $aa) 
-                 @foreach($aa->productMeta as $meta)
 
-                 @endforeach 
-                  <tr>
-                                <td class="left strong">1</td>
-                                <td class="left strong"></td>
-                                <td class="left strong"></td>
-                                <td class="left strong"></td>
+                <!-- default product start -->
+              @php $alert_quantity=0; @endphp  
+              @foreach($a_pro as $dp) 
+                @foreach($dp->productMeta as $dmeta) 
+                   @if($dmeta->meta_key=='attribute_low_stock') @php $alert_quantity=$dmeta->meta_value; @endphp @endif
+                @endforeach
+                @php 
+                 $low_product_att=DB::table('postmeta')
+                ->where('post_id',$dp->post_id)
+                ->where('meta_key','attribute_stock')
+                ->where('meta_value','<=',$alert_quantity)
+                ->select('post_id')
+                ->get();
+                @endphp
+
+                @foreach($low_product_att as $low)
+                   
+                              <tr>
+                                <td class="center">@php 
+                                  $parent=DB::table('posts')
+                                  ->where('ID',$low->post_id)
+                                  ->select('post_parent')
+                                  ->first(); 
+                                  $name=DB::table('posts')->where('ID',$parent->post_parent)->first(); 
+                                  @endphp  {{$name->post_title}}
+                                
+                                     @php 
+                                        $lists=DB::table('postmeta')
+                                        ->where('post_id',$low->post_id)
+                                        ->where('meta_key','attribute')
+                                        ->select('meta_value','post_id')
+                                        ->get();
+                                         @endphp
+                                  <table class="table table-responsive">
+                                                            <tbody>
+                                                            @php $i=0; @endphp 
+                                                            @foreach($lists as $a) 
+                                                                @php 
+                                                                $i++;
+                                                                $attribute=json_decode($a->meta_value);
+                                                                @endphp
+                                                                    <tr>
+                                                                    <td>
+                                                                        @foreach($attribute as $att)
+                                                                        <b> {{$att->taxonomy}}</b> :
+                                                                        {{$att->term}}      
+                                                                        @endforeach
+                                                                    </td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                       </table>
+                          
                                 </td>
-                              </tr>           
-              @endforeach 
-                             
-              <!-- attribute product -->
 
+                                <td class="left strong">
+                                  @php 
+                                  $qty=DB::table('postmeta')
+                                  ->where('post_id',$low->post_id)
+                                  ->where('meta_key','attribute_stock')
+                                  ->first(); 
+                                  @endphp {{$qty->meta_value}}</td>
+
+                                <td class="left strong">{{$alert_quantity}}</td>
+                                </td>
+                              </tr>
+                @endforeach
+              @endforeach
+              <!-- default product end -->
+                    
+                              
+         
                             
               </tbody>
             </table>

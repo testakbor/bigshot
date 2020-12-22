@@ -155,7 +155,7 @@ use App\Model\front\Order_item;
 
       <h3 class="text-center">{{$total_item}}</h3>
 
-      <p class="lead text-center font-weight-bold">Total Item</p>
+      <p class="lead text-center font-weight-bold">Total Quantity</p>
     </div>
   </div>
   <div class="col-md-4">

@@ -104,10 +104,8 @@ class ProductController extends Controller
     }
     }
 
-    public function store(Request $request){ 
+    public function store(ProductStoreRequest $request){ 
      
-      // ProductStoreRequest
- 
         if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;

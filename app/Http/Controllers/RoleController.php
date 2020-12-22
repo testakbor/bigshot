@@ -46,6 +46,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
+        if($request->page_id==null){
+           session()->flash("error","Select page Permission");
+           return redirect(route('role.index'));
+           exit();
+        }
         $create= new Role();
         $create->name=$request->name;
         $create->slug=strtolower($request->name);
@@ -94,6 +99,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if($request->page_id==null){
+           session()->flash("error","Select page Permission");
+           return back();
+           exit();
+        }
+
         Role::where('id',$id)->update([
         'name'=>$request->name,
         ]);
