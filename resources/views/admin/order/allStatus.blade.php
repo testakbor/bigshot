@@ -57,12 +57,12 @@
         </div>
 
         <div class="form-group mb-2">
-          <label for="depart" class="mr-2"> Mobile</label>
+          <label for="depart" class="mr-2 ml-2"> Mobile</label>
           <input  type="text" class="form-control" name="mobile" placeholder="Mobile" />
         </div>
 
         <div class="form-group mb-2">
-          <label for="depart" class="mr-2"> Email</label>
+          <label for="depart" class="mr-2 ml-2"> Email</label>
           <input  type="email" class="form-control" name="email" placeholder="Email" />
         </div>
 

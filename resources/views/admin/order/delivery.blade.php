@@ -48,7 +48,7 @@
             <input required type="date" class="form-control" name="start" placeholder="Scanner or Order Id" />
           </div>
            <div class="form-group mb-2">
-            <label for="depart" class="mr-2">End</label>
+            <label for="depart" class="mr-2 ml-2">End</label>
             <input required type="date" class="form-control" name="end" placeholder="Scanner or Order Id" />
           </div>
 

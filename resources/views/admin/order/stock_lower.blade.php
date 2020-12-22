@@ -40,27 +40,49 @@
                   <th>Items</th>
                   <th class="center">Quantity</th>
                   <th class="center">Alert Quantity</th>
-                  <th class="right">Action</th>
+                  <!-- <th class="right">Action</th> -->
                 </tr>
               </thead>
               <tbody>
                 
               @foreach($d_pro as $dd) 
                 @php $d_alert_qty=DB::table('postmeta')->where('post_id',$dd->ID)->where('meta_key','alert_qty')->first(); @endphp
-                @if(isset($d_alert_qty)) @php $alert_default=$d_alert_qty->meta_value; @endphp @endif
+                
                 @php 
+               
+
                 $data_default=DB::table('postmeta')
-                ->where('post_id',$dd->ID)->where('meta_key','default_qty')
-                ->where('meta_value','<=',$alert_default)
-                ->select('post_id')
+                ->where('post_id',$dd->ID)
+                ->where('meta_key','product_stock')
+                ->where('meta_value','<=',$d_alert_qty->meta_value)                
                 ->get();
+             
+
                 @endphp 
                   @foreach($data_default as $d)
+                    @php
+
+                    $d_all=DB::table('postmeta')->where('post_id',$d->post_id)->get();                   
+               
+
+                    foreach($d_all as $allInfo):
+             
+                    if($allInfo->meta_key=='_sku'):
+                     $sku=$allInfo->meta_value;
+                    endif; 
+             
+                    if($allInfo->meta_key=='product_stock'):
+                     $product_stock=$allInfo->meta_value;
+                    endif;
+             
+                    endforeach;
+                    @endphp 
+                    
                                <tr>
-                                <td class="center">{{$d->post_id}}</td>
-                                <td class="left strong"></td>
-                                <td class="left strong"></td>
-                                <td class="left strong"></td>
+                                <td class="center">{{$sku}}</td>
+                                <td class="left strong">{{$dd->post_title}}</td>
+                                <td class="left strong">{{$product_stock}}</td>
+                                <td class="left strong">{{$d_alert_qty->meta_value}}</td>
                                 <td class="left strong"></td>
                                 </td>
                               </tr>

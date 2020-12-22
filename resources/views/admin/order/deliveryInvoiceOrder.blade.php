@@ -66,7 +66,7 @@ use App\Model\front\Order_item;
           </div>
 
           <div class="form-group mb-2">
-            <label for="depart" class="mr-2">Date</label>
+            <label for="depart" class="mr-2 ml-2"> Date</label>
             <input  type="date" class="form-control" name="order_date" placeholder="Scanner or Order Id" />
           </div>
 
