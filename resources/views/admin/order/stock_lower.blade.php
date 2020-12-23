@@ -50,12 +50,7 @@
                    @if($dmeta->meta_key=='alert_qty') @php $alert_quantity=$dmeta->meta_value; @endphp @endif
                 @endforeach
                 @php 
-                 $low_product_default=DB::table('postmeta')
-                ->where('post_id',$dp->post_id)
-                ->where('meta_key','default_qty')
-                ->where('meta_value','<=',$alert_quantity)
-                ->select('post_id')
-                ->get();
+                 $low_product_default=DB::SELECT("SELECT * FROM `postmeta` WHERE `meta_key` LIKE 'default_qty' AND post_id=$dp->post_id AND meta_value<=$alert_quantity");
                 @endphp
 
                 @foreach($low_product_default as $low)
