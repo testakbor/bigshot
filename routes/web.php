@@ -54,8 +54,8 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('posts', 'HomeController@index');
         Route::get('/product/{id}/{title}','PageController@productView')->name('product-page');
         Route::get('/att/{id}/{product_id}','PageController@att_value');
-        Route::get('/atts/{id}','PageController@atts_value');
-        Route::get('/only/{id}','PageController@only');
+        Route::get('/atts/{id}/{product_id}','PageController@atts_value');
+        Route::get('/only/{id}/{product_id}','PageController@only');
         Route::get('/pickup-tab','PageController@pickupTab')->name('pickup.tab');
         Route::get('/recent','PageController@recent')->name('recent');
         Route::get('/brands','PageController@brands')->name('brands');

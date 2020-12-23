@@ -243,9 +243,10 @@ endforeach;
 
             }else{
            var id = $("#att_select").val();
+            var proids = $("#proid").val();
             $.ajax({
                     type: "GET",
-                    url: "{{url('only')}}" + "/" + id,
+                    url: "{{url('only')}}" + "/" + id+"/"+proids,
                     dataType: "json",
                     success: function(response) {
                     var schema_one = '';
@@ -268,9 +269,10 @@ endforeach;
 
      $("#att_value").on('change', function() {
       var id = $("#att_value").val();
+            var proidd = $("#proid").val();
       $.ajax({
         type: "GET",
-        url: "{{url('atts')}}" + "/" + id,
+        url: "{{url('atts')}}" + "/" + id+"/"+proidd,
         dataType: "json",
         success: function(response) {
           var schema_one = '';

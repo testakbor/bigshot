@@ -265,34 +265,36 @@ class PageController extends Controller
 
       $count=DB::table('product_attibutes')
       ->where('parent_id',$parent) 
+       ->where('post_id',$product_id)
       ->count();
 
       if($count>0){
              $child=DB::table('product_attibutes')
       ->where('parent_id',$parent) 
+       ->where('post_id',$product_id)
       ->first();
        $info[]=$child;
       }else{
            $info=0;
       }
-
- 
-
-
-
       }
       return response()->json($info);
     }
 
-      public function atts_value($id){    
+      public function atts_value($id,$product_id){    
       $data=DB::table('product_attibutes')
       ->where('term_id',$id)
+      ->where('post_id',$product_id)
       ->select('product_parent')->get();
       return response()->json($data);
     }
 
-    public function only($id){
-      $data=DB::table('product_attibutes')->where('id',$id)->select('product_parent')->get();
+    public function only($id,$product_id){
+      $data=DB::table('product_attibutes')
+      ->where('id',$id)
+      ->where('post_id',$product_id)
+      ->select('product_parent')
+      ->get();
       return response()->json($data);
     }
 

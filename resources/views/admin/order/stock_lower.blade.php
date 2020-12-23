@@ -39,7 +39,6 @@
                   <th>Items</th>
                   <th class="center">Quantity</th>
                   <th class="center">Alert Quantity</th>
-                  <th class="right">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,19 +72,15 @@
 
 
 
-                <!-- default product start -->
+                <!-- attribute product start -->
               @php $alert_quantity=0; @endphp  
               @foreach($a_pro as $dp) 
                 @foreach($dp->productMeta as $dmeta) 
-                   @if($dmeta->meta_key=='attribute_low_stock') @php $alert_quantity=$dmeta->meta_value; @endphp @endif
+                   @if($dmeta->meta_key=='attribute_low_stock') @php $alert_quantity=$dmeta->meta_value;  @endphp @endif
                 @endforeach
                 @php 
-                 $low_product_att=DB::table('postmeta')
-                ->where('post_id',$dp->post_id)
-                ->where('meta_key','attribute_stock')
-                ->where('meta_value','<=',$alert_quantity)
-                ->select('post_id')
-                ->get();
+                 $low_product_att=DB::SELECT("SELECT * FROM `postmeta` WHERE `meta_key` LIKE 'attribute_stock' AND post_id=$dp->post_id AND meta_value<=$alert_quantity");
+
                 @endphp
 
                 @foreach($low_product_att as $low)
@@ -141,7 +136,7 @@
                               </tr>
                 @endforeach
               @endforeach
-              <!-- default product end -->
+              <!-- attribute product end -->
                     
                               
          
