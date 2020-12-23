@@ -281,9 +281,15 @@ public function attributeValue($id,Request $request){
 
 }
 
-public function att_status_update($id,$status){
+public function att_status_update($id,$status,$product_id){
    DB::table('postmeta')->where('post_id',$id)->where('meta_key','att_status')->update([
       'meta_value' =>$status
+   ]);
+    DB::table('product_attibutes')
+    ->where('product_parent',$id)
+    ->where('post_id',$product_id)
+    ->update([
+      'status' =>$status
    ]);
    return back();
 }

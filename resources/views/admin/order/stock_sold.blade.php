@@ -93,7 +93,6 @@
                 <tr>
                   <th>SKU</th>
                   <th>Items</th>
-                  <th class="right">Categories</th>
                   <th class="center">Quantity</th>
                   <th class="right">Cost</th>
                   <th class="right">Sale Price</th>
@@ -129,15 +128,7 @@
 
                       <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br>  Sku: {{$sku->meta_value}}</td>
                       <td class="left strong">{{$name->post_title}}</td>
-                      <td class="left">
-                     @php $category=DB::table('term_relationships')
-                    ->where('object_id',$dpro->post_id)
-                    ->where('taxonomy','product_cat')
-                    ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
-                    ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-                    ->select('terms.name as cat_name')
-                    ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif
-                      </td>
+                 
                       <td class="right">0</td>
                       <td class="right">{{number_format($cost->meta_value)}} tk</td>
                       <td class="right">{{number_format($sale_price->meta_value)}} tk</td>
@@ -176,22 +167,18 @@
                       <tr>
                       <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br>  Sku: {{$sku->meta_value}}</td>
                       <td class="left strong">{{$name->post_title}}</td>
-                      <td class="left">
-                      @php $category=DB::table('term_relationships')
-                    ->where('object_id',$parent_id->post_parent)
-                    ->where('taxonomy','product_cat')
-                    ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
-                    ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-                    ->select('terms.name as cat_name')
-                    ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php $category=''; @endphp @endif
-                      </td>
+                
                       <td class="right">0</td>
                       <td class="right">{{number_format($cost->meta_value)}} tk</td>
                       <td class="right">{{number_format($sale_price->meta_value)}} tk</td>
                       <td class="right">Out Of Stock</td>
                       <td class="right">
-                        <i class="fas fa-print"></i> <a class="btn btn-primary" href="{{route('stock.print.sticker',$parent_id->post_parent)}}"> Print</a><br>
-                        <i class="fas fa-edit"></i> <a class="btn btn-info" href="{{route('product.edit',$parent_id->post_parent)}}"> Edit</a><br>
+        
+
+
+  <i class="fas fa-print"><a href="{{route('stock.print.sticker',$parent_id->post_parent)}}">Print</a></i><br>
+                        <i class="fas fa-edit"><a href="{{route('product.edit',$parent_id->post_parent)}}">Edit</a></i><br>
+
                       </td>
                     </tr>
                    @php $j++; $total_sale_j+=$sale_price->meta_value; $total_cost_j+=$cost->meta_value; @endphp

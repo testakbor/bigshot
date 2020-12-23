@@ -226,10 +226,10 @@
                                               @if(isset($current_status)) @php $att_statuss=$current_status->meta_value; @endphp @endif
                                               @if($att_statuss==1)
                                               @php $status=0; @endphp
-                                             <a href="{{url('att/status/'.$a->post_id.'/'.$status)}}" class="btn btn-danger btn-sm">X</a> <span style="color:green">Active</span>  
+                                             <a href="{{url('att/status/'.$a->post_id.'/'.$status.'/'.$product->ID)}}" class="btn btn-danger btn-sm">X</a> <span style="color:green">Active</span>  
                                               @else 
                                               @php $status=1; @endphp
-                                             <a href="{{url('att/status/'.$a->post_id.'/'.$status)}}" class="btn btn-success btn-sm"><i class="fas fa-check"></i></a> <span style="color:red">Inactive</span> 
+                                             <a href="{{url('att/status/'.$a->post_id.'/'.$status.'/'.$product->ID)}}" class="btn btn-success btn-sm"><i class="fas fa-check"></i></a> <span style="color:red">Inactive</span> 
                                               @endif 
                                                @foreach($data as $att)
                                                 <input type="hidden" onclick="closeThis('1')" name="valueName[]" value="{{$att->term_id}}">

@@ -45,6 +45,7 @@ class PageController extends Controller
         $attributes=DB::table('product_attibutes')
         ->where('post_id',$product->ID)
         ->where('parent_id',0)
+        ->where('status',1)
         ->groupBy('term_id')
         ->get();        
        

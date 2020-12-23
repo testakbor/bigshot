@@ -310,9 +310,26 @@ class QuickReportController extends Controller
       GROUP by product_parent ORDER by total_qty DESC");
       // best sell item condition end 
 
+      //lower stock start
+				
+					
+					 $d_pro=Post::
+  where('post_type','product')
+  ->where('meta_key','default_qty')
+  ->join('postmeta','posts.ID','=','postmeta.post_id')
+  ->get();
+  $a_pro=Post::
+  where('post_type','product_varient')
+  ->where('meta_key','attribute_stock')
+  ->join('postmeta','posts.ID','=','postmeta.post_id')
+  ->get();
+      //lower stock end
+
 
     return view('admin.quickReport.index',
       compact(
+        'd_pro',
+        'a_pro',
         'today_pending_order',
         'day_one_pending_order',
         'day_two_pending_order',

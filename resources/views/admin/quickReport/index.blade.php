@@ -290,62 +290,60 @@ use Carbon\Carbon; ?>
 
             <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
                 <div class="reportText">Lower Stock</div>
-                @php $totals_low=0; $i=0; $k=0; $j=0; $q=0; $qq=0; $low_stock_qtyy=0; @endphp
-                @foreach($pro as $low)
-
-
-                @foreach($low->productMeta as $meta)
-                @if($meta->meta_key=='alert_qty')  @php $default_alert=$meta->meta_value; @endphp @endif
-                @if($meta->meta_key=='attribute_low_stock')  @php $low_alert=$meta->meta_value; @endphp @endif  
-                @endforeach
-
-                @php
-                $d_data=DB::table('postmeta')
-                ->where('post_id',$low->ID) 
-                ->where('meta_key','default_qty') 
-                ->where('meta_value','<=',$default_alert) 
-                ->select('post_id')
-                ->count();
-                $total_d_data+=$d_data;
-                @endphp 
-
-                @php 
-                $at_data=DB::table('posts')
-                ->where('post_parent',$low->ID) 
-                ->where('meta_key','attribute_low_stock') 
-                ->join('postmeta','postmeta.post_id','=','posts.ID')
-                ->select('post_id','meta_value')
-                ->first();
-                @endphp
-
-                @if(isset($at_data)) 
-                @php 
-                $stock_data=DB::table('posts')
-                ->where('post_parent',$low->ID) 
-                ->where('meta_key','attribute_stock') 
-                ->where('meta_value','<=',$at_data->meta_value) 
-                ->join('postmeta','postmeta.post_id','=','posts.ID')
-                ->select('post_id','meta_value','post_parent')
-                ->count();
-                $total_stock_data+=$stock_data;
-                @endphp
-                @endif 
-                @endforeach
+             
             </div>
 
-            <!-- <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column">
-             <a href="{{route('lower.stock.weekly')}}">
-              <div class="reportDayText">Weekly </div>
-              <div class="reportDayValue">{{$j}}</div>
-             </a>
-            </div> -->
+         <!-- default product start -->
+              @php $alert_quantity=0; $dj=0; @endphp  
+              @foreach($d_pro as $dp) 
+                @foreach($dp->productMeta as $dmeta) 
+                   @if($dmeta->meta_key=='alert_qty') @php $alert_quantity=$dmeta->meta_value; @endphp @endif
+                @endforeach
+                @php 
+                 $low_product_default=DB::SELECT("SELECT * FROM `postmeta` WHERE `meta_key` LIKE 'default_qty' AND post_id=$dp->post_id AND meta_value<=$alert_quantity");
+                @endphp
+                @foreach($low_product_default as $low)
+                              @php $dj++; @endphp
+                @endforeach
+              @endforeach
+              <!-- default product end -->
+
+                <!-- attribute product start -->
+              @php $alert_quantity=0; $aj=0; @endphp  
+              @foreach($a_pro as $dp) 
+                @foreach($dp->productMeta as $dmeta) 
+                   @if($dmeta->meta_key=='attribute_low_stock') @php $alert_quantity=$dmeta->meta_value;  @endphp @endif
+                @endforeach
+                @php 
+                 $low_product_att=DB::SELECT("SELECT * FROM `postmeta` WHERE `meta_key` LIKE 'attribute_stock' AND post_id=$dp->post_id AND meta_value<=$alert_quantity");
+                @endphp
+                @foreach($low_product_att as $low)
+                        @php $aj++; @endphp
+                @endforeach
+              @endforeach
+              <!-- attribute product end -->
+                    
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+	
 
             <div class="col-md-2 box ml-3 todayBg d-flex justify-content-center flex-column"> 
                 <a href="{{url('admin/stock/lower')}}">                
                     <div class="reportDayText"> All</div>
                     <div class="reportDayValue">
 
-                        {{$total_d_data+$total_stock_data}}
+                       {{$dj+$aj}}
                     </div>
                 </a>
             </div>
