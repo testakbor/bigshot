@@ -142,7 +142,7 @@
                 <td class="right">{{$phone}}</td>
                 <td class="right">@php $qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qty}} pcs</td>
                 <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{$sub+$charge}}</td>
+                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge)}}</td>
                 <td class="right">{{$orders->post_status}}</td>
                 <td class="right">
                   <a href="{{route('order.deliver.print',$orders->ID)}}" class="btn btn-success btn-sm mb-2">
@@ -189,7 +189,7 @@
       </div>
       <div class="col-md-4">
         <div class="box bg-primary">
-          <h3 class="text-center">{{$total_amount}}</h3>
+          <h3 class="text-center">{{number_format($total_amount)}}</h3>
           <p class="lead text-center font-weight-bold">Total Amount</p>
         </div>
       </div>

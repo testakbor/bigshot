@@ -7,13 +7,19 @@
 
 <table>
     <thead>
-	    <tr style="border: 2px solid #000000;">
-          <th>Order Id</th>
-          <th>Name</th>
-          <th>Mobile</th>
-          <th>Address</th>
-          <th>Delivery Charge</th>
-          <th>Amount</th>
+      <tr></tr>
+      <tr></tr>
+      <tr></tr>
+      <tr style="border: 2px solid #000000;">
+          <th></th>
+          <th></th>
+          <th></th>
+          <th style="border: 1px solid #000000;font-weight:bold;">Order Id</th>
+          <th style="border: 1px solid #000000;font-weight:bold;">Name</th>
+          <th style="border: 1px solid #000000;font-weight:bold;">Mobile</th>
+          <th style="border: 1px solid #000000;font-weight:bold;">Address</th>
+          <th style="border: 1px solid #000000;font-weight:bold;">Delivery Charge</th>
+          <th style="border: 1px solid #000000;font-weight:bold;">Amount</th>
     	</tr>
     </thead>
     <tbody>
@@ -30,6 +36,9 @@
           @endforeach
        @endforeach
     	<tr>
+         <td></td>
+         <td></td>
+         <td></td>
     	    <td>{{ $row->ID}} {{date('d-m-Y',strtotime($row->post_date))}}</td>     
     	    <td>{{ $name}}</td>     
     	    <td>{{ $mobile}}</td>     

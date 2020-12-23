@@ -69,14 +69,14 @@
         <div class="col-md-4">
           <div class="box bg-success">
             <h3 class="text-center">
-                  {{$total_cost_ii+$total_cost_jj}}
+                  {{number_format($total_cost_ii+$total_cost_jj)}}
             </h3>
             <p class="lead text-center font-weight-bold">Total Cost</p>
           </div>
         </div>
         <div class="col-md-4">
           <div class="box bg-info">
-            <h3 class="text-center">{{$total_sale_ii+$total_sale_jj}}</h3>
+            <h3 class="text-center">{{number_format($total_sale_ii+$total_sale_jj)}}</h3>
             <p class="lead text-center font-weight-bold">Total Sell Price</p>
           </div>
         </div>

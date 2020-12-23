@@ -924,7 +924,7 @@ public function grossProfit()
       );
      $order = Post::where('post_type', 'shop_order')
       ->where('post_status','=','delivered')
-      ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
+      ->whereBetween('post_modified',[date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
       ->paginate(20);
       $total_order = Post::where('post_type', 'shop_order')
       ->where('post_status','=','delivered')
@@ -1233,7 +1233,6 @@ public function grossProfit()
     'title' => "Brand List",
     'page' => 'processing'
   );
-
       $order = Post::where('post_type','shop_order')
       ->where('post_status','dispatch')
       ->whereBetween('post_modified', [date('Y-m-d 00:00:00',strtotime($start)), date('Y-m-d 23:59:59',strtotime($end))])

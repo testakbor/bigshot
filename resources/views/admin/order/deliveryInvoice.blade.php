@@ -109,14 +109,12 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td>Total Parcel </td>
-                    <td>{{number_format($grandTotal) }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="3">Total Parcel </td>
+                    <td colspan="2">{{number_format($grandTotal) }} tk</td>
+                   
                     <td>Total</td>
                     <td>{{$total_qty}}</td>
-                    <td>{{number_format($grandTotal)}}tk</td>
+                    <td>{{number_format($grandTotal)}} tk</td>
                 </tr>
             </tfoot>
             <div class="col1">

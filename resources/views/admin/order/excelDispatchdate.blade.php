@@ -136,7 +136,7 @@
                 <td class="right">{{$phone}}</td>
                 <td class="right">{{$address_one}}</td>
                 <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                <td class="right">{{$total_amount+$charge}}</td>
+                <td class="right">{{number_format($total_amount+$charge)}}</td>
                 <td>@if($orders->post_status=='dispatch_complete') Complete @else In Complete @endif</td>
               </tr>
               @php $total_amount=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp

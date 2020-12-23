@@ -500,7 +500,7 @@ use Carbon\Carbon; ?>
                            }
                              
                         }
-                       echo $total_qty; 
+                       
                         @endphp 
                         {{number_format($total_sale_amount-$total_cost+$total_charge)}}
                     </div>

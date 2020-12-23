@@ -128,8 +128,8 @@
                                         ->join('postmeta','posts.ID','=','postmeta.post_id')
                                         ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif {{$main_qty}} @php $product_total_qty+=$main_qty; @endphp
                                     </td>
-                                    <td class="right">{{$total_cost+=$cost}} tk</td>
-                                    <td class="right">{{$total_sell_price+=$sale_price}} tk</td>
+                                    <td class="right">{{number_format($total_cost+=$cost)}} tk</td>
+                                    <td class="right">{{number_format($total_sell_price+=$sale_price)}} tk</td>
                                     <td class="right">@if($main_qty>0) In Stock @else Out of stock @endif</td>
                                     <td class="right">
                                           <a href="{{route('stock.print.sticker',$pro->post_id)}}" class="btn btn-info"> <i
@@ -169,7 +169,7 @@
                         <!-- <i class="fa fa-user ml-1"></i> -->
 
 
-                        <h3 class="text-center">{{$total_cost}}</h3>
+                        <h3 class="text-center">{{number_format($total_cost)}}</h3>
 
                         <p class="lead text-center font-weight-bold">Total Cost</p>
                     </div>
@@ -179,7 +179,7 @@
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-                        <h3 class="text-center">{{$total_sell_price}}</h3>
+                        <h3 class="text-center">{{number_format($total_sell_price)}}</h3>
 
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>

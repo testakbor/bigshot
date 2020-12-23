@@ -171,7 +171,7 @@ use App\Model\front\Order_item;
           @endphp
           @if(isset($d)) @php $tot_d+=$d->meta_value; @endphp @endif
          @endforeach
-        {{$total_amount+$tot_d}}
+        {{number_format($total_amount+$tot_d)}}
       </h3>
 
       <p class="lead text-center font-weight-bold">Total Amount</p>
