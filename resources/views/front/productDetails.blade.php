@@ -101,18 +101,29 @@ endforeach;
 
 
                              <div class="mt-2">
-                                <lebel for="">Select color</lebel>                          
+                                <div class="d-flex flex-row align-items-center">
+                               <div class="col-4 pr-0"> <lebel for="">Select Color: </lebel> </div>
+                                <div class="col-8 mt-2">
                                 <select name="" id="att_select" class="form-control" required>
                                     <option value="">Select</option>
                                     @foreach($attributes as $att)
                                       <option value="{{$att->id}}">{{$att->term}}</option>
                                     @endforeach
                                 </select>
+
+                             </div>
+                             </div>
                              </div>
                           <div class="mt-2">
                                <div id="attribut-value"  style="display:none">
-                                    <lebel for="">Select Size</lebel> 
+                             <div class="d-flex flex-row align-items-center">
+                                <div class="col-4">
+                                    <lebel for="">Select Size:</lebel> 
+                                </div>
+                                     <div class="col-8 mt-2">
                                     <select name="" id="att_value" class="form-control"></select>
+                                </div>
+                                </div>
                                 </div>
                            </div>
                             <input type="hidden" id="a_id" name="attribute_id" value="">
@@ -132,11 +143,13 @@ endforeach;
 
 
 
-                            <div class="mt-3">
-                                <button type="submit" id="final_cart_submit" class="btn btn-primary mb-2 btn-large btn-block"><i class="fas fa-shopping-bag"></i> Add To Cart</button>
-                                <div class="text-center">
+                            <div class="d-flex justify-content-end mt-3">
+                                <div>
+                                <button type="submit" id="final_cart_submit" class="btn btn-primary btn-large "><i class="fas fa-shopping-bag"></i> Add To Cart</button>
+                                </div>
+                                <div class="ml-3">
                                 <a class="btn btn-success btn-large btn-block" href="{{url('/wishlist/product/'.$product->ID)}}">
-                                   <i class="far fa-heart ml-2 h4"></i>
+                                   <i class="far fa-heart ml-2"></i> Add to wish list
                                 </a>
                                 </div>
                             </div>
