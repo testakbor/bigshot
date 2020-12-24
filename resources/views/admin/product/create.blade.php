@@ -226,7 +226,8 @@
             {{-- product image --}}
             <div class="card card-default">
               <div class="card-header">
-                <h3 class="card-title">Product Image</h3>
+                <h3 class="card-title">Product Image</h3><br><br> <span style="color:red"> (Width:268px and Height:306px) 
+                <span>
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>

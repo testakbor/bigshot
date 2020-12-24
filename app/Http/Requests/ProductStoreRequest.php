@@ -32,6 +32,7 @@ class ProductStoreRequest extends FormRequest
             'category' => 'required',
             'tag' => 'required',
             'product_image' => 'required',
+            'product_image' => 'dimensions:min_width=268,max_width=306',
             'galleryImage' => 'required',
         ];
     }
@@ -51,6 +52,7 @@ class ProductStoreRequest extends FormRequest
             'post_excerpt.required'         => 'Please enter short description',
             'category.required'             => 'Please select category',
             'product_image.required'        => 'Please select product image',
+             'product_image.dimensions'     => 'Image format problem',
             'galleryImage.required'         => 'Please select product gallery',
         ];
     }
