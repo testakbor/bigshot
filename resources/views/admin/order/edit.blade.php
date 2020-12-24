@@ -221,9 +221,16 @@
                        {{isset($delivery_charge)?number_format( $charge=$delivery_charge->meta_value):''}} tk
                       </div>
                   </div>
+                      <div class="d-flex flex-row justify-content-end" style="font-size: 16px;">
+                    <div class="font-weight-bold"> Coupon: </div>
+                    <div class="ml-1">                    
+                       {{isset($coupon)?number_format($coupon->meta_value):''}} tk
+                      </div>
+                  </div>
                   <div class="d-flex flex-row justify-content-end" style="font-size: 16px;">
                     <div class="font-weight-bold"> Order Total: </div>
-                    <div class="ml-1">  {{number_format($grandLinetotal+$charge)}} tk</div>
+                    @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp   @endif
+                    <div class="ml-1">  {{number_format($grandLinetotal+$charge-$c)}} tk</div>
                   </div>
                 </div>
               </div>

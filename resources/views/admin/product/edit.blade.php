@@ -133,7 +133,7 @@
                             <div class="col-sm-8">
                               @php $qtyy=0; @endphp
                               @if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
-                              <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
+                              <input type="text" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
                             </div>
                           </div> 
 
@@ -144,7 +144,7 @@
                         <div class="col-sm-8">
                           @php $al_qty=0; @endphp
                           @if(isset($alert_qty)) @php $al_qty=$alert_qty->meta_value; @endphp @endif
-                          <input type="number" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
+                          <input type="text" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                        </div>
 
@@ -325,7 +325,7 @@
                 @php
                 $check=in_array($category->name,$nameTaxonomy);
                 @endphp
-                <div class="custom-control custom-checkbox">
+                <div class="custom-control custom-radio">
                   <input class="custom-control-input" {{($check==true)?'checked':''}} name="category[]" type="radio" id="{{$category->term_id}}" value="{{$category->term_id}}">
                   <label for="{{$category->term_id}}" class="custom-control-label"> {{$category->name}}</label>
                 </div>
@@ -347,7 +347,7 @@
                 $check=in_array($tag->name,$tagTaxonomy);
                 @endphp
 
-                <div class="custom-control custom-checkbox">
+                <div class="custom-control custom-radio">
                   <input class="custom-control-input" {{($check==true)?'checked':''}} name="tag[]" type="radio" id="{{$tag->term_id}}" value="{{$tag->term_id}}">
                   <label for="{{$tag->term_id}}" class="custom-control-label"> {{$tag->name}}</label>
                 </div>

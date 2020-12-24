@@ -134,6 +134,7 @@
                 <th class="right">Mobile</th>
                 <th class="right">Address</th>
                 <th class="right">Delivery Charge</th>
+                <th class="right">Coupon</th>
                 <th class="right">Amount</th>
                 <th class="right">Status</th>
               </tr>
@@ -164,6 +165,9 @@
                 <td class="right">{{$phone}}</td>
                 <td class="right">{{$address_one}}</td>
                 <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
+
+                <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','coupon_taka')->first(); @endphp 
+               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}}</td>
                 <td class="right">{{number_format($total_amount+$charge)}}</td>
                 <td>@if($orders->post_status=='dispatch_complete') Complete @else In Complete @endif</td>
               </tr>

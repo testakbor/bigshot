@@ -795,7 +795,8 @@ public function grossProfit()
       ->where('order_id',$order->ID)
       ->where('meta_key','delivery_charge')
       ->first();
-      return view('admin.order.edit', compact('order', 'products', 'id', 'order_info','delivery_charge'))->with($extraInfo);     
+      $coupon=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','coupon_taka')->first();
+      return view('admin.order.edit', compact('order', 'products', 'id', 'order_info','delivery_charge','coupon'))->with($extraInfo);     
     }
 
     public function sendParcelPrint(Request $request){
@@ -803,10 +804,10 @@ public function grossProfit()
       $company_name=$request->delivery_company;
       $id=$request->order;
       $orders = Post::where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->get();
-      // DB::table('posts')->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->update([
-      //   'post_status'=>'dispatch',
-      //   'post_modified'=>$current,
-      // ]);
+      DB::table('posts')->where(['posts.post_type'=>'shop_order','post_status'=>'processing'])->whereIn('ID',$id)->update([
+        'post_status'=>'dispatch',
+        'post_modified'=>$current,
+      ]);
        $delivery=DB::table('order_itemmeta')->where('order_id',$id)
       ->where('meta_key','delivery_charge')->first();
        if(isset($delivery)){ 
