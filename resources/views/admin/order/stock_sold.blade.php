@@ -134,8 +134,8 @@
                       <td class="right">{{number_format($sale_price->meta_value)}} tk</td>
                       <td class="right">Out Of Stock</td>
                       <td class="right">
-                        <i class="fas fa-print"><a href="{{route('stock.print.sticker',$dpro->post_id)}}">Print</a></i><br>
-                        <i class="fas fa-edit"><a href="{{route('product.edit',$dpro->post_id)}}">Edit</a></i><br>
+                        <a href="{{route('stock.print.sticker',$dpro->post_id)}}" class="btn btn-primary"><i class="fas fa-print"> </i> Print</a><br>
+                       <a href="{{route('product.edit',$dpro->post_id)}}" class="btn btn-success mt-2">  <i class="fas fa-edit"></i> Edit</a><br>
                       </td>
                     </tr>
                     @php $i++; $total_sale_i+=$sale_price->meta_value; $total_cost_i+=$cost->meta_value; @endphp
@@ -176,8 +176,8 @@
         
 
 
-  <i class="fas fa-print"><a href="{{route('stock.print.sticker',$parent_id->post_parent)}}">Print</a></i><br>
-                        <i class="fas fa-edit"><a href="{{route('product.edit',$parent_id->post_parent)}}">Edit</a></i><br>
+ <a href="{{route('stock.print.sticker',$parent_id->post_parent)}}" class=" btn btn-primary "> <i class="fas fa-print"> </i> Print</a><br>
+                        <a href="{{route('product.edit',$parent_id->post_parent)}}" class="btn btn-success mt-2"><i class="fas fa-edit"></i> Edit</a><br>
 
                       </td>
                     </tr>

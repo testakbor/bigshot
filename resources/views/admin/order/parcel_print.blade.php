@@ -137,9 +137,9 @@
                                 </tbody>
                                 <tfoot>
                                   <tr>
-                                    <td colspan="2">Total Parcel</td>
-                                    <td>{{number_format($to_amount_charge+$charge)}} tk</td>                                    
-                                    <td></td>
+                                    <td style="font-size: 0.7rem" colspan="3">Total Parcel</td>
+                                    <td style="font-size: 0.7rem">{{number_format($to_amount_charge+$charge)}} tk</td>                                    
+                                    
                                   </tr>
                                 </tfoot>
                        </table>
