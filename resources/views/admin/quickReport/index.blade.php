@@ -245,18 +245,17 @@ use Carbon\Carbon; ?>
                 <a href="{{url('admin/stock')}}">
                     <div class="reportDayText"> Amount</div>
                     <div class="text-center font-weight-div">
-                        @php $d_sell=0; $a_sell=0; @endphp
-                        @foreach($d_data as $d)
-                        @php $d_sell+=DB::table('postmeta')->where('post_id',$d->post_id)->where('meta_key','sale_price')->sum('meta_value'); @endphp
-                        @endforeach
-
-                        @foreach($a_data as $a)
-                        @php $a_sell+=DB::table('postmeta')
-                        ->where('post_id',$a->post_parent)
-                        ->where('meta_key','sale_price')
-                        ->sum('meta_value'); @endphp
-                        @endforeach
-                        {{number_format($d_sell+$a_sell)}}
+                        @php $de_sell=0; $tot_p=0; @endphp
+                                   @foreach($d_sell as $item)
+                                     @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
+                                     @endphp
+                                          @foreach($product_info as $info)
+                                            @if($info->meta_key=='sale_price')
+                                      @php $de_sell=$info->meta_value; $tot_p+=$de_sell @endphp
+                                   @endif
+                                           @endforeach 
+                                  @endforeach 
+                        {{number_format($tot_p)}}
                     </div>
                 </a>
             </div>
@@ -322,22 +321,6 @@ use Carbon\Carbon; ?>
                 @endforeach
               @endforeach
               <!-- attribute product end -->
-                    
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-	
-
             <div class="col-md-2 box ml-3 todayBg d-flex justify-content-center flex-column"> 
                 <a href="{{url('admin/stock/lower')}}">                
                     <div class="reportDayText"> All</div>

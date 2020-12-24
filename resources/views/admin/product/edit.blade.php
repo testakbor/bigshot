@@ -326,7 +326,7 @@
                 $check=in_array($category->name,$nameTaxonomy);
                 @endphp
                 <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="category[]" type="checkbox" id="{{$category->term_id}}" value="{{$category->term_id}}">
+                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="category[]" type="radio" id="{{$category->term_id}}" value="{{$category->term_id}}">
                   <label for="{{$category->term_id}}" class="custom-control-label"> {{$category->name}}</label>
                 </div>
                 @endforeach
@@ -348,7 +348,7 @@
                 @endphp
 
                 <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="tag[]" type="checkbox" id="{{$tag->term_id}}" value="{{$tag->term_id}}">
+                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="tag[]" type="radio" id="{{$tag->term_id}}" value="{{$tag->term_id}}">
                   <label for="{{$tag->term_id}}" class="custom-control-label"> {{$tag->name}}</label>
                 </div>
                 @endforeach
@@ -360,7 +360,7 @@
             {{-- product image --}}
             <div class="card card-default">
               <div class="card-header">
-                <h3 class="card-title">Product Image</h3>
+                <h3 class="card-title">Product Image</h3> <br><br> <span style="color:red"> (Width:268px and Height:306px)
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>

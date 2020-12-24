@@ -196,7 +196,7 @@
               <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
                 @foreach($categories as $category)
                 <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" name="category[]" type="checkbox" id="{{$category->term_id}}" value="{{$category->term_id}}" @if(is_array(old('category')) && in_array($category->term_id, old('category'))) checked @endif>
+                  <input class="custom-control-input" name="category[]" type="radio" id="{{$category->term_id}}" value="{{$category->term_id}}" @if(is_array(old('category')) && in_array($category->term_id, old('category'))) checked @endif>
 
                   <label for="{{$category->term_id}}" class="custom-control-label"> {{$category->name}}</label>
                 </div>
@@ -214,7 +214,7 @@
               <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
                 @foreach($tags as $tag)
                 <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" name="tag[]" type="checkbox" id="{{$tag->term_id}}" value="{{$tag->term_id}}" @if(is_array(old('tag')) && in_array($tag->term_id, old('tag'))) checked @endif>
+                  <input class="custom-control-input" name="tag[]" type="radio" id="{{$tag->term_id}}" value="{{$tag->term_id}}" @if(is_array(old('tag')) && in_array($tag->term_id, old('tag'))) checked @endif>
                   <label for="{{$tag->term_id}}" class="custom-control-label"> {{$tag->name}}</label>
                 </div>
                 @endforeach

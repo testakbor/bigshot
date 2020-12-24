@@ -61,7 +61,6 @@
                                 <tr>
                                     <th>SKU</th>
                                     <th>Items</th>
-                                    <th class="right">Categories</th>
                                     <th class="right">Attribute</th>
                                     <th class="center">Quantity</th>
                                     <th class="right">Cost</th>
@@ -102,14 +101,7 @@
                                             src="{{asset('backend/products/'.$img)}}"></br>
                                         {{ $sku ? $sku : 'No SKU Found' }}</td>
                                     <td class="left strong">{{$item->post_title}}</td>
-                                    <td class="left">@php $category=DB::table('term_relationships')
-                                        ->where('object_id',$item->ID)
-                                        ->where('taxonomy','product_cat')
-                                        ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
-                                        ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-                                        ->select('terms.name as cat_name')
-                                        ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php
-                                        $category=''; @endphp @endif</td>
+                               
                                       <td class="right">
                                         <!-- show product attribute with current stock  -->
                                          @php 
@@ -197,7 +189,7 @@
                 <div class="col-md-4">
                     <div class="box bg-info">
                         <!-- <i class="fa fa-handshake ml-1"></i> -->
-                        <h3 class="text-center"> {{number_format($tot_selll)}} </h3>
+                        <h3 class="text-center"> {{number_format($tot_selll)}}  </h3>
                         <p class="lead text-center font-weight-bold">Total Sell Price</p>
                     </div>
                 </div>

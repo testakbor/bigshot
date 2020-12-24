@@ -279,6 +279,14 @@ class QuickReportController extends Controller
     ->join('postmeta','posts.ID','=','postmeta.post_id')
     ->get();
 
+     
+    $d_sell=DB::table('posts')
+  ->where('post_type','product')
+  ->where('post_status','!=','deleted')
+  ->get();
+  
+    
+   
     //sold out condition start
      $a_sold_out=Post::
      where('post_type','product_varient')
@@ -361,7 +369,8 @@ class QuickReportController extends Controller
         'stock_product',
         'yearly_total_sold_out_product',
         'monthly_best_sell_item',
-        'yearly_best_sell_item'
+        'yearly_best_sell_item',
+        'd_sell',
       ))->with($extraInfo);
       }
   }
