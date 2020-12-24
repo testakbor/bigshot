@@ -37,7 +37,7 @@
           	<table style="width:100%" class="table">
           <thead>
           <tr style="background: #e7e7e7;">
-                  <th style="font-size: 10px;">Order Id</th>
+                  <th style="font-size: 10px;">Id</th>
 									<th style="font-size: 10px;">Name</th>
 									<th style="font-size: 10px;">Mobile</th>
 									<th style="font-size: 10px;">Address</th>
@@ -67,7 +67,7 @@
                   	<td style="font-size: 10px;">{{$item->ID}}</td>
 										<td style="font-size: 10px;">{{$first_name}} {{$last_name}}</td>
 									
-                    <td>{{$mobile_no}}</td>
+                    <td style="font-size: 0.65rem">{{$mobile_no}}</td>
                     	<td style="font-size: 10px;">{{$address}}</td>
               <td>
                 @php $tot_parcel=0; $to_amount_charge=0; $att=0; $q=0;$s=0; $att=0; $total_parcel=0; $product=''; $qty=0; $subtotal=0; $grandTotal=0; $mobile_no=''; $address=''; $sku=''; $customer=''; $first_name=''; $last_name=''; @endphp
@@ -81,7 +81,7 @@
                                               <th style="font-size: 10px;">Amount</th>
                                             </tr>
                                             <tr>
-                                              <td>{{$meta->order_item_name}}</td>
+                                              <td style="font-size: 0.65rem">{{$meta->order_item_name}}</td>
                                               <td style="font-size: 0.65rem;width: 40%">
                                                 @foreach($meta->orderMeta as $value)
                                                         @if($value->meta_key=='attribute_parent')
@@ -137,9 +137,8 @@
                                 </tbody>
                                 <tfoot>
                                   <tr>
-                                    <td>Total Parcel</td>
-                                    <td>{{number_format($to_amount_charge+$charge)}}</td>
-                                    <td></td>
+                                    <td colspan="2">Total Parcel</td>
+                                    <td>{{number_format($to_amount_charge+$charge)}} tk</td>                                    
                                     <td></td>
                                   </tr>
                                 </tfoot>

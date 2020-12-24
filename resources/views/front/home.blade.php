@@ -125,7 +125,7 @@
                     <img src="{{asset('backend/products/'.$image)}}"  class="rounded img-fluid" style="" alt="...">
                     <div class="text-center">
                         <span style="color:#000000" class="card-text product-title">{{$item->post_title}}</span>
-                        <p class="card-text"> <del style="color:red">৳{{$rprice}}</del> <span style="color:#000000">৳{{$sprice}}</span></p>
+                        <p class="card-text"> @if($rprice) <del style="color:red">৳{{$rprice}}</del> @endif <span style="color:#000000">৳{{$sprice}}</span></p>
                     </div>
                 </div>
             </a>
