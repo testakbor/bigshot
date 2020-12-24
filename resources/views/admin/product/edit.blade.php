@@ -133,7 +133,7 @@
                             <div class="col-sm-8">
                               @php $qtyy=0; @endphp
                               @if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
-                              <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
+                              <input type="text" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
                             </div>
                           </div> 
 
@@ -144,7 +144,7 @@
                         <div class="col-sm-8">
                           @php $al_qty=0; @endphp
                           @if(isset($alert_qty)) @php $al_qty=$alert_qty->meta_value; @endphp @endif
-                          <input type="number" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
+                          <input type="text" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                        </div>
 
@@ -325,8 +325,8 @@
                 @php
                 $check=in_array($category->name,$nameTaxonomy);
                 @endphp
-                <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="category[]" type="checkbox" id="{{$category->term_id}}" value="{{$category->term_id}}">
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="category[]" type="radio" id="{{$category->term_id}}" value="{{$category->term_id}}">
                   <label for="{{$category->term_id}}" class="custom-control-label"> {{$category->name}}</label>
                 </div>
                 @endforeach
@@ -347,8 +347,8 @@
                 $check=in_array($tag->name,$tagTaxonomy);
                 @endphp
 
-                <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="tag[]" type="checkbox" id="{{$tag->term_id}}" value="{{$tag->term_id}}">
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" {{($check==true)?'checked':''}} name="tag[]" type="radio" id="{{$tag->term_id}}" value="{{$tag->term_id}}">
                   <label for="{{$tag->term_id}}" class="custom-control-label"> {{$tag->name}}</label>
                 </div>
                 @endforeach
@@ -360,7 +360,7 @@
             {{-- product image --}}
             <div class="card card-default">
               <div class="card-header">
-                <h3 class="card-title">Product Image</h3>
+                <h3 class="card-title">Product Image</h3> <br><br> <span style="color:red"> (Width:268px and Height:306px)
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>

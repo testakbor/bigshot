@@ -106,8 +106,9 @@
                 <th class="center">Oder Id</th>
                 <th>Name</th>
                 <th class="right">Mobile</th>
-                <th class="right">Quantity</th>
+                <th class="right">Qty</th>
                 <th class="right">Delivery Charge</th>
+                <th class="right">Coupon</th>
                 <th class="right">Amount</th>
                 <th class="right">Status</th>
                 <th class="right">Action</th>
@@ -142,7 +143,10 @@
                 <td class="right">{{$phone}}</td>
                 <td class="right">@php $qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qty}} pcs</td>
                 <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge)}}</td>
+                
+                <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','coupon_taka')->first(); @endphp 
+               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{$c}}</td>
+                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge-$c)}}</td>
                 <td class="right">{{$orders->post_status}}</td>
                 <td class="right">
                   <a href="{{route('order.deliver.print',$orders->ID)}}" class="btn btn-success btn-sm mb-2">
@@ -152,7 +156,7 @@
                   <a onclick="return confirm('Are you sure want to cancel this order?')" href="{{route('order.deliver.cancel',$orders->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
                 </td>
               </tr>
-              @php $total_amount+=$sub+$charge; $total_item+=$qty; @endphp
+              @php $total_amount+=$sub+$charge-$c; $total_item+=$qty; @endphp
               @endforeach
             </tbody>
           </table>

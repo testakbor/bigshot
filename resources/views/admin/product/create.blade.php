@@ -89,14 +89,14 @@
                       <div class="form-group row" id="stockQualityDiv" style="display:none">
                         <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="0" name="stockQuality" id="stockQuality">
+                          <input type="text" class="form-control" value="0" name="stockQuality" id="stockQuality">
                         </div>
                       </div>
                       <div class="form-group row" id="lowStockThresholdDiv" style="display:none">
                         <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
                         </label>
                         <div class="col-sm-8">
-                          <input type="number" class="form-control" value="0" name="lowStockThreshold" id="lowStockThreshold">
+                          <input type="text" class="form-control" value="0" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                       </div>
 
@@ -195,8 +195,8 @@
               </div>
               <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
                 @foreach($categories as $category)
-                <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" name="category[]" type="checkbox" id="{{$category->term_id}}" value="{{$category->term_id}}" @if(is_array(old('category')) && in_array($category->term_id, old('category'))) checked @endif>
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" name="category[]" type="radio" id="{{$category->term_id}}" value="{{$category->term_id}}" @if(is_array(old('category')) && in_array($category->term_id, old('category'))) checked @endif>
 
                   <label for="{{$category->term_id}}" class="custom-control-label"> {{$category->name}}</label>
                 </div>
@@ -213,8 +213,8 @@
               </div>
               <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
                 @foreach($tags as $tag)
-                <div class="custom-control custom-checkbox">
-                  <input class="custom-control-input" name="tag[]" type="checkbox" id="{{$tag->term_id}}" value="{{$tag->term_id}}" @if(is_array(old('tag')) && in_array($tag->term_id, old('tag'))) checked @endif>
+                <div class="custom-control custom-radio">
+                  <input class="custom-control-input" name="tag[]" type="radio" id="{{$tag->term_id}}" value="{{$tag->term_id}}" @if(is_array(old('tag')) && in_array($tag->term_id, old('tag'))) checked @endif>
                   <label for="{{$tag->term_id}}" class="custom-control-label"> {{$tag->name}}</label>
                 </div>
                 @endforeach

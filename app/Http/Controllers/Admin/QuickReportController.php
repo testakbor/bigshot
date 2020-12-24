@@ -279,20 +279,24 @@ class QuickReportController extends Controller
     ->join('postmeta','posts.ID','=','postmeta.post_id')
     ->get();
 
+     
+    $d_sell=DB::table('posts')
+  ->where('post_type','product')
+  ->where('post_status','!=','deleted')
+  ->get();
+  
+    
+   
     //sold out condition start
-     $a_sold_out=Post::
-     where('post_type','product_varient')
-    ->where('postmeta.meta_key', 'attribute_stock')
-    ->where('postmeta.meta_value','=',0)
-    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->groupBy('post_parent')
-    ->count();
-    $d_sold_out=Post::where(['post_type'=>'product','meta_key'=>'default_qty'])
-    ->where('meta_value','=',0)
-    ->whereYear('post_date',date('Y'))
-    ->join('postmeta','posts.ID','=','postmeta.post_id')
-    ->count();
-    $yearly_total_sold_out_product=$a_sold_out+$d_sold_out;
+         $default_product_sold=DB::table('postmeta')  
+                    ->where('meta_key','default_qty') 
+                    ->where('meta_value','<=',0)
+                    ->get();
+
+     $attribute_product_sold=DB::table('postmeta')  
+                    ->where('meta_key','attribute_stock') 
+                    ->where('meta_value','<=',0)
+                    ->get(); 
     //sold out condition end 
 
     // best sell item condition start
@@ -326,8 +330,25 @@ class QuickReportController extends Controller
       //lower stock end
 
 
+      //gross profit monthly
+      $starttt=date('Y-m-01');                                       
+                         $enddd=date('Y-m-t');
+                          $orderrr=Post::where('post_type','shop_order')
+                          ->where('post_status','!=','cancelled')
+                          ->whereBetween('post_date',[$starttt,$enddd])->get();
+
+                          
+ $yearrr=date('Y');
+ $orderrrr=Post::where('post_type','shop_order')->where('post_status','!=','cancelled')->whereYear('post_date',$yearrr)->orderBy('ID','DESC')->get();
+      //gross profit monthly
+
+
     return view('admin.quickReport.index',
       compact(
+        'default_product_sold',
+        'attribute_product_sold',
+        'orderrrr',
+        'orderrr',
         'd_pro',
         'a_pro',
         'today_pending_order',
@@ -359,9 +380,9 @@ class QuickReportController extends Controller
         'd_data',
         'a_data',
         'stock_product',
-        'yearly_total_sold_out_product',
         'monthly_best_sell_item',
-        'yearly_best_sell_item'
+        'yearly_best_sell_item',
+        'd_sell',
       ))->with($extraInfo);
       }
   }
@@ -670,7 +691,9 @@ public function grossProfit(Request $request)
   'page'=>'Report'
 );
  $year=date('Y');
- $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->orderBy('ID','DESC')->get();
+ $order=Post::where('post_type','shop_order')
+  ->where('post_status','!=','cancelled')
+ ->whereYear('post_date',$year)->orderBy('ID','DESC')->get();
  return view('admin.quickReport.gross_profit',compact('order'))->with($extraInfo);
 }
 }
@@ -684,7 +707,9 @@ public function grossProfitShow(Request $request)
   );
   $start=$request->start;
   $end=$request->end;
-  $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
+  $order=Post::where('post_type','shop_order')
+   ->where('post_status','!=','cancelled')
+  ->whereBetween('post_date',[$start,$end])->get();
   return view('admin.quickReport.gross_profit_show',compact('order','start','end'))->with($extraInfo);
 }
 }
@@ -697,7 +722,9 @@ public function gross_profit_monthly(Request $request){
 );
  $start=date('Y-m-01');
  $end=date('Y-m-t');
- $order=Post::where(['post_type'=>'shop_order'])->whereBetween('post_date',[$start,$end])->get();
+ $order=Post::where('post_type','shop_order')
+  ->where('post_status','!=','cancelled')
+ ->whereBetween('post_date',[$start,$end])->get();
  return view('admin.quickReport.gross_profit_show_monthly',compact('order','start','end'))->with($extraInfo);
 }
 }
@@ -721,7 +748,9 @@ public function grossProfitSummary(){
   'page'=>'Report'
 );
  $year=date('Y');
- $order=Post::where('post_type','shop_order')->whereYear('post_date',$year)->get();
+ $order=Post::where('post_type','shop_order')
+  ->where('post_status','!=','cancelled')
+ ->whereYear('post_date',$year)->get();
  return view('admin.quickReport.gross_profit_summary',compact('order'))->with($extraInfo);
 }
 }

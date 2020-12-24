@@ -64,7 +64,7 @@
                                 <th>Gross Profit</th>
                             </tr>
                             <tbody>
-                                @php $total_charge=0; $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
+                                @php $total_charge=0; $total_c=0; $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
                                 @foreach($order as $item)
                                 <tr>
                                     <td>{{date('d-m-Y',strtotime($item->post_date))}}</td>
@@ -135,6 +135,17 @@
                                             @endforeach
                                         </table>
                                     </td>
+
+                                
+                                            @foreach($item->orderItem as $meta)
+                                            @foreach($meta->orderMeta as $value)
+                                            @if($value->meta_key=='coupon_taka') @php $c_taka=$value->meta_value; @endphp @endif
+                                            @endforeach
+                                          
+                                            @php $total_c+=$c_taka; @endphp
+                                            @endforeach
+                            
+
                                     <td>
                                         <table style="width:100%">
                                             @foreach($item->orderItem as $meta)
@@ -171,7 +182,7 @@
                                     <td>{{number_format($total_sale_amount)}} tk</td>
                                     <td>{{number_format($total_cost)}} tk</b></td>
                                     <td>delivery charge: {{number_format($total_charge)}} tk</td>
-                                    <td>{{number_format($total_sale_amount-$total_cost+$total_charge)}} tk</td>
+                                    <td>{{number_format($total_sale_amount-$total_cost+$total_charge-$total_c)}} tk</td>
                                 </tr>
                             </tfoot>
                         </table>

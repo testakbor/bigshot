@@ -86,13 +86,14 @@
                   <th class="right">Address</th>
                   <th class="right">Mobile</th>
                   <th class="right">Delivery Charge</th>
+                  <th class="right">Coupon</th>
                   <th class="right">Amount</th>
                   <!-- <th class="right">Comments</th> -->
                   <th class="right">Action</th>
                 </tr>
               </thead>
               <tbody>
-                @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $tot_charge=0; @endphp
+                @php $first_name=''; $last_name=''; $address=''; $phone=''; $subtotal=0; $total_amount=0; $tot_charge=0; $tot_coupon=0; @endphp
                 @foreach($order as $orders)
                 @foreach($orders->productMeta as $meta)
                 @if($meta->meta_key=='first_name') @php $name=$meta->meta_value; @endphp @endif
@@ -111,7 +112,10 @@
                   <td class="right">{{$address_one}}</td>
                   <td class="right">{{$phone}}</td>
                   <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}} @php $tot_charge+=$charge; @endphp</td>
-                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($subtotal+$charge)}}</td>
+                  
+                <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','coupon_taka')->first(); @endphp 
+               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}}</td>
+                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($subtotal+$charge-$c)}} @php $tot_coupon+=$c; @endphp</td>
                   <td class="right">
                     <a onclick="return confirm('Do you want to delivery?')" href="{{route('order_dispatch_d',$orders->ID)}}" class="btn btn-success">Delivered</a><br>
                     <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-primary mt-1" style=" width: 49%;">Edit</a>
@@ -143,7 +147,7 @@
         <div class="col-md-6">
           <div class="box bg-info">
             <!-- <i class="fa fa-handshake ml-1"></i> -->
-            <h3 class="text-center">{{number_format($total_amount+$tot_charge)}}</h3>
+            <h3 class="text-center">{{number_format($total_amount+$tot_charge-$tot_coupon)}}</h3>
             <p class="lead text-center font-weight-bold">Total Amount</p>
           </div>
         </div>

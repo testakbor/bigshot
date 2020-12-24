@@ -146,10 +146,7 @@ class OrderController extends Controller
 
     public function cancel_order_item(Request $request){
 
-     $order_stokk=DB::table('order_itemmeta')
-     ->where('order_id',$request->cancel_order_id)
-     ->where('meta_key','_qty')
-     ->sum('meta_value');
+   
 
       $cancel_qty=$request->request_qty; 
       //stock increase from default quantity
@@ -204,6 +201,8 @@ class OrderController extends Controller
       ->where('meta_key','_qty')
       ->sum('meta_value')-$cancel_qty;
 
+  
+
       DB::table('order_itemmeta')
       ->where('order_item_id',$request->cancel_item_id)
       ->where('meta_key','_qty')
@@ -211,10 +210,10 @@ class OrderController extends Controller
         'meta_value' =>$current
       ]);
 
-   
+     
 
        //check customer cancel all quantity then update order status to cancelled
-       if($order_stokk==1 || $order_stokk==0){
+       if($current==0){
          DB::table('posts')
          ->where('post_type','shop_order')
          ->where('ID',$request->cancel_order_id)

@@ -81,6 +81,7 @@ use App\Model\front\Order_item;
                 <th class="right">Address</th>
                 <th class="right">Mobile</th>
                 <th class="right">Delivery Charge</th>
+                <th class="right">Coupon</th>
                 <th class="right">Amount</th>
                 <th class="right">Status</th>
                 <th class="right">Action</th>
@@ -112,7 +113,10 @@ use App\Model\front\Order_item;
                  <td>{{$address}}</td>
                  <td>{{$phone}}</td>
                 <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge)}}</td>
+
+                <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','coupon_taka')->first(); @endphp 
+               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}}</td>
+                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge-$c)}}</td>
                  <td>On-hold</td>
                  <td>
                    <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm mb-1"> <i class="fas fa-print"> </i> Print</a><br>
@@ -152,17 +156,22 @@ use App\Model\front\Order_item;
     </div>
   </div>
   <div class="col-md-4">
-    <div class="box bg-info card text-center font-weight-bold pt-2 pb-2 h5">
-      <div>
-         @php $tot_d=0; @endphp
+    <div class="box bg-info">
+      <!-- <i class="fa fa-handshake ml-1"></i> -->
+
+
+      <h3 class="text-center">
+         @php $tot_d=0; $tot_c=0; @endphp
          @foreach($or as $ors)
           @php 
             $d=DB::table('order_itemmeta')->where('order_id',$ors->ID)->where('meta_key','delivery_charge')->first(); 
+            $cc=DB::table('order_itemmeta')->where('order_id',$ors->ID)->where('meta_key','coupon_taka')->first(); 
           @endphp
           @if(isset($d)) @php $tot_d+=$d->meta_value; @endphp @endif
+          @if(isset($cc)) @php $tot_c+=$cc->meta_value; @endphp @endif
          @endforeach
-        {{number_format($total_amount+$tot_d)}}
-      </div>
+        {{number_format($total_amount+$tot_d-$tot_c)}}
+      </h3>
 
       <div >Total Amount</div>
     </div>
