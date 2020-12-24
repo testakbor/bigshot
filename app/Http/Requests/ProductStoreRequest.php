@@ -25,7 +25,7 @@ class ProductStoreRequest extends FormRequest
         return [
             'post_title' => 'required',
             'post_content' => 'required',
-            'regular_price' => 'required',
+            // 'regular_price' => 'required',
             'sale_price' => 'required',
             'product_stock' => 'required',
             'post_excerpt' => 'required',
