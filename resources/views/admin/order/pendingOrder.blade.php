@@ -144,22 +144,15 @@ use App\Model\front\Order_item;
 <div class="container">
   <div class="row">
    <div class="col-md-4">
-    <div class="box bg-primary">
-      <!-- <i class="fa fa-lemon ml-1"></i> -->
-
-      <h3 class="text-center">{{ $total_orders}}</h3>
-
-      <p class="lead text-center font-weight-bold">Total Order</p>
+    <div class="box bg-primary card text-center font-weight-bold pt-2 pb-2 h5">
+      <div class="">{{ $total_orders}}</div>
+      <div class="">Total Order</div>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="box bg-success">
-      <!-- <i class="fa fa-user ml-1"></i> -->
-
-
-      <h3 class="text-center">{{$total_item}}</h3>
-
-      <p class="lead text-center font-weight-bold">Total Quantity</p>
+    <div class="box bg-success card text-center font-weight-bold pt-2 pb-2 h5">
+      <div >{{$total_item}}</div>
+      <div >Total Quantity</div>
     </div>
   </div>
   <div class="col-md-4">
@@ -180,7 +173,7 @@ use App\Model\front\Order_item;
         {{number_format($total_amount+$tot_d-$tot_c)}}
       </h3>
 
-      <p class="lead text-center font-weight-bold">Total Amount</p>
+      <div >Total Amount</div>
     </div>
   </div>
 </div>       
