@@ -70,10 +70,10 @@
         font-size: 12px;
     }
     .sm-menus div{
-       height: 33px
-   }
+     height: 33px
+ }
 
-   .dropdown-menu {
+ .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -93,7 +93,7 @@
     border-radius: .25rem;
 }
 .dropdown-item {
- 
+   
     padding: .25rem 0.5rem;
     border-top: 1px solid;
     width: 125px;
@@ -104,6 +104,26 @@
     text-decoration: none;
     background-color: salmon;
 }
+/*********************/
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+
 </style>
 <div class="mt-0 mb-2 sticky-top bg-light">
 
@@ -130,12 +150,12 @@
             @endif
             @if($cart_count>0)
             <span class="badge badge-light">
-               {{ $cart_count}} 
-           </span>
-           @else 
-           @endif  
-       </a>  
-       <a class="float-right mr-2 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i>
+             {{ $cart_count}} 
+         </span>
+         @else 
+         @endif  
+     </a>  
+     <a class="float-right mr-2 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i>
         
         
         @if(Auth::check()) 
@@ -149,38 +169,38 @@
     <a class="float-right mr-2 mt-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="d-flex flex-column sm-menus">
-         @php 
-         $tags = DB::table('term_taxonomy')
-         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-         ->where('term_taxonomy.taxonomy', 'product_tag')
-         ->where('terms.status',1)
-         ->select('term_taxonomy.*', 'terms.name', 'terms.status')
-         ->get();
-         @endphp
-         @foreach($tags as $tag)
-         <div class="mt-2"> 
+           @php 
+           $tags = DB::table('term_taxonomy')
+           ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+           ->where('term_taxonomy.taxonomy', 'product_tag')
+           ->where('terms.status',1)
+           ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+           ->get();
+           @endphp
+           @foreach($tags as $tag)
+           <div class="mt-2"> 
             <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{strtoupper($tag->name)}}</a>
         </div>
         @endforeach
 
         @guest 
         <div class="d-flex align-items-center ">
-           <a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
-       </div>
+         <a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
+     </div>
 
-       <div class="d-flex align-items-center ">
-          <a href="{{url('cart')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fas fa-shopping-bag"></i> Shopping Bag </a> 
-      </div>
+     <div class="d-flex align-items-center ">
+      <a href="{{url('cart')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fas fa-shopping-bag"></i> Shopping Bag </a> 
+  </div>
 
-      <div> 
-       <a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
-   </div>
-
-   <div>
-     <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
+  <div> 
+     <a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
  </div>
 
- <div class="d-flex align-items-center ">
+ <div>
+   <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
+</div>
+
+<div class="d-flex align-items-center ">
     <a href="{{url('privacy')}}" class="text-decoration-none text-dark"><i class="fas fa-user-secret"></i> Policies</a> 
 </div>
 
@@ -193,21 +213,21 @@
 @else 
 <a href="{{url('profile')}}">
     <div style="background: #ffffff; color:#000000">
-     <div class="float-left mb-2">
-         @php 
-         $img=DB::table('usermeta')
-         ->where('user_id',auth()->user()->id)
-         ->where('meta_key','user_image')
-         ->first(); 
-         @endphp
-         @if(isset($img))
-         <img  src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 30%;height: 33px;">
-         @else
-         <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
-         @endif
-         {{auth()->user()->name}}
-     </div>
-     <div  class="float-right mb-2">
+       <div class="float-left mb-2">
+           @php 
+           $img=DB::table('usermeta')
+           ->where('user_id',auth()->user()->id)
+           ->where('meta_key','user_image')
+           ->first(); 
+           @endphp
+           @if(isset($img))
+           <img  src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 30%;height: 33px;">
+           @else
+           <img src="{{asset('assets/front/images/icons/fetch.jpg')}}" style="border-radius: 50%;height: 33px;">
+           @endif
+           {{auth()->user()->name}}
+       </div>
+       <div  class="float-right mb-2">
         View Profile    
         <i class="fas fa-chevron-right"></i>
     </div>
@@ -215,7 +235,7 @@
 </a>
 
 <div class="d-flex align-items-center ">
-   <a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
+ <a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
 </div>
 
 <div class="d-flex align-items-center ">
@@ -223,19 +243,19 @@
 </div>
 
 <div class="d-flex align-items-center ">
-   <a href="{{url('order-list')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-sticky-note ml-1"></i> Order list </a>
+ <a href="{{url('order-list')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-sticky-note ml-1"></i> Order list </a>
 </div>
 
 <div> 
-   <a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
+ <a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
 </div>
 
 <div>
- <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
+   <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
 </div>
 
 <div>
- <a href="{{url('about')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> About Us</a>
+   <a href="{{url('about')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> About Us</a>
 </div>
 
 
@@ -297,72 +317,129 @@
               </a> 
           </div>
           <div class="d-flex align-items-center ml-4"><a href="{{url('wishlist')}}"> <i style="color:#000000" class="fa fa-heart"></i>
-           @if(Auth::check()) 
-           @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count(); @endphp 
-           @if($wish>0)
-           <span class="badge badge-light"> {{$wish}} </span> 
-           @endif 
-           @endif 
-       </a>
-   </div>
-   <div class="d-flex align-items-center">
-    @guest
-    <a class="ml-4" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
-    @else 
-    <nav class="navbar navbar-expand-lg">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main_nav">
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                        @php
-                        $img=DB::table('usermeta')
-                        ->where('user_id',auth()->user()->id)
-                        ->where('meta_key','user_image')
-                        ->first();
-                        @endphp
-                        @if(isset($img)) 
-                        <img src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
-                        @endif
-                    </a>
-                    <div class="dropdown-menu dropdown-large">
-                        <a class="shadow dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i> Profile</a>
-                        <a class="shadow-lg dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
-                        <a class="shadow dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
-                        <a class="shadow dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
-                        <a class="shadow dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
-                        <a class="shadow dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
-                        <a class="shadow dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    @endguest
-</div>
+             @if(Auth::check()) 
+             @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count(); @endphp 
+             @if($wish>0)
+             <span class="badge badge-light"> {{$wish}} </span> 
+             @endif 
+             @endif 
+         </a>
+     </div>
+     <div class="d-flex align-items-center">
+        @guest
+        <a class="ml-4" href="{{ route('login') }}"> <i style="color:#000000" class="fas fa-user"></i></a> 
+        @else 
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="main_nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                            @php
+                            $img=DB::table('usermeta')
+                            ->where('user_id',auth()->user()->id)
+                            ->where('meta_key','user_image')
+                            ->first();
+                            @endphp
+                            @if(isset($img)) 
+                            <img src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
+                            @endif
+                        </a>
+                        <div class="dropdown-menu dropdown-large">
+                            <a class="shadow dropdown-item" href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i> Profile</a>
+                            <a class="shadow-lg dropdown-item" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
+                            <a class="shadow dropdown-item" href="{{url('cart')}}"><i style="color:#000000" class="fas fa-shopping-bag ml-1"></i>  Cart</a>
+                            <a class="shadow dropdown-item" href="{{url('order-list')}}"><i class="demo fa fa-sticky-note ml-1" aria-hidden="true"></i> Order</a>
+                            <a class="shadow dropdown-item" href="{{url('customer-support')}}"><i class="demo fa fa-users" aria-hidden="true"></i> Support</a>
+                            <a class="shadow dropdown-item" href="{{url('faq')}}"><i class="fa fa-question-circle"></i> FAQ</a>
+                            <a class="shadow dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i> {{ __('Logout') }}</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        @endguest
+    </div>
 </div>
 </div>
 <div class="d-flex flex-row justify-content-between ml-5 mr-5 mt-3 mb-2">
-    <div class="d-flex">
-     @php 
-     $tags = DB::table('term_taxonomy')
-     ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-     ->where('term_taxonomy.taxonomy', 'product_tag')
-     ->where('terms.status',1)
-     ->select('term_taxonomy.*', 'terms.name', 'terms.status')
-     ->get();
-     @endphp
-     @foreach($tags as $tag)
-     <div class="mr-4"> <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark">{{strtoupper($tag->name)}}</a></div>
-     @endforeach
- </div>
- <div class="d-flex col-md-5 justify-content-end p-0">					
+    <div class="d-none" >
+       @php 
+       $tags = DB::table('term_taxonomy')
+       ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+       ->where('term_taxonomy.taxonomy', 'product_tag')
+       ->where('terms.status',1)
+       ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+       ->get();
+       @endphp
+       @foreach($tags as $tag)
+       <div class="mr-4"> <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark">{{strtoupper($tag->name)}}</a></div>
+       @endforeach
+   </div>
+   {{-- test drop down --}}
+   <div class="d-flex ">
+      <nav class="navbar navbar-expand-lg p-0">      
+        <div class="navbar-nav mr-auto mt-2 mt-lg-0">     
+           @php 
+           $tags = DB::table('term_taxonomy')
+           ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+           ->where('term_taxonomy.taxonomy', 'product_cat')
+           ->where('terms.term_group','0')
+           ->where('terms.status',1)
+           ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+           ->get();
+           @endphp
+           @foreach($tags as $tag)
+           <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle pt-0" data-toggle="dropdown" >
+               {{strtoupper($tag->name)}}
+           </a>
+           @php 
+           $child1 = DB::table('term_taxonomy')
+           ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+           ->where('term_taxonomy.taxonomy', 'product_cat')
+           ->where('terms.term_group',$tag->term_id)
+           ->where('terms.status',1)
+           ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+           ->get();
+           @endphp
+           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            @foreach($child1 as $child)                    
+            <div class="dropdown-submenu">
+                <a class="dropdown-item dropdown-toggle" href="#">{{$child->name}}</a>
+                @php 
+                $child2 = DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_taxonomy.taxonomy', 'product_cat')
+                ->where('terms.term_group',$child->term_id)
+                ->where('terms.status',1)
+                ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+                ->get();
+                @endphp
+                <div class="dropdown-menu">
+                   @foreach($child2 as $child3)   
+                   <div><a class="dropdown-item" href="#">{{$child3->name}}</a></div>
+                   
+                   @endforeach           
+               </div>
+           </div>
+           @endforeach
+       </div>
+
+   </div>
+   @endforeach
+</div>      
+</nav>
+</div>
+
+{{-- test drop down --}}
+<div class="d-flex col-md-5 justify-content-end p-0">					
     <div> <a href="{{url('faq')}}" class="text-decoration-none text-dark"> FAQ</a></div>
     <div class="ml-2"> <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> Customer Support</a></div>
     <div class="ml-2"> <a href="{{url('about')}}" class="text-decoration-none text-dark"> About Us</a></div>
@@ -374,7 +451,7 @@
     <div class="" style="height: 2px;background: black"></div>
 </div>
 </div>
-            <!-- header part end -->
+<!-- header part end -->
 
 <div class="categoryDidv d-flex pt-2 pb-3 d-block d-xl-none mb-2" style="height: 65px">
     <div class="font-weight-bold">Categories:</div>
