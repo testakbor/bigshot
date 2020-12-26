@@ -77,13 +77,9 @@ use App\Model\front\Order_item;
               <tr>
                 <th class="center">Oder Id</th>
                 <th>Cust.Details</th>
-                <th class="right">Sku</th>
-                <th class="right">Color</th>
-                <th class="right">Qty</th>
-                <th class="right">Item</th>
+                <th class="text-center">Item Details</th>
                 <th class="right">Amount</th>
                 <th class="right">Action</th>
-                <th class="right">Comments</th>
               </tr>
             </thead>
             <tbody>
@@ -112,80 +108,66 @@ use App\Model\front\Order_item;
                     {{$phone}}<br>
                    {{$address}}
                  </td>
-                  <td>
-                    @foreach($items->orderItem as $orderMetas) 
-                   @php 
+                <td>
+                     <table style="width:100%">
+                        <tr>
+                          <th>SKU</th>
+                          <th>Colour</th>
+                          <th>Qty</th>
+                          <th>Item </th>
+                        </tr>
+                     @foreach($items->orderItem as $orderMetas) 
+                        <tr>
+                          <td>
+                             @php 
                                    $pic=DB::table('postmeta')->where('meta_key','attached_file')
                                         ->where('post_id',$orderMetas->product_parent) 
                                         ->first();
                                             $skuu=DB::table('postmeta')->where('meta_key','_sku')
                                   ->where('post_id',$orderMetas->product_parent) 
                                   ->first();
-                                   @endphp              
-                    <table style="width:100%">
-                      <tr>
-                        <td>
-                             @if(isset($pic)) @php $im=$pic->meta_value; @endphp
+                                   @endphp 
+                                     @if(isset($pic)) @php $im=$pic->meta_value; @endphp
                                     <img src="{{asset('backend/products/'.$im)}}" width="50" height="50"><br>
                                     @endif 
                                     @if(isset($skuu)) {{$skuu->meta_value}}  @endif 
-                        </td>
-                      </tr>
-                    </table>
-                    @endforeach 
-                  </td>
-                  <td>
-                     @foreach($items->orderItem as $orderMetas) 
-                        @foreach($orderMetas->orderMeta as $value)
-                          @if($value->meta_key=='attribute_parent')
-                            @php $att=$value->meta_value; @endphp
-                          @endif
-                        @endforeach 
-                      <table style="width:100%">
-                      <tr>
-                        <td>
-                           @php 
+                          </td>
+                          <td>
+                             @foreach($orderMetas->orderMeta as $value)
+                                @if($value->meta_key=='attribute_parent')
+                                  @php $att=$value->meta_value; @endphp
+                                @endif
+                              @endforeach
+                              @php 
                                 $list_att=DB::table('postmeta')->where('post_id',$att)
                                 ->where('meta_key','attribute')->get(); 
                              @endphp
                              @foreach($list_att as $a)
                               @php $data_att=json_decode($a->meta_value); @endphp 
                                   @foreach($data_att as $da)
-                                       {{$da->taxonomy}} 
+                                       {{$da->taxonomy}} :
                                        {{$da->term}}
                                   @endforeach 
                              @endforeach 
-                        </td>
-                      </tr>
-                    </table>
-                    @endforeach 
-                  </td>
-                  <td>
-                      @foreach($items->orderItem as $orderMetas) 
-                       @foreach($orderMetas->orderMeta as $value)
-                           @if($value->meta_key=='_qty')
-                            @php $qt=$value->meta_value; @endphp
-                          @endif
-                        @endforeach 
-                      <table style="width:100%">
-                      <tr>
-                        <td>{{$qt}}</td>
-                      </tr>
-                    </table>
-                     @endforeach 
-                  </td>
-                  <td>
-                      @foreach($items->orderItem as $orderMetas) 
-                      <table style="width:100%">
-                      <tr>
-                        <td>{{$orderMetas->order_item_name}}</td>
-                      </tr>
-                    </table>
-                    @endforeach 
-                  </td>
+                          </td>
+                          <td>
+                            @foreach($orderMetas->orderMeta as $value)
+                              @if($value->meta_key=='_qty')
+                                @php $qt=$value->meta_value; @endphp
+                              @endif
+                            @endforeach 
+                           {{$qt}}
+                          </td>
+                          <td>
+                               @foreach($items->orderItem as $orderMetas) 
+                                 {{$orderMetas->order_item_name}}
+                               @endforeach 
+                          </td>
+                        </tr>
+                     @endforeach
 
-
-
+                      </table>
+                </td>
                  @php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif
                  @php $coupon=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','coupon_taka')->first(); @endphp 
                   @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif 
@@ -196,7 +178,6 @@ use App\Model\front\Order_item;
                   <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning btn-sm  mb-1"> <i class="fas fa-edit"> </i> Edit</a><br>
                   <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
                  </td>
-                 <td></td>
                </tr>
             @endforeach
             </tbody>
@@ -229,11 +210,8 @@ use App\Model\front\Order_item;
     </div>
   </div>
   <div class="col-md-4">
-    <div class="box bg-info">
+    <div class="box bg-info card text-center font-weight-bold pt-2 pb-2 h5">
       <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
-      <h3 class="text-center">
          @php $tot_d=0; $tot_c=0; @endphp
          @foreach($or as $ors)
           @php 
@@ -244,9 +222,9 @@ use App\Model\front\Order_item;
           @if(isset($cc)) @php $tot_c+=$cc->meta_value; @endphp @endif
          @endforeach
         {{number_format($total_amount+$tot_d-$tot_c)}}
-      </h3>
+ 
 
-      <div >Total Amount</div>
+      <div>Total Amount</div>
     </div>
   </div>
 </div>       
