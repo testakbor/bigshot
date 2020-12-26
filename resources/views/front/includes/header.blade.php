@@ -375,3 +375,14 @@
 </div>
 </div>
             <!-- header part end -->
+
+<div class="categoryDidv d-flex pt-2 pb-3 d-block d-xl-none mb-2" style="height: 65px">
+    <div class="font-weight-bold">Categories:</div>
+
+    <div class="d-flex no-wrap" style="overflow-y: scroll;">
+        @for($i=1;$i<12;$i++)
+        <div class="ml-2 text-nowrap d-inline-block w-180">Caegory {{$i}}</div>
+        @endfor
+    </div>
+
+</div>            
