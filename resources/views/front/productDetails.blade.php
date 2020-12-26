@@ -2,7 +2,7 @@
 @section('content')
 <style>
     #featured{
-        height: 380px;
+        height: 100%;
         width: 100%;
     }
 </style>
@@ -145,13 +145,20 @@ endforeach;
 
                             <div class="d-flex justify-content-end mt-3">
                                 <div>
-                                <button type="submit" id="final_cart_submit" class="btn btn-primary btn-large "><i class="fas fa-shopping-bag"></i> Add To Cart</button>
+                                <button type="submit" id="final_cart_submit" class="btn btn-dark btn-large "> ADD TO BAG <i class="fas fa-arrow-right ml-3"></i>
+
+                                </button>
+                               
+                                
+
                                 </div>
-                                <div class="ml-3">
-                                <a class="btn btn-success btn-large btn-block" href="{{url('/wishlist/product/'.$product->ID)}}">
-                                   <i class="far fa-heart ml-2"></i> Add to wish list
-                                </a>
+                                 <div class="mt-2">
+                                <a class="mt-3" href="{{url('/wishlist/product/'.$product->ID)}}">
+
+                                   <i class="far fa-heart ml-2" style="font-size: 1.5rem;color: red"></i>
+                                </a>    
                                 </div>
+                             
                             </div>
                             
                         </form>
