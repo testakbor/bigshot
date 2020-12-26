@@ -117,16 +117,16 @@ $email=auth()->user()->email;
                 @endif
 
             <nav id="myTab" class="nav nav-tabs nav-justified">
-                <a class="nav-item nav-link btn btn-primary active mr-2 "
+                <a class="nav-item nav-link btn btn-success active mr-2 " data-toggle="tab" href="#menu2">Review Order</a>
+                 <a class="nav-item nav-link btn btn-info mr-2 "
                 data-toggle="tab" href="#home"> Ship to</a>
-                <a class="nav-item nav-link btn btn-success mr-2 " data-toggle="tab" href="#menu2">Review Order</a>
                 <a class="nav-item nav-link btn btn-primary " data-toggle="tab" href="#menu1">Payment</a>
 
             </nav>
             <form id="check_out_form" role="form" action="{{route('checkout')}}" method="POST">
                 @csrf
                 <div class="tab-content">
-                    <div id="home" class="tab-pane active">
+                    <div id="home" class="tab-pane fade">
                         <h5 style="padding: 5px 5px;"><b>SHIP TO</b></h5>
                         <span id="message" style="color: red;"></span>
                         <div class="row">
@@ -254,7 +254,7 @@ $email=auth()->user()->email;
 
 
 
-                            <div id="menu2" class="tab-pane fade">
+                            <div id="menu2" class="tab-pane active">
                                 <div class=" btn-lg btn-block">
                                     Items In Cart
                                 </div>
@@ -367,7 +367,7 @@ $email=auth()->user()->email;
                                     <p>Order Total:</p> <div class="float-right">@if(Auth::check()) @php $user_pricee=DB::table('user_cart')->where('user_id',auth()->user()->id)->sum('price'); @endphp @else @php $user_pricee=Cart::getTotal(); @endphp @endif {{$user_pricee}} tk</div> 
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <p>Apply Promo code:</p> <div class="float-right"> <input autocomplete="off" id="promo_code" type="number" step="any" name="promo_code" class="form-control" placeholder="Enter code"> </div>
+                                    <p>Apply Promo code:</p> <div class="float-right"> <input autocomplete="off" id="promo_code" type="text"  name="promo_code" class="form-control" placeholder="Enter code"> </div>
                                 </li>
                                 <div id="coupon_data_div"></div>
                                 <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -376,9 +376,15 @@ $email=auth()->user()->email;
                             </ul>
                                
                         </div>
-                        <button type="button" class="btn btn-primary" id="first_btn_back"><i class="fas fa-arrow-left"></i> Back</button>
+
+
+                        <!-- <button type="button" class="btn btn-primary" id="first_btn_back"><i class="fas fa-arrow-left"></i> Back</button> -->
                         <button type="button" class="btn btn-success float-right" id="second_btn">Next <i class="fas fa-arrow-right"></i> </button>
                     </div>
+
+
+
+                    
                     <div class="loader">
                         <div class="loading">
                         </div>
@@ -471,7 +477,7 @@ $("#first_btn").click(function(){
         $('#myTab a[href="#home"]').tab('show');
         return false;
      }else{
-       $('#myTab a[href="#menu2"]').tab('show');
+       $('#myTab a[href="#menu1"]').tab('show');
      } 
 });
 
@@ -493,7 +499,7 @@ $("#first_btn_back").click(function(){
   $('#myTab a[href="#home"]').tab('show');
 });
 $("#second_btn").click(function(){
-  $('#myTab a[href="#menu1"]').tab('show');
+  $('#myTab a[href="#home"]').tab('show');
 });
 //check order submit to some validation
 $("#order_submit").click(function(e){
