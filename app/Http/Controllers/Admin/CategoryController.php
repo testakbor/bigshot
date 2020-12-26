@@ -25,29 +25,37 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         if($request->user()->can('create-category')) {
-        $q=$request->category;
-        $extraInfo=array(
-            'title'=>"Category List",
-            'page'=>'category'
-        );
-        if($request->category==''){
-            $categories=DB::table('term_taxonomy')
-            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-            ->where('term_taxonomy.taxonomy','product_cat')
-            ->select('term_taxonomy.*','terms.name','terms.status')
-            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(50); 
-        }else{
-            $categories=DB::table('term_taxonomy')
-            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-            ->where('term_taxonomy.taxonomy','product_cat')
-            ->where('terms.name', 'like', '%' .$q. '%')
-            ->select('term_taxonomy.*','terms.name','terms.status')
-            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->paginate(50); 
-        }         
-        return view('admin.category.list',compact('categories'))->with($extraInfo);
-      }
+            $q=$request->category;
+            $extraInfo=array(
+                'title'=>"Category List",
+                'page'=>'category'
+            );
+            if($request->category==''){
+                $categories=DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_taxonomy.taxonomy','product_cat')
+                ->select('term_taxonomy.*','terms.name','terms.status')
+                ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+                ->paginate(50); 
+            }else{
+                $categories=DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_taxonomy.taxonomy','product_cat')
+                ->where('terms.name', 'like', '%' .$q. '%')
+                ->select('term_taxonomy.*','terms.name','terms.status')
+                ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+                ->paginate(50); 
+            }         
+
+              $term_groups=DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_taxonomy.taxonomy','term_group')
+                ->select('term_taxonomy.*','terms.name','terms.status')
+                ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+                ->get(); 
+
+            return view('admin.category.list',compact('categories','term_groups'))->with($extraInfo);
+        }
     }
 
     /**
@@ -67,28 +75,46 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        if($request->user()->can('create-category')) {
-       $this->validate($request,[
-        'categoryName'=>'required|min:3',
-        ]);    
-       $termInfo=array(
-           'name'=>$request->categoryName,
-           'status'=>$request->status,
-           'slug'=>Str::slug($request->categoryName)
-       );
-       $term=DB::table('terms')->insertGetId($termInfo);
+    {      
 
-       $termTexonomyInfo=array(
-           'term_id'=>$term,
-           'taxonomy'=>'product_cat',
-           'description'=>'',
-       );
-       $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
-       session()->flash("success","Information saved Successfully");
-       return redirect(route('category.index'));
-     }
+        if($request->user()->can('create-category')) {
+         $this->validate($request,[
+            'categoryName'=>'required|min:3',
+        ]);    
+         if($request->term_group==1){
+            $termInfo=array(
+             'name'=>$request->categoryName,
+             'status'=>$request->status,
+             'slug'=>Str::slug($request->categoryName)
+         );
+            $term=DB::table('terms')->insertGetId($termInfo);
+
+            $termTexonomyInfo=array(
+             'term_id'=>$term,
+             'taxonomy'=>'term_group',
+             'description'=>'',
+         );
+            $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
+        }else{
+            $termInfo=array(
+             'name'=>$request->categoryName,
+             'status'=>$request->status,
+             'term_group'=>$request->term_group,
+             'slug'=>Str::slug($request->categoryName)
+         );
+            $term=DB::table('terms')->insertGetId($termInfo);
+
+            $termTexonomyInfo=array(
+             'term_id'=>$term,
+             'taxonomy'=>'product_cat',
+             'description'=>'',
+         );
+            $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
+        }
+        session()->flash("success","Information saved Successfully");
+        return redirect(route('category.index'));
     }
+}
 
     /**
      * Display the specified resource.
@@ -109,7 +135,7 @@ class CategoryController extends Controller
      */
     public function edit($id,Request $request)
     {
-         if($request->user()->can('create-category')) {
+       if($request->user()->can('create-category')) {
         $extraInfo=array(
             'title'=>"Category Edit",
             'page'=>'category'
@@ -123,9 +149,17 @@ class CategoryController extends Controller
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(3);
-        return view('admin.category.list',compact('categories','category'))->with($extraInfo);
-      }
+
+     $term_groups=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','term_group')
+            ->select('term_taxonomy.*','terms.name','terms.status')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->get(); 
+
+        return view('admin.category.list',compact('categories','category','term_groups'))->with($extraInfo);
     }
+}
 
     /**
      * Update the specified resource in storage.
@@ -136,22 +170,22 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {  
-         if($request->user()->can('create-category')) {     
+       if($request->user()->can('create-category')) {     
         $this->validate($request,[
             'categoryName'=>'required|min:3',
         ]);    
-           $termInfo=array(
-               'name'=>$request->categoryName,
-               'status'=>$request->status,
-               'slug'=>Str::slug($request->categoryName)
-           );
-           $term=DB::table('terms')
-           ->where('term_id',$id)
-           ->update($termInfo);
-           session()->flash("success","Information Update Successfully");
-           return redirect(route('category.index'));
-        }
+        $termInfo=array(
+         'name'=>$request->categoryName,
+         'status'=>$request->status,
+         'slug'=>Str::slug($request->categoryName)
+     );
+        $term=DB::table('terms')
+        ->where('term_id',$id)
+        ->update($termInfo);
+        session()->flash("success","Information Update Successfully");
+        return redirect(route('category.index'));
     }
+}
 
     /**
      * Remove the specified resource from storage.
