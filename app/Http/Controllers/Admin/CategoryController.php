@@ -47,12 +47,12 @@ class CategoryController extends Controller
                 ->paginate(50); 
             }         
 
-              $term_groups=DB::table('term_taxonomy')
-                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-                ->where('term_taxonomy.taxonomy','term_group')
-                ->select('term_taxonomy.*','terms.name','terms.status')
-                ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-                ->get(); 
+            $term_groups=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','term_group')
+            ->select('term_taxonomy.*','terms.name','terms.status')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->get(); 
 
             return view('admin.category.list',compact('categories','term_groups'))->with($extraInfo);
         }
@@ -81,7 +81,8 @@ class CategoryController extends Controller
          $this->validate($request,[
             'categoryName'=>'required|min:3',
         ]);    
-         if($request->term_group==1){
+
+         if($request->manageTrem=='on'){
             $termInfo=array(
              'name'=>$request->categoryName,
              'status'=>$request->status,
@@ -150,12 +151,12 @@ class CategoryController extends Controller
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->paginate(3);
 
-     $term_groups=DB::table('term_taxonomy')
-            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-            ->where('term_taxonomy.taxonomy','term_group')
-            ->select('term_taxonomy.*','terms.name','terms.status')
-            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-            ->get(); 
+        $term_groups=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','term_group')
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->get(); 
 
         return view('admin.category.list',compact('categories','category','term_groups'))->with($extraInfo);
     }
@@ -173,18 +174,39 @@ class CategoryController extends Controller
        if($request->user()->can('create-category')) {     
         $this->validate($request,[
             'categoryName'=>'required|min:3',
-        ]);    
-        $termInfo=array(
+        ]);   
+
+        if($request->manageTrem=='on'){
+            $term_group=0;
+            $taxonomy='term_group';
+        }
+        else{
+           $term_group=$request->term_group;
+            $taxonomy='product_cat';
+       }
+       $termInfo=array(
          'name'=>$request->categoryName,
          'status'=>$request->status,
+         'term_group'=>$term_group,
          'slug'=>Str::slug($request->categoryName)
      );
-        $term=DB::table('terms')
-        ->where('term_id',$id)
-        ->update($termInfo);
-        session()->flash("success","Information Update Successfully");
-        return redirect(route('category.index'));
-    }
+       $term=DB::table('terms')
+       ->where('term_id',$id)
+       ->update($termInfo);
+
+
+
+       $termTexonomyInfo=array(              
+        'taxonomy'=>$taxonomy           
+     );
+       $term=DB::table('term_taxonomy')
+       ->where('term_id',$id)
+       ->update($termTexonomyInfo);
+
+
+       session()->flash("success","Information Update Successfully");
+       return redirect(route('category.index'));
+   }
 }
 
     /**
