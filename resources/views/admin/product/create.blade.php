@@ -56,19 +56,19 @@
                       <div class="form-group row">
                         <label for="regular_price" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
                         <div class="col-sm-10">
-                          <input type="text" name="regular_price" class="form-control" id="regular_price" value="{{old('regular_price')}}" placeholder="Regular Price">
+                          <input type="number" name="regular_price" class="form-control" id="regular_price" value="{{old('regular_price')}}" placeholder="Regular Price">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="sale_price" class="col-sm-2 col-form-label">Sale Price (৳ )</label>
                         <div class="col-sm-10">
-                          <input type="text" name="sale_price" class="form-control" id="sale_price" value="{{old('sale_price')}}" placeholder="Sale Price">
+                          <input type="number" name="sale_price" class="form-control" id="sale_price" value="{{old('sale_price')}}" placeholder="Sale Price">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="stock" class="col-sm-2 col-form-label">Purchase Price</label>
                         <div class="col-sm-10">
-                          <input type="text" name="product_stock" class="form-control" id="stock" value="{{old('product_stock')}}" placeholder="Purchase Price">
+                          <input type="number" name="product_stock" class="form-control" id="stock" value="{{old('product_stock')}}" placeholder="Purchase Price">
                         </div>
                       </div>
                     </div>
@@ -89,14 +89,14 @@
                       <div class="form-group row" id="stockQualityDiv" style="display:none">
                         <label for="stockQuality" class="col-sm-4 col-form-label">Stock Quantity</label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" value="0" name="stockQuality" id="stockQuality">
+                          <input type="number" class="form-control" value="0" name="stockQuality" id="stockQuality">
                         </div>
                       </div>
                       <div class="form-group row" id="lowStockThresholdDiv" style="display:none">
                         <label for="lowStockThreshold" class="col-sm-4 col-form-label">Low stock threshold
                         </label>
                         <div class="col-sm-8">
-                          <input type="text" class="form-control" value="0" name="lowStockThreshold" id="lowStockThreshold">
+                          <input type="number" class="form-control" value="0" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                       </div>
 
@@ -256,8 +256,6 @@
       </form>
       <!-- /.col -->
     </div>
-
-
     <!-- /.row -->
 </div><!-- /.container-fluid -->
 </section>

@@ -533,7 +533,7 @@ public function stock(Request $request)
   $products=DB::table('posts')
   ->where('post_type','product')
   ->where('post_status','!=','deleted')
-  ->paginate(10);
+  ->get();
 
   $data=Post::
   where('post_type','product')

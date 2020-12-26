@@ -57,20 +57,23 @@
                       <div class="form-group row">
                         <label for="regular_price" class="col-sm-2 col-form-label">Regular Price (৳ )</label>
                         <div class="col-sm-10">
-                          <input type="text" name="regular_price" class="form-control" value="@if(isset($regular_price->meta_value)) {{$regular_price->meta_value}} @else 0 @endif" id="regular_price" placeholder="Regular Price">
+                          @if(isset($regular_price->meta_value)) @php $rp=(int) $regular_price->meta_value; @endphp @else @php $rp=(int) 0; @endphp @endif
+                          <input type="number" name="regular_price" class="form-control" value="{{$rp}}" id="regular_price" placeholder="Regular Price">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="sale_price" class="col-sm-2 col-form-label">Sale Price (৳ )</label>
                         <div class="col-sm-10">
-                          <input type="text" name="sale_price" value="@if(isset($sale_price->meta_value)) {{$sale_price->meta_value}} @else 0 @endif" class="form-control" id="sale_price" placeholder="Sale Price">
+                           @if(isset($sale_price->meta_value)) @php $sp=(int) $sale_price->meta_value; @endphp @else @php $sp=(int) 0; @endphp @endif
+                          <input type="number" name="sale_price" value="{{$sp}}" class="form-control" id="sale_price" placeholder="Sale Price">
                         </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="stock" class="col-sm-2 col-form-label">Purchase Price</label>
                         <div class="col-sm-10">
-                          <input type="text" name="product_stock" value="@if(isset($stock->meta_value)){{$stock->meta_value}} @else 0 @endif" class="form-control" id="stock" placeholder="Cost" required>
+                           @if(isset($stock->meta_value)) @php $pp=(int) $stock->meta_value; @endphp @else @php $pp=(int) 0; @endphp @endif
+                          <input type="number" name="product_stock" value="{{$pp}}" class="form-control" id="stock" placeholder="Cost" required>
                         </div>
                       </div>
                     </div>
@@ -115,8 +118,8 @@
                                       @endforeach
                                       @if(isset($llow_stock)) @php $llow_stock=$llow_stock->meta_value; @endphp @endif
                                   </td>
-                                    <td><input type="text" class="form-control" name="stock[]" value="{{$stock->meta_value}}" autocomplete="off"></td>
-                                    <td> <input type="text" class="form-control" name="low_stock[]" value="{{$llow_stock}}" autocomplete="off"></td>
+                                    <td><input type="number" class="form-control" name="stock[]" value="{{$stock->meta_value}}" autocomplete="off"></td>
+                                    <td> <input type="number" class="form-control" name="low_stock[]" value="{{$llow_stock}}" autocomplete="off"></td>
                                       <input type="hidden" name="post_id[]" value="{{$a->post_id}}">
                                 </tr>
                                 @endforeach
@@ -133,7 +136,7 @@
                             <div class="col-sm-8">
                               @php $qtyy=0; @endphp
                               @if(isset($qty)) @php $qtyy=$qty->meta_value; @endphp @endif
-                              <input type="text" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
+                              <input type="number" class="form-control" value="{{$qtyy}}" name="stockQuality" id="stockQuality">
                             </div>
                           </div> 
 
@@ -144,7 +147,7 @@
                         <div class="col-sm-8">
                           @php $al_qty=0; @endphp
                           @if(isset($alert_qty)) @php $al_qty=$alert_qty->meta_value; @endphp @endif
-                          <input type="text" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
+                          <input type="number" class="form-control" value="{{$al_qty}}" name="lowStockThreshold" id="lowStockThreshold">
                         </div>
                        </div>
 

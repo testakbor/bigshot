@@ -160,7 +160,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{$products->links()}}
+                      
                     </div>
                     <div class="row">
                         <div class="col-lg-4 col-sm-5">

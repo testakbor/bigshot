@@ -27,6 +27,7 @@ class QuickReportController extends Controller
   {
 
    if($request->user()->can('quick-report')) {
+     
     $extraInfo=array(
       'title'=>"Quick Report",
       'page'=>'quickReport'
@@ -215,17 +216,10 @@ class QuickReportController extends Controller
 
 
     // stock condition start
-    $d=DB::table('postmeta')
-    ->where(['meta_key'=>'default_qty'])
-    ->where('meta_value','>',0)
-    ->sum('meta_value'); 
-    
-    $a=DB::table('postmeta')
-    ->where(['meta_key'=>'attribute_stock'])
-    ->where('meta_value','>',0)
-    ->sum('meta_value');
-
-    $product_total_stock=$d+$a; 
+      $products=DB::table('posts')
+  ->where('post_type','product')
+  ->where('post_status','!=','deleted')
+  ->get();
      // stock condition end 
 
     $d_data=Post::
@@ -370,7 +364,7 @@ class QuickReportController extends Controller
         'day_four_dispatch_order',
         'all_dispatch_order',
         'stcokMove',
-        'product_total_stock',
+        'products',
         'product',
         'pro',
         'delivered_qty',

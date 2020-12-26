@@ -236,7 +236,61 @@ use Carbon\Carbon; ?>
             <div class="col-md-1 box ml-3 todayBg d-flex justify-content-center flex-column" >
                 <a href="{{url('admin/stock')}}">
                     <div class="reportDayText">Pieces </div>
-                    <div class="reportDayValue">{{$product_total_stock}}</div>
+                    <div class="reportDayValue">
+                    
+                    
+                   <!-- stock start -->
+                    
+                       @php $tot_costt=0;$tot_selll=0; $tott_qtyy=0; $qty=0; $i=0; $price=0; $sprice=0; $sku=''; $total_sell_price=0; $cost=0; $img='';
+                                @endphp
+                                @foreach($products as $item)
+                                @php $product_info=DB::table('postmeta')->where('post_id',$item->ID)->get();
+                                @endphp
+                                @foreach($product_info as $info)
+                                @if($info->meta_key=='default_qty')
+                                @php $qty=$info->meta_value; @endphp
+                                @endif
+                                @endforeach 
+                                   @php 
+                                        $lists=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$item->ID)
+                                        ->where('meta_key','attribute')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->select('meta_value','post_id')
+                                        ->get();
+                                         @endphp
+                                                @php $i=0; @endphp 
+                                                            @foreach($lists as $a) 
+                                                                @php 
+                                                                $i++;
+                                                                @endphp
+                                                            @endforeach 
+                                @if($i>0) 
+                                        @php $qty=DB::table('posts')
+                                        ->where('post_type','product_varient')
+                                        ->where('post_parent',$item->ID)
+                                        ->where('meta_key','attribute_stock')
+                                        ->join('postmeta','posts.ID','=','postmeta.post_id')
+                                        ->sum('meta_value'); @endphp @php $main_qty=$qty; @endphp  @else @php $main_qty=$qty; @endphp @endif  @php $main_qty; $tott_qtyy+=$main_qty; @endphp
+
+
+
+                        @endforeach 
+                        {{$tott_qtyy}}
+                    <!-- stock end -->
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    </div>
                 </a>
             </div>
 

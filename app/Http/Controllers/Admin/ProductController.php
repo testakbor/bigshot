@@ -105,7 +105,8 @@ class ProductController extends Controller
     }
     }
 
-    public function store(ProductStoreRequest $request){ 
+    public function store(ProductStoreRequest $request){
+  
         if($request->user()->can('manage-product')) {
         $year=$request->year;
         $month=$request->month;
@@ -158,9 +159,10 @@ class ProductController extends Controller
         DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'start_stock','meta_value'=>$request->product_stock]);
     }
     if($request->valueName==null){
-    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'default_qty','meta_value'=>$request->stockQuality]);
+     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'default_qty','meta_value'=>$request->stockQuality]);
+     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
     }
-    DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'alert_qty','meta_value'=>$request->lowStockThreshold]);
+   
     if($request->product_sku==''){  
               $digits = 3;
               $rand=rand(pow(10, $digits-1), pow(10, $digits)-1);
@@ -201,7 +203,7 @@ class ProductController extends Controller
             }
 
         }
-//   //insert temp attribute data with post table and postmeta table
+     //insert temp attribute data with post table and postmeta table
         $post_insert_id=[];
         $all_temp_att=DB::table('temp_attribute_stock')->get(); 
         foreach($all_temp_att as $att){ 

@@ -75,7 +75,6 @@
                 @endforeach
                 @php 
                  $low_product_att=DB::SELECT("SELECT * FROM `postmeta` WHERE `meta_key` LIKE 'attribute_stock' AND post_id=$dp->post_id AND meta_value<=$alert_quantity");
-
                 @endphp
 
                 @foreach($low_product_att as $low)
@@ -87,7 +86,7 @@
                                   ->select('post_parent')
                                   ->first(); 
                                   $name=DB::table('posts')->where('ID',$parent->post_parent)->first(); 
-                                  @endphp  {{$name->post_title}}
+                                  @endphp @if(isset($name)) {{$name->post_title}} @endif
                                 
                                      @php 
                                         $lists=DB::table('postmeta')
