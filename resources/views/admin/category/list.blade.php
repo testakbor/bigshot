@@ -50,7 +50,7 @@
                         </div>
                       </div>
 
-                      @if($category->term_group==0):                      
+                      @if($category->term_group==0)           
                       <div class="form-group" id="term_group_div" style="display: none">
                       @else
                       <div class="form-group" id="term_group_div">
