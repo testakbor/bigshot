@@ -76,21 +76,20 @@ use App\Model\front\Order_item;
             <thead>
               <tr>
                 <th class="center">Oder Id</th>
-                <th>Customer</th>
-                <th class="center">Qty</th>
-                <th class="right">Address</th>
-                <th class="right">Mobile</th>
-                <th class="right">Delivery Charge</th>
-                <th class="right">Coupon</th>
+                <th>Cust.Details</th>
+                <th class="right">Sku</th>
+                <th class="right">Color</th>
+                <th class="right">Qty</th>
+                <th class="right">Item</th>
                 <th class="right">Amount</th>
-                <th class="right">Status</th>
                 <th class="right">Action</th>
-                <!-- <th class="right">Comments</th> -->
+                <th class="right">Comments</th>
               </tr>
             </thead>
             <tbody>
-            @php $customer=''; $address=''; $phone=''; $tot_delivery_chage=0;  @endphp
+            @php $customer=''; $address=''; $phone=''; $tot_delivery_chage=0; $skuu=''; $pic=''; $pro_name=''; $att=0; $qt=0; @endphp
             @foreach($orders as $key=>$items)
+          
                 @foreach ($items->orderItem as $orderMetas) 
                 @endforeach 
                 @foreach($items->productMeta as $info) 
@@ -108,22 +107,96 @@ use App\Model\front\Order_item;
                 @endforeach
                <tr>
                  <td>{{$items->ID}}</td>
-                 <td>{{$customer}}</td>
-                 <td>@php $qt=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qt}} </td>
-                 <td>{{$address}}</td>
-                 <td>{{$phone}}</td>
-                <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
+                 <td>
+                   {{$customer}}<br>
+                    {{$phone}}<br>
+                   {{$address}}
+                 </td>
+                  <td>
+                    @foreach($items->orderItem as $orderMetas) 
+                   @php 
+                                   $pic=DB::table('postmeta')->where('meta_key','attached_file')
+                                        ->where('post_id',$orderMetas->product_parent) 
+                                        ->first();
+                                            $skuu=DB::table('postmeta')->where('meta_key','_sku')
+                                  ->where('post_id',$orderMetas->product_parent) 
+                                  ->first();
+                                   @endphp              
+                    <table style="width:100%">
+                      <tr>
+                        <td>
+                             @if(isset($pic)) @php $im=$pic->meta_value; @endphp
+                                    <img src="{{asset('backend/products/'.$im)}}" width="50" height="50"><br>
+                                    @endif 
+                                    @if(isset($skuu)) {{$skuu->meta_value}}  @endif 
+                        </td>
+                      </tr>
+                    </table>
+                    @endforeach 
+                  </td>
+                  <td>
+                     @foreach($items->orderItem as $orderMetas) 
+                        @foreach($orderMetas->orderMeta as $value)
+                          @if($value->meta_key=='attribute_parent')
+                            @php $att=$value->meta_value; @endphp
+                          @endif
+                        @endforeach 
+                      <table style="width:100%">
+                      <tr>
+                        <td>
+                           @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                ->where('meta_key','attribute')->get(); 
+                             @endphp
+                             @foreach($list_att as $a)
+                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+                                       {{$da->taxonomy}} 
+                                       {{$da->term}}
+                                  @endforeach 
+                             @endforeach 
+                        </td>
+                      </tr>
+                    </table>
+                    @endforeach 
+                  </td>
+                  <td>
+                      @foreach($items->orderItem as $orderMetas) 
+                       @foreach($orderMetas->orderMeta as $value)
+                           @if($value->meta_key=='_qty')
+                            @php $qt=$value->meta_value; @endphp
+                          @endif
+                        @endforeach 
+                      <table style="width:100%">
+                      <tr>
+                        <td>{{$qt}}</td>
+                      </tr>
+                    </table>
+                     @endforeach 
+                  </td>
+                  <td>
+                      @foreach($items->orderItem as $orderMetas) 
+                      <table style="width:100%">
+                      <tr>
+                        <td>{{$orderMetas->order_item_name}}</td>
+                      </tr>
+                    </table>
+                    @endforeach 
+                  </td>
 
-                <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','coupon_taka')->first(); @endphp 
-               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}}</td>
+
+
+                 @php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif
+                 @php $coupon=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','coupon_taka')->first(); @endphp 
+                  @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif 
                  <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge-$c)}}</td>
-                 <td>On-hold</td>
                  <td>
                    <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm mb-1"> <i class="fas fa-print"> </i> Print</a><br>
                     <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary btn-sm  mb-1" ><i class="fas fa-spinner"> </i> Processing</a><br>
                   <a href="{{route('pending_order_edit',$items->ID)}}" class="btn btn-warning btn-sm  mb-1"> <i class="fas fa-edit"> </i> Edit</a><br>
                   <a onclick="return confirm('are you sure??')" href="{{route('pending_order_cancel',$items->ID)}}" class="btn btn-danger btn-sm"> <i class="fas fa-window-close"> </i> Cancel</a>
                  </td>
+                 <td></td>
                </tr>
             @endforeach
             </tbody>
