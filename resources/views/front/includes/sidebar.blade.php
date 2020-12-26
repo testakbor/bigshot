@@ -69,18 +69,33 @@
    
 
 <div class="sidenav position-fixed d-none d-xl-block ">
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#clients">Clients</a>
-  <a href="#contact">Contact</a>
-  <button class="dropdown-btn">Dropdown 
+  @php
+    $term_groups=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','term_group')
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->get(); 
+  
+  @endphp
+ @foreach($term_groups as $group)
+  <button class="dropdown-btn">{{$group->name}} 
     <i class="fa fa-caret-down"></i>
   </button>
   <div class="dropdown-container">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
+      @php 
+        $child=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','product_cat')
+        ->where('terms.term_group',$group->term_id)
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->get();
+         @endphp 
+         @foreach($child as $ch)
+            <a href="#">{{$ch->name}}</a>
+         @endforeach    
   </div>
-  <a href="#contact">Search</a>
+ @endforeach 
 </div>
 

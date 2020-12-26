@@ -158,6 +158,8 @@ class CategoryController extends Controller
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
         ->get(); 
 
+
+
         return view('admin.category.list',compact('categories','category','term_groups'))->with($extraInfo);
     }
 }

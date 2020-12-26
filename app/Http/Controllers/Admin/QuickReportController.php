@@ -129,26 +129,35 @@ class QuickReportController extends Controller
     ->whereBetween('post_modified',[date('Y-m-01 00:00:00'),date('Y-m-t 23:59:59')])
     ->count();
    // dispatch order condition start
-
-    
+     
     // * start product stock move *//
-
-    $starDate = \Carbon\Carbon::today()->subDays(7)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(14)->toDateString();
-
+    $starDate = \Carbon\Carbon::today()->subDays(1)->toDateString();
+    $endDate = \Carbon\Carbon::today()->subDays(7)->toDateString();
     $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-    $endDate=date('Y-m-d 23:59:59',strtotime($endDate)); 
-
-    $week1=DB::table('posts')
+    $endDate=date('Y-m-d 23:59:59',strtotime($endDate));
+    $week1_default=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
-    ->where('meta_key', 'qty')
+    ->where('meta_key', 'default_qty')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->get();
+    ->count();
 
-    $starDate = \Carbon\Carbon::today()->subDays(15)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(29)->toDateString();
+   
+     $week1_attribute=DB::table('posts')
+    ->where('post_type','product_varient')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'attribute_stock')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->count();
+
+    $total_week1=$week1_default+$week1_attribute;
+   
+
+
+    $starDate = \Carbon\Carbon::today()->subDays(8)->toDateString();
+    $endDate = \Carbon\Carbon::today()->subDays(14)->toDateString();
 
     $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
     $endDate=date('Y-m-d 23:59:59',strtotime($endDate)); 
@@ -156,7 +165,7 @@ class QuickReportController extends Controller
     $week2=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
-    ->where('meta_key', 'qty')
+    ->where('meta_key', 'default_qty')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
     ->get();
@@ -171,10 +180,11 @@ class QuickReportController extends Controller
     $month1=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
-    ->where('meta_key', 'qty')
+    ->where('meta_key', 'default_qty')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
     ->get();
+
 
 
      $starDate = \Carbon\Carbon::today()->subDays(60)->toDateString();
@@ -207,7 +217,7 @@ class QuickReportController extends Controller
     ->get();
 
     $stcokMove=array(
-      'week1'=>count($week1),
+      'week1'=>$total_week1,
       'week2'=>count($week2),
       'month1'=>count($month1),
       'month2'=>count($month2),
