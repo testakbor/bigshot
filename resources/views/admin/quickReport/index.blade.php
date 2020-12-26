@@ -23,6 +23,7 @@ use Carbon\Carbon; ?>
         text-align:center;
         font-weight:bold;
         color:white;
+        font-size: 0.8rem;
     }
     .reportDayText{
         text-align:center;
@@ -68,7 +69,7 @@ use Carbon\Carbon; ?>
     </section>
     <div class="mt-5 mb-5 ml-3">
         <div class="d-flex flex-row ml-2 flex-wrap">
-            <div class="col-md-1 ml-3 reportTitleBg d-flex align-items-center box pl-3 pr-3" >
+            <div class="col-md-1 ml-3 reportTitleBg d-flex justify-content-center align-items-center box pl-2 pr-2 text-center" >
 
                 <div class="reportText">Pending Order</div>
 
@@ -112,7 +113,7 @@ use Carbon\Carbon; ?>
 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
 
-            <div class="col-md-1 ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3 box" >
+            <div class="col-md-1 ml-3 reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center box" >
                 <div class="reportText">Processing</div>
             </div>
 
@@ -149,7 +150,7 @@ use Carbon\Carbon; ?>
 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
 
-            <div class="ml-3 col-md-1 reportTitleBg d-flex align-items-center pl-3 pr-3 box" href="#">
+            <div class="ml-3 col-md-1 reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center box" href="#">
                 <div class="reportText">Dispatch</div>
             </div>
 
@@ -185,7 +186,7 @@ use Carbon\Carbon; ?>
         </div>
 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-            <div class="col-md-1 ml-3 box reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
+            <div class="col-md-1 ml-3 box reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center" >                 
                 <div class="reportText">Stock Moving</div>
             </div>
 
@@ -229,7 +230,7 @@ use Carbon\Carbon; ?>
 
         </div>
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-            <div class="col-md-1 ml-3 box reportTitleBg d-flex align-items-center pl-3 pr-3">
+            <div class="col-md-1 ml-3 box reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center">
                 <div class="reportText">Stock</div>
             </div>
 
@@ -287,7 +288,7 @@ use Carbon\Carbon; ?>
             @endif
             @endforeach 
 
-            <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+            <div class="col-md-1 box ml-3 reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center" >
                 <div class="reportText">Lower Stock</div>
              
             </div>
@@ -332,7 +333,7 @@ use Carbon\Carbon; ?>
             </div>
         </div> 
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
-            <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >                 
+            <div class="col-md-1 box ml-3 reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center" >                 
                 <div class="reportText">Sold Out</div>
             </div>
        
@@ -370,7 +371,7 @@ use Carbon\Carbon; ?>
         </div>
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
 
-            <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+            <div class="col-md-1 box ml-3 reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center" >
                 <div class="reportText">Best Selling</div>
             </div>
 
@@ -401,7 +402,7 @@ use Carbon\Carbon; ?>
         <div class="d-flex flex-row ml-2 mt-2 flex-wrap">
 
 
-            <div class="col-md-1 box ml-3  reportTitleBg d-flex align-items-center pl-3 pr-3" >
+            <div class="col-md-1 box ml-3  reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center" >
                 <div class="reportText">Delivered</div>
             </div>
 
@@ -435,7 +436,7 @@ use Carbon\Carbon; ?>
             </div>
         </div>   
         <div class=" d-flex flex-row ml-2 mt-2 flex-wrap">
-            <div class="col-md-1 box ml-3 reportTitleBg d-flex align-items-center pl-3 pr-3" >
+            <div class="col-md-1 box ml-3 reportTitleBg d-flex justify-content-center align-items-center pl-2 pr-2 text-center" >
                 <div class="reportText">Gross Profit</div>
             </div>
 
