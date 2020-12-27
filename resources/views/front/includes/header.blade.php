@@ -14,7 +14,7 @@
       display: none;
       position: absolute;
       background-color: #f1f1f1;
-      
+
       box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
       z-index: 1;
     }
@@ -96,7 +96,7 @@
    min-width: 0rem !important; 
  }
  .dropdown-item {
-   
+
   padding: .25rem 0.5rem;
   border-top: 1px solid;
   /*width: 125px;*/
@@ -159,15 +159,15 @@
      @endif  
    </a>  
    <a class="float-right mr-2 mt-2" href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart" aria-hidden="true"></i>
-    
-    
+
+
     @if(Auth::check()) 
     @php $wish=DB::table('wishlist')->where('user_id',auth()->user()->id)->count(); @endphp 
     @if($wish>0)
     <span class="badge badge-light"> {{$wish}} </span> 
     @endif 
     @endif 
-    
+
   </a>
   <a class="float-right mr-2 mt-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -350,7 +350,7 @@
               <img src="{{asset('assets/front/user/'.$img->meta_value)}}" style="border-radius: 50%; width:30px; height: 30px;">
               @endif
             </a>
-            
+
             <div class="dropdown-menu dropdown-large">
               <a class="shadow dropdown-item " style="width: 125px; " href="{{url('profile')}}"><i class="demo fa fa-user ml-1" aria-hidden="true"></i> Profile</a>
               <a class="shadow-lg dropdown-item" style="width: 125px; " href="{{url('wishlist')}}"><i style="color:#000000"  class="demo fa fa-heart ml-1" aria-hidden="true"></i> Wishlist</a>
@@ -429,7 +429,7 @@
         <div class="dropdown-menu">
          @foreach($child2 as $child3)   
          <div><a class="dropdown-item" href="{{route('category.product',$child3->term_id)}}">{{$child3->name}}</a></div>
-         
+
          @endforeach           
        </div>
      </div>
@@ -472,7 +472,7 @@
    ->get();
    @endphp
    @foreach($tags as $tag)  
-   <div class="ml-2 text-nowrap d-inline-block w-180"><a href="" style="color: black;text-decoration: none">{{strtoupper($tag->name)}}</a></div> 
+
    @php 
    $child1 = DB::table('term_taxonomy')
    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -483,7 +483,7 @@
    ->get();
    @endphp  
    @foreach($child1 as $child)
-   <div class="ml-2 text-nowrap d-inline-block w-180"><a href="" style="color: black;text-decoration: none">{{$child->name}}</a></div>
+  
    @php 
    $child2 = DB::table('term_taxonomy')
    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
