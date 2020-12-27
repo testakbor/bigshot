@@ -49,7 +49,8 @@ class CategoryController extends Controller
 
             $term_groups=DB::table('term_taxonomy')
             ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-            ->where('term_taxonomy.taxonomy','term_group')
+            ->where('term_taxonomy.taxonomy','product_cat')
+            ->where('terms.term_group',0)
             ->select('term_taxonomy.*','terms.name','terms.status')
             ->orderBy('term_taxonomy.term_taxonomy_id','desc')
             ->get(); 
@@ -68,6 +69,19 @@ class CategoryController extends Controller
         //
     }
 
+
+    public function getGroup($id){
+       $term_groups=DB::table('term_taxonomy')
+       ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+       ->where('term_taxonomy.taxonomy','product_cat')
+       ->where('terms.term_group',$id)
+       ->select('term_taxonomy.*','terms.name','terms.status')
+       ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+       ->get(); 
+       echo json_encode($term_groups);
+
+   }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -76,45 +90,41 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {      
-
         if($request->user()->can('create-category')) {
-         $this->validate($request,[
+           $this->validate($request,[
             'categoryName'=>'required|min:3',
         ]);    
 
-         if($request->manageTrem=='on'){
-            $termInfo=array(
-             'name'=>$request->categoryName,
-             'status'=>$request->status,
-             'slug'=>Str::slug($request->categoryName)
-         );
-            $term=DB::table('terms')->insertGetId($termInfo);
+           if($request->term_group==0){
+               $term_group=0;
+           }
+           else{
 
-            $termTexonomyInfo=array(
-             'term_id'=>$term,
-             'taxonomy'=>'term_group',
-             'description'=>'',
-         );
-            $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
-        }else{
-            $termInfo=array(
-             'name'=>$request->categoryName,
-             'status'=>$request->status,
-             'term_group'=>$request->term_group,
-             'slug'=>Str::slug($request->categoryName)
-         );
-            $term=DB::table('terms')->insertGetId($termInfo);
+             if($request->group==0){
+              $term_group=$request->term_group;
+          }
+          else{
+              $term_group=$request->group;
+          }
+      }
+      $termInfo=array(
+       'name'=>$request->categoryName,
+       'status'=>$request->status,
+       'term_group'=>$term_group,
+       'slug'=>Str::slug($request->categoryName)
+   );
+      $term=DB::table('terms')->insertGetId($termInfo);
 
-            $termTexonomyInfo=array(
-             'term_id'=>$term,
-             'taxonomy'=>'product_cat',
-             'description'=>'',
-         );
-            $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
-        }
-        session()->flash("success","Information saved Successfully");
-        return redirect(route('category.index'));
-    }
+      $termTexonomyInfo=array(
+       'term_id'=>$term,
+       'taxonomy'=>'product_cat',
+       'description'=>'',
+   );
+      $term=DB::table('term_taxonomy')->insert($termTexonomyInfo);
+
+      session()->flash("success","Information saved Successfully");
+      return redirect(route('category.index'));
+  }
 }
 
     /**
@@ -136,7 +146,7 @@ class CategoryController extends Controller
      */
     public function edit($id,Request $request)
     {
-       if($request->user()->can('create-category')) {
+     if($request->user()->can('create-category')) {
         $extraInfo=array(
             'title'=>"Category Edit",
             'page'=>'category'
@@ -144,23 +154,49 @@ class CategoryController extends Controller
         $category=DB::table('terms')
         ->where('term_id',$id)
         ->first();
+
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
         ->where('term_taxonomy.taxonomy','product_cat')
         ->select('term_taxonomy.*','terms.name','terms.status')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->paginate(3);
+        ->paginate(10);
 
-        $term_groups=DB::table('term_taxonomy')
+
+        $all_term_groups=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','term_group')
-        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->where('term_taxonomy.taxonomy','product_cat')
+        ->where('terms.term_group',0)
+        ->select('term_taxonomy.*','terms.name','terms.status','terms.term_group')
         ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->get(); 
+        ->get();
 
+        $term_groups=false;
+        $groups=false;
+        if($category->term_group!=0){
+            $term_groups=DB::table('term_taxonomy')
+            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+            ->where('term_taxonomy.taxonomy','product_cat')
+            ->where('terms.term_id',$category->term_group)
+            ->select('term_taxonomy.*','terms.name','terms.status','terms.term_group')
+            ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+            ->first();
 
+            if($term_groups->term_group!=0){
+                $temp_term_group=$term_groups;
+                $groups=DB::table('term_taxonomy')
+                ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                ->where('term_taxonomy.taxonomy','product_cat')
+                ->where('terms.term_id',$term_groups->term_group)
+                ->select('term_taxonomy.*','terms.name','terms.status','terms.term_group')
+                ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+                ->first();
+                $term_groups=$groups;
+                $groups=$temp_term_group;
+            }
+        }
 
-        return view('admin.category.list',compact('categories','category','term_groups'))->with($extraInfo);
+        return view('admin.category.list',compact('categories','category','term_groups','groups','all_term_groups'))->with($extraInfo);
     }
 }
 
@@ -173,42 +209,38 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {  
-       if($request->user()->can('create-category')) {     
+     if($request->user()->can('create-category')) {     
         $this->validate($request,[
             'categoryName'=>'required|min:3',
         ]);   
-
-        if($request->manageTrem=='on'){
-            $term_group=0;
-            $taxonomy='term_group';
-        }
-        else{
-           $term_group=$request->term_group;
-            $taxonomy='product_cat';
+        if($request->term_group==0){
+           $term_group=0;
        }
-       $termInfo=array(
-         'name'=>$request->categoryName,
-         'status'=>$request->status,
-         'term_group'=>$term_group,
-         'slug'=>Str::slug($request->categoryName)
-     );
-       $term=DB::table('terms')
-       ->where('term_id',$id)
-       ->update($termInfo);
+       else{
+
+         if($request->group==0){
+          $term_group=$request->term_group;
+      }
+      else{
+          $term_group=$request->group;
+      }
+  }
+  
+  $termInfo=array(
+   'name'=>$request->categoryName,
+   'status'=>$request->status,
+   'term_group'=>$term_group,
+   'slug'=>Str::slug($request->categoryName)
+);
+  $term=DB::table('terms')
+  ->where('term_id',$id)
+  ->update($termInfo);
 
 
 
-       $termTexonomyInfo=array(              
-        'taxonomy'=>$taxonomy           
-     );
-       $term=DB::table('term_taxonomy')
-       ->where('term_id',$id)
-       ->update($termTexonomyInfo);
-
-
-       session()->flash("success","Information Update Successfully");
-       return redirect(route('category.index'));
-   }
+  session()->flash("success","Information Update Successfully");
+  return redirect(route('category.index'));
+}
 }
 
     /**

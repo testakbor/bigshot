@@ -180,6 +180,9 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');
         Route::PATCH('admin/attributeValueUpdate/{id}','AttributeController@attributeValueUpdate')->name('attributeValue.update');
         Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
+
+        Route::get('admin/category/getType/{id}','CategoryController@getGroup')->name('category.getGroup');
+
         Route::POST('admin/product/store','ProductController@store')->name('product.store');
         // Route::get('admin/dispat','PageController@dispat')->name('dispat');
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');
