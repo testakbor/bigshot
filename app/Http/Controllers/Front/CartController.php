@@ -187,6 +187,21 @@ class CartController extends Controller {
 
     public function checkout(CheckoutValidateRequest $request) {
 
+        $dist_name=DB::table('term_taxonomy')
+         ->where('taxonomy','district')
+         ->where('terms.term_id',$request->state)
+        ->join('terms','terms.term_id','=', 'term_taxonomy.term_id')
+        ->first();
+       
+        $city_name=DB::table('term_taxonomy')
+         ->where('taxonomy','city')
+         ->where('terms.term_id',$request->city)
+        ->join('terms','terms.term_id','=', 'term_taxonomy.term_id')
+        ->first();
+        
+        $zip_code=$request->zip;
+
+
         if($request->coupon_taka==null){
            $coupon_taka=0;
         }else{
@@ -232,7 +247,7 @@ class CartController extends Controller {
                 'meta_value' => $request->state,
             ]);
         } else {
-            DB::table('usermeta')->where('user_id', $id)->where('meta_key', 'district')->delete();
+            DB::table('usermeta')->where('user_id', $id)->where('meta_key','district')->delete();
             DB::table('usermeta')->insert([
                 'user_id' => $id,
                 'meta_key' => 'district',
@@ -571,6 +586,39 @@ class CartController extends Controller {
             //   );
             //  DB::table('order_itemmeta')->insert($order_item_details);
             // }
+
+
+             $order_item_details = array(
+                'order_item_id' => $order_item_id,
+                'meta_key' => 'user_district',
+                'meta_value' => $dist_name->name,
+                'order_id' => $order_id,
+                'customer_id' => $id,
+                'order_date' => date('Y-m-d'),
+            );
+            DB::table('order_itemmeta')->insert($order_item_details);
+
+             $order_item_details = array(
+                'order_item_id' => $order_item_id,
+                'meta_key' => 'user_city',
+                'meta_value' => $city_name->name,
+                'order_id' => $order_id,
+                'customer_id' => $id,
+                'order_date' => date('Y-m-d'),
+            );
+            DB::table('order_itemmeta')->insert($order_item_details);
+
+            $order_item_details = array(
+                'order_item_id' => $order_item_id,
+                'meta_key' => 'user_zip',
+                'meta_value' => $zip_code,
+                'order_id' => $order_id,
+                'customer_id' => $id,
+                'order_date' => date('Y-m-d'),
+            );
+            DB::table('order_itemmeta')->insert($order_item_details);
+
+
         }
         if(Auth::check()){
           DB::table('user_cart')->where('user_id',auth()->user()->id)->delete();

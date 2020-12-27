@@ -462,7 +462,7 @@
            $tags = DB::table('term_taxonomy')
            ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
            ->where('term_taxonomy.taxonomy', 'product_cat')
-           ->where('terms.term_group','0')
+           ->where('terms.term_group','!=',0)
            ->where('terms.status',1)
            ->select('term_taxonomy.*', 'terms.name', 'terms.status')
            ->get();

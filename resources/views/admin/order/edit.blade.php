@@ -26,13 +26,21 @@
         <div class="col-md-12">
           <div class="card card-default">
             <div class="card-header bg-dark">
-              @php $skuu=''; $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; @endphp
+              @php $skuu=''; $address=''; $mobile_no=''; $check_out=''; $customer_ip=''; $shipping_address='';$shipping_city=''; $zip=''; $district=''; @endphp
               @foreach($order_info as $info)
               @if($info->meta_key=='phone')
               @php $mobile_no=$info->meta_value; @endphp
               @endif
               @if($info->meta_key=='address_one')
               @php $address=$info->meta_value; @endphp
+              @endif
+
+              @if($info->meta_key=='zip')
+              @php $zip=$info->meta_value; @endphp
+              @endif
+
+              @if($info->meta_key=='district')
+                @php $district=$info->meta_value; @endphp
               @endif
 
               @if($info->meta_key=='_sku')
@@ -55,7 +63,7 @@
 
 
               @if($info->meta_key=='_customer_user')
-              @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->first(); @endphp
+              @php $customer=$info->meta_value; $user=DB::table('users')->where('id',$customer)->first();  @endphp
               @endif
               @endforeach
               <h3 class="card-title" style="width: 100%">Order #{{$id}} details </h3>
@@ -79,7 +87,7 @@
                 </div>
               </div>
               <div>
-                <div class="font-weight-bold">Billing</div>
+                <div class="font-weight-bold">Customer Details</div>
                 <div class="mt-3">
                   @if(isset($user->name)){{$user->name}} @else Guest @endif <br>
                   {{$address}}
@@ -91,12 +99,20 @@
                 <div>{{$mobile_no}}</div>
               </div>
               <div>
-                <div class="font-weight-bold">Shipping</div>
+                <div class="font-weight-bold">Shipping  Address:</div>
                 <div class="mt-3">
-                  Address:{{$shipping_address}}<br>
+                   @php 
+                    $user_district=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','user_district')->first();
+                    $user_city=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','user_city')->first();
+                    $user_zip=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','user_zip')->first();
+                   @endphp
 
-                  City:{{$shipping_city}} <br>
-
+                   @if(isset($user_district))
+                   District: {{$user_district->meta_value}}<br>
+                   City: {{$user_city->meta_value}}<br>
+                   Zip: {{$user_zip->meta_value}}
+                   @endif 
+                
                 </div>
               </div>
 

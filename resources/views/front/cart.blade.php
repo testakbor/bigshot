@@ -135,7 +135,7 @@ $email=auth()->user()->email;
                                     class="requiredField">*</span></label>
                                     @if($name=='') @php @endphp @php $name='Guest'; @endphp @endif
                                     <input type="text" class="form-control" id="firstName" value="{{$name}}"
-                                    name="first_name" placeholder="First Name">
+                                    name="first_name" placeholder="First Name" readonly>
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
@@ -145,7 +145,7 @@ $email=auth()->user()->email;
                                         class="requiredField">*</span></label>
                                         @if($l_name=='') @php @endphp @php $l_name='Guest'; @endphp @endif
                                         <input type="text" class="form-control" id="lastName"
-                                        value="{{$l_name}}" name="last_name" placeholder="Last Name">
+                                        value="{{$l_name}}" name="last_name" placeholder="Last Name" readonly>
                                         <div class="invalid-feedback">
                                             Valid last name is required.
                                         </div>
@@ -172,7 +172,7 @@ $email=auth()->user()->email;
                                             @endif
                                             <label for="phone">Email<span class="requiredField">*</span></label>
                                             <input type="text" class="form-control" value="{{$email}}" name="email"
-                                            id="email" placeholder="Email">
+                                            id="email" placeholder="Email" readonly>
                                         </div>
 
                                         <div class="col-md-6 mb-3">
