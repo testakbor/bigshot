@@ -81,7 +81,6 @@ class PageController extends Controller
     }
     public function categoryProduct($id)
     {
-        $id=base64_decode($id);
         $data=DB::table('term_relationships')
         ->leftjoin('posts','term_relationships.object_id','=','posts.ID')
         ->where('term_taxonomy_id',$id)

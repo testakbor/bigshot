@@ -223,7 +223,7 @@ use Carbon\Carbon; ?>
                 </div>
             </a>
 
-            <a class="col-md-1 box ml-3  allStatus d-flex justify-content-center flex-column" href="{{url('admin/stock')}}">
+            <a class="col-md-1 box ml-3  allStatus d-flex justify-content-center flex-column" href="{{route('stockMove','all')}}">
                 <div class="reportDayText"> All</div>
                 <div class="reportDayValue"> {{ $stcokMove['week1']+$stcokMove['week2']+$stcokMove['month1']+$stcokMove['month2']+$stcokMove['month3']}}</div>
             </a>

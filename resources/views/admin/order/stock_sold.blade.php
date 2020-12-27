@@ -166,7 +166,34 @@
                     @endphp
                       <tr>
                       <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br>  Sku: {{$sku->meta_value}}</td>
-                      <td class="left strong">{{$name->post_title}}</td>
+                      <td class="left strong">{{$name->post_title}}
+                           @php 
+                          $lists=DB::table('postmeta')
+                          ->where('post_id',$apro->post_id)
+                          ->where('meta_key','attribute')
+                          ->select('meta_value','post_id')
+                          ->get();
+                          @endphp
+                              <table class="table table-responsive">
+                                                          <tbody>
+                                                            @php $i=0; @endphp 
+                                                            @foreach($lists as $a) 
+                                                                @php 
+                                                                $i++;
+                                                                $attribute=json_decode($a->meta_value);
+                                                                @endphp
+                                                                    <tr>
+                                                                    <td>
+                                                                        @foreach($attribute as $att)
+                                                                        <b> {{$att->taxonomy}}</b> :
+                                                                        {{$att->term}}      
+                                                                        @endforeach
+                                                                    </td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                       </table>
+                      </td>
                 
                       <td class="right">0</td>
                       <td class="right">{{number_format($cost->meta_value)}} tk</td>

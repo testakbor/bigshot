@@ -76,12 +76,12 @@ table {
                                             <th>Item</th>
                                             <th>Price</th>
                                             <th>Qty</th>
-                                            <th>Delivery Charge</th>
-                                            <th>Total</th>
+                                            <th>Sub Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @php
+                                        $total_order_taka=0;
                                         $subtotal=0;
                                         $qty=0;
                                         $total=0;
@@ -132,15 +132,14 @@ table {
                                             ->where('meta_key','sale_price')->first(); 
                                             @endphp @if(isset($price)) @php $p_price=$price->meta_value; @endphp @else @php $p_price=0; @endphp @endif {{number_format($p_price)}}</td>
                                             <td>{{$qty}}</td>
-                                            <td>@if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif  {{$charge}}</td>
-                                            <td>{{number_format($qty*$p_price+$charge)}}</td>
+                                            <td>{{number_format($qty*$p_price)}} @php $total_order_taka+=$qty*$p_price; @endphp</td>
                                         </tr>
-                                        @php
-                                        $grandTotal +=$subtotal;
-                                        $grandLinetotal +=$total;
-                                        @endphp
                                         @endforeach
+                                     
+                                        @if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif  {{$charge}}
+                                       
                                     </tbody>
+                                       <h4> Total Order: {{number_format($total_order_taka+$charge)}}</h4>
                                 </table>
                             </div>
 

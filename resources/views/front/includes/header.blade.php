@@ -424,7 +424,7 @@
                 @endphp
                 <div class="dropdown-menu">
                    @foreach($child2 as $child3)   
-                   <div><a class="dropdown-item" href="#">{{$child3->name}}</a></div>
+                   <div><a class="dropdown-item" href="{{route('category.product',$child3->term_id)}}">{{$child3->name}}</a></div>
                    
                    @endforeach           
                </div>

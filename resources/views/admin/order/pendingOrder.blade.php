@@ -2,6 +2,11 @@
 
 use App\Model\front\Order_item;
 ?>
+<style>
+  li{
+    list-style: none;
+  }
+</style>
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;">
@@ -78,16 +83,15 @@ use App\Model\front\Order_item;
                 <th class="center">Oder Id</th>
                 <th>Cust.Details</th>
                 <th class="text-center">Item Details</th>
-                <th class="right">Amount</th>
+                <th class="right">Total Order</th>
                 <th class="right">Action</th>
               </tr>
             </thead>
             <tbody>
-            @php $customer=''; $address=''; $phone=''; $tot_delivery_chage=0; $skuu=''; $pic=''; $pro_name=''; $att=0; $qt=0; @endphp
+            @php $pro_name=''; $order_qty=0; $customer=''; $address=''; $phone=''; $tot_delivery_chage=0; $skuu=''; $pic=''; $pro_name=''; $att=0; $qt=0; @endphp
             @foreach($orders as $key=>$items)
-          
-                @foreach ($items->orderItem as $orderMetas) 
-                @endforeach 
+                @php $order_qty=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp
+                @php $pro_name=DB::table('order_items')->where('order_id',$items->ID)->select('order_item_name')->first(); @endphp 
                 @foreach($items->productMeta as $info) 
                      @if($info->meta_key=="first_name")
                          @php $customer=$info->meta_value; @endphp     
@@ -101,25 +105,24 @@ use App\Model\front\Order_item;
                          @php $phone=$info->meta_value;   @endphp                  
                       @endif 
                 @endforeach
-               <tr>
-                 <td>{{$items->ID}}</td>
+               <tr style="background: #ffffff;">
+                 <td>
+                   {{$items->ID}}
+                   <hr style="border: 0.1px solid black">
+                   {{date('d-m-y',strtotime($items->post_date))}}
+                  </td>
                  <td>
                    {{$customer}}<br>
                     {{$phone}}<br>
                    {{$address}}
                  </td>
                 <td>
-                     <table style="width:100%">
-                        <tr>
-                          <th>SKU</th>
-                          <th>Colour</th>
-                          <th>Qty</th>
-                          <th>Item </th>
-                        </tr>
+                                    <table style="width:100%">
+                    
                      @foreach($items->orderItem as $orderMetas) 
-                        <tr>
+                        <tr style="background: #ffffff;">
                           <td>
-                             @php 
+                                  @php 
                                    $pic=DB::table('postmeta')->where('meta_key','attached_file')
                                         ->where('post_id',$orderMetas->product_parent) 
                                         ->first();
@@ -133,6 +136,7 @@ use App\Model\front\Order_item;
                                     @if(isset($skuu)) {{$skuu->meta_value}}  @endif 
                           </td>
                           <td>
+
                              @foreach($orderMetas->orderMeta as $value)
                                 @if($value->meta_key=='attribute_parent')
                                   @php $att=$value->meta_value; @endphp
@@ -145,33 +149,28 @@ use App\Model\front\Order_item;
                              @foreach($list_att as $a)
                               @php $data_att=json_decode($a->meta_value); @endphp 
                                   @foreach($data_att as $da)
-                                       {{$da->taxonomy}} :
-                                       {{$da->term}}
+
+                                       -{{$da->term}}
                                   @endforeach 
-                             @endforeach 
-                          </td>
-                          <td>
+                             @endforeach <br> 
+                            <div class="mt-2"> 
                             @foreach($orderMetas->orderMeta as $value)
                               @if($value->meta_key=='_qty')
                                 @php $qt=$value->meta_value; @endphp
                               @endif
                             @endforeach 
-                           {{$qt}}
-                          </td>
-                          <td>
-                               @foreach($items->orderItem as $orderMetas) 
-                                 {{$orderMetas->order_item_name}}
-                               @endforeach 
+                           Qty-{{$qt}} <br>
+                           {{$orderMetas->order_item_name}}
+                            </div>
                           </td>
                         </tr>
                      @endforeach
-
                       </table>
                 </td>
                  @php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif
                  @php $coupon=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','coupon_taka')->first(); @endphp 
                   @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif 
-                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge-$c)}}</td>
+                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge-$c)}} tk <br> {{$order_qty}} Pcs</td>
                  <td>
                    <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm mb-1"> <i class="fas fa-print"> </i> Print</a><br>
                     <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary btn-sm  mb-1" ><i class="fas fa-spinner"> </i> Processing</a><br>

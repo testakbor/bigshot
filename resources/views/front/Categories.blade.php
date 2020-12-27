@@ -6,10 +6,6 @@
 		<div class="col-md-10 ">
 			<div class="container-fluid">
 				<section style="margin-left: 120px" class="mt-5">
-        @if(isset($banner))
-					@if($banner->meta_key=='banner_image') @php $img=$banner->meta_value; @endphp @endif
-              <img src="{{asset('backend/banner/'.$img)}}" width="1267" class="img-fluid" alt="Responsive image">
-          @endif 
           @if($data->count()>0)
 						<ul class="wrapper cf mt-3">
                 @php
@@ -23,7 +19,7 @@
                    @if($info->meta_key=='attached_file') @php $img=$info->meta_value @endphp @endif 
                 @endforeach
                     <li class="product fl-l">
-                      <a href="{{route('product-page',$item->ID)}}">
+                      <a href="">
                         <div class="container-prod">
                           <div class="image" style="background-image:url({{asset('backend/products/'.$img)}})"></div>
                           <div class="container-information">
@@ -35,9 +31,6 @@
                             </div>
                           </div>
                           <div class="buttons cf">
-                            <!-- <span style="margin-left: 3px;font-size: 12px;">
-                              <span class="add ml-2">20,000+ bought this</span>
-                            </span> -->
                           </div>
                         </div>
                       </a>

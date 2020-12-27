@@ -545,60 +545,68 @@ public function stock(Request $request)
 }
 
 public function stockMove($day)
-{       
-  if($day==7){    
-   $starDate = \Carbon\Carbon::today()->subDays(7)->toDateString();
-   $endDate = \Carbon\Carbon::today()->subDays(14)->toDateString();
-  }
-  if($day==15){    
-   $starDate = \Carbon\Carbon::today()->subDays(15)->toDateString();
-   $endDate = \Carbon\Carbon::today()->subDays(29)->toDateString();
-  }
-  if($day==30){    
-   $starDate = \Carbon\Carbon::today()->subDays(30)->toDateString();
-   $endDate = \Carbon\Carbon::today()->subDays(59)->toDateString();
-  } 
-  if($day==60){    
-   $starDate = \Carbon\Carbon::today()->subDays(60)->toDateString();
-   $endDate = \Carbon\Carbon::today()->subDays(90)->toDateString();
-  }
-  if($day==90){    
-   $starDate = \Carbon\Carbon::today()->subDays(90)->toDateString();
-   $endDate = \Carbon\Carbon::today()->subDays(120)->toDateString();
-  }
-
-   $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-   $endDate=date('Y-m-d 23:59:59',strtotime($endDate));
+{   
 
   $extraInfo=array(
     'title'=>"Stock List",
     'page'=>'stock'
-  ); 
+  );     
+  if($day==7){    
+     $starDate=date('Y-m-d H:i:s');
+     $endDate=date('Y-m-d H:i:s',strtotime('-1 week'));
+  }
+  if($day==15){    
+      $starDate =date('Y-m-d H:i:s',strtotime('-1 week'));
+    $endDate = date('Y-m-d H:i:s',strtotime('-2 week'));   
+  }
+  if($day==30){    
+    $starDate = date('Y-m-d H:i:s',strtotime('-2 week')); 
+    $endDate = date('Y-m-d H:i:s',strtotime('-1 month')); 
+  } 
+  if($day==60){    
+     $starDate = date('Y-m-d H:i:s',strtotime('-1 month')); 
+    $endDate = date('Y-m-d H:i:s',strtotime('-2 month')); 
+  }
+  if($day==90){    
+   $starDate = date('Y-m-d H:i:s',strtotime('-2 month'));
+    $endDate = date('Y-m-d H:i:s',strtotime('-3 month'));  
+  }
+   if($day=='all'){    
+     $default=Post::
+     where('post_type','product')
+    ->where('meta_key', 'default_qty')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->get();
+     $attribute=DB::table('posts')
+    ->where('post_type','product_varient') 
+    ->where('meta_key', 'attribute_stock')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->get();
+     return view('admin.order.stockMove',compact('default','attribute'))->with($extraInfo);
+  }else{
+ $default=Post::
+     where('post_type','product')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'default_qty')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->get();
+     $attribute=DB::table('posts')
+    ->where('post_type','product_varient')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'attribute_stock')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->get();
+    return view('admin.order.stockMove',compact('default','attribute'))->with($extraInfo);
+  }
+  
 
-  $products=DB::table('posts')
-  ->where('post_type','product')
-  ->whereBetween('post_date', [$endDate,$starDate])  
-  ->where('meta_key', 'qty')
-  ->where('meta_value','>',0)
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->paginate(10);
-
-
-  $data=Post::
-  where('post_type','product')
-  ->whereBetween('post_date', [$endDate,$starDate])  
-  ->where('meta_key', 'qty')
-  ->where('meta_value','>',0)
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->get();
-
-  $product_total_stock=DB::table('posts')
-  ->whereBetween('post_date', [$endDate,$starDate])  
-  ->where('meta_key', 'qty')
-  ->where('meta_value','>',0)
-  ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-  ->sum('meta_value'); 
-  return view('admin.order.stockMove',compact('products','data','product_total_stock'))->with($extraInfo);
+    
+  
+ 
 }
 
 public function soldStock(Request $request)
@@ -641,6 +649,8 @@ public function lowerStock(Request $request){
   return view('admin.order.stock_lower',compact('d_pro','a_pro'))->with($extraInfo);
   }
 }
+
+
 
 public function grossProfit()
 {    
@@ -738,8 +748,14 @@ public function grossProfit()
       $total_qty=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'_qty'])->sum('meta_value');
       $total_due=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'_line_subtotal'])->sum('meta_value');
       
-      $deliverycharge=DB::table('order_itemmeta')->where(['order_id'=>$id,'meta_key'=>'delivery_charge'])->sum('meta_value');
-      $total_due=$total_due+$deliverycharge;
+      $deliverycharge=DB::table('order_itemmeta')->where('order_id',$id)
+      ->where('meta_key','delivery_charge')->first();
+      if(isset($deliverycharge)){
+         $charge=$deliverycharge->meta_value;
+      }else{
+        $charge=0;
+      }
+      $total_due=$total_due+$charge;
       $customer_info=Postmeta::where('post_id',$id)->get();
 
       $pdf = PDF::loadView('admin.order.pendingOrder_print', array('total_qty' => $total_qty,'total_due'=>$total_due,'customer_info'=>$customer_info,'id'=>$id));

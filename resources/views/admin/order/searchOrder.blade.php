@@ -2,6 +2,11 @@
 
 use App\Model\front\Order_item;
 ?>
+<style>
+  li{
+    list-style: none;
+  }
+</style>
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper" style="min-height: 1203.6px;">
@@ -71,27 +76,22 @@ use App\Model\front\Order_item;
     <div class="card">
       <div class="card-body">
         <div class="table-responsive-sm">
-          <h5 class="text-center">Order List</h5>
+          <h5 class="text-center">Current Month Order List</h5>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th class="center">Oder Id</th>
-                <th>Customer</th>
-                <th class="center">Qty</th>
-                <th class="right">Address</th>
-                <th class="right">Mobile</th>
-                <th class="right">Delivery Charge</th>
-                <th class="right">Amount</th>
-                <th class="right">Status</th>
+                <th>Cust.Details</th>
+                <th class="text-center">Item Details</th>
+                <th class="right">Total Order</th>
                 <th class="right">Action</th>
-                <!-- <th class="right">Comments</th> -->
               </tr>
             </thead>
             <tbody>
-            @php $customer=''; $address=''; $phone=''; $tot_delivery_chage=0;  @endphp
+            @php $pro_name=''; $order_qty=0; $customer=''; $address=''; $phone=''; $tot_delivery_chage=0; $skuu=''; $pic=''; $pro_name=''; $att=0; $qt=0; @endphp
             @foreach($orders as $key=>$items)
-                @foreach ($items->orderItem as $orderMetas) 
-                @endforeach 
+                @php $order_qty=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp
+                @php $pro_name=DB::table('order_items')->where('order_id',$items->ID)->select('order_item_name')->first(); @endphp 
                 @foreach($items->productMeta as $info) 
                      @if($info->meta_key=="first_name")
                          @php $customer=$info->meta_value; @endphp     
@@ -105,15 +105,72 @@ use App\Model\front\Order_item;
                          @php $phone=$info->meta_value;   @endphp                  
                       @endif 
                 @endforeach
-               <tr>
-                 <td>{{$items->ID}}</td>
-                 <td>{{$customer}}</td>
-                 <td>@php $qt=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qt}} </td>
-                 <td>{{$address}}</td>
-                 <td>{{$phone}}</td>
-                <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge)}}</td>
-                 <td>On-hold</td>
+               <tr style="background: #ffffff;">
+                 <td>
+                   {{$items->ID}}
+                   <hr style="border: 0.1px solid black">
+                   {{date('d-m-y',strtotime($items->post_date))}}
+                  </td>
+                 <td>
+                   {{$customer}}<br>
+                    {{$phone}}<br>
+                   {{$address}}
+                 </td>
+                <td>
+                                    <table style="width:100%">
+                    
+                     @foreach($items->orderItem as $orderMetas) 
+                        <tr style="background: #ffffff;">
+                          <td>
+                                  @php 
+                                   $pic=DB::table('postmeta')->where('meta_key','attached_file')
+                                        ->where('post_id',$orderMetas->product_parent) 
+                                        ->first();
+                                            $skuu=DB::table('postmeta')->where('meta_key','_sku')
+                                  ->where('post_id',$orderMetas->product_parent) 
+                                  ->first();
+                                   @endphp 
+                                     @if(isset($pic)) @php $im=$pic->meta_value; @endphp
+                                    <img src="{{asset('backend/products/'.$im)}}" width="50" height="50"><br>
+                                    @endif 
+                                    @if(isset($skuu)) {{$skuu->meta_value}}  @endif 
+                          </td>
+                          <td>
+
+                             @foreach($orderMetas->orderMeta as $value)
+                                @if($value->meta_key=='attribute_parent')
+                                  @php $att=$value->meta_value; @endphp
+                                @endif
+                              @endforeach
+                              @php 
+                                $list_att=DB::table('postmeta')->where('post_id',$att)
+                                ->where('meta_key','attribute')->get(); 
+                             @endphp
+                             @foreach($list_att as $a)
+                              @php $data_att=json_decode($a->meta_value); @endphp 
+                                  @foreach($data_att as $da)
+
+                                       -{{$da->term}}
+                                  @endforeach 
+                             @endforeach <br> 
+                            <div class="mt-2"> 
+                            @foreach($orderMetas->orderMeta as $value)
+                              @if($value->meta_key=='_qty')
+                                @php $qt=$value->meta_value; @endphp
+                              @endif
+                            @endforeach 
+                           Qty-{{$qt}} <br>
+                           {{$orderMetas->order_item_name}}
+                            </div>
+                          </td>
+                        </tr>
+                     @endforeach
+                      </table>
+                </td>
+                 @php $delivery=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif
+                 @php $coupon=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','coupon_taka')->first(); @endphp 
+                  @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif 
+                 <td>@php $amount=DB::table('order_itemmeta')->where('order_id',$items->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($amount+$charge-$c)}} tk <br> {{$order_qty}} Pcs</td>
                  <td>
                    <a href="{{route('pending_order_print',$items->ID)}}" class="btn btn-success btn-sm mb-1"> <i class="fas fa-print"> </i> Print</a><br>
                     <a onclick="return confirm('are you sure??')" href="{{route('pending_order_processing',$items->ID)}}" class="btn btn-primary btn-sm  mb-1" ><i class="fas fa-spinner"> </i> Processing</a><br>
@@ -124,7 +181,7 @@ use App\Model\front\Order_item;
             @endforeach
             </tbody>
 </table>
-{{$orders->links()}}
+
 </div>
 
 <div class="row">
@@ -140,41 +197,33 @@ use App\Model\front\Order_item;
 <div class="container">
   <div class="row">
    <div class="col-md-4">
-    <div class="box bg-primary">
-      <!-- <i class="fa fa-lemon ml-1"></i> -->
-
-      <h3 class="text-center">{{ $total_orders}}</h3>
-
-      <p class="lead text-center font-weight-bold">Total Order</p>
+    <div class="box bg-primary card text-center font-weight-bold pt-2 pb-2 h5">
+      <div class="">{{ $total_orders}}</div>
+      <div class="">Total Order</div>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="box bg-success">
-      <!-- <i class="fa fa-user ml-1"></i> -->
-
-
-      <h3 class="text-center">{{$total_item}}</h3>
-
-      <p class="lead text-center font-weight-bold">Total Quantity</p>
+    <div class="box bg-success card text-center font-weight-bold pt-2 pb-2 h5">
+      <div >{{$total_item}}</div>
+      <div >Total Quantity</div>
     </div>
   </div>
   <div class="col-md-4">
-    <div class="box bg-info">
+    <div class="box bg-info card text-center font-weight-bold pt-2 pb-2 h5">
       <!-- <i class="fa fa-handshake ml-1"></i> -->
-
-
-      <h3 class="text-center">
-         @php $tot_d=0; @endphp
+         @php $tot_d=0; $tot_c=0; @endphp
          @foreach($or as $ors)
           @php 
             $d=DB::table('order_itemmeta')->where('order_id',$ors->ID)->where('meta_key','delivery_charge')->first(); 
+            $cc=DB::table('order_itemmeta')->where('order_id',$ors->ID)->where('meta_key','coupon_taka')->first(); 
           @endphp
           @if(isset($d)) @php $tot_d+=$d->meta_value; @endphp @endif
+          @if(isset($cc)) @php $tot_c+=$cc->meta_value; @endphp @endif
          @endforeach
-        {{number_format($total_amount+$tot_d)}}
-      </h3>
+        {{number_format($total_amount+$tot_d-$tot_c)}}
+ 
 
-      <p class="lead text-center font-weight-bold">Total Amount</p>
+      <div>Total Amount</div>
     </div>
   </div>
 </div>       
