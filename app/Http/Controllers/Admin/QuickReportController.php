@@ -131,10 +131,12 @@ class QuickReportController extends Controller
    // dispatch order condition start
      
     // * start product stock move *//
-    $starDate = \Carbon\Carbon::today()->subDays(1)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(7)->toDateString();
-    $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-    $endDate=date('Y-m-d 23:59:59',strtotime($endDate));
+  
+
+
+    // week one start
+    $starDate=date('Y-m-d H:i:s');
+    $endDate=date('Y-m-d H:i:s',strtotime('-1 week'));
     $week1_default=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
@@ -142,8 +144,6 @@ class QuickReportController extends Controller
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
     ->count();
-
-   
      $week1_attribute=DB::table('posts')
     ->where('post_type','product_varient')
     ->whereBetween('post_date', [$endDate,$starDate])  
@@ -151,77 +151,98 @@ class QuickReportController extends Controller
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
     ->count();
-
     $total_week1=$week1_default+$week1_attribute;
-   
+    // week one end 
 
-
-    $starDate = \Carbon\Carbon::today()->subDays(8)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(14)->toDateString();
-
-    $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-    $endDate=date('Y-m-d 23:59:59',strtotime($endDate)); 
-
-    $week2=DB::table('posts')
+    // week two start
+    $starDate =date('Y-m-d H:i:s',strtotime('-1 week'));
+    $endDate = date('Y-m-d H:i:s',strtotime('-2 week'));   
+    $week2_default=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
     ->where('meta_key', 'default_qty')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->get();
+    ->count();
+     $week2_attribute=DB::table('posts')
+    ->where('post_type','product_varient')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'attribute_stock')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->count();
+     $total_week2=$week2_default+$week2_attribute;
+    // week two end 
 
 
-    $starDate = \Carbon\Carbon::today()->subDays(30)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(59)->toDateString();
-
-    $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-    $endDate=date('Y-m-d 23:59:59',strtotime($endDate)); 
-
-    $month1=DB::table('posts')
+    //month one start
+    $starDate = date('Y-m-d H:i:s',strtotime('-2 week')); 
+    $endDate = date('Y-m-d H:i:s',strtotime('-1 month'));   
+    $month1_default=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
     ->where('meta_key', 'default_qty')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->get();
-
-
-
-     $starDate = \Carbon\Carbon::today()->subDays(60)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(90)->toDateString();
-
-    $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-    $endDate=date('Y-m-d 23:59:59',strtotime($endDate)); 
-
-    $month2=DB::table('posts')
-    ->where('post_type','product')
+    ->count();
+     $month1_attribute=DB::table('posts')
+    ->where('post_type','product_varient')
     ->whereBetween('post_date', [$endDate,$starDate])  
-    ->where('meta_key', 'qty')
+    ->where('meta_key', 'attribute_stock')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->get(); 
+    ->count();
+     $total_month1=$month1_default+$month1_attribute;
+    //month one end 
 
-
-    $starDate = \Carbon\Carbon::today()->subDays(90)->toDateString();
-    $endDate = \Carbon\Carbon::today()->subDays(120)->toDateString();
-
-    $starDate=date('Y-m-d 00:00:00',strtotime($starDate));
-    $endDate=date('Y-m-d 23:59:59',strtotime($endDate)); 
-
-    $month3=DB::table('posts')
+     //month two start
+    $starDate = date('Y-m-d H:i:s',strtotime('-1 month')); 
+    $endDate = date('Y-m-d H:i:s',strtotime('-2 month'));   
+    $month2_default=DB::table('posts')
     ->where('post_type','product')
     ->whereBetween('post_date', [$endDate,$starDate])  
-    ->where('meta_key', 'qty')
+    ->where('meta_key', 'default_qty')
     ->where('meta_value','>',0)
     ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
-    ->get();
+    ->count();
+     $month2_attribute=DB::table('posts')
+    ->where('post_type','product_varient')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'attribute_stock')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->count();
+     $total_month2=$month2_default+$month2_attribute;
+    //month two end 
 
+      //month three start
+    $starDate = date('Y-m-d H:i:s',strtotime('-2 month'));
+    $endDate = date('Y-m-d H:i:s',strtotime('-3 month'));   
+    $month3_default=DB::table('posts')
+    ->where('post_type','product')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'default_qty')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->count();
+     $month3_attribute=DB::table('posts')
+    ->where('post_type','product_varient')
+    ->whereBetween('post_date', [$endDate,$starDate])  
+    ->where('meta_key', 'attribute_stock')
+    ->where('meta_value','>',0)
+    ->join('postmeta', 'posts.ID', '=', 'postmeta.post_id')
+    ->count();
+     $total_month3=$month3_default+$month3_attribute;
+    //month three end 
+
+
+  
     $stcokMove=array(
       'week1'=>$total_week1,
-      'week2'=>count($week2),
-      'month1'=>count($month1),
-      'month2'=>count($month2),
-      'month3'=>count($month3)
+      'week2'=>$total_week2,
+      'month1'=>$total_month1,
+      'month2'=>$total_month2,
+      'month3'=>$total_month3
     );
 
 
