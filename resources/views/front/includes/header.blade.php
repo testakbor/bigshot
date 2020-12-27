@@ -459,16 +459,43 @@
     <div class="d-flex no-wrap" style="overflow-y: scroll;">
 
          @php 
-        $child=DB::table('term_taxonomy')
-        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        ->where('term_taxonomy.taxonomy','product_cat')        
-        ->select('term_taxonomy.*','terms.name','terms.status')
-        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
-        ->get();
-         @endphp 
-         @foreach($child as $ch)        
-        <div class="ml-2 text-nowrap d-inline-block w-180"><a href="{{route('category.product',$ch->term_id)}}" style="color: black;text-decoration: none">{{$ch->name}}</a></div>
-        @endforeach
+           $tags = DB::table('term_taxonomy')
+           ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+           ->where('term_taxonomy.taxonomy', 'product_cat')
+           ->where('terms.term_group','0')
+           ->where('terms.status',1)
+           ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+           ->get();
+           @endphp
+          @foreach($tags as $tag)  
+           <div class="ml-2 text-nowrap d-inline-block w-180"><a href="" style="color: black;text-decoration: none">{{strtoupper($tag->name)}}</a></div> 
+               @php 
+                $child1 = DB::table('term_taxonomy')
+               ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+               ->where('term_taxonomy.taxonomy', 'product_cat')
+               ->where('terms.term_group',$tag->term_id)
+               ->where('terms.status',1)
+               ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+               ->get();
+               @endphp  
+                  @foreach($child1 as $child)
+                  <div class="ml-2 text-nowrap d-inline-block w-180"><a href="" style="color: black;text-decoration: none">{{$child->name}}</a></div>
+                    @php 
+                    $child2 = DB::table('term_taxonomy')
+                    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+                    ->where('term_taxonomy.taxonomy', 'product_cat')
+                    ->where('terms.term_group',$child->term_id)
+                    ->where('terms.status',1)
+                    ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+                    ->get();
+                    @endphp
+                       @foreach($child2 as $child3)  
+                         <div class="ml-2 text-nowrap d-inline-block w-180"><a href="{{route('category.product',$child3->term_id)}}" style="color: black;text-decoration: none">{{$child3->name}}</a></div>
+                       @endforeach   
+
+
+                @endforeach   
+          @endforeach
     </div>
 
 </div>            
