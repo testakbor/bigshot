@@ -4,8 +4,8 @@
 
 .sidenav {
  background: #F8FAFB;
- box-shadow: 2px 2px 2px gray;
- border-radius: 5px;
+ box-shadow: 2px 5px 10px gray;
+ border-radius: 20px;
 
 }
 /* Style the sidenav links and the dropdown button */

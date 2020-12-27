@@ -81,12 +81,12 @@ class PageController extends Controller
     }
     public function categoryProduct($id)
     {
-        $data=DB::table('term_relationships')
-        ->leftjoin('posts','term_relationships.object_id','=','posts.ID')
+        $products=Post::where('post_type','product')
+        ->leftjoin('term_relationships','term_relationships.object_id','=','posts.ID')
         ->where('term_taxonomy_id',$id)
-        ->where('posts.post_type','product')
-        ->paginate(20);
-        return view('front.Categories',compact('data'));
+        ->orderBy('ID','DESC')
+        ->get();
+       return view('front.home',compact('products'));
     }
     public function wishlist()
     {

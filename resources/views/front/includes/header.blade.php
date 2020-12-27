@@ -457,9 +457,18 @@
     <div class="font-weight-bold">Categories:</div>
 
     <div class="d-flex no-wrap" style="overflow-y: scroll;">
-        @for($i=1;$i<12;$i++)
-        <div class="ml-2 text-nowrap d-inline-block w-180">Caegory {{$i}}</div>
-        @endfor
+
+         @php 
+        $child=DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy','product_cat')        
+        ->select('term_taxonomy.*','terms.name','terms.status')
+        ->orderBy('term_taxonomy.term_taxonomy_id','desc')
+        ->get();
+         @endphp 
+         @foreach($child as $ch)        
+        <div class="ml-2 text-nowrap d-inline-block w-180"><a href="{{route('category.product',$ch->term_id)}}" style="color: black;text-decoration: none">{{$ch->name}}</a></div>
+        @endforeach
     </div>
 
 </div>            
