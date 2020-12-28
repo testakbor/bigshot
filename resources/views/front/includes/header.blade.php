@@ -70,7 +70,7 @@
       font-size: 12px;
     }
     .sm-menus div{
-     height: 33px
+     height: auto; 
    }
 
    .dropdown-menu {
@@ -172,38 +172,78 @@
   <a class="float-right mr-2 mt-2" data-toggle="modal" data-target="#exampleModalCenter" class="float-right" href=""><i style="color:#000000"  class="fa fa-search" aria-hidden="true"></i></a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <div class="d-flex flex-column sm-menus">
+     <nav class="navbar navbar-expand-lg p-0">      
+    <div class="navbar-nav mr-auto mt-2 mt-lg-0">     
      @php 
      $tags = DB::table('term_taxonomy')
      ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-     ->where('term_taxonomy.taxonomy', 'product_tag')
+     ->where('term_taxonomy.taxonomy', 'product_cat')
+     ->where('terms.term_group','0')
      ->where('terms.status',1)
      ->select('term_taxonomy.*', 'terms.name', 'terms.status')
      ->get();
      @endphp
      @foreach($tags as $tag)
-     <div class="mt-2"> 
-      <a href="{{route('tag.product.show',$tag->term_id)}}" class="text-decoration-none text-dark"> {{strtoupper($tag->name)}}</a>
-    </div>
-    @endforeach
+     <div class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle pt-0" data-toggle="dropdown" style="color: black">
+       {{strtoupper($tag->name)}}
+     </a>
+     @php 
+     $child1 = DB::table('term_taxonomy')
+     ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+     ->where('term_taxonomy.taxonomy', 'product_cat')
+     ->where('terms.term_group',$tag->term_id)
+     ->where('terms.status',1)
+     ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+     ->get();
+     @endphp
+     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      @foreach($child1 as $child)                    
+      <div class="dropdown-submenu">
+        <a class="dropdown-item dropdown-toggle" href="#">{{$child->name}}</a>
+        @php 
+        $child2 = DB::table('term_taxonomy')
+        ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
+        ->where('term_taxonomy.taxonomy', 'product_cat')
+        ->where('terms.term_group',$child->term_id)
+        ->where('terms.status',1)
+        ->select('term_taxonomy.*', 'terms.name', 'terms.status')
+        ->get();
+        @endphp
+        <div class="dropdown-menu">
+         @foreach($child2 as $child3)   
+         <div><a class="dropdown-item" href="{{route('category.product',$child3->term_id)}}">{{$child3->name}}</a></div>
+
+         @endforeach           
+       </div>
+     </div>
+     @endforeach
+   </div>
+
+ </div>
+ @endforeach
+</div>      
+</nav>
+
 
     @guest 
-    <div class="d-flex align-items-center ">
+    <div class="d-flex align-items-center pt-1 pb-1">
      <a href="{{url('wishlist')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fa fa-heart"></i> Wish list </a>
    </div>
 
-   <div class="d-flex align-items-center ">
+   <div class="d-flex align-items-center pt-1 pb-1">
     <a href="{{url('cart')}}" class="text-decoration-none text-dark"> <i style="color:#000000" class="fas fa-shopping-bag"></i> Shopping Bag </a> 
   </div>
 
-  <div> 
+  <div class="pt-1 pb-1"> 
    <a href="{{url('faq')}}" class="text-decoration-none text-dark"> <i class="fa fa-question-circle"></i> FAQ </a>
  </div>
 
- <div>
+ <div class="pt-1 pb-1">
    <a href="{{url('customer-support')}}" class="text-decoration-none text-dark"> <i class="demo fa fa-users" aria-hidden="true"></i> Customer Support</a>
  </div>
 
- <div class="d-flex align-items-center ">
+ <div class="d-flex align-items-center pt-1 pb-2">
   <a href="{{url('privacy')}}" class="text-decoration-none text-dark"><i class="fas fa-user-secret"></i> Policies</a> 
 </div>
 
@@ -456,50 +496,4 @@
 </div>
 </div>
 <!-- header part end -->
-
-<div class="categoryDidv d-flex pt-2 pb-3 d-block d-xl-none mb-2" style="height: 65px">
-  <div class="font-weight-bold">Categories:</div>
-
-  <div class="d-flex no-wrap" style="overflow-y: scroll;">
-
-   @php 
-   $tags = DB::table('term_taxonomy')
-   ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-   ->where('term_taxonomy.taxonomy', 'product_cat')
-   ->where('terms.term_group','0')
-   ->where('terms.status',1)
-   ->select('term_taxonomy.*', 'terms.name', 'terms.status')
-   ->get();
-   @endphp
-   @foreach($tags as $tag)  
-
-   @php 
-   $child1 = DB::table('term_taxonomy')
-   ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-   ->where('term_taxonomy.taxonomy', 'product_cat')
-   ->where('terms.term_group',$tag->term_id)
-   ->where('terms.status',1)
-   ->select('term_taxonomy.*', 'terms.name', 'terms.status')
-   ->get();
-   @endphp  
-   @foreach($child1 as $child)
-  
-   @php 
-   $child2 = DB::table('term_taxonomy')
-   ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-   ->where('term_taxonomy.taxonomy', 'product_cat')
-   ->where('terms.term_group',$child->term_id)
-   ->where('terms.status',1)
-   ->select('term_taxonomy.*', 'terms.name', 'terms.status')
-   ->get();
-   @endphp
-   @foreach($child2 as $child3)  
-   <div class="ml-2 text-nowrap d-inline-block w-180"><a href="{{route('category.product',$child3->term_id)}}" style="color: black;text-decoration: none">{{$child3->name}}</a></div>
-   @endforeach   
-
-
-   @endforeach   
-   @endforeach
- </div>
-
-</div>            
+      

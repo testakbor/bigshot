@@ -1,4 +1,7 @@
 @extends('front.layouts.front_master')
+@section('title') Bigshot | 
+{{$product->post_title}}
+@endsection 
 @section('content')
 <style>
     #featured{
