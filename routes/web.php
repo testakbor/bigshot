@@ -17,27 +17,14 @@ use Illuminate\Support\Facades\Route;
 //Clear Cache facade value:
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');
-    return '<h1>Cache cleared</h1>';
-});
-
-
-//Clear Route cache:
-Route::get('/route-clear', function() {
     $exitCode = Artisan::call('route:clear');
-    return '<h1>Route cache cleared</h1>';
-});
-
-//Clear View cache:
-Route::get('/view-clear', function() {
     $exitCode = Artisan::call('view:clear');
-    return '<h1>View cache cleared</h1>';
+    $exitCode = Artisan::call('config:cache');
+    return '<h1>Clear Cashe</h1>';
 });
 
-//Clear Config cache:
-Route::get('/config-cache', function() {
-    $exitCode = Artisan::call('config:cache');
-    return '<h1>Clear Config cleared</h1>';
-});
+
+
 
 
   Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
@@ -115,7 +102,6 @@ Route::group(['middleware' => 'role:admin'], function() {
     });
 
     Route::group(['namespace'=>'Admin'],function(){       
-
         Route::get('att/status/{id}/{status}/{product_id}','ProductController@att_status_update');
         Route::get('gallery/product/delete/{id}','ProductController@gallery_image_delete')->name('gallery_delete');
         Route::get('attribute/stock','ProductController@varient_stock')->name('attribute_stock');
@@ -181,6 +167,9 @@ Route::group(['middleware' => 'role:admin'], function() {
         Route::get('admin/attributeValueEdit/{id}','AttributeController@attributeValueEdit')->name('attributeValue.edit');
         Route::PATCH('admin/attributeValueUpdate/{id}','AttributeController@attributeValueUpdate')->name('attributeValue.update');
         Route::get('admin/product/arttibuteValue/{id}','ProductController@attributeValue')->name('product.arttibuteValue');
+
+        Route::get('admin/category/getType/{id}','CategoryController@getGroup')->name('category.getGroup');
+
         Route::POST('admin/product/store','ProductController@store')->name('product.store');
         // Route::get('admin/dispat','PageController@dispat')->name('dispat');
         Route::get('admin/quickReport','QuickReportController@index')->name('quickReport');

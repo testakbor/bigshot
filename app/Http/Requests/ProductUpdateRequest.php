@@ -29,7 +29,6 @@ class ProductUpdateRequest extends FormRequest
             'product_stock' => 'required',
             'post_excerpt' => 'required',
             'category' => 'required',
-            'tag' => 'required',
             'product_image' => 'dimensions:min_width=268,max_width=306',
         ];
     }

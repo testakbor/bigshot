@@ -203,24 +203,7 @@
                 @endforeach
               </div>
             </div>
-            <div class="card card-default">
-              <div class="card-header">
-                <h3 class="card-title">Product Tags</h3>
-                <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body" style="display: block;height:250px;overflow-x:scroll">
-                @foreach($tags as $tag)
-                <div class="custom-control custom-radio">
-                  <input class="custom-control-input" name="tag[]" type="radio" id="{{$tag->term_id}}" value="{{$tag->term_id}}" @if(is_array(old('tag')) && in_array($tag->term_id, old('tag'))) checked @endif>
-                  <label for="{{$tag->term_id}}" class="custom-control-label"> {{$tag->name}}</label>
-                </div>
-                @endforeach
-              </div>
-              <!-- /.card-body -->
-            </div>
+        
             {{-- brand --}}
 
             {{-- product image --}}

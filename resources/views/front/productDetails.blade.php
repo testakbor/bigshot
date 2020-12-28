@@ -102,7 +102,7 @@ endforeach;
 
                              <div class="mt-2">
                                 <div class="d-flex flex-row align-items-center">
-                               <div class="col-4 pr-0"> <lebel for="">Select Color: </lebel> </div>
+                               <div class="col-4 pr-0"> <lebel for="">Select {{ucfirst($attributes[0]->taxonomy)}}: </lebel> </div>
                                 <div class="col-8 mt-2">
                                 <select name="" id="att_select" class="form-control" required>
                                     <option value="">Select</option>

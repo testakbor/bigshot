@@ -137,12 +137,7 @@ class ProductController extends Controller
                DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
            }
        }
-     // product tag
-       if(count($request->tag) > 0){
-        foreach ($request->tag as $value) {
-           DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
-       }
-   }
+
      // brand
    if($request->brand){
     DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
@@ -506,7 +501,7 @@ public function update(ProductUpdateRequest $request,$id){
 
     
         //attribute insert
-            $post_insert_id=[];
+         $post_insert_id=[];
          $all_temp_att=DB::table('temp_attribute_stock')->get(); 
          foreach($all_temp_att as $att){ 
          DB::table('posts')->insert([
@@ -514,6 +509,7 @@ public function update(ProductUpdateRequest $request,$id){
          'post_type' =>'product_varient',
          ]);
          $id_last=DB::getPdo()->lastInsertId();
+          $post_insert_id[]=$id_last;
          DB::table('postmeta')->insert([
          'post_id' =>$id_last,  
          'meta_key'  =>'attribute',
@@ -536,10 +532,13 @@ public function update(ProductUpdateRequest $request,$id){
         ]);
        }
        $i=0;
+
+
+       if(count($all_temp_att)>0){
         foreach($all_temp_att as $list){
+             $i++;
           $attribute=json_decode($list->attribute_value);
           $parent=0;
-         
           foreach($attribute as $key=>$att){
             DB::table('product_attibutes')->insert([
               'post_id' =>$id,
@@ -553,28 +552,19 @@ public function update(ProductUpdateRequest $request,$id){
             $id=DB::getPdo()->lastInsertId();
             $parent=$id;
           }
-            $i++;
         }
-
        DB::table('temp_attribute_stock')->delete();
+      }
        //product categories
         if($request->category!=null){
             foreach ($request->category as  $value) {   
               DB::table('term_relationships')->insert(['object_id'=>$id,'term_taxonomy_id'=>$value]); 
             }
          }
-
-       // product tag
-       if(count($request->tag)>0){
-          foreach ($request->tag as $value) {
-            DB::table('term_relationships')->insert(['object_id'=>$id,'term_taxonomy_id'=>$value]); 
-          }
-       }
-       
+  
        DB::table('posts')->where('ID',$id)->update([
          'post_status' =>$request->status 
        ]);
-
        session()->flash("success","Product information has been successfully update");
        return redirect(route('product.index'));
     }
