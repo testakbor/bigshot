@@ -61,8 +61,8 @@
                                 <tr>
                                     <th>SKU</th>
                                     <th>Items</th>
-                                    <th class="right">Attribute</th>
-                                    <th class="center">Quantity</th>
+                                    <th class="right">Varient</th>
+                                    <th class="center">Qty</th>
                                     <th class="right">Cost</th>
                                     <th class="right">Sale Price</th>
                                     <th class="right">Status</th>

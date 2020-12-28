@@ -122,8 +122,8 @@
                   <td class="right">
                   <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-primary mb-2">  <i class="fas fa-print"> </i> Print</a><br>
                     <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-success mb-2"><i class="fas fa-edit"></i> Edit</a><br>
-                    <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.dispatch',$orders->ID)}}" class="btn btn-warning"><i class="fas fa-window-close"></i> Dispatch</a>
-                    <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.cancel',$orders->ID)}}" class="btn btn-danger"><i class="fas fa-window-close"></i> Cancel</a>
+                    <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.dispatch',$orders->ID)}}" class="btn btn-warning"><i class="fas fa-window-close"></i> Dispatch</a><br>
+                    <a onclick="return confirm('Are you sure??')" href="{{route('order.processing.cancel',$orders->ID)}}" class="btn btn-danger mt-2"><i class="fas fa-window-close"></i> Cancel</a>
                   </td>
                   <!-- <td class="right">hello</td> -->
                 </tr>

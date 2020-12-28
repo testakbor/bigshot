@@ -28,7 +28,22 @@
                 <div id="my_side_tabs" class="tab-content side-tabs side-tabs-left">
 
                   <div class="tab-pane active " id="general" role="tabpanel">
-                    
+                     <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Subject</th>
+                          <th>Admin Reply</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($admin_reply as $reply)
+                        <tr>
+                          <td>{{$reply->post_title}}</td>
+                          <td>{{$reply->post_excerpt}}</td> 
+                        </tr>
+                        @endforeach 
+                      </tbody>
+                    </table>
                       <form action=" {{route('genarelQuiry')}} " method="POST">
                         @csrf
                         <div class="h4 mt-2">General Enquiries Form</div>

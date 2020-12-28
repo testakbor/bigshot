@@ -54,7 +54,7 @@ class CustomerController extends Controller
 
 public function customerQuery(){
 
-    $customerQuerys=Post::where('post_type','genarel_quiry')->paginate(50);
+    $customerQuerys=Post::where('post_type','genarel_quiry')->orderBy('ID','DESC')->paginate(50);
 
     return view('admin.customer.customerQuery',compact('customerQuerys'));
 }

@@ -503,7 +503,7 @@ class QuickReportController extends Controller
    $categories=DB::table('term_taxonomy')
    ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
    ->where('term_taxonomy.taxonomy','product_cat')
-   ->select('term_taxonomy.*','terms.name','terms.status')
+   ->select('term_taxonomy.*','terms.name','terms.status','term_taxonomy.term_id as ac_id')
    ->orderBy('term_taxonomy.term_taxonomy_id','desc')
    ->get(); 
    if($request->cat_id==''){
@@ -527,16 +527,44 @@ public function salesReport(Request $request)
   );
   $start=$request->start;
   $end=$request->end;
-  $order_item=DB::table('posts')
-  ->where('post_type','shop_order')
-  ->where('post_status','on-hold')
-  ->whereBetween('post_modified', [date('Y-m-d 00:00:00', strtotime($start)), date('Y-m-d 23:59:59', strtotime($end))])
-  ->get();
-  return view('admin.quickReport.sales_report',compact('order_item'))->with($extraInfo);
-}
+
+ $orders=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+      ->whereBetween('post_date',[$start,$end])
+      ->orderBy('ID','DESC')
+      ->paginate(10); 
+        $or=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+     ->whereBetween('post_date',[$start,$end])
+      ->orderBy('ID','DESC')
+      ->get(); 
+      $total_orders=Post::where('posts.post_type','shop_order')
+      ->where('post_status','on-hold')
+      ->whereBetween('post_date',[$start,$end])
+      ->count();  
+
+       $total_item=DB::table('order_itemmeta')
+       ->join('posts','posts.ID','=','order_itemmeta.order_id')
+       ->where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->where('meta_key','_qty')
+       ->whereBetween('post_date',[$start,$end])
+       ->sum('meta_value');
+
+        $total_amount=DB::table('order_itemmeta')
+       ->join('posts','posts.ID','=','order_itemmeta.order_id')
+       ->where('posts.post_type','shop_order')
+       ->where('post_status','on-hold')
+       ->where('meta_key','_line_subtotal')
+       ->whereBetween('post_date',[$start,$end])
+       ->sum('meta_value');
+
+       return view('admin.quickReport.sales_report',compact('orders','total_orders','total_item','total_amount','or'))->with($extraInfo);
+   }
 }
 public function deliveryReport(Request $request)
 {
+  
     if($request->user()->can('manage-report')) {
   $extraInfo=array(
     'title'=>"Category Wise Stock",

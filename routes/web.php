@@ -23,10 +23,6 @@ Route::get('/clear-cache', function() {
     return '<h1>Clear Cashe</h1>';
 });
 
-
-
-
-
   Route::get('/auth/redirect/{provider}', 'SocialController@redirect');
   Route::get('/callback/{provider}', 'SocialController@callback');
   Auth::routes();

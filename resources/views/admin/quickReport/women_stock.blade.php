@@ -48,7 +48,7 @@
             <label for="depart" class="mr-2">Chose Category</label>
                <select class="form-control js-example-basic-single" name="cat_id" required>
                 @foreach($categories as $cat)
-                  <option value="{{$cat->term_taxonomy_id}}">{{$cat->name}}</option>
+                  <option value="{{$cat->ac_id}}">{{$cat->name}}</option>
                 @endforeach   
             </select>
           </div>

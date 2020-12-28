@@ -48,9 +48,17 @@ class PageController extends Controller
         ->where('parent_id',0)
         ->where('status',1)
         ->groupBy('term_id')
-        ->get();        
+        ->get(); 
+
+        foreach($attributes as $a){
+             $count=DB::table('product_attibutes')
+      ->where('parent_id',$a->id) 
+       ->where('post_id',$id)
+      ->count();
+        }
+      
        
-        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray','lists','attributes'));
+        return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray','lists','attributes','count'));
     }
     public function cart()
     {
@@ -199,7 +207,8 @@ class PageController extends Controller
         ->select('order_id')
         ->groupBy('order_id')
         ->get();
-        return view('front.customerSupport',compact('order_list'));
+        $admin_reply=DB::table('posts')->where('post_type','genarel_quiry')->where('post_author',auth()->user()->id)->get();
+        return view('front.customerSupport',compact('order_list','admin_reply'));
     }
 
     //partial cancel ajax

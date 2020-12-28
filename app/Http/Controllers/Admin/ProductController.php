@@ -70,19 +70,11 @@ class ProductController extends Controller
     public function create(Request $request)
     {    
           if($request->user()->can('manage-product')) {   
-            // DB::table('temp_attribute_stock')->delete();    
+            DB::table('temp_attribute_stock')->delete();    
         $extraInfo=array(
             'title'=>"New Product",
             'page'=>'product'
         );
-        // for bands
-        // $brands=DB::table('term_taxonomy')
-        // ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
-        // ->leftJoin('ecommerce_termmeta', 'ecommerce_termmeta.ecommerce_term_id', '=', 'terms.term_id')
-        // ->leftJoin('postmeta', 'ecommerce_termmeta.meta_value', '=', 'postmeta.post_id')
-        // ->where('term_taxonomy.taxonomy','product_brand')
-        // ->select('term_taxonomy.*','terms.name','terms.status','postmeta.meta_value')
-        // ->get();
         // categories
         $categories=DB::table('term_taxonomy')
         ->join('terms', 'terms.term_id', '=', 'term_taxonomy.term_id')
@@ -137,11 +129,6 @@ class ProductController extends Controller
                DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$value]); 
            }
        }
-
-     // brand
-   if($request->brand){
-    DB::table('term_relationships')->insert(['object_id'=>$post_id,'term_taxonomy_id'=>$request->brand]); 
-   }
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'stock_status','meta_value'=>$request->stock_status]);
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'regular_price','meta_value'=>$request->regular_price]);
     DB::table('postmeta')->insert(['post_id'=>$post_id,'meta_key'=>'sale_price','meta_value'=>$request->sale_price]);
@@ -499,62 +486,6 @@ public function update(ProductUpdateRequest $request,$id){
           DB::table('postmeta')->where('post_id',$id)->where('meta_key','alert_qty')->update(['meta_value'=>$request->lowStockThreshold]);
         }
 
-    
-        //attribute insert
-         $post_insert_id=[];
-         $all_temp_att=DB::table('temp_attribute_stock')->get(); 
-         foreach($all_temp_att as $att){ 
-         DB::table('posts')->insert([
-         'post_parent' =>$id,
-         'post_type' =>'product_varient',
-         ]);
-         $id_last=DB::getPdo()->lastInsertId();
-          $post_insert_id[]=$id_last;
-         DB::table('postmeta')->insert([
-         'post_id' =>$id_last,  
-         'meta_key'  =>'attribute',
-         'meta_value'=> $att->attribute_value,
-         ]);
-        DB::table('postmeta')->insert([
-        'post_id' =>$id_last,  
-        'meta_key'  =>'attribute_stock',
-        'meta_value'=> $request->a_stock,
-        ]);
-        DB::table('postmeta')->insert([
-        'post_id' =>$id_last,  
-        'meta_key'  =>'attribute_low_stock',
-        'meta_value'=> $request->l_stock,
-        ]);
-         DB::table('postmeta')->insert([
-        'post_id' =>$id_last,  
-        'meta_key'  =>'att_status',
-        'meta_value'=> 1,
-        ]);
-       }
-       $i=0;
-
-
-       if(count($all_temp_att)>0){
-        foreach($all_temp_att as $list){
-             $i++;
-          $attribute=json_decode($list->attribute_value);
-          $parent=0;
-          foreach($attribute as $key=>$att){
-            DB::table('product_attibutes')->insert([
-              'post_id' =>$id,
-              'taxonomy' =>$att->taxonomy,
-              'term' =>$att->term,
-              'term_id' =>$att->term_id,
-              'parent_id'=>$parent,
-              'product_parent'=>$post_insert_id[$i],
-              'status' =>1
-            ]);
-            $id=DB::getPdo()->lastInsertId();
-            $parent=$id;
-          }
-        }
-       DB::table('temp_attribute_stock')->delete();
-      }
        //product categories
         if($request->category!=null){
             foreach ($request->category as  $value) {   

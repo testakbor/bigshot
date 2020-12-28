@@ -49,9 +49,8 @@
                                 <tr>
                                     <th>Sku</th>
                                     <th>Items</th>
-                                    <th class="right">Categories</th>
-                                    <th class="right">Attribute</th>
-                                    <th class="center">Quantity</th>
+                                    <th class="right">Varient</th>
+                                    <th class="center">Qty</th>
                                     <th class="right">Cost</th>
                                     <th class="right">Sale Price</th>
                                     <th class="right">Status</th>
@@ -74,14 +73,6 @@
                                 <tr>
                                     <td class="center"><img width="50px" height="50px" src="{{asset('backend/products/'.$img->meta_value)}}"></br> {{$skuu->meta_value}} </td>
                                     <td class="left">{{$pro_title->post_title}}</td>
-                                    <td class="left">@php $category=DB::table('term_relationships')
-                                        ->where('object_id',$pro->post_id)
-                                        ->where('taxonomy','product_cat')
-                                        ->join('term_taxonomy','term_relationships.term_taxonomy_id','=','term_taxonomy.term_taxonomy_id')
-                                        ->join('terms','terms.term_id','=','term_taxonomy.term_id')
-                                        ->select('terms.name as cat_name')
-                                        ->first(); @endphp @if(isset($category)) {{$category->cat_name}} @else @php
-                                        $category=''; @endphp @endif</td>
                                         <td class="right">
                                         <!-- show product attribute with current stock  -->
                                          @php 

@@ -101,8 +101,6 @@ endforeach;
 
 
                            @if($attributes->count()>0)
-
-
                              <div class="mt-2">
                                 <div class="d-flex flex-row align-items-center">
                                <div class="col-4 pr-0"> <lebel for="">Select {{ucfirst($attributes[0]->taxonomy)}}: </lebel> </div>
@@ -110,25 +108,37 @@ endforeach;
                                 <select name="" id="att_select" class="form-control" required>
                                     <option value="">Select</option>
                                     @foreach($attributes as $att)
-                                      <option value="{{$att->id}}">{{$att->term}}</option>
+                                      
+                                     
+                                      <option value="{{$att->id}}">{{$att->term}} </option>
+                                 
                                     @endforeach
                                 </select>
 
                              </div>
                              </div>
                              </div>
+
+
+                         @if($count>0)
                           <div class="mt-2">
-                               <div id="attribut-value"  style="display:none">
+                               <div id="attribut-value">
                              <div class="d-flex flex-row align-items-center">
                                 <div class="col-4">
                                     <lebel for="">Select Size:</lebel> 
                                 </div>
                                      <div class="col-8 mt-2">
-                                    <select name="" id="att_value" class="form-control"></select>
+                                    <select name="" id="att_value" class="form-control">
+                                        <option>Select Color First</option>
+                                    </select>
                                 </div>
                                 </div>
                                 </div>
                            </div>
+                           @endif 
+
+
+
                             <input type="hidden" id="a_id" name="attribute_id" value="">
                             <input type="hidden" name="name" value="{{$product->post_title}}">
                             <input type="hidden" name="main_qty" value="{{$qty}}">
