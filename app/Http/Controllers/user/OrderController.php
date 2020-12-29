@@ -81,7 +81,11 @@ class OrderController extends Controller
         ->where('post_id',$id)
         ->get();
         $status=DB::table('posts')->where('ID',$id)->select('post_status')->first();
-        return view('front.order.edit',compact('order','products','order_info','status'))->with($extraInfo);
+
+        $dist=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','user_district')->first();
+        $city=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','user_city')->first();
+        $zip=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','user_zip')->first();
+        return view('front.order.edit',compact('order','products','order_info','status','dist','city','zip'))->with($extraInfo);
     }
 
  

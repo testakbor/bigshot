@@ -51,8 +51,7 @@
 
     <div class="d-flex justify-content-center h2 mb-3">Search Processing Order</div>
     <div class="d-flex justify-content-center">
-      <form class="form-inline" method="post" action="{{route('process.order.date.wise')}}" >
-        @csrf() 
+      <form class="form-inline" method="get" action="{{route('process.order.date.wise')}}" >
         <div class="form-group mb-2">
           <label for="depart" class="mr-2">Start Date </label>
           <input class="form-control datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>
@@ -114,11 +113,11 @@
                   <td>{{$name}} {{$last_name}}</td>
                   <td class="right">{{$address_one}}</td>
                   <td class="right">{{$phone}}</td>
-                  <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}} @php $tot_charge+=$charge; @endphp</td>
+                  <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{number_format($charge)}} tk @php $tot_charge+=$charge; @endphp</td>
                   
                 <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','coupon_taka')->first(); @endphp 
-                @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}} @php $tot_coupon+=$c; @endphp</td>
-                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($subtotal+$charge-$c)}}</td>
+                @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}} tk @php $tot_coupon+=$c; @endphp</td>
+                  <td class="right">@php $sub=$subtotal=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($subtotal+$charge-$c)}} tk</td>
                   <td class="right">
                   <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-primary mb-2">  <i class="fas fa-print"> </i> Print</a><br>
                     <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-success mb-2"><i class="fas fa-edit"></i> Edit</a><br>
@@ -162,7 +161,7 @@
 
 
             <h3 class="text-center">
-            {{number_format($total_amount+$tot_charge-$tot_coupon)}}
+            {{number_format($total_amount+$tot_charge-$tot_coupon)}} tk
             </h3>
 
             <p class="lead text-center font-weight-bold">Total Amount</p>

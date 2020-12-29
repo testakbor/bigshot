@@ -95,6 +95,7 @@
                 <th class="right">Mobile</th>
                 <th class="right">Quantity</th>
                 <th class="right">Delivery Charge</th>
+                <th class="right">Coupon</th>
                 <th class="right">Amount</th>
                 <th class="right">Cancel Date</th>
                 <th class="right">Action</th>
@@ -118,16 +119,17 @@
                 <td>{{$name}} {{$last_name}}</td>
                 <td class="right">{{$phone}}</td>
                 <td class="right">@php $qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qty}}</td>
-                <td class="right">              @php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
-                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge)}}</td>
+                <td class="right">@php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{number_format($charge)}} tk</td>
+                <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','coupon_taka')->first(); @endphp @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}} tk</td>
+                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge-$c)}} tk</td>
                 <td class="right">{{date('Y-m-d',strtotime($orders->post_modified))}}</td>
                 <!-- <td class="right">Comment</td> -->
                 <td class="right">
-                  <a href="{{route('order.cancelled.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
+                  <a href="{{route('order.allStatus.print',$orders->ID)}}" class="btn btn-success mb-2"> <i class="fas fa-print"> </i> Print</a><br>
                   <a href="{{route('pending_order_edit',$orders->ID)}}" class="btn btn-warning"> <i class="fas fa-edit"> </i>Edit</a><br>
                 </td>
               </tr>
-              @php $total_amount+=$sub+$charge; @endphp
+              @php $total_amount+=$sub+$charge-$c; @endphp
               @endforeach
             </tbody>
           </table>
@@ -162,7 +164,7 @@
           <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-          <h3 class="text-center">{{number_format($total_amount)}}</h3>
+          <h3 class="text-center">{{number_format($total_amount)}} tk</h3>
 
           <p class="lead text-center font-weight-bold">Total Amount</p>
         </div>

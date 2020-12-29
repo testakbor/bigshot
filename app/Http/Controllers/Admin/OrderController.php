@@ -185,7 +185,7 @@ class OrderController extends Controller
      $order=Post::where('post_type','shop_order')
     ->where('post_status','processing')
      ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')]) 
-     ->orderBy('ID','DESC')
+     ->orderBy('post_modified','DESC')
     ->paginate(20);
     $total_order=Post::where('post_type', 'shop_order')
     ->where('post_status', 'processing')
@@ -325,14 +325,11 @@ $phone = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'phone'
 $city = DB::table('postmeta')->where('post_id', $id)->where('meta_key', 'city')->first();
 $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
 $deliverycharge = DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','delivery_charge')->first();
+$coupon = DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','coupon_taka')->first();
 $order_info = DB::table('postmeta')->where('post_id', $order->ID)->get();
-
-
-// return view('admin.order.allStatusPrint',compact('order','name','phone','city','products','deliverycharge','order_info'));
-
 $pdf = PDF::loadView('admin.order.allStatusPrint', array(
   'order' => $order, 'name' => $name, 'phone' => $phone,
-  'city' => $city, 'products' => $products, 'order_info' => $order_info,'deliverycharge'=>$deliverycharge
+  'city' => $city, 'products' => $products, 'order_info' => $order_info,'deliverycharge'=>$deliverycharge,'coupon'=>$coupon
 ));
 return $pdf->download('allStatusPrint.pdf');
 }
@@ -750,12 +747,20 @@ public function grossProfit()
       
       $deliverycharge=DB::table('order_itemmeta')->where('order_id',$id)
       ->where('meta_key','delivery_charge')->first();
+      $c=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','coupon_taka')->first(); 
       if(isset($deliverycharge)){
          $charge=$deliverycharge->meta_value;
       }else{
         $charge=0;
       }
-      $total_due=$total_due+$charge;
+
+      if(isset($c)){
+         $coupon=$c->meta_value;
+      }else{
+        $coupon=0;
+      }
+
+      $total_due=$total_due+$charge-$coupon;
       $customer_info=Postmeta::where('post_id',$id)->get();
 
       $pdf = PDF::loadView('admin.order.pendingOrder_print', array('total_qty' => $total_qty,'total_due'=>$total_due,'customer_info'=>$customer_info,'id'=>$id));
@@ -851,8 +856,20 @@ public function grossProfit()
       $name = DB::table('postmeta')->where('post_id', $order->ID)->where('meta_key','first_name')->first();
       $address = DB::table('postmeta')->where('post_id', $order->ID)->where('meta_key','address_one')->first();
       $phone = DB::table('postmeta')->where('post_id', $order->ID)->where('meta_key','phone')->first();
+      $d=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','delivery_charge')->first(); 
+      $c=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','coupon_taka')->first(); 
+      if(isset($d)){
+        $charge=$d->meta_value;
+      }else{
+        $charge=0;
+      }
+       if(isset($c)){
+        $coupon=$c->meta_value;
+      }else{
+        $coupon=0;
+      }
       $total_qty=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','_qty')->sum('meta_value');
-      $total_due=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','_line_subtotal')->sum('meta_value');
+      $total_due=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','_line_subtotal')->sum('meta_value')+$charge-$coupon;
       $pdf = PDF::loadView('admin.pdf.order.shipping_address',array('order'=>$order,'name'=>$name,'address'=>$address,'phone'=>$phone,'total_qty'=>$total_qty,'total_due'=>$total_due));
       return $pdf->download('shipping.pdf');
     }
@@ -941,15 +958,14 @@ public function grossProfit()
         'title' => "Order List",
         'page' => 'order'
       );
-      $date = \Carbon\Carbon::today()->subDays(30);
       $order = Post::where('post_type', 'shop_order')
       ->where('post_status', 'cancelled')
-      ->where('post_modified', '>=', $date)
+       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')]) 
       ->orderBy('post_modified','DESC')
       ->paginate(20);   
       $total_order = Post::where('post_type', 'shop_order')
       ->where('post_status', 'cancelled')
-      ->where('post_modified', '>=', $date)
+       ->whereBetween('post_modified', [date('Y-m-01 00:00:00'), date('Y-m-t 23:59:59')]) 
       ->count();
       return view('admin.order.cancelled', compact('order','total_order'))->with($extraInfo);
     } 
@@ -1336,6 +1352,7 @@ public function updateDeliveryOrder(Request $request){
 public function deliveredOrderPrint($id){
   $order=Post::where('ID',$id)->first();
   $deliverycharge = DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','delivery_charge')->first();
+  $c=DB::table('order_itemmeta')->where('order_id',$id)->where('meta_key','coupon_taka')->first(); 
   $total_parcel=Order_item::where('order_id', $id)->count();
   $name =DB::table('postmeta')->where('post_id',$id)->where('meta_key','first_name')->first();
   $address =DB::table('postmeta')->where('post_id',$id)->where('meta_key','address_one')->first();
@@ -1344,7 +1361,7 @@ public function deliveredOrderPrint($id){
   $products = Order_item::where('order_id', $id)->whereNotNull('product_id')->get();
   $order_info = DB::table('postmeta')->where('post_id',$order->ID)->get();
   $pdf = PDF::loadView('admin.order.deliveryInvoice',array('order' => $order, 'name' => $name,'phone'=>$phone,
-    'city'=>$city,'products'=>$products,'order_info'=> $order_info,'address'=>$address,'total_parcel'=>$total_parcel,'deliverycharge'=>$deliverycharge));
+    'city'=>$city,'products'=>$products,'order_info'=> $order_info,'address'=>$address,'total_parcel'=>$total_parcel,'deliverycharge'=>$deliverycharge,'c'=>$c));
   return $pdf->download('delivery_invoice.pdf');
 }
 public function deliveredOrderCancel($id){

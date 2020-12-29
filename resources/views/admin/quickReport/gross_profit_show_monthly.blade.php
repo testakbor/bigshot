@@ -54,8 +54,7 @@
                     <div class="table-responsive-sm">
                         <table class="table">
                             <tr style="background:#e7e7e7;">
-                                <th>Date</th>
-                                <th>Order Id  </th>
+                                <th>Order Id </th>
                                 <th>Description</th>
                                 <th>Quantity</th>
                                 <th>Sales amount</th>
@@ -67,8 +66,8 @@
                                 @php $total_charge=0; $total_c=0; $total_qty=0; $total_sale_amount=0; $total_cost=0; $total_profit=0; $qty=0; $product_id=0; $sale_price=0; $cost=0; @endphp
                                 @foreach($order as $item)
                                 <tr>
-                                    <td>{{date('d-m-Y',strtotime($item->post_date))}}</td>
-                                    <td>{{$item->ID}} 
+                                    <td>{{$item->ID}} <br>
+                                    {{date('d-m-Y',strtotime($item->post_date))}}
                                         @php $delivery=DB::table('order_itemmeta')->where('order_id',$item->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif 	
                                         @php $total_charge+=$charge; @endphp	
                                     </td>
@@ -176,7 +175,6 @@
                             <tfoot>
                                 <tr style="background:#e7e7e7;">
                                     <td><b>Total</b></td>
-                                    <td></td>
                                     <td></td>
                                     <td>{{$total_qty}}</td>
                                     <td>{{number_format($total_sale_amount)}} tk</td>

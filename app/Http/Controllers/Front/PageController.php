@@ -50,14 +50,13 @@ class PageController extends Controller
         ->groupBy('term_id')
         ->get(); 
 
+         $count=0;
         foreach($attributes as $a){
-             $count=DB::table('product_attibutes')
+             $count+=DB::table('product_attibutes')
       ->where('parent_id',$a->id) 
        ->where('post_id',$id)
       ->count();
         }
-      
-       
         return view('front.productDetails',compact('product','product_related','gallery_images', 'arributeArray','lists','attributes','count'));
     }
     public function cart()

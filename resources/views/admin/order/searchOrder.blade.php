@@ -55,8 +55,7 @@ use App\Model\front\Order_item;
 
     <div class="d-flex justify-content-center h2 mb-3">Search Sales Order</div>
     <div class="d-flex justify-content-center">
-      <form class="form-inline" method="post" action="{{route('s_pending_order')}}" >
-        @csrf() 
+      <form class="form-inline" method="get" action="{{route('s_pending_order')}}" >
         <div class="form-group mb-2">
           <label for="depart" class="mr-2">Start Date </label>
           <input class="form-control datepicker" name="start" value="{{date('Y-m-d')}}" id="depart" type="date"/>

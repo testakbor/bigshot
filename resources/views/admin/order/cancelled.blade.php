@@ -119,11 +119,11 @@
                 <td>{{$name}} {{$last_name}}</td>
                 <td class="right">{{$phone}}</td>
                 <td class="right">@php $qty=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_qty')->sum('meta_value'); @endphp {{$qty}}</td>
-                <td class="right">              @php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{$charge}}</td>
+                <td class="right">              @php $delivery=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','delivery_charge')->first(); @endphp @if(isset($delivery)) @php $charge=$delivery->meta_value; @endphp @else @php $charge=0; @endphp @endif {{number_format($charge)}} tk</td>
                 
                 <td class="right">@php $coupon=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','coupon_taka')->first(); @endphp 
-               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{$c}}</td>
-                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge-$c)}}</td>
+               @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp @endif {{number_format($c)}} tk </td>
+                <td class="right">@php $sub=DB::table('order_itemmeta')->where('order_id',$orders->ID)->where('meta_key','_line_subtotal')->sum('meta_value'); @endphp {{number_format($sub+$charge-$c)}} tk</td>
                 <td class="right">{{date('Y-m-d',strtotime($orders->post_modified))}}</td>
                 <!-- <td class="right">Comment</td> -->
                 <td class="right">
@@ -166,7 +166,7 @@
           <!-- <i class="fa fa-handshake ml-1"></i> -->
 
 
-          <h3 class="text-center">{{number_format($total_amount)}}</h3>
+          <h3 class="text-center">{{number_format($total_amount)}} tk</h3>
 
           <p class="lead text-center font-weight-bold">Total Amount</p>
         </div>

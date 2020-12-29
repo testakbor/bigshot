@@ -132,14 +132,15 @@ table {
                                             ->where('meta_key','sale_price')->first(); 
                                             @endphp @if(isset($price)) @php $p_price=$price->meta_value; @endphp @else @php $p_price=0; @endphp @endif {{number_format($p_price)}}</td>
                                             <td>{{$qty}}</td>
-                                            <td>{{number_format($qty*$p_price)}} @php $total_order_taka+=$qty*$p_price; @endphp</td>
+                                            <td>{{number_format($qty*$p_price)}} tk @php $total_order_taka+=$qty*$p_price; @endphp</td>
                                         </tr>
                                         @endforeach
                                      
-                                        @if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif  {{$charge}}
+                                        @if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif 
+                                        @if(isset($coupon)) @php $c=$coupon->meta_value; @endphp @else @php $c=0; @endphp  @endif  
                                        
                                     </tbody>
-                                       <h4> Total Order: {{number_format($total_order_taka+$charge)}}</h4>
+                                       <h4> Total Order: {{number_format($total_order_taka+$charge-$c)}} tk</h4>
                                 </table>
                             </div>
 

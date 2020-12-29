@@ -1,47 +1,54 @@
 @extends('front.layouts.front_master')
 @section('content')
-<div class="container-fluid my-5 d-flex justify-content-center">
-    <div class="card card-1">
-        <div class="card-header bg-white">
-                 <h4 class="text-center">INVOICE</h4>
-            <div class="media flex-sm-row flex-column-reverse justify-content-between ">
-                <div class="col my-auto">
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row justify-content-between mb-3">
-                @php $total_order_qty=0; $total_order_amount=0; @endphp
-                      @if($status->post_status=='cancelled')
-                       <h4 class="text-center">Order has been cancelled</h4>
-                      @else 
-                <div class="col-auto">
-                        <b>Oder placed: {{date('d-M-Y',strtotime($order->post_date))}}</b></br>
-                        <b>Order Number: {{$order->ID}}</b><br> 
-                        Ship To
-                        <hr> 
-                    <div>
-                        @php $name=''; $address=''; $city=''; $payment_method=''; $qtty=0;  @endphp
-                        @foreach($order_info as $info)
+
+<style>
+    .all_border{
+        border: 1px solid #000000;
+    }
+</style>
+
+<div class="container">
+       @php $total_order_qty=0; $total_order_amount=0; $name=''; $address='';  $payment_method=''; $qtty=0; @endphp
+    <div class="all_border">
+          <h3 class="text-center">INVOICE</h3>
+          <b class="pull-left ml-3">Oder placed: {{date('d-M-Y',strtotime($order->post_date))}}</b><br>
+          <b class="pull-left ml-3">Order Number: {{$order->ID}}</b>
+
+          <div class="pull-left mt-3 ml-3">
+               Ship To
+              <hr> 
+              <p>
+             @foreach($order_info as $info)
                         @if($info->meta_key=='first_name') @php $name=$info->meta_value; @endphp @endif
                         @if($info->meta_key=='address_one') @php $address=$info->meta_value; @endphp @endif
-                        @if($info->meta_key=='city') @php $city=$info->meta_value; @endphp @endif
                         @if($info->meta_key=='payment_method') @php $payment_method=$info->meta_value; @endphp @endif
-                        @endforeach
-                        <div >{{$name}}</div>
-                        <div >{{$address}},{{$city}}</div>
-                        <div >Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif </div>
-                    </div>
-                </div>
-                @endif 
-            </div>
-                    <div class="table-responsive">
-                    <table class="table table-striped">
-                        Items In Order
+             @endforeach
+             {{$name}}<br>
+             {{$address}},<br>District: {{ucfirst($dist->meta_value)}}<br>
+             City: {{ucfirst($city->meta_value)}}<br>
+             Zip: {{$zip->meta_value}}
+
+              </p>
+          </div>
+
+          <div class="pull-left mt-2 ml-3"> 
+              <p>
+                Payment Method: @if($payment_method=='') Cash @else {{ucfirst($payment_method)}} @endif
+              </p>
+          </div>
+
+           <div class="pull-left mt-2 ml-3 mr-3 bg-secondary text-white"> 
+              <p class="ml-2">
+                Items in Order 
+              </p>
+          </div>
+
+          <div class="pull-left mt-2 ml-1 mr-3">
+                 <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">Item</th>
-                                <th scope="col">Attribute</th>
+                                <th scope="col">Description</th>
                                 <th scope="col">Qty</th>
                                 <th scope="col">Amount</th>
                             </tr>
@@ -50,7 +57,7 @@
                          @foreach($products as $item)
                             <tr>
                             <td>
-                            {{$item->order_item_name}}</br>
+                            {{$item->order_item_name}}
                        @php 
                        $d_img=DB::table('postmeta')
                        ->where('post_id',$item->product_id) 
@@ -62,7 +69,7 @@
                        ->first();
                        @endphp
                        @if(isset($d_img))
-                        <img width="50px" height="50px" src="{{asset('backend/products/'.$d_img->meta_value)}}">
+                        <img width="40px" height="40px" src="{{asset('backend/products/'.$d_img->meta_value)}}">
                        @endif
                        @if(isset($d_sku))
                         {{$d_sku->meta_value}}
@@ -94,7 +101,7 @@
                                   @foreach($list_att as $a)
                                   @php $data_att=json_decode($a->meta_value); @endphp 
                                   @foreach($data_att as $da)
-                                  <b>{{strtoupper($da->taxonomy)}}</b> : <b>{{strtoupper($da->term)}}</b>
+                                  {{strtoupper($da->taxonomy)}} : {{strtoupper($da->term)}}
                                     @endforeach 
                                   @endforeach 
                        </td>
@@ -104,7 +111,7 @@
                                          @php $cancel_qty=$meta->meta_value; @endphp
                                         @endif 
                                         @if($meta->meta_key=='_qty')
-                                          <b>{{$meta->meta_value}}<b/>
+                                           {{$meta->meta_value}} pcs
                                         @endif
                                     @endforeach 
                                     </td>
@@ -126,11 +133,11 @@
                                                                 ->first();  
                                                     @endphp
                                                     @if(isset($pro_default)) 
-                                                    {{ $price=$qtty*$pro_default->meta_value}} 
+                                                    {{ number_format($price=$qtty*$pro_default->meta_value)}} tk
                                                     @endif
 
                                                     @if(isset($pro_att)) 
-                                                    {{ $price=$qtty*$pro_att->meta_value}} 
+                                                    {{ number_format($price=$qtty*$pro_att->meta_value)}} tk
                                                     @endif
                                                     @php $total_order_qty+=$qtty; @endphp
                                                     @php $total_order_amount+=$price; @endphp
@@ -142,93 +149,53 @@
                                    @endforeach 
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="row mt-4">
-                            <div class="col-md-12">
-                                <div class="row justify-content-between">
-                                    <div class="col-auto">
-                                    </div>
-                                    <div class="flex-sm-col text-right col">
-                                        <p class="mb-1"><b>Sub Total {{$total_order_qty}} pcs </b></p>
-                                    </div>
-                                    <div class="flex-sm-col col-auto">
-                                        <p class="mb-1">{{ $total_order_amount}} tk</p>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-between">
-                                    <div class="flex-sm-col text-right col">
-                                        <p class="mb-1"><b>Delivery Charges</b></p>
-                                    </div>
-                                    <div class="flex-sm-col col-auto">
-                                        <p class="mb-1">
-                                            @php $delivery_charge=DB::table('order_itemmeta')
+                 </div>
+
+
+            <div class="pull-left mt-2 ml-3 mr-3 bg-secondary text-white"> 
+              <p class="ml-2 ">
+                Sub Total: {{number_format($total_order_qty)}} pcs {{number_format($total_order_amount)}} tk
+              </p>
+            </div>
+
+            <div class="pull-left mt-2 ml-3 mr-3"> 
+              <p class="ml-2">
+                Delivery Charge: @php $delivery_charge=DB::table('order_itemmeta')
                                             ->where('order_id',$order->ID) 
                                             ->where('meta_key','delivery_charge') 
                                             ->first();
                                             @endphp
                                             @if(isset($delivery_charge)) 
-                                             {{$d_charge=$delivery_charge->meta_value}} tk
+                                             {{number_format($d_charge=$delivery_charge->meta_value)}} tk
                                              @else 
                                               {{$d_charge=0}} tk
                                             @endif
-                                        </p>
-                                    </div>
-                                </div>
-                            <div class="row justify-content-between">
-                                    <div class="flex-sm-col text-right col">
-                                        <p class="mb-1"><b>Coupon Code</b></p>
-                                    </div>
-                                    <div class="flex-sm-col col-auto">
-                                        <p class="mb-1">
-                                             @php $coupon_code=DB::table('order_itemmeta')
-                                            ->where('order_id',$order->ID) 
-                                            ->where('meta_key','coupon_code') 
-                                            ->first();
-                                            @endphp
-                                            @if(isset($coupon_code)) 
-                                              @if($coupon_code->meta_value=='') 
-                                                {{$c_code=0}}
-                                                @else 
-                                                   {{$c_code=$coupon_code->meta_value}}
-                                              @endif
-                                             @else 
-                                              {{$c_code=0}}
-                                            @endif
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-between">
-                                    <div class="flex-sm-col text-right col">
-                                        <p class="mb-1"><b>Coupon Amount</b></p>
-                                    </div>
-                                    <div class="flex-sm-col col-auto">
-                                        <p class="mb-1">
-                                             @php $coupon_taka=DB::table('order_itemmeta')
+              </p>
+            </div>
+
+             <div class="pull-left mt-2 ml-3 mr-3 bg-secondary text-white"> 
+              <p class="ml-2">
+                Coupon: @php $coupon_taka=DB::table('order_itemmeta')
                                             ->where('order_id',$order->ID) 
                                             ->where('meta_key','coupon_taka') 
                                             ->first();
                                             @endphp
                                             @if(isset($coupon_taka)) 
-                                             {{$c_taka=$coupon_taka->meta_value}} tk
+                                             {{number_format($c_taka=$coupon_taka->meta_value)}} tk
                                              @else 
                                               {{$c_taka=0}} tk
-                                            @endif         
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row justify-content-between">
-                                    <div class="flex-sm-col text-right col">
-                                        <p class="mb-1"><b>Order Total </b></p>
-                                    </div>
-                                    <div class="flex-sm-col col-auto">
-                                        <p class="mb-1"> 
-                                          {{number_format($total_order_amount+$d_charge-$c_taka)}} tk  
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                 </div>
+                                            @endif      
+              </p>
             </div>
-       </div>
+
+              <div class="pull-left mt-2 ml-3 mr-3"> 
+              <p class="ml-2">
+                Order Total: {{number_format($total_order_amount+$d_charge-$c_taka)}} tk 
+              </p>
+            </div>
+    
+    </div> 
+</div>
+</div>
+
 @endsection

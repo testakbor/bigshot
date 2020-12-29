@@ -41,8 +41,7 @@
    <div class="s002">
     <div class="d-flex justify-content-center h2 mt-3 mb-3">Search Order</div>
     <div class="d-flex justify-content-center mb-3">
-        <form class="form-inline" method="post" action="{{route('order.delivered.search')}}" >
-          @csrf() 
+        <form class="form-inline" method="get" action="{{route('order.delivered.search')}}" >
           <div class="form-group mb-2">
             <label for="depart" class="mr-2">Start</label>
             <input required type="date" class="form-control" name="start" placeholder="Scanner or Order Id" />

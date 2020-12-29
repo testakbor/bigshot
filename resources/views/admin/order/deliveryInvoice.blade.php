@@ -40,13 +40,11 @@
         <table style="width:100%" class="table">
             <tr style="background: #e7e7e7;">
                 <th>#</th>
-                <th>Order Id</th>
-                <th>Name</th>
-                <th>Mobile</th>
+                <th>Id</th>
+                <th>Customer</th>
                 <th>Address</th>
                 <th>Items</th>
                 <th>Qty</th>
-                <th>Delivery Charge</th>
                 <th>Amount</th>
             </tr>
             <tbody>
@@ -80,8 +78,7 @@
                 <tr>
                     <td>{{++$key}}</td>
                     <th>{{$order->ID}}</th>
-                    <th>{{$name->meta_value}}</th>
-                    <th>{{$phone->meta_value}}</th>
+                    <th>{{$name->meta_value}}<br>{{$phone->meta_value}}</th>
                     <th>{{$address->meta_value}}</th>
                     <td>
                         {{$items->order_item_name}}
@@ -96,25 +93,26 @@
                         @endforeach 
                         @endforeach 
                     </td>
-                    <td>{{$qty}}</td>
-                    <td>@if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif  {{$charge}}</td>
-                    <td>{{number_format($subtotal)}}</td>
+                    <td>{{$qty}} pcs</td>
+                    <td>{{number_format($subtotal)}} tk</td>
                 </tr>
                 @php
-                $grandTotal +=$subtotal+$charge;
-                $grandLinetotal +=$total;
+                $grandTotal+=$subtotal;
+                $grandLinetotal+=$total;
                 $total_qty+=$qty;
                 @endphp
                 @endforeach
+                 @if(isset($deliverycharge)) @php $charge=$deliverycharge->meta_value; @endphp @else @php $charge=0; @endphp  @endif 
+                 @if(isset($c)) @php $coupon=$c->meta_value; @endphp @else @php $coupon=0; @endphp  @endif 
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3">Total Parcel </td>
-                    <td colspan="2">{{number_format($grandTotal) }} tk</td>
+                    <td colspan="2">Total Parcel </td>
+                    <td colspan="2">{{number_format($grandTotal+$charge-$coupon)}} tk</td>
                    
                     <td>Total</td>
-                    <td>{{$total_qty}}</td>
-                    <td>{{number_format($grandTotal)}} tk</td>
+                    <td>{{$total_qty}} pcs</td>
+                    <td>{{number_format($grandTotal+$charge-$coupon)}} tk</td>
                 </tr>
             </tfoot>
             <div class="col1">
